@@ -1,0 +1,1614 @@
+<template>
+	<view class="main">
+			<!-- 页面进度条 -->
+			<view class="probar">
+				<view class="progress" :style="'height: 8rpx;width:'+percent+'%;background: #007AFF;'"></view>
+			</view>
+			<!-- 页面进度条 -->
+			<!-- 头像 用户名 关注 推出 上传视频距离限制多长时间 -->
+			<view class="brief">
+				<view class="img" @click="goAnchor()">
+					<image :src="listNum.SmallPic" class="photo"></image>
+					<view v-if="listNum.Online" class="status"></view>
+				</view>
+				<view class="name">
+					<view class="id">
+						<text class="p1">{{listNum.MyName}}</text>
+						<text v-if="listNum.Fans" class="p2"></text>
+						<text v-else class="p2" @click="getfollow()">{{follow[this.tabbarLoginLanguage]}}</text>
+					</view>
+					<text class="p">{{newhours}}</text>
+				</view>
+				<image v-show='noshowclose' class="del" src="../../static/pictures/delete_1.png" @click="goBack()"></image>
+			</view>
+			<!-- 头像 用户名 关注 推出 上传视频距离限制多长时间 -->
+			<!-- 主播头衔 -->
+			<view v-if="show" class="content" @click="display()">
+				<text class="p1">{{listNum.Content}}</text>
+				<image class="img" src="../../static/pictures/more2_1.png"></image>
+			</view>
+			<view v-else class="content1" @click="display()">
+				<text class="p1">{{listNum.Content}}</text>
+				<image class="img" src="../../static/pictures/xiangxia_1.png"></image>
+			</view>
+			<view v-if="show" class="label">
+				<!-- <view class="box" v-for="(item,index) in label" :key="index" :id="index">
+					<text class="p">{{item.index}}</text>
+				</view> -->
+				<view class="box" v-for="item of label" :key="item">
+					<text class="p">#{{item}}</text>
+				</view>
+			</view>
+			<!-- 主播头衔 -->
+			
+			<!-- 视频剩余时间 解锁数 点赞数 新帖子数 -->
+			<view class="video_info" v-if="showNewMsg">
+				<view class="time">
+					<image class="img" src="../../static/pictures/bofang_1.png"></image>
+					<text class="p">{{moveUpdateTime}}</text>
+				</view>
+				<view class="unlock" v-if="listNum.UnLockMoney!=0">
+					<image class="img" src="../../static/pictures/unlock_1.png"></image>
+					<text class="p">{{listNum.UnLockCount}}</text>
+				</view>
+				<view class="unlock" v-if="listNum.UnLockMoney==0">
+					<image class="imgese" src="../../static/imgs/eyesT.png"></image>
+					<text class="p">{{listNum.VisitCount}}</text>
+				</view>
+				<view v-if="listNum.Buy==0&&listNum.UnLockMoney!=0" class="like">
+					<image class="img" src="../../static/pictures/fabulous_1.png"></image>
+					<text class="p">{{listNum.GoodEvaluate}}</text>
+				</view>
+				<view v-else class="like" @click="openLike()">
+					<image class="img" src="../../static/pictures/fabulous_1.png"></image>
+					<text class="p">{{listNum.GoodEvaluate}}</text>
+					<view class="like_mask" v-if="like_mask">
+						<image class="img1" src="../../static/pictures/nolike_1.png" @click="getDislike()"></image>
+						<image class="img2" src="../../static/pictures/fabulous_1.png" @click="getLike()"></image>
+					</view>
+				</view>
+				<view class="posts" @click="newVideo()">
+					<image class="img"></image>
+					<text class="p">{{listNum.CONT}} {{this.Language.language[this.tabbarLoginLanguage].language79}}</text>
+					<image class="img1" src="../../static/pictures/more2_1.png"></image>
+				</view>
+			</view>
+			
+			<!-- 新帖子弹出层 -->
+			<view class="newVideo" v-else>
+				<view class="newVideo_top">
+					<text class="p">@{{listNum.MyName}} {{this.Language.language[this.tabbarLoginLanguage].language224}} ({{newlist_count.count}})</text>
+					<image class="img" src="../../static/pictures/xiangxia_1.png" @click="newVideo()"></image>
+				</view>
+				<view class="newVideo_list">
+					<view class="video" v-for="(item,index) in newlist" :key="index" :id="index" :style="{backgroundImage: 'url(' + item.BackgroundPicUrl + ')', backgroundSize:'cover', backgroundRepeat: 'no-repeat'}" @click="goNewVideo(item)">
+						<view class="video_txt">{{item.Content}}</view>
+					</view>
+				</view>
+			</view>
+			<!-- 新帖子弹出层 -->
+			<view v-if='listNum.Buy == 1 || listNum.UnLockMoney == 0' class="bottom1">
+				<image v-if="mute" class="img1" src="../../static/pictures/yingliang2_1.png" @click="getmute()"></image>
+				<image v-else class="img1" src="../../static/pictures/yingliang1_1.png" @click="getmute()"></image>
+				<view class="gift" @click="goChatpop()">
+					<image class="giftimg" src="../../static/pictures/liwu_1.png"></image>
+					{{this.Language.language[this.tabbarLoginLanguage].language75}}
+					<image class="giftimg" src="../../static/pictures/xiangji_1.png"></image>
+					{{this.Language.language[this.tabbarLoginLanguage].language225}}
+					<image class="chatimg" src="../../static/pictures/chat1_1.png" ></image>
+					{{this.Language.language[this.tabbarLoginLanguage].language76}}
+				</view>
+				<image class="img1" src="../../static/pictures/gengduo1_1.png" @click="openmask()"></image>
+			</view>
+			<view v-else class="bottom">
+				<view class="button" @click="getUnlock">
+					<text class="p1">{{this.Language.language[this.tabbarLoginLanguage].language78}}</text>
+					<text class="p2"></text>
+					<image class="img" src="../../static/imgs/goldM2.png"></image>
+					<text class="p3">{{listNum.UnLockMoney}}</text>
+				</view>
+				<image class="img1" src="../../static/pictures/gengduo1_1.png" @click="openmask()"></image>
+			</view>
+			<!-- 视频剩余时间 解锁数 点赞数 新帖子数(弹出层) -->
+			
+		<!-- 视频播放 backgroundSize:'contain'-->
+		<view class="movie" :style="'background:'+'url('+coverImgUrl+')'+';'+'backgroundPosition:'+'center'+';'+'backgroundSize:'+'cover'+';'+'backgroundRepeat:'+'no-repeat'+';' ">
+			<!-- :objectFit="fill" -->
+			<video v-show="showVideo" class="video" :autoplay="true" :muted="mute" :loop="true" objectFit="contain" :controls="false" :show-center-play-btn='false' :enable-progress-gesture='false' :src="listNum.ResourceUrl" @timeupdate="getVideoUpdateMsg"></video>
+			<!-- <video v-show="showVideo" class="video" :autoplay="true" :muted="mute" :loop="true" objectFit="cover" :controls="false" :show-center-play-btn='false' @timeupdate="getVideoUpdateMsg" src="http://yasser.top/333.mp4"></video> -->
+		</view>
+		<!-- 视频播放 -->
+		
+		<!-- 拉黑 弹出层 -->
+		<view class="mask" v-if="switch_mask">
+			<view class="popup" v-if="switch_mask">
+				<text class="button" @click="hate()" v-if="dislike">{{this.Language.language[this.tabbarLoginLanguage].language211}}</text>
+				<text class="button" @click="hate()" v-else>{{this.Language.language[this.tabbarLoginLanguage].language191}}</text>
+				<text class="button" @click="closemask()">{{this.Language.language[this.tabbarLoginLanguage].language195}}</text>
+			</view>
+		</view>
+		<!-- 拉黑 弹出层 -->
+	</view>
+</template>
+
+<script>
+	import {encrypt,decrypt,system,systemId,base64ToArrayBuffer,sendData,sendD,work,sendD07,sendD09,navigateTo} from "../../lib/js/GlobalFunction.js"
+	export default {
+		data() {
+			return {
+				tabbarLoginLanguage: null, // 用户语言
+				coverImgUrl:null,
+				pageId: null, // 页面ID用于判断页面回退到什么页面
+				anchorId: null, // 主播个人页面向搜索页面回退值
+				videoBackId: 8, // 视频页面新跳转了其他视频页面传递的ID
+				searchname: null, // 搜索标签页面回退时需要的名字
+				searchCount: null, // 搜索标签页面回退时需要的总数
+				
+				mute: true, // 静音功能
+				noshowclose: true,
+				
+				follow: ['关注','關註','Following','กำลังติดตาม'],
+				newhours: null, // 视频上传时间
+				showNewMsg: true, // 新帖子按钮
+				num: 24,
+				show: true,// 控制介绍文字的显示
+				listNum: null, // 获取搜索页面传来的数组
+				newlist: null, // 主播最新帖子
+				newlist_count: null, // 主播最新帖子
+				time: {},
+				label: null, // 标签数组
+				UserIdx: null,  // 用户IDX
+				AnchorIdx: null, // 主播IDX
+				ResourceoId: null, // 视频ID
+				tabbarLoginData:null, // loginMsg
+				
+				showVideo: true, // ----------------------------判断是否有视频-------------------
+				like_mask: false, // ---------------------------点赞层开关------------------------
+				switch_mask: false, //--------------------------遮罩层开关------------------------
+				dislike: true, // 拉黑功能绑定的数据
+				// ----
+				percent:0,//视频进度
+				// －－－
+				moveUpdateTime:'',//初始时间
+				timer: null,
+			};
+		},
+		onLoad: function (obj) { //option为object类型，会序列化上个页面传递的参数
+			var option=JSON.parse(decrypt(decodeURIComponent(obj.action)));
+			// console.log(option.UserIdx); //打印出上个页面传递的参数。
+			this.UserIdx = option.UserIdx; // 用户IDX
+			this.AnchorIdx = option.AnchorIdx; // 主播IDX
+			this.ResourceoId = option.ResourceoId; //视频ID
+			this.pageId = option.pageId; // 确定页面回退回的位置
+			this.gobackId = option.gobackId // 回退功能需要的上一个页面的主播ID
+			this.MyName = option.MyName // 回退功能需要的上一个页面的主播name
+			this.searchname = option.searchname // 搜索标签页面中的内容 回退回搜索标签页面的时候需要使用的数据
+			this.anchorId = option.anchorId // 主播个人页面向搜索页面回退值
+			this.searchCount = option.searchCount // 搜索标签页面回退时需要的总数
+			
+			this.getLoginlanger(); // 获取语言
+			this.getLoginMsg(); // 登录信息
+			this.getInitMsg(); // 获取搜索页面的数据
+			this.getArray(); // 把获取到的数据中的标签字符串转换成数组
+			
+			// this.aaa();
+			this.getApp();
+		},
+		
+		onShow() {
+			// console.log(111)
+			// window.location.reload();
+		},
+		
+		onUnload(){//监听页面卸载
+			// console.log("页面卸载");
+			// alert('页面卸载')
+			// clearInterval(timer);
+			clearInterval(this.timer);
+		},
+				
+		onPageScroll(){
+			// if(document.getElementsByClassName("newVideo_list").scrollTop>=100){
+			// 	this.style="background: rgba(0,0,0,0.3);"
+			// }else{
+			// 	this.style=""
+			// }
+			this.getBottomNewmsg();
+		},
+		
+		methods:{
+			getLoginlanger:function(){ // 获取当前语言
+				var that = this;
+				uni.getStorage({
+					key: 'storage_login_language',
+					success: function (res) {
+						that.tabbarLoginLanguage = JSON.parse(res.data);
+						// console.log(that.tabbarLoginLanguage);
+					}
+				});
+			},
+			getmute: function(){  // 静音按钮
+				if(this.mute == true){
+					this.mute = false;
+				}else{
+					this.mute = true;
+				}
+			},
+			goChatpop:function(){ // 聊天 送礼按钮
+				var that = this;
+				// uni.navigateTo({
+				// 	url: '/pages/chatpop/chatpop'
+				// })
+				// navigateTo('/pages/chatpop/chatpop',null);
+				var travelStr = "บัญชีชั่วคราวไม่สามารถใช้ได้,โปรดล็อคอินเพื่อใช้งาน！";
+				if(this.tabbarLoginData.useridx==1){
+					uni.showModal({
+						title: 'แจ้งเตือน',
+						content: travelStr,
+						cancelText:'ยกเลิก',//取消文字
+						confirmText:'ล็อคอิน',//确定文字
+						success: function (res) {
+							if (res.confirm) {
+								// console.log('用户点击确定');
+								navigateTo('/pages/startup/startup',null);
+							} else if (res.cancel) {
+								// console.log('用户点击取消');
+							}
+						}
+					});
+				}else{
+					// ---先重连---
+					uni.getStorage({
+						key: 'storage_login_str',
+						success: function (res) {
+							// console.log(JSON.parse(res.data).logintoken)
+							// console.log(JSON.parse(res.data).useridx)
+							// -----断线--首次--
+							var array =JSON.stringify({
+								"userName": JSON.stringify(JSON.parse(res.data).useridx),
+								"pwd": JSON.parse(res.data).logintoken,
+								"devId": systemId(),
+								"devType": system(),
+								"productType": 3,
+								"isRelogin": true,
+								"loginWay": 0,
+								"language": 3,
+								"ver": "1.00",
+								"ip":"127.0.0.1"
+							})
+							// console.log(array)
+							var arr = sendD(array);
+							// ---------------socket-login---------
+							// alert(this.$Socket.isconnect)
+							// console.log(111)
+							if(that.$Socket.isconnect==false){
+								that.$Socket.onReload()
+							}
+							that.$Socket.nsend(arr)
+							// console.log("yijing")
+							that.$Socket.eventPatch.onMsg((msg,sk)=>{    //监听是否接受消息
+								setTimeout(function() {
+								// console.log(msg)
+								// console.log(sk)
+								 var fileReader = new FileReader();
+								     fileReader.onload = function (progressEvent) {
+								     	var arrayBuffer = this.result; // arrayBuffer即为blob对应的arrayBuffer
+								     	var HeadRecv = new Uint32Array(arrayBuffer, 0, 3);
+								     	var strArray = new Uint8Array(arrayBuffer, 12, HeadRecv[0] - 12 - 1);
+								     	var str = new TextDecoder().decode(strArray);//{"code":-1,"error":"用户名或密码错误"}
+								     	// console.log(HeadRecv[1],JSON.parse(str))
+								     	//to do
+										// console.log(HeadRecv[1])
+										// console.log(JSON.parse(str))
+										var msgdata =JSON.parse(str);
+										if(HeadRecv[1]==10002){
+											console.log("断线重连成功")
+											uni.setStorage({
+												key: 'storage_login_str',
+												data: str,
+												success: function () {
+													// console.log('success');
+												}
+											});
+											// ---先重连---
+											var obj = encodeURIComponent(encrypt(JSON.stringify({
+												useridx: that.listNum.UserIdx,
+												nickname: that.listNum.MyName,
+												headpic: that.listNum.BackgroundPicUrl,
+												online: that.listNum.Online,
+												pageId: 8,
+												AnchorIdx: that.AnchorIdx,
+												ResourceoId: that.ResourceoId,
+												pagebackId: that.gobackId, // 回退功能需要的上一个页面的主播ID
+											})))
+											navigateTo('/pages/chatpop/chatpop',obj);
+										}else if(HeadRecv[1]==10003){
+											navigateTo('/pages/startup/startup',null);
+											uni.showToast({
+												title: msgdata.error,
+												duration: 1000,
+												icon:"none",
+											});
+										}
+								     	
+								     };
+								     fileReader.readAsArrayBuffer(msg.data);
+									 }, 0); 
+							})
+							// -----断线--首次--
+						}
+					});
+					// ---------------
+				}
+				
+			},
+			
+			getLoginMsg:function(){ // 登录信息
+				var that = this;
+				uni.getStorage({
+					key: 'storage_login_str',
+					success: function (res) {
+						that.tabbarLoginData = JSON.parse(res.data);
+						// console.log(that.tabbarLoginData);
+						that.UserIdx = that.tabbarLoginData.useridx
+						if(that.tabbarLoginData.isAnchor==false){
+							that.isAnchor = false;
+						}
+					}
+				});
+			},
+			
+			display:function(){
+				if(this.show == true){
+					this.show = false;
+				}else{
+					this.show = true;
+				}
+				// uni.showToast({
+				// 	title: 'msgdata.error',
+				// 	// duration: 1000,
+				// 	position: 'bottom',
+				// 	// icon:"none",
+				// });
+			},
+			
+			getInitMsg:function(){ // 获取视频资源
+				this.moveUpdateTime = '';
+				clearInterval(this.timer);
+				// console.log(this.UserIdx) //用户IDX
+				// console.log(this.AnchorIdx) // 主播IDX
+				// console.log(this.ResourceoId) //视频ID
+				// console.log(this.tabbarLoginData.isAnchor)
+				if(this.tabbarLoginData.isAnchor==true){
+					var identity = 1;
+				}else if(this.tabbarLoginData.isAnchor==false){
+					var identity = 0;
+				}
+				var array=base64ToArrayBuffer(encrypt(JSON.stringify({
+					UserIdx: Number(this.UserIdx),//	int
+					AnchorIdx:Number(this.AnchorIdx),//	int
+					ResourceoId:Number(this.ResourceoId),//	int
+					identity:identity,//用户身份  默认是0 0-用户  1-主播
+				})))
+				var res = JSON.parse(decrypt(sendData('POST',this.GLOBAL.urlPoint+'/userinfo/GetResource',array)));
+				console.log(res)
+				if(res.code==100){
+					// this.moveUpdateTime = res.data.ExpireTime;/s
+					this.listNum = res.data;
+					this.getRest(res.data.ExpireTime);
+					// this.getRest1(res.data.ExpireTime); 
+					// console.log(this.listNum)
+					// if(this.listNum.UnLockMoney == 0){
+					// 	this.listNum.Buy = 1;
+					// }
+					if(this.listNum.ResourceUrl == null){
+						this.showVideo = false;
+					}
+					this.coverImgUrl = this.listNum.BackgroundPicUrl;
+				}
+			},
+			
+			//-------------------------关注功能---10010chongxindenglu----------------------------------
+			getfollow:function(){//关注   //ws://192.168.1.104:17400
+					var travelStr = "บัญชีชั่วคราวไม่สามารถใช้ได้,โปรดล็อคอินเพื่อใช้งาน！";
+				if(this.tabbarLoginData.useridx==1){
+					uni.showModal({
+						title: 'แจ้งเตือน',
+						content: travelStr,
+						cancelText:'ยกเลิก',//取消文字
+						confirmText:'ล็อคอิน',//确定文字
+						success: function (res) {
+							if (res.confirm) {
+								// console.log('用户点击确定');
+								navigateTo('/pages/startup/startup',null);
+							} else if (res.cancel) {
+								// console.log('用户点击取消');
+							}
+						}
+					});
+				}else{
+					// -----
+					var array =JSON.stringify({
+						// "useridx": this.loginMsgData.useridx,
+						// "signature": this.textArea,
+						"useridx": Number(this.tabbarLoginData.useridx),
+						"toidx": Number(this.AnchorIdx),
+						"status": true
+					})
+					// console.log(array) //{"useridx":10009829,"toidx":"11000000","status":false}
+					var arr = sendD07(array);
+					// console.log(arr) // send07 加密后的 array数据
+					// alert(this.$Socket.isconnect)
+					// console.log(this.$Socket)
+					if(this.$Socket.isconnect==false){
+						this.$Socket.onReload()
+					}
+					this.$Socket.nsend(arr)  //放射一个数据到服务器
+					var that =this;
+					this.$Socket.eventPatch.onMsg((msg,sk)=>{    //监听是否接受消息
+						setTimeout(function() {
+						// console.log(msg)
+						// console.log(sk)
+						     var fileReader = new FileReader();
+						     fileReader.onload = function (progressEvent) {
+						     	var arrayBuffer = this.result; // arrayBuffer即为blob对应的arrayBuffer
+						     	var HeadRecv = new Uint32Array(arrayBuffer, 0, 3);
+						     	var strArray = new Uint8Array(arrayBuffer, 12, HeadRecv[0] - 12 - 1);
+						     	var str = new TextDecoder().decode(strArray);//{"code":-1,"error":"用户名或密码错误"}
+						     	// console.log(HeadRecv[1],JSON.parse(str))
+						     	//to do
+								// if(HeadRecv[1]==10002){
+								// 	uni.navigateTo({
+								// 		url: '/pages/home/home'
+								// 	});
+								if(HeadRecv[1]==10010){
+									
+									// navigateTo('/pages/startup/startup',null);
+									
+								// 	uni.setStorage({
+								// 		key: 'storage_login_str',
+								// 		data: str,
+								// 		success: function () {
+								// 			console.log('success');
+								// 		}
+								// 	});
+								}else if(HeadRecv[1]==11008){
+									// console.log(JSON.parse(str).code)
+									if(that.tabbarLoginLanguage == 0 || that.tabbarLoginLanguage == 1){
+										var str1 = '成功'
+										var str2 = '失败'
+									}else if(that.tabbarLoginLanguage == 2){
+										var str1 = 'success'
+										var str2 = 'fail'
+									}else if(that.tabbarLoginLanguage == 3){
+										var str1 = 'ประสบความสำเร็จ'
+										var str2 = 'เสียเหลี่ยม'
+									}
+									if(JSON.parse(str).code==0){
+										that.listNum.Fans = 1;
+										
+										uni.showToast({
+											title: str1,
+											icon:"none",
+										});
+									}else{
+										uni.showToast({
+											title: str2,
+											icon:"none",
+										});
+									}
+								}
+						     	// console.log(HeadRecv[1])
+						     	// console.log(JSON.parse(str))
+						     };
+						     fileReader.readAsArrayBuffer(msg.data);
+						}, 0);
+					});
+					// -----
+				}
+					
+					// ---------------------------------------------------------------------------
+					//-----------------------------本地数据修改-----------------------------------
+					
+					
+					
+			},
+			//-------------------------关注功能-------------------------------------
+			
+			goBack:function(){ // 页面关闭按钮
+				// console.log(this.pageId)
+				if(this.pageId == 0){
+					if(this.anchorId == 4){
+						// uni.navigateTo({
+						// 	url: '/pages/anchorpersonal/anchorpersonal?AnchorIdx=' + this.AnchorIdx + '&Type=' + 2 + '&pageId=' + this.pageId
+						// })
+						var obj = encodeURIComponent(encrypt(JSON.stringify({
+							AnchorIdx:this.AnchorIdx,
+							Type:2,
+							pageId:this.pageId
+						})))
+						navigateTo('/pages/anchorpersonal/anchorpersonal',obj);
+					}else{
+						// uni.navigateTo({
+						// 	url: '/pages/search/search'
+						// })
+						navigateTo('/pages/search/search',null)
+					}
+				} else if(this.pageId == 1){
+					// uni.navigateTo({
+					// 	url: '/pages/newsearch/newsearch'
+					// })
+					navigateTo('/pages/newsearch/newsearch',null)
+				} else if(this.pageId == 3){
+					// uni.navigateTo({
+					// 	url: "/pages/newachormelist/newachormelist?pageId=" + 2 + "&AnchorIdx=" + this.gobackId + "&MyName=" + this.MyName
+					// })
+					var obj = encodeURIComponent(encrypt(JSON.stringify({
+						AnchorIdx:this.gobackId,
+						MyName:this.MyName,
+						pageId:2
+					})))
+					navigateTo('/pages/newachormelist/newachormelist',obj);
+				} else if(this.pageId == 5){
+					// uni.navigateTo({
+					// 	url: "/pages/tagsearch/tagsearch?searchname=" + this.searchname + "&searchCount=" + this.searchCount
+					// })
+					var obj = encodeURIComponent(encrypt(JSON.stringify({
+						searchname:this.searchname,
+						searchCount:this.searchCount
+					})))
+					navigateTo('/pages/tagsearch/tagsearch',obj);
+				} else if(this.pageId == 4){
+					// uni.navigateTo({
+					// 	url: "/pages/anchorpersonal/anchorpersonal?pageId=" + 0 + "&AnchorIdx=" + this.AnchorIdx + "&Type=" + 2
+					// })
+					var obj = encodeURIComponent(encrypt(JSON.stringify({
+						pageId:0,
+						AnchorIdx:this.AnchorIdx,
+						Type:2
+					})))
+					navigateTo('/pages/anchorpersonal/anchorpersonal',obj);
+				} else if(this.pageId == 7) {
+					// uni.navigateTo({
+					// 	url: "/pages/unlockvideo/unlockvideo?AnchorIdx=" + this.AnchorIdx + "&pageId=" + 6 + "&AnchorName=" + this.listNum.MyName
+					// })
+					if(this.tabbarLoginData.isAnchor == true){
+						var obj = encodeURIComponent(encrypt(JSON.stringify({
+							AnchorIdx:this.AnchorIdx,
+							pageId:6,
+							AnchorName:this.listNum.MyName
+						})))
+						navigateTo('/pages/unlockvideo/unlockvideo',obj);
+					}else if(this.tabbarLoginData.isAnchor == false){
+						var obj = encodeURIComponent(encrypt(JSON.stringify({
+							AnchorIdx:this.AnchorIdx,
+							pageId:17,
+							AnchorName:this.listNum.MyName
+						})))
+						navigateTo('/pages/unlockvideo/unlockvideo',obj);
+					}
+					
+				} else if(this.pageId == 2){
+					// uni.navigateTo({
+					// 	url: "/pages/anchorpersonal/anchorpersonal?pageId=" + 2 + "&AnchorIdx=" + this.AnchorIdx + "&Type=" + 2
+					// })
+					var obj = encodeURIComponent(encrypt(JSON.stringify({
+						AnchorIdx:this.AnchorIdx,
+						pageId:2,
+						Type:2
+					})))
+					navigateTo('/pages/anchorpersonal/anchorpersonal',obj);
+				} else if(this.pageId == 111){
+					// uni.navigateTo({
+					// 	url: "/pages/home/home"
+					// })
+					navigateTo('/pages/home/home',null);
+				} else if(this.pageId == 9){
+					uni.navigateBack({
+					    delta: 1
+					});
+				} else if(this.pageId == 112){
+					uni.navigateBack({
+					    delta: 1
+					});
+				} else if(this.pageId == 13){
+					uni.navigateBack({
+					    delta: 1
+					});
+				}
+				
+			},
+			
+			getArray:function(){ // 把获取到的数据中的标签字符串转换成数组
+				var a = this.listNum.Label;
+				this.label = a.split("#")
+				
+				for(var i = 0 ;i<this.label.length;i++){  
+						if(this.label[i] == "" || this.label[i] == null || typeof(this.label[i]) == "undefined" || typeof(this.label[i]) == " ")  
+						{  
+							this.label.splice(i,1);  
+							i= i-1;  
+				        }  
+				} 
+				// console.log(this.label);
+			},
+			
+			
+			//-------------------------解锁功能-------------------------------------
+			getUnlock:function(){
+				// console.log({
+				// 		UserIdx: Number(this.UserIdx),
+				// 		ResourceId: Number(this.ResourceoId),
+				// 		AnchorId: Number(this.AnchorIdx),
+				// 		Type: 1
+				// 	})
+					var travelStr = "บัญชีชั่วคราวไม่สามารถใช้ได้,โปรดล็อคอินเพื่อใช้งาน！";
+				if(this.tabbarLoginData.useridx==1){
+					uni.showModal({
+						title: 'แจ้งเตือน',
+						content: travelStr,
+						cancelText:'ยกเลิก',//取消文字
+						confirmText:'ล็อคอิน',//确定文字
+						success: function (res) {
+							if (res.confirm) {
+								// console.log('用户点击确定');
+								navigateTo('/pages/startup/startup',null);
+							} else if (res.cancel) {
+								// console.log('用户点击取消');
+							}
+						}
+					});
+				}else{
+					// ----
+					var array=base64ToArrayBuffer(encrypt(JSON.stringify({
+						UserIdx: Number(this.UserIdx),
+						ResourceId: Number(this.ResourceoId),
+						AnchorId: Number(this.AnchorIdx),
+						Type: 1
+					})))
+					var res = JSON.parse(decrypt(sendData('POST',this.GLOBAL.urlPoint+'/userinfo/ResourceUnlock',array)));
+					// console.log(res)
+					if(res.code==100){
+						// console.log(res);
+						uni.showToast({
+							title:res.msg,
+							duration: 300,
+							icon:"none",
+						});
+						var storage_login_str = this.tabbarLoginData;
+						storage_login_str.cash=res.data.money;
+						var str =JSON.stringify(storage_login_str)
+						// console.log(str)
+						uni.setStorage({
+							key: 'storage_login_str',
+							data: str,
+							success: function () {
+								// console.log('success');
+							}
+						});
+						this.getInitMsg();
+					}else if(res.code==102){
+						uni.showToast({
+							title:res.msg,
+							duration: 300,
+							icon:"none",
+						});
+						// uni.navigateTo({
+						// 	url: "/pages/paymoney/paymoney"
+						// })
+						navigateTo('/pages/paymoney/paymoney',null);
+					}else{
+						uni.showToast({
+							title:res.msg,
+							duration: 300,
+							icon:"none",
+						});
+					}
+					// ----
+				}
+					
+			},
+			
+			//-------------------------解锁功能-------------------------------------
+			
+			//-----------------------页面拉黑功能-----------------------------------
+			openmask: function(){ // 打开弹框
+					var travelStr = "บัญชีชั่วคราวไม่สามารถใช้ได้,โปรดล็อคอินเพื่อใช้งาน！";
+				if(this.tabbarLoginData.useridx==1){
+					uni.showModal({
+						title: 'แจ้งเตือน',
+						content: travelStr,
+						cancelText:'ยกเลิก',//取消文字
+						confirmText:'ล็อคอิน',//确定文字
+						success: function (res) {
+							if (res.confirm) {
+								// console.log('用户点击确定');
+								navigateTo('/pages/startup/startup',null);
+							} else if (res.cancel) {
+								// console.log('用户点击取消');
+							}
+						}
+					});
+				}else{
+					this.switch_mask = true;
+				}
+				
+			},
+			closemask: function(){ // 关闭弹框
+				this.switch_mask = false;
+			},
+			hate: function(){ // 拉黑按钮
+				this.switch_mask = false;
+				var array =JSON.stringify({
+					// "useridx": this.loginMsgData.useridx,
+					// "signature": this.textArea,
+					"useridx": Number(this.UserIdx),
+					"toidx": Number(this.AnchorIdx),
+					"status": this.dislike
+				})
+				// console.log({
+				// 	"useridx": Number(this.UserIdx),
+				// 	"toidx": Number(this.AnchorIdx),
+				// 	"status": this.dislike
+				// })
+				// console.log(array) //{"useridx":10009829,"toidx":"11000000","status":false}
+				var arr = sendD09(array);
+				// console.log(arr) // send07 加密后的 array数据
+				// alert(this.$Socket.isconnect)
+				// console.log(this.$Socket)
+				if(this.$Socket.isconnect==false){
+					this.$Socket.onReload()
+				}
+				this.$Socket.nsend(arr)  //放射一个数据到服务器
+				var that = this;
+				this.$Socket.eventPatch.onMsg((msg,sk)=>{    //监听是否接受消息
+					setTimeout(function() {
+					// console.log(msg)
+					// console.log(sk)
+						 var fileReader = new FileReader();
+						 fileReader.onload = function (progressEvent) {
+							var arrayBuffer = this.result; // arrayBuffer即为blob对应的arrayBuffer
+							var HeadRecv = new Uint32Array(arrayBuffer, 0, 3);
+							var strArray = new Uint8Array(arrayBuffer, 12, HeadRecv[0] - 12 - 1);
+							var str = new TextDecoder().decode(strArray);//{"code":-1,"error":"用户名或密码错误"}
+							if(HeadRecv[1]==10010){
+								// navigateTo('/pages/startup/startup',null);
+							}else if(HeadRecv[1]==11010){
+								// console.log(HeadRecv[1])
+								if(that.tabbarLoginLanguage == 0 || that.tabbarLoginLanguage == 1){
+									var str1 = '成功'
+									var str2 = '失败'
+								}else if(that.tabbarLoginLanguage == 2){
+									var str1 = 'success'
+									var str2 = 'fail'
+								}else if(that.tabbarLoginLanguage == 3){
+									var str1 = 'ประสบความสำเร็จ'
+									var str2 = 'เสียเหลี่ยม'
+								}
+								if(JSON.parse(str).code==0){
+									uni.showToast({
+										title: str1,
+										icon:"none",
+									});
+									// console.log(that.dislike)
+									// if(that.dislike == true){
+									// 	that.dislike = false; 
+									// }else{
+									// 	that.dislike = true;
+									// }
+								}else{
+									uni.showToast({
+										title: str2,
+										icon:"none",
+									});
+									that.dislike = true;
+								}
+								
+							}
+							// console.log(HeadRecv[1])
+							// console.log(JSON.parse(str))
+						 };
+						 fileReader.readAsArrayBuffer(msg.data);
+					}, 0);
+				});
+				// 仅限于用户没有退出页面的情况下 动态调整 拉黑与解除
+				if(this.dislike == true){
+					this.dislike = false; 
+				}else{
+					this.dislike = true;
+				}
+			
+			},
+			
+			//-----------------------页面拉黑功能-----------------------------------
+			
+			// --------------------------点赞功能--------------------------------------------
+			openLike:function(){
+					var travelStr = "บัญชีชั่วคราวไม่สามารถใช้ได้,โปรดล็อคอินเพื่อใช้งาน！";
+				if(this.tabbarLoginData.useridx==1){
+					uni.showModal({
+						title: 'แจ้งเตือน',
+						content: travelStr,
+						cancelText:'ยกเลิก',//取消文字
+						confirmText:'ล็อคอิน',//确定文字
+						success: function (res) {
+							if (res.confirm) {
+								// console.log('用户点击确定');
+								navigateTo('/pages/startup/startup',null);
+							} else if (res.cancel) {
+								// console.log('用户点击取消');
+							}
+						}
+					});
+				}else{
+					if(this.like_mask == false){
+						this.like_mask = true;
+					}else{
+						this.like_mask =false;
+					}
+				}
+				
+				
+			},
+			getLike:function(){ // 喜欢
+				var that = this
+				// console.log(this.UserIdx) //用户IDX
+				// console.log(this.AnchorIdx) // 主播IDX
+				// console.log(this.ResourceoId) //视频ID
+				var array=base64ToArrayBuffer(encrypt(JSON.stringify({
+					UserIdx: Number(this.UserIdx),//	int 用户idx
+					// AnchorIdx:Number(this.AnchorIdx),//	int 
+					ResourceoId:Number(this.ResourceoId),//	int 资源id
+					Type: 0, // int 0-好评 1-差评
+				})))
+				var res = JSON.parse(decrypt(sendData('POST',this.GLOBAL.urlPoint+'/UserInfo/OperationEvaluate',array)));
+				if(res.code==100){
+					// console.log(res);
+					if(that.tabbarLoginLanguage == 0 || that.tabbarLoginLanguage == 1){
+						var str1 = '成功'
+						var str2 = '失败'
+					}else if(that.tabbarLoginLanguage == 2){
+						var str1 = 'success'
+						var str2 = 'fail'
+					}else if(that.tabbarLoginLanguage == 3){
+						var str1 = 'ประสบความสำเร็จ'
+						var str2 = 'เสียเหลี่ยม'
+					}
+					this.listNum.GoodEvaluate ++;
+					uni.showToast({
+						title: str1,
+						// duration: 1000,
+						icon:"none",
+					});
+				}
+			},
+			getDislike:function(){ // 不喜欢
+				var that = this
+				// console.log(this.UserIdx) //用户IDX
+				// console.log(this.AnchorIdx) // 主播IDX
+				// console.log(this.ResourceoId) //视频ID
+				var array=base64ToArrayBuffer(encrypt(JSON.stringify({
+					UserIdx: Number(this.UserIdx),//	int 用户idx
+					// AnchorIdx:Number(this.AnchorIdx),//	int 
+					ResourceoId:Number(this.ResourceoId),//	int 资源id
+					Type: 1, // int 0-好评 1-差评
+				})))
+				var res = JSON.parse(decrypt(sendData('POST',this.GLOBAL.urlPoint+'/UserInfo/OperationEvaluate',array)));
+				if(res.code==100){
+					// console.log(res);
+					if(that.tabbarLoginLanguage == 0 || that.tabbarLoginLanguage == 1){
+						var str1 = '成功'
+						var str2 = '失败'
+					}else if(that.tabbarLoginLanguage == 2){
+						var str1 = 'success'
+						var str2 = 'fail'
+					}else if(that.tabbarLoginLanguage == 3){
+						var str1 = 'ประสบความสำเร็จ'
+						var str2 = 'เสียเหลี่ยม'
+					}
+					this.listNum.GoodEvaluate --;
+					uni.showToast({
+						title: str1,
+						// duration: 1000,
+						icon:"none",
+					});
+				}
+			},
+			
+			// --------------------------点赞功能--------------------------------------------
+			
+			
+			newVideo:function(){ // 获取用户最新帖子
+					var travelStr = "บัญชีชั่วคราวไม่สามารถใช้ได้,โปรดล็อคอินเพื่อใช้งาน！";
+				if(this.tabbarLoginData.useridx==1){
+					uni.showModal({
+						title: 'แจ้งเตือน',
+						content: travelStr,
+						cancelText:'ยกเลิก',//取消文字
+						confirmText:'ล็อคอิน',//确定文字
+						success: function (res) {
+							if (res.confirm) {
+								// console.log('用户点击确定');
+								navigateTo('/pages/startup/startup',null);
+							} else if (res.cancel) {
+								// console.log('用户点击取消');
+							}
+						}
+					});
+				}else{
+					if(this.showNewMsg == true){
+						this.showNewMsg = false;
+						if(this.tabbarLoginData.isAnchor==true){
+							var identity = 1;
+						}else if(this.tabbarLoginData.isAnchor==false){
+							var identity = 0;
+						}
+						var array=base64ToArrayBuffer(encrypt(JSON.stringify({
+							UserIdx: Number(this.AnchorIdx),//	int 主播IDX
+							Page: 1,//	int
+							Limit: 90,
+							Type: 0,//	int
+							identity:identity,//用户身份  默认是0 0-用户  1-主播
+						})))
+						var res = JSON.parse(decrypt(sendData('POST',this.GLOBAL.urlPoint+'/userinfo/GetResourceList',array)));
+						if(res.code==100){
+							console.log(res.data);
+							this.newlist_count = res.data;
+							this.newlist = res.data.list;
+						}
+					}else{
+						this.showNewMsg = true;
+					}
+				}
+				
+			},
+			
+			goNewVideo:function(e){ // 点击主播最新帖子后跳入新的视频页面
+				// uni.navigateTo({
+				// 	url: "/pages/video/video?UserIdx="+ this.tabbarLoginData.useridx + "&AnchorIdx=" + e.UserIdx + "&ResourceoId=" + e.ResourcesId + "&pageId=" + this.pageId
+				// })
+				// console.log(e);
+				this.ResourceoId = e.ResourcesId
+				clearInterval(this.timer);
+				this.getInitMsg();
+			},
+			
+			goAnchor: function(){ // 页面主播头像部分 跳转主播个人页面
+				var travelStr = "บัญชีชั่วคราวไม่สามารถใช้ได้,โปรดล็อคอินเพื่อใช้งาน！";
+				if(this.tabbarLoginData.useridx==1){
+					uni.showModal({
+						title: 'แจ้งเตือน',
+						content: travelStr,
+						cancelText:'ยกเลิก',//取消文字
+						confirmText:'ล็อคอิน',//确定文字
+						success: function (res) {
+							if (res.confirm) {
+								// console.log('用户点击确定');
+								navigateTo('/pages/startup/startup',null);
+							} else if (res.cancel) {
+								// console.log('用户点击取消');
+							}
+						}
+					});
+				}else{
+					var page = 8              // 视频页面ID
+					// uni.navigateTo({
+					// 	url: "/pages/anchorpersonal/anchorpersonal?pageId=" + page + "&AnchorIdx=" + this.AnchorIdx + "&Type=" + 2
+					// })
+					var obj = encodeURIComponent(encrypt(JSON.stringify({
+						pageId:page,
+						AnchorIdx:this.AnchorIdx,
+						Type:2
+					})))
+					navigateTo('/pages/anchorpersonal/anchorpersonal',obj)
+				}
+				
+			},
+			
+			
+			//-----------------------------------页面下滑功能----------------------------------
+			getBottomNewmsg:function(){ // 页面下滑功能  暂未使用
+				//--------------
+				var that = this
+				window.onscroll = function(){  // 由于需要使用 onPageScroll 无法使用 scroll-view 所以使用onscroll来判断页面是否滚动到底部
+				    //变量scrollTop是滚动条滚动时，距离顶部的距离
+				    var scrollTop = document.documentElement.scrollTop;
+				    //变量windowHeight是可视区的高度
+				    var windowHeight = document.documentElement.clientHeight;
+				    //变量scrollHeight是滚动条的总高度
+				    var scrollHeight = document.documentElement.scrollHeight;
+				           //滚动条到底部的条件
+						   // console.log(this.GLOBAL);
+						if(scrollTop+windowHeight==scrollHeight){
+							//写后台加载数据的函数
+							// console.log("距顶部"+scrollTop+"可视区高度"+windowHeight+"滚动条总高度"+scrollHeight);
+							// console.log(that.GLOBAL.urlPoint);
+							that.Page++;
+							// console.log(that.UserIdx); // 用户IDX
+							// console.log(Number(that.AnchorIdx)); // 主播IDX
+							// console.log(that.Page);
+							// console.log(decrypt('UVkIwvkixFT3MFiFNKMHspgHjrhUK84gUfsshvWgbFMza3XZ/h9B1ySomcmLQnzebNiTS+D8oTa88Ul0XXfXP02TZIFwKs3wzNKsfhRezHvVgeTzcSf8B6qAOjbrq1C6'))
+							// console.log(Number(this.AnchorIdx)); // 主播IDX
+							if(that.tabbarLoginData.isAnchor==true){
+								var identity = 1;
+							}else if(that.tabbarLoginData.isAnchor==false){
+								var identity = 0;
+							}
+							var array=base64ToArrayBuffer(encrypt(JSON.stringify({
+									UserIdx: that.UserIdx, // int
+									AnchorIdx: 0, // int 主播idx 获取列表时 传0
+									Page: that.Page,// int
+									Type: 0 ,// int
+									identity:identity,//用户身份  默认是0 0-用户  1-主播
+								})))
+								
+								var res = JSON.parse(decrypt(sendData('POST',that.GLOBAL.urlPoint+'/userinfo/GetBuyList',array)));
+								// console.log(res);
+								if(res.code==100){
+									// console.log(res.data);
+									that.model2Data = res.data.list;
+									that.model1Data.push.apply(that.model1Data,that.model2Data); // 让两个数组合并
+									// console.log(that.model1Data);
+								}
+						}   
+				    }
+				//-----------------
+			},
+			//-----------------------------------页面下滑功能----------------------------------
+			
+			//---------------------------视频剩余时间------------------------------------------
+			getRest:function(time){ // 视频剩余时间 moveUpdateTime
+				var that = this;
+				// console.log(time);
+				var b = time.replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '').replace(/\-/g, '/'); // 获取到到期的时间
+				// var b = '2019-11-10 21:20:00';
+				// var c = b.getTime();
+				// console.log(b);
+				var now = new Date().getTime();
+				
+				var time = Date.parse(b);
+				// console.log(time.getDate())
+				// that.newhours = time.getDate();
+				// console.log(that.newhours);
+				var rest = Math.floor((time-now)/1000);
+				clearInterval(this.timer);
+				this.timer = setInterval(function(){
+					rest--;
+					var hours;
+					var minutes;
+					var seconds;
+					if(rest <= 0){
+						hours = '00'
+						minutes = '00'
+						seconds = '00'
+					}else{
+						hours = Math.floor(rest / (60 * 60 ))<10?'0'+ Math.floor(rest / (60 * 60 )):Math.floor(rest / (60 * 60 ));
+						minutes = Math.floor(rest % (60 * 60) / 60)<10?'0' + Math.floor(rest % (60 * 60) / 60):Math.floor(rest % (60 * 60) / 60);
+						seconds = Math.floor(rest % 60) <10?'0' + Math.floor(rest % 60):Math.floor(rest % 60);
+					// console.log(hours);
+					// console.log(minutes);
+					// console.log(seconds);
+					}
+					that.moveUpdateTime = hours+":"+minutes+":"+seconds;
+					
+					// console.log(that.moveUpdateTime)
+				},1000)
+				
+				
+			},
+			//---------------------------视频剩余时间-------------------------------------------
+			
+			//---------------------------视频剩余时间------------------------------------------
+			// getRest1:function(time){ // 视频剩余时间 moveUpdateTime
+			// 	var that = this;
+			// 	// console.log(time);
+			// 	var b = time.replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '').replace(/\-/g, '/'); // 获取到到期的时间
+			// 	// var b = '2019-11-10 21:20:00';
+			// 	// var c = b.getTime();
+			// 	// console.log(b);
+			// 	var now = new Date().getTime();
+			// 	var time = Date.parse(b);
+			// 	var rest = Math.floor((time-now)/1000);
+			// 	clearInterval(timer);
+			// 	var timer = setInterval(function(){
+			// 		rest--;
+			// 		var hours;
+			// 		var minutes;
+			// 		var seconds;
+			// 		if(rest <= 0){
+			// 			hours = '00'
+			// 			minutes = '00'
+			// 			seconds = '00'
+			// 		}else{
+			// 			hours = Math.floor(rest / (60 * 60 ))<10?'0'+ Math.floor(rest / (60 * 60 )):Math.floor(rest / (60 * 60 ));
+			// 			minutes = Math.floor(rest % (60 * 60) / 60)<10?'0' + Math.floor(rest % (60 * 60) / 60):Math.floor(rest % (60 * 60) / 60);
+			// 			seconds = Math.floor(rest % 60) <10?'0' + Math.floor(rest % 60):Math.floor(rest % 60);
+			// 		// console.log(hours);
+			// 		// console.log(minutes);
+			// 		// console.log(seconds);
+			// 		}
+			// 		that.moveUpdateTime = hours+":"+minutes+":"+seconds;
+			// 		// console.log(that.moveUpdateTime)
+			// 	},1000)
+			// 	
+			// 	
+			// },
+			//---------------------------视频剩余时间-------------------------------------------
+			
+			//---------------------------判断是否位app端跳转-------------------------------------------
+			getApp:function(){
+				if(this.pageId == 25){
+					this.noshowclose = false;
+				}
+			},
+			//---------------------------判断是否位app端跳转-------------------------------------------
+			getVideoUpdateMsg:function(event){//视频进度功能
+			
+				// console.log(event.detail.currentTime)
+				// console.log(event.detail.duration)
+				// console.log(Math.floor((event.detail.currentTime/event.detail.duration)*100))
+				this.percent=Math.floor((event.detail.currentTime/event.detail.duration)*100)
+				
+			}
+		}
+	}
+</script>
+
+<style lang="scss">
+page{
+	width: 100%;
+	height: 100%;
+}
+.main{
+	width:100%;
+	height:100%;
+	position:relative;
+	z-index:0;
+	background:#191919;
+	.probar{
+		width: 100%;
+		height: 24rpx;
+		overflow: hidden;
+		.progress{
+			// width: 100%;
+			position: absolute;
+			z-index: 7;
+		}
+	}
+	.brief{
+		width:698rpx;
+		height:65rpx;
+		// position:relative;
+		padding: 24rpx 32rpx 0rpx 20rpx;
+		display:flex;
+		align-items:center;
+		justify-content:space-between;
+		.img{
+			width: 60rpx;
+			height: 60rpx;
+			padding-right: 15rpx;
+			position:relative;
+			z-index:999;
+			.photo{
+				width:60rpx;
+				height: 60rpx;
+				background: #877DF5;
+				border:2px solid #fff;
+				border-radius: 50%;
+			}
+			.status{
+				height: 20rpx;
+				width: 20rpx;
+				background: #17FF2A;
+				position: absolute;
+				top: 41rpx;
+				left: 41rpx;
+				border-radius: 50%;
+			}
+		}
+		.name{
+			position:absolute;
+			left: 100rpx;
+			z-index:999;
+			// align-self:flex-start;
+			display:flex;
+			flex-direction:column;
+			// justify-content:center;
+			.id{
+				line-height:26rpx;
+				.p1{
+					font-size: 26rpx;
+					color: #FFFFFF;
+					line-height: 26rpx;
+					padding-bottom: 5rpx;
+				}
+				.p2{
+					font-size: 26rpx;
+					color: #FFD600;
+					line-height: 26rpx;
+					padding: 0rpx 32rpx;
+				}
+			}
+			.p{
+				color:rgba(255,255,255,0.5);
+				font-size: 22rpx;
+				line-height: 22rpx;
+			}
+		}
+		.del{
+			width: 36rpx;
+			height: 36rpx;
+			z-index:999;
+			position:relative;
+		}
+	}
+	.content{
+		position:relative;
+		z-index: 999;
+		padding: 27rpx 29rpx 0rpx 20rpx;
+		.p1{
+			color: #FFFFFF;
+			font-size: 26rpx;
+		}
+		.img{
+			width: 24rpx;
+			height: 24rpx;
+			line-height: 24rpx;
+			padding: 10rpx;
+			margin-left:17rpx;
+			vertical-align: middle;
+		}
+	}
+	.content1{
+		position:relative;
+		z-index: 999;
+		padding: 27rpx 29rpx 0rpx 20rpx;
+		display:flex;
+		align-items:center;
+		.p1{
+			width: 80%;
+			color: #FFFFFF;
+			font-size: 26rpx;
+			display: -webkit-box;
+			-webkit-box-orient: vertical;
+			-webkit-line-clamp: 1;
+			overflow: hidden;
+		}
+		.img{
+			width: 24rpx;
+			height: 24rpx;
+			line-height: 24rpx;
+			padding: 10rpx;
+			margin-left:17rpx;
+			vertical-align: middle;
+		}
+	}
+	.label{
+		width: 750rpx;
+		position:relative;
+		z-index: 999;
+		display: flex;
+		align-items: center;
+		padding:10rpx 10rpx 0rpx 10rpx;
+		display:flex;
+		flex-wrap:wrap;
+		.box{
+			height:30rpx;
+			background:rgba(0,0,0,0.5);
+			border-radius:15px;
+			padding: 4rpx 11rpx;
+			margin-left: 10rpx;
+			margin-bottom: 15rpx;
+			display:flex;
+			align-items:center;
+			justify-content:center;
+			.p{
+				font-size: 22rpx;
+				padding: 10rpx;
+				color:#FFFFFF;
+				line-height: 22rpx;
+			}
+		}
+	}
+	
+	.video_info{
+		// width: 710rpx;
+		position:absolute;
+		z-index: 2;
+		bottom:132rpx;
+		display: flex;
+		align-items: center;
+		padding:0rpx 20rpx;
+		.time{
+			display:flex;
+			align-items:center;
+			margin-right:34rpx;
+			padding:10rpx;
+			.img{
+				width: 23rpx;
+				height: 21rpx;
+				margin-right:13rpx;
+			}
+			.p{
+				font-size:22rpx;
+				line-height: 22rpx;
+				color: #FFFFFF;
+			}
+		}
+		.unlock{
+			display:flex;
+			align-items:center;
+			margin-right:34rpx;
+			padding:10rpx;
+			.img{
+				width: 23rpx;
+				height: 21rpx;
+				margin-right:13rpx;
+			}
+			.imgese{
+				width: 25rpx;
+				height: 15rpx;
+				margin-right:13rpx;
+			}
+			.p{
+				font-size:22rpx;
+				line-height: 22rpx;
+				color: #FFFFFF;
+			}
+		}
+		.like{
+			display:flex;
+			align-items:center;
+			margin-right:34rpx;
+			padding:10rpx;
+			.img{
+				width: 23rpx;
+				height: 21rpx;
+				margin-right:13rpx;
+			}
+			.p{
+				font-size:22rpx;
+				line-height: 22rpx;
+				color: #FFFFFF;
+			}
+			.like_mask{ // 点赞功能
+				position: absolute;
+				top: -50rpx;
+				left: 250rpx;
+				display: flex;
+				justify-content: space-around;
+				align-items: center;
+				width: 200rpx;
+				height: 50rpx;
+				border-radius: 30rpx;
+				background: rgba(0,0,0,0.5);
+				.img1{
+					width:32rpx;
+					height: 32rpx;
+					padding: 10rpx;
+				}
+				.img2{
+					width:32rpx;
+					height: 32rpx;
+					padding: 10rpx;
+				}
+			}
+		}
+		.posts{
+			display: flex;
+			align-items: center;
+			height: 45rpx;
+			background: #00D8FF;
+			border-radius:22rpx;
+			padding:2rpx 23rpx 2rpx 2rpx;
+			position: relative;
+			left: 50rpx;
+			.img{
+				width:40rpx;
+				height:40rpx;
+				border-radius:50%;
+				background: #877DF5;
+			}
+			.p{
+				color:#FFFFFF;
+				font-size: 22rpx;
+				padding: 0rpx 16rpx;
+				max-width: 135rpx;
+				overflow: hidden;
+				text-overflow:ellipsis;
+				white-space: nowrap;
+			}
+			.img1{
+				width:20rpx;
+				height: 12rpx;
+			}
+		}
+	}
+	.newVideo{
+		position: absolute;
+		bottom: 160rpx;
+		left: 0rpx;
+		z-index: 1;
+		width: 100%;
+		height: 400rpx;
+		.newVideo_top{
+			display: flex;
+			padding: 15rpx 25rpx;
+			justify-content:space-between;
+			border-bottom: 1rpx solid #C0C0C0;
+			.p{
+				font-size: 30rpx;
+				line-height: 30rpx;
+				color:#FFFFFF;
+				max-width: 500rpx;
+				overflow: hidden;
+				text-overflow:ellipsis;
+				white-space: nowrap;
+			}
+			.img{
+				width: 36rpx;
+				height: 36rpx;
+				padding: 10rpx;
+			}
+		}
+		.newVideo_list{
+			position: relative;
+			width: 100%;
+			height: 270rpx;
+			display: flex;
+			flex-wrap: nowrap;
+			padding: 12px 10rpx;
+			overflow-x: scroll;
+			.video{
+				position: relative;
+				flex-shrink:0; // 控制元素在空间不足时不能缩小
+				margin-left: 10rpx;
+				width: 200rpx;
+				height: 270rpx;
+				// background: #007AFF;
+				border-radius: 15rpx;
+				.video_txt{
+					width: 200rpx;
+					display: -webkit-box;
+					-webkit-box-orient: vertical;
+					-webkit-line-clamp: 2;//几行省略就写几
+					overflow: auto;
+					word-wrap:break-word;
+					position: absolute;
+					left: 0rpx;
+					bottom: 0rpx;
+					color: #FFFFFF;
+					font-size: 22rpx;
+				}
+				
+			}
+			
+		}
+	}
+	.bottom{
+		position:absolute;
+		z-index: 9;
+		// top: 1170rpx;
+		bottom: 28rpx;
+		left: 20rpx;
+		display: flex;
+		align-items: center;
+		.button{
+			display: flex;
+			align-items: center;
+			justify-content:center;
+			width:640rpx;
+			border:2rpx solid #FFD600;
+			border-radius:36rpx;
+			.p1{
+				color: #FFD600;
+				font-size: 36rpx;
+				line-height: 36rpx;
+			}
+			.p2{
+				width:2rpx;
+				height:34rpx;
+				background:#FFD600;
+				border-radius:1rpx;
+				margin-left: 12rpx
+			}
+			.p3{
+				color: #FFD600;
+				font-size: 36rpx;
+				line-height: 36rpx;
+			}
+			.img{
+				width: 25rpx;
+				height: 25rpx;
+				margin: 23rpx 15rpx 23rpx 10rpx;
+			}
+		}
+		.img1{
+			width: 36rpx;
+			height: 36rpx;
+			margin-left: 23rpx;
+			padding: 10rpx;
+		}
+	}
+	.bottom1{
+		position:absolute;
+		z-index: 9;
+		bottom: 28rpx;
+		display: flex;
+		align-items: center;
+		justify-content:space-between;
+		width: 100%;
+		border-radius:36rpx;
+		.img1{
+			width: 36rpx;
+			height: 36rpx;
+			margin: 0rpx 25rpx;
+			padding: 10rpx;
+		}
+		
+		.gift{
+			display: flex;
+			align-items: center;
+			font-size: 26rpx;
+			color: #FFFFFF;
+			line-height: 36rpx;
+			width:500rpx;
+			border:2rpx solid #FFFFFF;
+			border-radius:36rpx;
+			padding:10rpx;
+			.giftimg,.chatimg,.camera{
+				width:36rpx;
+				height: 36rpx;
+				padding:0rpx 10rpx;
+			}
+		}
+	}
+	
+	.movie{
+		// display:none;
+		width: 100%;
+		height: 100%;
+		position:fixed;
+		top:0rpx;
+		left:0rpx;
+		z-index:0;
+		.video{
+			width:100%;
+			height: 100%;
+		}
+	}
+	//-------------------------------------页面遮罩层部分样式-------------------------------
+	.mask{    
+		position: fixed;
+		top:0;
+		left:0;
+		z-index:999;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		width: 100%;
+		height: 100%;
+		background: rgba(0,0,0,0.5);
+		.popup{
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			width:40%;
+			border-radius: 15rpx;
+			background:#FFFFFF;
+			.button{
+				width:100%;
+				font-size: 35rpx;
+				line-height: 35px;
+				padding:15rpx 0rpx;
+				text-align: center;
+				border-bottom: 1rpx solid #C8C7CC;
+				// height: 80rpx;
+			}
+		}
+	}
+	//-------------------------------------页面遮罩层部分样式-------------------------------
+}
+</style>

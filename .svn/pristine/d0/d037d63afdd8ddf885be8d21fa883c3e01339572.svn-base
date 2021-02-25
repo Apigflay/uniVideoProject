@@ -1,0 +1,89 @@
+﻿@{
+    ViewBag.Title = "版本号";
+    Layout = "~/Views/Shared/_AdminPartial.cshtml";
+}
+
+<style type="text/css">
+    body, label, h3, h4, p { margin: 0 !important; padding: 0; }
+    .time { color: gray; text-align: right; padding-right: 20px; }
+    .content { font-size: 12px; height: 40px; padding: 5px; }
+</style>
+
+<form method="get" action="/H5/M/GetVersion">
+    <div class="well well-sm">
+        <div class="form-inline">
+            <select id="type" name="type" class="form-control" style="width:100px;">
+                <option value="1">礼物</option>
+                <option value="2" selected="selected">喵播</option>
+                <option value="3">台湾版</option>
+            </select>
+            
+            <input type="radio" value="1" id="asc" name="sort" class="form-control" checked />
+            <label for="desc">升序</label>
+            <input type="radio" value="2" id="desc" name="sort" class="form-control" />
+            <label for="desc">降序</label>
+            <input type="submit" value="查询" class="btn btn-primary-s" />
+
+            <a href="@Url.Content("/H5/M/VerEditView?id=0&dataType=1")" class="btn btn-primary-s">添加</a>
+        </div>
+    </div>
+
+</form>
+
+
+<table class="table" style="border-bottom:1px solid #808080;margin-top:20px;">
+    @if (Model != null)
+    {
+        foreach (var item in Model)
+        {
+            <tr style="height:70px;">
+                <td width="30px;">@item.id</td>
+                <td>
+                    <div class="name">@item.name</div>
+                    <div class="content">
+                        @item.updateInfo
+                    </div>
+                    <span class="time">@item.updateTime.ToString("yyyy-MM-dd")</span>
+                </td>
+                <td>
+                    <a class="btn btn-link" href="@Url.Content("/H5/M/VerEditView")?dataType=2&id=@item.id">
+                        <span style="color: red">@item.version</span>
+                    </a>
+                    @*<a href="#" class="up">上移</a> <a href="#" class="down">下移</a> <a href="#" class="top">置顶</a>*@
+                </td>
+            </tr>
+        }
+    }
+</table>
+@*<script>
+        $(function () {
+            //上移
+            var $up = $(".up")
+            $up.click(function () {
+                var $tr = $(this).parents("tr");
+                if ($tr.index() != 0) {
+                    $tr.fadeOut().fadeIn();
+                    $tr.prev().before($tr);
+                }
+            });
+            //下移
+            var $down = $(".down");
+            var len = $down.length;
+            $down.click(function () {
+                var $tr = $(this).parents("tr");
+                if ($tr.index() != len - 1) {
+                    $tr.fadeOut().fadeIn();
+                    $tr.next().after($tr);
+                }
+            });
+            //置顶
+            var $top = $(".top");
+            $top.click(function () {
+                var $tr = $(this).parents("tr");
+                $tr.fadeOut().fadeIn();
+                $(".table").prepend($tr);
+                $tr.css("color", "#f60");
+            });
+        });
+
+    </script>*@

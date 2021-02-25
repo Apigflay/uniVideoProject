@@ -1,0 +1,113 @@
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video { margin: 0; padding: 0; border: 0; }
+
+body { -webkit-user-select: none; -webkit-text-size-adjust: none; -webkit-tap-highlight-color: transparent; -webkit-overflow-scrolling:touch;/*流畅滚动*/ font-family: "Helvetica Neue", Helvetica, STHeiTi, sans-serif; height: 100%; }
+body, html { height: 100%; }
+
+html { font-size: 62.5%; /*10 ÷ 16 × 100% = 62.5%*/ }
+body { font-size: 1.4rem; /*1.4 × 10px = 14px */ }
+h1 { font-size: 2.4rem; /*2.4 × 10px = 24px*/ }
+
+a { text-decoration: none; }
+a, img { -webkit-touch-callout: none; }
+
+body, html { }
+
+.all { height: 100%; overflow-x: hidden; position: relative; z-index: 1; width: 100%; }
+
+/************ head *************/
+.head { position: relative; background: url(images/top_color.png) no-repeat center top; width: 100%; height: 17.6rem; background-size: 100%; border-bottom: .1rem solid rgba(0,0,0,.1); }
+.head .user_head { position: relative; width: 6.6rem; height: 6.6rem; margin: 0 auto; }
+.head .user_head img { border-radius: 50%; width: 6.2rem; height: 6.2rem; margin-top: 2.4rem; border: .2rem solid #ffd200; box-shadow: 0 0 1rem #ffd200; }
+.head .user_head .img_circle { position: absolute; z-index: 1; left: -.9rem; top: 1.5rem; display: inline-block; border: .1rem solid rgba(255,210,0,.2); background: rgba(255,210,0,.1); width: 8.2rem; height: 8.2rem; margin: 0 auto; border-radius: 50%; }
+.head .user_head .img_circle2 { position: absolute; z-index: 1; left: -1.9rem; top: .5rem; display: inline-block; border: .1rem solid rgba(255,210,0,.2); width: 10.2rem; height: 10.2rem; margin: 0 auto; border-radius: 50%; }
+.head a.a_explain{ width:5.2rem; height:3.7rem; background:url(images/explain_bg.png) no-repeat; background-size:100%; display:block; position:absolute; top:6%; right:0; z-index:120;}
+
+.head .user_head .living_rank,
+.head .user_head .rank_bg { position: absolute; top: 0; }
+.head .user_head .rank_bg { z-index: 2; top: 2.4rem; background: url(images/head_star.png) no-repeat; width: 6.6rem; height: 6.6rem; background-size: 100%; }
+.head .user_head .living_rank { z-index: 3; top: 6.6rem; width: 6.6rem; height: 3.97rem; line-height: 5rem; vertical-align: middle; color: #fff; text-align: center; margin: 0 auto; }
+.head .user_head .living_rank span { display: block; font-family: 'star_num'; font-size: .9rem; letter-spacing: -.2rem; -webkit-transform: scale(0.8); }
+.head .user_head .living_rank0 { display: none; }
+.head .user_head .living_rank1 { background: url(images/rank1.png?v=2) no-repeat; background-size: 100%; }
+.head .user_head .living_rank2 { background: url(images/rank2.png?v=2) no-repeat; background-size: 100%; }
+.head .user_head .living_rank3 { background: url(images/rank3.png?v=2) no-repeat; background-size: 100%; }
+.head .user_head .living_rank4 { background: url(images/rank4.png?v=2) no-repeat; background-size: 100%; }
+.head .user_head .living_rank5 { background: url(images/rank5.png?v=2) no-repeat; background-size: 100%; }
+.head .experience { text-align: center; margin-top: 4rem; }
+.head .experience .next { color: rgba(220,68,56,1); font-size: .8rem; }
+.head .experience .value { position: relative; text-align: center; width: 16rem; height: 1.1rem; margin: .6rem auto .8rem; }
+.head .experience .value_bg { position: absolute; height: .7rem; width: 100%; margin: 0 auto; border-radius: 1rem; border: .2rem solid #ffd200; }
+.head .experience .value_con { position: absolute; z-index: 2; height: .7rem; border: .2rem solid #ffd200; background: #ffd200; border-radius: 1rem; }
+.head .experience .value_text { position: absolute; top: -.1rem; z-index: 3; text-align: center; width: 100%; color: #743716; font-size: 1rem; }
+.head .experience .tips { font-size: 1rem; color: rgba(0,0,0,.6); }
+.head .experience .tips .btn_signed { display: inline-block; padding: .4rem .8rem; background: #00cce5; border-radius: .4rem; color: #fff;width:3.6rem; }
+.head .experience .tips .icon_signed { display: inline-block; width: 1.6rem; height: 1.6rem; line-height: 1.6rem; vertical-align: middle; background: url(images/head_signed2x.png) no-repeat; background-size: 100%; }
+
+/********* privilege **********/
+.privilege { display: block; clear: both; margin-bottom: 2rem; }
+.privilege .title { width: 94%; margin: 0 auto; height: 1.1rem; line-height: 1.1rem; vertical-align: middle; margin-top: 1rem; }
+.privilege .title .dot { display: inline-block; background: #ff6099; width: .2rem; height: 1.1rem; border-radius: .3rem; margin-right: .2rem; }
+
+.privilege .list { display: block; clear: both; overflow: hidden; }
+.privilege .list .item { display: inline-block; width: 33.3%; float: left; overflow: hidden; text-align: center; }
+.privilege .list .item .icon { display: block; width: 3.5rem; height: 3.5rem; margin: 1.1rem auto .8rem; }
+.privilege .list .item .icon_star1 { background: url(images/icon_star1.png) no-repeat; background-size: 100%; }
+.privilege .list .item .icon_live1 { background: url(images/icon_live1.png) no-repeat; background-size: 100%; }
+.privilege .list .item .icon_hot1 { background: url(images/icon_hot1.png) no-repeat; background-size: 100%; }
+.privilege .list .item .icon_money1 { background: url(images/icon_money1.png) no-repeat; background-size: 100%; }
+.privilege .list .item .icon_more1 { background: url(images/icon_more1.png) no-repeat; background-size: 100%; }
+
+.privilege .list .item .icon_star { background: url(images/icon_star.png) no-repeat; background-size: 100%; }
+.privilege .list .item .icon_live { background: url(images/icon_live.png) no-repeat; background-size: 100%; }
+.privilege .list .item .icon_hot { background: url(images/icon_hot.png) no-repeat; background-size: 100%; }
+.privilege .list .item .icon_money { background: url(images/icon_money.png) no-repeat; background-size: 100%; }
+.privilege .list .item .icon_more { background: url(images/icon_more.png) no-repeat; background-size: 100%; }
+
+.privilege .list .item .text span { display: block; font-size: 1.3rem; }
+.privilege .list .item .text .level { font-size: 1rem; color: rgba(0,0,0,.4); margin-top: .2rem; }
+.privilege .list:after { content: "."; display: block; clear: both; visibility: hidden; line-height: 0; height: 0; font-size: 0; }
+
+
+
+/********* mission **********/
+.mission { display: block; height: auto; clear: both; }
+.mission .title { width: 94%; margin: 1rem auto; height: 1.2rem; line-height: 1.2rem; vertical-align: middle; margin-top: 1rem; }
+.mission .title .dot { display: inline-block; background: #ff6099; width: .2rem; height: 1.1rem; border-radius: .3rem; margin-right: .2rem; }
+
+.mission .list { display: block; overflow: hidden; }
+.mission .list .item { position: relative; padding: 1.4rem 0; border-top: .1rem solid rgba(0,0,0,.1); border-bottom: .1rem solid rgba(0,0,0,.1); }
+.mission .list .item_no_top { border-top: none; }
+.mission .list .item .icon { display: inline-block; width: 6rem; width: 3rem; height: 3rem; vertical-align: text-bottom; margin: 0 1rem 0; }
+.mission .list .item .icon.mission_living { background: url(images/mission_living.png) no-repeat; background-size: 100%; }
+.mission .list .item .icon.mission_fish { background: url(images/mission_fish.png) no-repeat; background-size: 100%; }
+.mission .list .item .icon.mission_123 { background: url(images/mission_123.png) no-repeat; background-size: 100%; }
+.mission .list .item .icon.mission_baby { background: url(images/mission_baby.png) no-repeat; background-size: 100%; }
+.mission .list .item .text { display: inline-block; }
+.mission .list .item .text span { display: block; }
+.mission .list .item .text .detail { font-size: 1rem; color: rgba(0,0,0,.4); margin-top: .2rem; }
+.mission .list .item .complete { position: absolute; top: 2.2rem; right: 1rem; }
+.mission .list .item .complete .ms_complete { display: inline-block; width: 1.3rem; height: 1.3rem; margin: 0 .2rem; line-height: 1.3rem; vertical-align: middle; background: url(images/ms_complete.png) no-repeat; background-size: 100%; }
+.mission .explicate { font-size: .9rem; color: rgba(0,0,0,.4); text-align: center; margin: 1rem 0; /*transform:scale(0.8);*/ }
+
+
+
+/********* explicate **********/
+.explicate { display: block; height: auto; clear: both; }
+.explicate .title { width: 94%; margin: 1rem auto; height: 1.2rem; line-height: 1.2rem; vertical-align: middle; margin-top: 1rem; }
+.explicate .title .dot { display: inline-block; background: #ff6099; width: .2rem; height: 1.1rem; border-radius: .3rem; margin-right: .2rem; }
+.tb_experience { background: rgba(0,0,0,.1); width: 96%; margin: 0 auto; color: rgba(0,0,0,.8); }
+.tb_experience td { background: #fff; padding: .2rem .3rem; font-size: 0.8rem; }
+.tb_experience pre { font-family: inherit; }
+
+.explicate .ex_list { margin-top: 2rem; }
+.explicate .ex_list ul { width: 94%; margin: 0 auto; }
+.explicate .ex_list ul li { margin: 0 2rem; margin-bottom: 1rem; font-size: 0.8rem; color: rgba(0,0,0,.5); }
+
+.explicate .ex_text { width: 94%; margin: 1rem auto; color: rgba(0,0,0,.6); font-size: 1rem; }
+.explicate .ex_text p { margin-bottom: 1.6rem; }
+.explicate .ex_text .ex_img { width: 100%; }
+
+@font-face { font-family: 'star_num'; src: url('star_num.woff') format('woff'); }

@@ -1,0 +1,20 @@
+﻿.page img { width: 100%; height: 100%; }
+.g_down a { display: block; width: 10rem; height: 10rem; background: url(http://liveimg.9158.com/pic/mbimg/open_mb.png) no-repeat; background-size: 100%; position: absolute; top: 65%; right: 0; z-index: 10; }
+a, body, div, h2, h3, h4, html, i, img, input, li, p, span, strong, ul { margin: 0; padding: 0; }
+body { -webkit-user-select: none; -webkit-text-size-adjust: none; -webkit-tap-highlight-color: transparent; font-family: "Helvetica Neue", Helvetica, STHeiTi, sans-serif; height: 100%; }
+body, html { /*height:100%;*/ }
+html { font-size: 62.5%; /*10 ÷ 16 × 100% = 62.5%*/ }
+body { font-size: 1.4rem; /*1.4 × 10px = 14px */ }
+body, html { overflow-x: hidden; }
+html, body { height: 100%; }
+body { background-image: url(../Images/download/bg.png); background-size: 100% 100%; width: 100%; margin: 0 auto; }
+.line { position: absolute; top: 6em; left: 0; right: 0; border-bottom: 1px solid rgba(255,255,255,0.2); }
+.logo,
+.text,
+.btn { position: relative; z-index: 2; }
+.logo { background-image: url(../Images/download/logo.png); width: 10em; height: 4em; margin: 0 auto; background-size: 100% 100%; margin-top: 24px; }
+.text { background-image: url(../Images/download/text.png); width: 16em; height: 2.83em; margin: 0 auto; background-size: 100% 100%; margin-top: 14px; }
+.btn { background-image: url( ../Images/download/btn.png); width: 16em; height: 4.67em; margin: 0 auto; background-size: 100% 100%; margin-top: 10px; }
+.phone { position: absolute; top: 0; left: 0; right: 0; z-index: -2; background-image: url(../Images/download/phone2.png); width: 100%; height: 100%; background-size: 100% 100%; }
+.download-button { z-index: 2; display: block; width: 60vw; line-height: 10.33vw; background: #fc0; border-radius: 13.33vw; color: #333; font-weight: 900; margin: 8px auto; box-shadow: 0 3px 4px 3px #fae4dc; text-align: center; }
+.wrap { height: 95%; }

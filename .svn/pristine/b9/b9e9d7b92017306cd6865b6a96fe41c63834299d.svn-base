@@ -1,0 +1,41 @@
+﻿/*主体*/
+.content{}
+.content .ct_top{ width:100%; height:17rem; background:url(../images/bj_@2x.png) no-repeat; background-size:100% 100%; border-bottom:.1rem solid #e2e2e2; overflow:hidden; text-align:center;}
+
+.ct_top .me_head{ width:10.8rem; height:10.8rem; margin:1rem auto; margin-bottom:.4rem; position:relative; overflow:hidden; }
+.me_head img{ width:6.25rem; height:6.25rem; display:block; margin:2rem auto; border-radius:50%;}
+.me_head b{ position:absolute; top:0; left:0; display:block; width:11rem; height:11rem; z-index:11;}
+.ct_top .me_info{ font-size:1.1rem; color:#f06868;}
+/*.ct_top .me_state{ width:16.25rem; height:1rem; line-height:1rem; border:.2rem solid #f06868; border-radius:2rem; margin:.4rem auto; position:relative;}
+.ct_top .me_state dt{}
+.ct_top .me_state dd{ background:#f06868; height:1rem; border-radius:2rem; position:relative;}
+.ct_top .me_state dd i{ position:absolute; top:0; right:.2rem; font-style:normal; font-size:1rem; color:#f6ff00;}*/
+.ct_top .me_state { width: 16.25rem; height: 1rem; line-height: 1rem; border: .2rem solid #f06868; border-radius: 2rem; margin: .4rem auto; position: relative; }
+.ct_top .me_state dt { position: absolute; top: 0; left: 0; width: 100%; text-align: center; font-size: 1rem; color: #000; z-index: 5; }
+.ct_top .me_state dd { background: #f06868; height: 1rem; border-radius: 2rem; }
+
+
+.area{ border-top:.4rem solid #e2e2e2; border-bottom:.1rem solid #e2e2e2; margin-bottom:-.1rem;background-color: #fff;}
+.area .r_tit{ width:100%; height:3.3rem; line-height:3.3rem; background:#fff; padding-top:.5rem; overflow:hidden; position:relative; }
+.area .r_tit h5{ width:100%; position:relative; text-indent:2rem; font-size:1.4rem;}
+
+.area .r_tit h5 b{ position:absolute; top:1rem; left:1.2rem; display:block; width:.33rem; height:1.2rem; background:#f06868; border-radius:2rem;}
+.area .r_tit h5 i{ position:absolute; top:1rem; left:25%; display:block; width:1.2rem; height:1.2rem; background:url(../images/icon_t_mark.png) no-repeat; background-size:100%; vertical-align:top;}
+.area .r_tit span{ position:absolute; top:.6rem; left:29%; display:block; font-size:1rem; color:#999;}
+
+.area .r_tit .link_txt{ position:absolute; bottom:0; left:0; line-height:1.4; font-size:1.1rem; color:#f06868; text-indent:2rem;}
+.area .r_tit .link_txt strong{ background:#f06868; color:#fff; border-radius:.2rem; padding:0 .2rem; font-weight:normal; margin-left:.4rem;}
+
+@media (device-height:568px) and (-webkit-min-device-pixel-ratio:2) {
+.area .r_tit h5{  font-size:1.5rem;}
+}
+.area .tag{ height:7rem; background:#fff; padding-bottom:1.6rem;}
+.area .tag ul{ width:98%; display: -webkit-box; display: -moz-box; display: -ms-box; display: box; -webkit-box-orient: horizontal; -moz-box-orient: horizontal; -ms-box-orient: horizontal; box-orient: horizontal; -webkit-box-align: stretch; -moz-box-align: stretch; -ms-box-align: stretch; box-align: stretch; }
+.area .tag ul li ,.area .power{ -webkit-box-flex: 1; -moz-box-flex: 1; -ms-box-flex: 1; box-flex: 1; text-align:center;}
+.area .tag dl dt,.area .power dl dt{ width:3.4rem; height:3.4rem; margin:.4rem auto;}
+.area .tag dl dt img{ width:100%; height:100%;}
+.area .tag dl dd strong{ font-size:1rem; color:#c2c2c2; font-weight:normal;}
+.area .power strong{font-size:1rem; color:#c2c2c2; font-weight:normal;}
+.area .power dl dt img{ width:100%; height:100%;}
+.area .power{background:#fff;margin-top: -.5rem;width: 26%;padding-bottom:1.6rem;}
+.area .text{margin-left:6%;padding-bottom:10rem;color:#666666;line-height: 1.8rem;}

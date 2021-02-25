@@ -1,0 +1,324 @@
+﻿@{
+    ViewBag.Title = ViewBag.title;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Head_css{
+    <link href="~/Content/common/css/base.css" rel="stylesheet" />
+    <link href="~/Content/common/css/ranking.css?V=1234661" rel="stylesheet" />
+    <link href="~/Content/dropload/dropload.css" rel="stylesheet" />
+}
+
+<div class="wrap">
+    <div class="topnav">
+        <div class="tab">
+            <div data-id="6" class="tab_item tab_sel">@Resources.Resource.tab_rank_day</div>
+            <div data-id="1" class="tab_item">@Resources.Resource.tab_rank_weekly</div>
+            <div data-id="3" class="tab_item">@Resources.Resource.tab_rank_total</div>
+        </div>
+    </div>
+    <div class="rank_con">
+        <div id="list-wrapper">
+            <div class="miao_rank content" style="left: 0%; display: block;"></div>
+            <div class="miao_rank content" style="left: 0%; display: none;"></div>
+            <div class="miao_rank content" style="left: 0%; display: none;"></div>
+            <div class="miao_rank content" style="left: 0%; display: none;"></div>
+        </div>
+    </div>
+    <div class="myRank_con">
+        <div class="area_me" style="display: block"></div>
+        <div class="area_me" style="display: none"></div>
+        <div class="area_me" style="display: none"></div>
+        <div class="area_me" style="display: none"></div>
+    </div>
+</div>
+
+<!--前三名模板-->
+<script type="text/html" id="rankTop_con_templete">
+    <div class="ct_top">
+        {{each rankList as item i}}
+        {{if item.rowNo <= 3}}
+        <div class="c_top{{item.rowNo}}">
+            <a href="javscript:;" onclick="live.ShowCard(this, '{{item.useridx}}')">
+                <div class="head">
+                    <b></b>
+                    <div class="sign"></div>
+                    <div class="inbg">
+                        <img class="imgLoading" onerror="javascript:this.src='http://img.imeyoo.com/default.png'" src="{{item.smallpic}}">
+                    </div>
+                </div>
+                <div class="these">
+                    <div class="in">
+                        <span class="name">{{item.myname}}</span>
+                        <span class="female"></span>
+                        <div class="the_level">
+                            <span class="level level{{item.level}}"></span>
+                            <span class="num_bg bg{{GetGradeRank(item.grade)}}"></span>
+                            <span class="num">{{item.grade}}</span>
+                        </div>
+                    </div>
+                    <div class="txt">
+                        {{GetTotalText(item.total)}}
+                    </div>
+                </div>
+            </a>
+        </div>
+        {{/if}}
+        {{/each}}
+    </div>
+</script>
+
+<!--后N名数据-->
+<script type="text/html" id="rank_con_templete">
+    <div class="ct_bot">
+        {{each rankList as item i}}
+        {{if item.rowNo > 3}}
+        <div class="eachitem">
+            <a href="javscript:;" onclick="live.ShowCard(this, '{{item.useridx}}')">
+                <span class="u_num">{{item.rowNo}}</span>
+                <span class="u_head">
+                    <dl>
+                        <dd><img class="imgLoading" onerror="javascript:this.src='http://img.imeyoo.com/default.png'" src="{{item.smallpic}}"></dd>
+                    </dl>
+                </span>
+                <span class="u_info">
+                    <div class="in">
+                        <span class="name">{{item.myname}}</span>
+                        @if (ViewBag.ranktype != 3)
+                        {
+                            <span class="{{item.gender == 1 ? 'male':'female'}}"></span>
+                            <div class="the_level">
+                                <span class="level level{{item.level}}"></span>
+                                <span class="num_bg bg{{GetGradeRank(item.grade)}}"></span>
+                                <span class="num">{{item.grade}}</span>
+                            </div>
+                        }
+                    </div>
+                    <div class="txt">
+                        {{GetTotalText(item.total)}}
+                    </div>
+                </span>
+                @*<span class="u_state"><b class="{{item.rankChange == 1 ? 'ue_up':'ue_down'}}"></b></span>*@
+            </a>
+        </div>
+        {{/if}}
+        {{/each}}
+    </div>
+</script>
+
+<!--我的排名对应数据模板-->
+<script type="text/html" id="myrank_con_templete">
+    <span class="u_num"><strong>@Resources.Resource.lbl_rank_me</strong></span>
+    <span class="u_head">
+        <dl>
+            <dt></dt>
+            <dd><img src="{{smallpic}}" onerror="javascript:this.src='http://img.imeyoo.com/default.png'" alt=""></dd>
+        </dl>
+    </span>
+    <span class="u_info">
+        <div class="in">{{rowNo > 0 ? '第' + rowNo + '名':'未上榜'}}</div>
+    </span>
+</script>
+
+<script src="~/Content/dropload/dropload.js"></script>
+<script src="~/Scripts/lib/echo.min.js"></script>
+<script src="~/Scripts/lib/template.js"></script>
+<script type="text/javascript">
+    var tabIndex = 0;
+    var tabid = 6;//默认要展示排行榜当前为日榜获取标签对应的data-id 属性
+    var isLoading = true;
+    var Rank = {
+        version: "1.0",
+        tabArrary: [{ page: 1, pageEnd: 0, total: 0, loadEnd: false },
+                     { page: 1, pageEnd: 0, total: 0, loadEnd: false },
+                     { page: 1, pageEnd: 0, total: 0, loadEnd: false },
+                     { page: 1, pageEnd: 0, total: 0, loadEnd: false },
+                     { page: 1, pageEnd: 0, total: 0, loadEnd: false }]
+    }
+
+    Rank.Config = {
+        pixel: "http://img.imeyoo.com/pixel.gif",
+        mbpic: "http://img.imeyoo.com/default.png",
+        showtype: getQueryStr('showtype'),
+        curuseridx: getQueryStr('curuseridx'),
+        useridx: getQueryStr('useridx'),
+    }
+
+    $(function () {
+        $('.tab_item').css('width', 97 / 3 + '%');//动态调整排行榜时间类型 item宽度
+        $('.tab_item').eq(0).addClass('tab_sel');//
+
+        //templete 模板方法调用
+        template.helper('GetTotalText', function (total) {
+            return Rank.Logic.GetTotalText(tabid, total);
+        });
+
+        template.helper('GetGradeRank', function (grade) {
+            return live.GetGradeRank(grade);
+        });
+
+
+        //自己排行榜不显示自己，分享出去的页面不显示我的排名
+        if (Rank.Config.curuseridx == 0 || Rank.Config.useridx == Rank.Config.curuseridx) {
+            $('.myRank_con').css('display', 'none');
+            $('.myRank_con').hide();
+        }
+
+        $('.tab .tab_item').on('click', function () {
+            $('body,html').animate({ scrollTop: 0 }, 100);//返回页面顶部（ps要求增加）
+
+            var $this = $(this);
+            if (isLoading == true) {
+                return;
+            }
+            tabIndex = $this.index();
+            tabid = $this.attr("data-id");
+
+            $(this).addClass('tab_sel').siblings('.tab_item').removeClass('tab_sel');
+
+            //var percent = -(tabIndex * 100);
+            //$('.rank_con').css({ '-webkit-transform': 'translate3d(' + percent + '%, 0px, 0px)', '-webkit-transition': '300ms' });
+            //$('.dropload-up,.dropload-down,.dropload-refresh').css({ 'left': -percent + '%' });
+
+            $('.miao_rank').eq(tabIndex).show().siblings('.miao_rank').hide();
+            $('.area_me').eq(tabIndex).show().siblings('.area_me').hide();
+
+            if (!Rank.tabArrary[tabIndex].loadEnd) {
+                dropload.unlock();
+                dropload.noData(false);
+            } else {
+                dropload.lock('down');
+                dropload.noData();
+            }
+
+            dropload.resetload();
+        });
+
+        var dropload = $('.rank_con').dropload({
+            scrollArea: window,
+            distince: 100,
+            threshold: 150,
+            domDown: {
+                domClass: 'dropload-down',
+                domRefresh: '<div class="dropload-refresh">↑上拉加载更多</div>',
+                domLoad: '<div class="dropload-load"><span class="loading"></span>Loading...</div>',
+                domNoData: '<div class="dropload-noData"></div>'
+            },
+            //上拉列表容器
+            loadDownFn: function (me) {
+
+                Rank.Data.GetRankListData(me);
+            }
+        });
+
+    });//$(jquery)
+
+    Rank.Data = {
+        GetRankListData: function (me) {
+            var uidx = Rank.Config.useridx;
+            var loginidx = Rank.Config.curuseridx;
+            var param = {
+                ranktype: tabid,
+                tabindex: tabIndex,
+                useridx: uidx,
+                curuseridx: loginidx,
+                page: Rank.tabArrary[tabIndex].page
+            };
+
+            $.ajax({
+                timeout: 6000,
+                type: 'POST',
+                dataType: 'json',
+                url: '/Rank/UserRankData',
+                data: param,
+                beforeSend: function () {
+                    isLoading = true;
+                },
+                success: function (response) {
+                    Rank.tabArrary[tabIndex].pageEnd = response.data.totalPage;
+                    Rank.tabArrary[tabIndex].page++;
+
+                    //After All Data Load
+                    if (Rank.tabArrary[tabIndex].page > Rank.tabArrary[tabIndex].pageEnd) {
+                        Rank.tabArrary[tabIndex].loadEnd = true;
+                        me.lock();// 锁定
+                        me.noData();// 无数据
+                    }
+
+                    Rank.Logic.LoadRankHtml(tabid, response.data);
+                    Rank.Logic.LoadMyRankHtml(tabid, response.data);
+
+                    me.resetload();
+                },
+                error: function (xhr, type) {
+                    me.lock();
+                    me.noData();
+                    me.resetload();
+                }
+            });
+        }
+    };
+
+    Rank.Logic = {
+        LoadRankHtml: function (ranktype, data) {
+            var html = '';
+
+            if (data.totalCount <= 0) {
+                if (Rank.useridx == Rank.curuseridx) {
+                    html = '<div class="nodata"><span class="img"></span>榜单还没有人守护哦~</div>';
+                }
+                else if (new Date().getDate() == 1 && ranktype == 2) {
+                    html = '<div class="nodata"><span class="img"></span>程序喵玩命统计数据中...</div>';
+                }
+                else {
+                    html = '<div class="nodata"><span class="img"></span>快来成为TA的铁杆粉丝</div>';
+                }
+
+                $('.miao_rank').eq(tabIndex).removeClass('content');
+
+            } else {
+                html += template("rankTop_con_templete", data);
+                html += template('rank_con_templete', data);
+            }
+
+            $('.miao_rank').eq(tabIndex).append(html);
+
+            echo.init({
+                offset: 100,//离可视区域多少像素的图片可以被加载
+                throttle: 0//设置图片延迟加载的时间
+            });
+            isLoading = false;
+        },
+        LoadMyRankHtml: function (ranktype, data) {
+
+            var html = template('myrank_con_templete', data.myRankData);
+
+            $('.area_me').eq(tabIndex).html(html);
+        },
+        GetTotalText: function (ranktype, total) {
+            var total_text = '';
+
+            var time = '';
+            if (total < 60) {
+                time = total + '分钟';
+            } else if (total >= 60) {
+                time = Math.floor(total / 60) + '小时';
+            }
+
+            if (tabid == 4) {
+                total_text = '分享：' + total + '次';
+            } else if (tabid == 5) {
+                total_text = '观看：' + time;
+            } else {
+                if (total >= 100000000) {
+                    total = (total / 100000000).toFixed(2) + '亿';
+                }
+                else if (total >= 10000) {
+                    total = (total / 10000).toFixed(2) + '万';
+                }
+                total_text = '流水：' + total;
+            }
+            return total_text;
+        }
+    }
+</script>

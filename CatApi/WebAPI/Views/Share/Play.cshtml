@@ -1,0 +1,371 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name='apple-itunes-app' content='app-id=1098626192'>
+    <title>喵播</title>
+    
+    <link href="~/Content/Css/Play.css" rel="stylesheet" />
+    <script type="text/javascript" src="../scripts/jquery-1.8.2.min.js"></script>
+    <script src="../Scripts/checkTerminal.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            //$('#play-control').click(function () { player.play(); });
+            $(document).on('click', ':not(".btn a")', function () {
+                $(".tips").hide();
+            });
+            if (browser.versions.ios || browser.versions.iPhone || browser.versions.iPad) {
+                if (is_qq()) {
+                    $(".btn a").attr("href", "miaoliveAPP://?serverid=@ViewBag.ServerId&roomid=@ViewBag.Idx&useridx=@ViewBag.UserIdx&");
+                    $("#link1").click(function () {
+                        openAppforQQ();
+                    });
+                }
+            }
+        });
+        function is_weibo() {
+            var ua = navigator.userAgent.toLowerCase();
+            if (ua.match(/WeiBo/i) == "weibo") {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        function getQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null)
+                return unescape(r[2]);
+            return null;
+        }
+        function openApp() {
+            var t1 = Date.now();
+            var ifr = document.createElement("iframe");
+            ifr.setAttribute("style", "display:none");
+            ifr.setAttribute("src", "miaoliveAPP://?serverid=@ViewBag.ServerId&roomid=@ViewBag.Idx&useridx=@ViewBag.UserIdx&");
+            document.body.appendChild(ifr);
+            window.setTimeout(function () { downloadApp(t1); }, 1000);
+        }
+        function downloadApp(t1) {
+            var t2 = Date.now();
+            //document.write(t2 - t1);
+            if (t2 - t1 < 1050) {
+                window.location.href = "https://itunes.apple.com/cn/app/id1098626192?mt=8";
+            }
+            var ifr = document.getElementById("iframe");
+            if (ifr)
+                document.body.removeChild(ifr);
+        }
+        function openAppforQQ() {
+            var t1 = Date.now();
+            window.setTimeout(function () { downloadApp(t1); }, 1000);
+        }
+        function goto() {
+            if (browser.versions.ios || browser.versions.iPhone || browser.versions.iPad) {
+                if (is_weixn()) {
+                    if (getQueryString("isappinstalled") == "1") {
+                        $(".tips").show();
+                        return false;
+                    }
+                    else {
+                        window.location = "http://a.app.qq.com/o/simple.jsp?pkgname=com.tiange.miaolive";
+                    }
+                }
+                else if (is_weibo()) {
+                    $(".tips").show();
+                    return false;
+                }
+                else {
+                    var state = null;
+                    try {
+                        state = window.open("miaoliveAPP://?serverid=@ViewBag.ServerId&roomid=@ViewBag.Idx&useridx=@ViewBag.UserIdx&", "_blank");
+                    } catch (e) { }
+                    if (state) {
+                        window.close();
+                    } else {
+                        window.location = "https://itunes.apple.com/cn/app/id1098626192?mt=8";
+                    }
+                }
+            } else if (browser.versions.android) {
+                if (is_weixn())
+                    window.location = "http://a.app.qq.com/o/simple.jsp?pkgname=com.tiange.miaolive";
+                else {
+                    window.location = "http://update.9158.com/miaolive/Miaolive9158.apk";
+                }
+            } else {
+                window.location = "http://a.app.qq.com/o/simple.jsp?pkgname=com.tiange.miaolive";
+            }
+
+        }
+    </script>
+</head>
+<body>
+    @if (!String.IsNullOrEmpty(ViewBag.M3u8))
+    {
+        if (!ViewBag.IsMobile)
+        {
+            <div class="all at_pc">
+                <div id="container" class="video" stv_mediayle="transform: translate3d(0px, 0px, 0px); transition: transform 0ms;-webkit-transition: transform 0ms; width: auto;"></div>
+                <img src="@ViewBag.Photo" alt="" style="display: none;" />
+                <div class="code2"></div>
+                <script type="text/javascript" src="https://content.jwplatform.com/libraries/DbXZPMBQ.js"></script>
+                <script type="text/javascript">
+                    var player = jwplayer('container').setup({
+                        type: 'hls',
+                        autostart: false,
+                        width: 360,
+                        height: 640,
+                        image: '@ViewBag.Photo',
+                        file: '@ViewBag.M3u8',
+                        overstretch: "false",
+                        controls: true,
+                        events: {
+                            onComplete: onComplete,
+                            onReady: function () {
+                                //$('#play-control').show();
+                                this.playlist[0].label = "喵播";
+                            },
+                            onPlay: onPlay,
+                            onPause: onPause,
+                            onBuffer: onBuffer,
+                            onDisplayClick: onDisplayClick,
+                            onSetupError: onSetupError,
+                            onBufferChange: function () {
+                                console.log("BufferChange")
+                            },
+                            onBufferFull: function () {
+                                console.log("onBufferFull!!!");
+                            },
+                            onError: function (obj) {
+                                console.log("播放器出错!!!" + obj.message);
+                            }
+                        }
+                    });
+                    function onComplete() {
+                        alert('播放完毕');
+                        //$('#play-control').show();
+                    }
+                    function onBuffer() {
+                        console.log('onBuffer');
+                    }
+                    function onPlay() {
+                        //$('#play-control').hide();
+                    }
+                    function onPause() {
+                        console.log('onPause');
+                    }
+                    function onDisplayClick() {
+                        //player.pause();
+                    }
+                    function onSetupError(a, b) {
+                        console.log("onSetupError");
+                    }
+                </script>
+
+                <div class="bottom">
+                    <div class="bottom_skin">
+                        <div class="logo"></div>
+                        <div class="text">
+                            <p>没看够？</p>
+                            <p class="more">来喵播，看海量精彩直播！</p>
+                        </div>
+                        <div class="idx">喵播号：@ViewBag.UserIdx</div>
+                        <div class="btn"><a style="color:#fff;text-decoration:none;" href="javascript:goto()">打开喵播</a></div>
+                    </div>
+                </div>
+
+            </div>
+        }
+        else
+        {
+            <div class="all">
+                <div class="tips" style="display:none"></div>
+                <div class="video" stv_mediayle="transform: translate3d(0px, 0px, 0px); transition: transform 0ms;-webkit-transition: transform 0ms; width: auto;">
+                    <video id="video" width="100%" height="100%" controls autoplay="autoplay" preload="auto" onplaying="playing()" onpause="opause(this)" onerror="onerr()" poster="@ViewBag.Photo" type="application/x-mpegURL" x-webkit-airplay="allow" webkit-playsinline="true" src="@ViewBag.M3u8"></video>
+                </div>
+                <div id="end" class="end" style="display:none">直播已结束</div>
+                <div id="pic" class="video" style="display: none;"><img src="@ViewBag.Photo" alt="" /></div>
+                <div id="down" class="end" style="display:none"><a style="color:#fff;text-decoration:none;" href='javascript:goto()'>下载喵播继续观看</a></div>
+                <script type="text/javascript">
+                    var timer, currTime = 0;
+                    function playing() {
+                        //currTime = Math.max(parseInt(video.currentTime, 10), currTime);
+                        if (!timer) {
+                            timer = setInterval(function () {
+                                currTime++;
+                                if (currTime >= 60) {
+                                    clearInterval(timer);
+                                    document.getElementById("video").pause();
+                                    document.getElementById("video").style.width = "1px";
+                                    document.getElementById("video").style.height = "1px";
+                                    exitFullscreen();
+                                    document.getElementById("video").controls = false;
+                                    document.getElementById("pic").style.display = "";
+                                    document.getElementById("down").style.display = "";
+                                }
+                            }, 1000);
+                        }
+                    }
+                    function opause(video) {
+                        //exitFullscreen();
+                    }
+                    function onerr() {
+                        console.log("error");
+                        //$("#end").show();
+                        document.getElementById("end").style.display = ""
+                        return false;
+                    }
+                    //退出全屏
+                    function exitFullscreen() {
+                        var de = document;
+                        if (de.exitFullscreen) {
+                            de.exitFullscreen();
+                        } else if (de.mozCancelFullScreen) {
+                            de.mozCancelFullScreen();
+                        } else if (de.webkitCancelFullScreen) {
+                            de.webkitCancelFullScreen();
+                        }
+                    }
+                </script>
+                @if (!string.IsNullOrEmpty(ViewBag.Nick))
+                {
+                    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+                    <script type="text/javascript">
+                        wx.config({
+                            debug: false,                       // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                            appId: 'wxc75938df28a5b317',        // 必填，公众号的唯一标识
+                            timestamp: '@ViewBag.Timespan',     // 必填，生成签名的时间戳
+                            nonceStr: '@ViewBag.Noncestr',      // 必填，生成签名的随机串
+                            signature: '@ViewBag.Sign',         // 必填，签名，见附录1
+                            jsApiList: [
+                                // 必填，需要使用的JS接口列表
+                                'checkJsApi',
+                                'onMenuShareTimeline',
+                                'onMenuShareAppMessage',
+                                'onMenuShareQQ',
+                                'onMenuShareWeibo',
+                                'onMenuShareQZone',
+                                'closeWindow'
+                            ]
+                        });
+                        wx.error(function (res) {
+                            // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
+                            //alert(res.errMsg);
+                        });
+                        var title = '@ViewBag.Nick', link = location.href, imgUrl = '@ViewBag.HeadPic', desc = '直播的小船说上就上! @ViewBag.Nick 正在直播，一起来看!';
+                        wx.ready(function () {
+                            wx.checkJsApi({
+                                jsApiList: ['onMenuShareTimeline', 'onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'onMenuShareQZone', 'closeWindow'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+                                success: function (res) {
+                                    // 以键值对的形式返回，可用的api值true，不可用为false
+                                    // 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
+                                    //alert(res);
+                                }
+                            });
+                            //分享到朋友圈
+                            wx.onMenuShareTimeline({
+                                title: title,   // 分享标题
+                                desc: desc,     // 分享链接
+                                link: link,     // 分享链接
+                                imgUrl: imgUrl, // 分享图标
+                                success: function () {
+                                    //console.log("已分享");
+                                    wx.closeWindow();
+                                },
+                                cancel: function () {
+                                    //console.log("已取消");
+                                    wx.closeWindow();
+                                },
+                                fail: function () {
+                                    //console.log("分享失败");
+                                    wx.closeWindow();
+                                }
+                            });
+                            //分享给朋友
+                            wx.onMenuShareAppMessage({
+                                title: title,   // 分享标题
+                                desc: desc,       // 分享描述
+                                link: link,     // 分享链接
+                                imgUrl: imgUrl, // 分享图标
+                                type: '',       // 分享类型,music、video或link，不填默认为link
+                                dataUrl: '',    // 如果type是music或video，则要提供数据链接，默认为空
+                                success: function () {
+                                    wx.closeWindow();
+                                },
+                                cancel: function () {
+                                    wx.closeWindow();
+                                }
+                            });
+                            //分享到QQ
+                            wx.onMenuShareQQ({
+                                title: title,   // 分享标题
+                                desc: desc,    // 分享标题
+                                link: link,     // 分享链接
+                                imgUrl: imgUrl, // 分享图标
+                                success: function () {
+                                    wx.closeWindow();
+                                },
+                                cancel: function () {
+                                    wx.closeWindow();
+                                }
+                            });
+                            //分享到QQ空间
+                            wx.onMenuShareQZone({
+                                title: title,   // 分享描述
+                                desc: desc,       // 分享描述
+                                link: link,     // 分享链接
+                                imgUrl: imgUrl, // 分享图标
+                                success: function () {
+                                    wx.closeWindow();
+                                },
+                                cancel: function () {
+                                    wx.closeWindow();
+                                }
+                            });
+                        });
+                    </script>
+                }
+                <div class="bottom">
+                    <div class="bottom_skin">
+                        <div class="logo"></div>
+                        <div class="text">
+                            <p>没看够？</p>
+                            <p class="more">来喵播，看海量精彩直播！</p>
+                        </div>
+                        <div class="idx">喵播号：@ViewBag.UserIdx</div>
+                        <div class="btn"><a style="color:#fff;text-decoration:none;" href='javascript:goto()'>打开喵播</a></div>
+                    </div>
+                </div>
+
+            </div>
+        }
+    }
+    else
+    {
+        <div class="all">
+            <div class="video"><img src="@ViewBag.Photo" alt="" /></div>
+            <div class="end">主播还未开播</div>
+            <div class="bottom">
+                <div class="bottom_skin">
+                    <div class="logo"></div>
+                    <div class="text">
+                        <p>没看够？</p>
+                        <p class="more">来喵播，看海量精彩直播！</p>
+                    </div>
+                    <div class="idx">喵播号：@ViewBag.UserIdx</div>
+                    <div class="btn"><a style="color:#fff;text-decoration:none;" href='javascript:goto()'>打开喵播</a></div>
+                </div>
+            </div>
+
+        </div>
+    }
+</body>
+</html>

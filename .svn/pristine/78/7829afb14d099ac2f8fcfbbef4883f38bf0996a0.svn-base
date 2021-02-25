@@ -1,0 +1,298 @@
+<template>
+	<view class="main">
+		<view class="top">
+			<view class="left" @click="goChatPage">
+				<image class="img" src="../../static/pictures/back_1.png"></image>
+			</view>
+			<text class="p">选择朋友</text>
+		</view>
+		<view class="content">
+			<view class="search">
+				<form @submit="formSubmit">
+					<input class="section__title" id="search" type="search" placeholder="搜索" @input="goForSearch"/>
+				</form>
+			</view>
+			<!-- newchatData -->
+			<view class="list" v-for="(item,index) in newchatData" :key="index" :id="index">
+				<view class="left">
+					<image class="photo" :src="item.headpic" @click="goAchormePage(item.useridx)"></image>
+				</view>
+				<view class="right" @click="goChatpopPage(item.useridx,item.nickname,item.headpic,item.online)">
+					<view class="bottom">
+						<view class="p1">{{item.nickname}}<view v-if="item.online==1" class="spot"></view></view>
+						<view class="p2">{{item.signature}}</view>
+					</view>
+				</view>
+			</view>
+		</view>
+	</view>
+</template>
+
+<script>
+	import {encrypt,decrypt,system,systemId,base64ToArrayBuffer,sendData,sendD,sendD06,sendD07,sendD09,sendD11,sendD13,sendD15,sendD17,work,regMail} from "../../lib/js/GlobalFunction.js"
+	export default {
+		data() {
+			return {
+				show_spot: true, // 判断主播是否在线的绿点
+				search:'',//
+				// newchat-----
+				tabbarLoginData:null,//loginMsg
+				page:1,//初始页数
+				newchatData:null,//聊天列表
+				newchatData2:null,// 页面滚动加载的聊天列表
+			};
+		},
+		onLoad() {
+			this.getLoginMsg()
+			this.getNewChatMsg(0)
+		},
+		//------------------------------页面滚动----------------------------------------------
+		onPageScroll(){
+			this.getBottomNewmsg(); // 计算页面是否滚动到底部
+		},
+		//------------------------------页面滚动----------------------------------------------
+		methods:{
+			getLoginMsg:function(){//登录信息
+				var that = this;
+				uni.getStorage({
+					key: 'storage_login_str',
+					success: function (res) {
+						that.tabbarLoginData = JSON.parse(res.data);
+						if(that.tabbarLoginData.isAnchor==false){
+							that.isAnchor = false;
+						}
+					}
+				});
+			},
+			goChatPage:function(){
+				uni.navigateTo({
+					url: '/pages/chat/chat'
+				});
+			},
+			goForSearch:function(event){//搜索
+				console.log(event.target.value)
+				var array=base64ToArrayBuffer(encrypt(JSON.stringify({
+					UserIdx:this.tabbarLoginData.useridx,//	int
+					Page:this.page,//	int 页码
+					Limit:20,//	int 页大小
+					Type:1,//int	0列表 1-搜索
+					Where:event.target.value,//string	不是搜索是传空值
+				})))
+				var res = JSON.parse(decrypt(sendData('POST',this.GLOBAL.urlPoint+'/UserInfo/GetFansList',array)));
+				// console.log(res)
+				if(res.code==100){
+					this.newchatData=res.data.list
+				}else{
+					uni.showToast({
+						title:res.msg,
+						duration: 1500,
+						icon:"none",
+					});
+				}
+			},
+			getNewChatMsg:function(type){
+				console.log(type)
+				var array=base64ToArrayBuffer(encrypt(JSON.stringify({
+					UserIdx:this.tabbarLoginData.useridx,//	int
+					Page:this.page,//	int 页码
+					Limit:20,//	int 页大小
+					Type:type,//int	0列表 1-搜索
+					Where:'',//string	不是搜索是传空值
+				})))
+				var res = JSON.parse(decrypt(sendData('POST',this.GLOBAL.urlPoint+'/UserInfo/GetFollowList',array)));
+				console.log(res)
+				if(res.code==100){
+					this.newchatData=res.data.list
+				}else{
+					uni.showToast({
+						title:res.msg,
+						duration: 1500,
+						icon:"none",
+					});
+				}
+			},
+			goAchormePage:function(msg){//跳转主播个人信息页面
+				console.log(msg)
+				uni.navigateTo({
+					url: '/pages/anchorpersonal/anchorpersonal?AnchorIdx='+msg+'&Type=2'
+				});
+			},
+			goChatpopPage:function(useridx,nickname,headpic,online){//跳转
+				// console.log(useridx)
+				// console.log(nickname)
+				// console.log(headpic)
+				uni.navigateTo({
+					url: '/pages/chatpop/chatpop?useridx='+useridx+'&nickname='+nickname+'&headpic='+headpic+'&online='+online
+				});
+			},
+			
+			
+			//------------------------------滚动加载------------------------------------------
+			getBottomNewmsg:function(){ // 页面下滑功能
+				//--------------
+				var that = this
+				window.onscroll = function(){  // 由于需要使用 onPageScroll 无法使用 scroll-view 所以使用onscroll来判断页面是否滚动到底部
+				    //变量scrollTop是滚动条滚动时，距离顶部的距离
+				    var scrollTop = document.documentElement.scrollTop;
+				    //变量windowHeight是可视区的高度
+				    var windowHeight = document.documentElement.clientHeight;
+				    //变量scrollHeight是滚动条的总高度
+				    var scrollHeight = document.documentElement.scrollHeight;
+				           //滚动条到底部的条件
+						   // console.log(this.GLOBAL);
+					if(scrollTop+windowHeight==scrollHeight){
+						//写后台加载数据的函数
+						console.log("距顶部"+scrollTop+"可视区高度"+windowHeight+"滚动条总高度"+scrollHeight);
+						// console.log(that.GLOBAL.urlPoint);
+						that.page++;
+						
+						var array=base64ToArrayBuffer(encrypt(JSON.stringify({
+							UserIdx:that.tabbarLoginData.useridx,//	int
+							Page:that.page,//	int 页码
+							Limit:20,//	int 页大小
+							Type:0,//int	0列表 1-搜索
+							Where:'',//string	不是搜索是传空值
+						})))
+						var res = JSON.parse(decrypt(sendData('POST',that.GLOBAL.urlPoint+'/UserInfo/GetFollowList',array)));
+						console.log(res)
+						if(res.code==100){
+							that.newchatData2=res.data.list
+							that.newchatData.push.apply(that.newchatData,that.newchatData2);
+							// console.log(that.newchatData)
+						}else{
+							uni.showToast({
+								title:res.msg,
+								duration: 1500,
+								icon:"none",
+							});
+						}
+					}
+				}   
+			},
+			//------------------------------滚动加载------------------------------------------
+		}
+	}
+</script>
+
+<style lang="scss">
+page{
+	width: 100%;
+	height: 100%;
+	background: #191919;
+}
+.main{
+	width: 100%;
+	height: 100%;
+	.top{
+		position:fixed;
+		top: 0rpx;
+		left: 0rpx;
+		right: 0rpx;
+		z-index: 9999;
+		background:#252525;
+		height:100rpx;
+		display:flex;
+		// justify-content:flex-start;
+		align-items:center ;
+		.left{
+			width: 30rpx;
+			height:30rpx;
+			margin-left: 29rpx;
+			display:flex;
+			align-items:center ;
+			.img{
+				width: 30rpx;
+				height:30rpx;
+			}
+		}
+		.p{
+			color: #FFFFFF;
+			font-size: 30rpx;
+			font-weight: 400;
+			line-height: 28rpx;
+			margin-left: 257rpx;
+		}
+	}
+	.content{
+		margin-top: 112rpx;
+		margin-left: 28rpx;
+		margin-right:28rpx;
+		
+		.search{
+			margin-bottom:16rpx;
+			.section__title{ // 搜索栏中的 input
+				height: 54rpx;
+				color:#ACACAC;
+				border-radius:8px;
+				font-size: 30rpx;
+				font-weight:400;
+				background-color:#343434;
+				background-image: url(../../static/pictures/search_1.png);
+				background-repeat: no-repeat; /*设置图片不重复*/
+				background-position: left; /*图片显示的位置*/
+				background-position:12rpx; // 设置图片位置
+				padding-left: 70rpx; //设置搜索文字位置
+				background-size: 31rpx 31rpx; // 搜索图标的大小
+			}
+		}
+		.list{
+			display:flex;
+			justify-content: flex-start;
+			align-items:center;
+			.left{
+				height: 90rpx;
+				width: 90rpx;
+				margin:12rpx 0rpx 11rpx 0rpx;
+				.photo{ // 头像
+					background: #646464;
+					height: 90rpx;
+					width: 90rpx;
+					border-radius: 50%;
+				}
+			}
+			.right{
+				flex:1;
+				padding:12rpx 0rpx 13rpx 0rpx;
+				margin-left:39rpx;
+				border-bottom:2px solid #343434;
+				.bottom{
+					display:flex;
+					flex-direction:column;
+					align-items:flex-start;
+					justify-content: center;
+					margin-top: 28rpx;
+					margin-bottom:26rpx;
+					.p1{
+						color:#FFFFFF;
+						font-size: 26rpx;
+						font-weight: 500;
+						line-height: 27rpx;
+						.spot{
+							display: inline-block;
+							vertical-align: middle;
+							margin-left: 11rpx;
+							height: 12rpx;
+							width: 12rpx;
+							background: #00FF2A;
+							border-radius: 50%;
+							vertical-align: middle;
+						}
+					}
+					.p2{
+						padding-right: 66rpx;
+						margin-top: 9rpx;
+						color:#ACACAC;
+						font-size: 22rpx;
+						font-weight: 400;
+						line-height: 23rpx;
+						display: -webkit-box;
+						-webkit-box-orient: vertical;
+						-webkit-line-clamp: 1;
+						overflow: hidden;
+					}
+				}
+			}
+		}
+	}
+}
+</style>

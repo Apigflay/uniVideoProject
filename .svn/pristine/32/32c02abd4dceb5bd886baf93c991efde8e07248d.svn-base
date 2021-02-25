@@ -1,0 +1,333 @@
+<template>
+	<view class="content">
+		<view class="nav">
+			<image class="back" src="../../static/imgs/more1w.png" mode="" @click="goBackPage"></image>
+			<text class="title">商品管理</text>
+			<image class="add" src="../../static/imgs/add1w.png" mode="" @click="goNewAddPage"></image>
+		</view>
+		<scroll-view scroll-y="true" @scrolltolower="getNewmsg" class="mainArea">
+			<view class="per" v-for="(item,index) in model1Data" :key="index">
+				<view class="textArea">
+					<image class="img" :src="item.BackgroundPicUrl" mode=""></image>
+					<view class="text">
+						<view class="top">
+							{{item.Content}}
+						</view>
+						<view class="bottom">
+							<view class="hour">
+								<image class="img" src="../../static/imgs/bofang1h.png" mode=""></image>
+								<text v-if="item.show_hours">{{item.hours}}小时</text>
+								<text v-if="item.show_minutes">{{item.minutes}}小时</text>
+								<text v-if="item.show_seconds">{{item.seconds}}小时</text>
+							</view>
+							<view class="num">
+								<image class="img" src="../../static/imgs/lock1h.png" mode=""></image>
+								<text>{{item.UnLockCount}}</text>
+							</view>
+							<view class="prise">
+								<image class="img" src="../../static/imgs/zan1h.png" mode=""></image>
+								<text>{{item.GoodEvaluate}}</text>
+							</view>
+							<view class="gold">
+								<image class="img" src="../../static/imgs/zuan2.png" mode=""></image>
+								<text>{{item.UnLockMoney}}</text>
+							</view>
+						</view>
+					</view>
+				</view>
+				<view class="btmArea">
+					<view class="remove" @click="getDelete(item)">删除</view>
+					<view class="rechange" @click="goEdit(item)">编辑</view>
+				</view>
+			</view>
+		</scroll-view>
+	</view>
+</template>
+
+<script>
+	import {encrypt,decrypt,system,systemId,base64ToArrayBuffer,sendData,sendD,work,sendD07} from "../../lib/js/GlobalFunction.js"
+	export default {
+		data() {
+			return {
+				tabbarLoginData: null, // 获取页面用户参数
+				UserIdx: null, // 当前用户IDX
+				page: 1, // 当前页码
+				model1Data: null, // 获取的页码加载数据
+				model2Data: null, // 页面下滑加载后加载出的数据
+			};
+		},
+		
+		onLoad:function(option) {//监听页面加载，其参数为上个页面传递的数据，参数类型为Object
+				this.getLoginMsg(); // 获取用户登录信息
+				this.getInitMsg(); // 初始化加载页面列表信息
+				this.getTime(); // 视频剩余时间
+		},
+		
+		methods:{
+			//----------------------获取当前页面用户信息---------------------------------------------------------
+			getLoginMsg:function(){ // 登录信息
+				var that = this;
+				uni.getStorage({
+					key: 'storage_login_str',
+					success: function (res) {
+						that.tabbarLoginData = JSON.parse(res.data);
+						// console.log(that.tabbarLoginData.useridx);
+						that.UserIdx = that.tabbarLoginData.useridx;
+						if(that.tabbarLoginData.isAnchor==false){
+							that.isAnchor = false;
+						}
+					}
+				});
+			},
+			//----------------------获取当前页面用户信息---------------------------------------------------------
+			
+			//----------------------获取页面数据信息---------------------------------------------------------
+			getInitMsg:function(){ // 获取搜索页面传来的参数
+				var array=base64ToArrayBuffer(encrypt(JSON.stringify({
+					UserIdx: this.UserIdx, // int 类型
+					Page: this.page, // int  当前页数
+					
+				})))
+				
+				var res = JSON.parse(decrypt(sendData('POST',this.GLOBAL.urlPoint+'/userinfo/GetAnchorResourceList',array)));
+				if(res.code==100){
+					console.log(res.data);
+					this.model1Data = res.data.list;
+				}
+			},
+			//----------------------获取页面数据信息------------------------------------------------------------------
+			
+			//---------------------------视频剩余时间-----------------------------------------------------------------------
+			getTime:function(){ // 计算帖子剩余时间
+				// console.log(this.model1Data[0].ExpireTime)
+				// console.log(this.model1Data.length)
+				for(var i = 0; i<this.model1Data.length; i++){ //定义获取到数组的长度 进行循环读取数组中的ExpireTime变量
+					// console.log(this.model1Data.length);
+					var b = this.model1Data[i].ExpireTime.replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '');
+					// var b ="2019-10-17 18:00:00";
+					// console.log(b);
+					var now = new Date().getTime();
+					var time = Date.parse(b);
+					var rest = time-now;
+					var hours; // 获取小时数
+					var minutes; // 获取分钟数
+					var seconds; // 获取秒数
+					var show_hours = true; // 判断小时时间是否为空
+					var show_minutes = false; // 判断分钟时间是否为空
+					var show_seconds = false; // 判断秒钟时间是否为空
+					
+					if(rest <= 0){
+						hours = '00'
+						minutes = '00'
+						seconds = '00'
+					}else{
+						hours = Math.floor(rest / (1000 * 60 * 60 ))<10?'0'+ Math.floor(rest / (1000 * 60 * 60 )):Math.floor(rest / (1000 * 60 * 60 ));
+						minutes = Math.floor(rest % (1000 * 60 * 60) / (1000 * 60))<10?'0' + Math.floor(rest % (1000 * 60 * 60) / (1000 * 60)):Math.floor(rest % (1000 * 60 * 60) / (1000 * 60));
+						seconds = Math.floor((rest % (1000 * 60)) / 1000)<10?'0' + Math.floor((rest % (1000 * 60)) / 1000):Math.floor((rest % (1000 * 60)) / 1000);
+						// console.log(hours);
+					}
+					this.model1Data[i]['hours'] = hours; // 将获取到的时间的数据存入对象数组中
+					this.model1Data[i]['minutes'] = minutes;
+					this.model1Data[i]['seconds'] = seconds;
+					// console.log(this.model1Data[i]);
+					// this.minutes.push(hours); // push 只能把数据存入数组
+					if(hours == '00'){
+						show_hours = false;
+						show_minutes = true;
+					}else if(minutes == '00'){
+						show_minutes = false;
+						show_seconds = true;
+						// console.log(this.show_minutes)
+					}else{
+						// console.log('111')
+					}
+					this.model1Data[i]['show_hours'] = show_hours;
+					this.model1Data[i]['show_minutes'] = show_minutes;
+					this.model1Data[i]['show_seconds'] = show_seconds;
+				}
+				console.log(this.model1Data);
+			},
+			//---------------------------视频剩余时间-----------------------------------------------------------------------
+			
+			//-------------------------------编辑功能--------------------------------------------------------------------
+			goEdit:function(e){
+				var str = JSON.stringify(e)
+				uni.navigateTo({
+					url: "/pages/addworks/addworks?item=" + str
+				}); 
+			},
+			//-------------------------------编辑功能--------------------------------------------------------------------
+			
+			//-----------------------------滚动加载------------------------------------------------------------------------
+			getNewmsg:function(){
+				this.page++;
+				// console.log(this.page);
+				var array=base64ToArrayBuffer(encrypt(JSON.stringify({
+					UserIdx: this.UserIdx, // int 类型
+					Page: this.page, // int  当前页数
+				})))
+				var res = JSON.parse(decrypt(sendData('POST',this.GLOBAL.urlPoint+'/userinfo/HomeAnchorRank',array)));
+				if(res.code==100){
+					// console.log(res.data);
+					this.model2Data = res.data.list;
+					this.model1Data.push.apply(this.model1Data,this.model2Data);
+					console.log(this.model1Data)
+				}
+				
+			},
+			//-----------------------------滚动加载------------------------------------------------------------------------
+			
+			//-----------------------------删除功能------------------------------------------------------------------------
+			getDelete:function(e){
+				console.log(e);
+				var array=base64ToArrayBuffer(encrypt(JSON.stringify({
+					UserIdx: Number(e.UserIdx),//	int
+					ResourcesId:Number(e.ResourcesId),//	int
+				})))
+				var res = JSON.parse(decrypt(sendData('POST',this.GLOBAL.urlPoint+'/userinfo/AnchorResourceDelete',array)));
+				if(res.code==100){
+					console.log(res);
+					uni.showToast({  // 弹框提示
+						title:res.msg,
+						// duration: 300,
+						// icon:"none",
+					});
+					this.getInitMsg();
+					
+				} else if(res.code==101){
+					uni.showToast({  // 弹框提示
+						title:res.msg,
+						// duration: 300,
+						// icon:"none",
+					});
+				}
+				
+			},
+			//-----------------------------删除功能------------------------------------------------------------------------
+			goBackPage:function(){//商品管理返回
+				uni.navigateTo({
+					url: '/pages/anchorme/anchorme'
+				});
+			},
+			goNewAddPage:function(){//添加作品
+				uni.navigateTo({
+					url: '/pages/addworks/addworks'
+				});
+			}
+		}
+	}
+</script>
+
+<style lang="scss">
+page{
+	width: 100%;
+	height: 100%;
+}
+.content{
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	.nav{
+		height: 100rpx;
+		background:rgba(37,37,37,1);
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		.back{
+			height: 36rpx;
+			width: 36rpx;
+			padding: 10rpx;
+			margin-left: 19rpx;
+		}
+		.title{
+			font-size:30rpx;
+			color:rgba(255,255,255,1);
+		}
+		.add{
+			height: 36rpx;
+			width: 36rpx;
+			padding: 10rpx;
+			margin-right: 19rpx;
+		}
+	}
+	.mainArea{
+		flex: 1;
+		background:rgba(25,25,25,1);
+		overflow-y:scroll;
+		.per{
+			height: 170rpx;
+			width: 694rpx;
+			margin-left: 28rpx;
+			padding-top:28rpx;
+			border-bottom: 2rpx solid rgba(52,52,52,1);
+			.textArea{
+				height: 90rpx;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				.img{
+					height: 90rpx;
+					width: 90rpx;
+				}
+				.text{
+					height: 90rpx;
+					width: 564rpx;
+					.top{
+						height: 60rpx;
+						font-size:20rpx;
+						line-height: 30rpx;
+						color:rgba(255,255,255,1);
+						display: -webkit-box;
+						-webkit-box-orient: vertical;
+						-webkit-line-clamp: 2;//几行省略就写几
+						overflow: hidden;
+					}
+					.bottom{
+						height: 30rpx;
+						display: flex;
+						justify-content: space-between;
+						align-items: center;
+						font-size:22rpx;
+						color:rgba(255,255,255,1);
+						.hour,.num,.prise,.gold{
+							display: flex;
+							justify-content: space-between;
+							align-items: center;
+							.img{height: 24rpx;width: 24rpx;margin-right:10rpx;}
+						}
+						.gold{
+							color: #FFD600;
+							.img{height: 16rpx;idth: 22rpx;}
+						}
+					}
+				}
+			}
+			// -----btn----
+			.btmArea{
+				height: 80rpx;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				.remove{
+					font-size:26rpx;
+					color:rgba(255,118,118,1);
+					padding: 8rpx 30rpx;
+					border:2rpx solid rgba(255,118,118,1);
+					border-radius:8rpx;
+					margin-left: 150rpx;
+				}
+				.rechange{
+					font-size:26rpx;
+					color:rgba(255,214,0,1);
+					padding: 8rpx 30rpx;
+					border:2rpx solid rgba(255,214,0,1);
+					border-radius:8rpx;
+					margin-right: 150rpx;
+				}
+			}
+				
+		}
+	}
+}
+</style>

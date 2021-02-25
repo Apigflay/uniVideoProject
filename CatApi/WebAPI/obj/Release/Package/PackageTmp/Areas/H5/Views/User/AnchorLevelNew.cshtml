@@ -1,0 +1,135 @@
+﻿@{
+    ViewBag.Title = "主播管理";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model Model.View.VMAnchorInfo
+
+@section Head_css{
+    <link href="~/Content/common/css/base.css" rel="stylesheet" />
+    <link href="~/Content/common/css/anchorlevel.css?V=5" rel="stylesheet" />
+}
+
+<div class="wrap">
+    <div class="content">
+        <div class="ct_top">
+            <div class="me_time">
+                <strong> @Math.Round(Model.Anchor.livingTime, 2) 小时</strong>
+            </div>
+            <div class="me_head"><b class="@Html.Raw("icon_rank0"+ViewBag.living_Rank)"></b><strong>@Model.Anchor.anchorLevel</strong><img src="@Model.User.smallpic"></div>
+            <div class="me_info">距离下一等级升级还需 @Model.Anchor.shortExp 经验</div>
+            <dl class="me_state">
+                <dt>LV @Model.Anchor.anchorLevel</dt>
+                <dd id="value_con" style="min-width:1%"></dd>
+            </dl>
+        </div>
+        <div class="operate">
+            <ul>
+                <li style="border-right:.1rem solid #e5e5e5;"><a href="javscript:;" onclick="live.ShowBabyView(this,0)"><i></i>宝宝兑换</a></li>
+                <li><a href="javscript:;" onclick="live.ShowLivingRoom(this,0)"><i class="icon_link"></i>直播间管理</a></li>
+            </ul>
+        </div>
+
+        <div class="area">
+            <div class="r_tit"><h5><b></b>主播特权</h5></div>
+            <div class="tag">
+                <ul>
+                    <li>
+                        <a href="https://live.9158.com/Pages/Anchor/privilege_explicate.html?menuType=0">
+                            <dl>
+                                <dt class="@(Model.Anchor.anchorLevel > 0 ? "ta_01_on": "ta_01")"></dt>
+                                <dd><p>等级标识</p><strong>1级以上</strong></dd>
+                            </dl>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://live.9158.com/Pages/Anchor/hot24.html?menuType=0">
+                            <dl>
+                                <dt class="@(Model.Anchor.anchorLevel >= 45 ? "ta_02_on": "ta_02")"></dt>
+                                <dd><p>热门推荐</p><strong>45级以上</strong></dd>
+                            </dl>
+                        </a>
+                    </li>
+                    @*<li>
+                            <a href="http://live.9158.com/Pages/Anchor/day.html?menuType=0">
+                                <dl>
+                                    <dt class="@(Model.Anchor.anchorLevel >= 45 ? "ta_03_on": "ta_03")"></dt>
+                                    <dd><p>日常补贴</p><strong>45级以上</strong></dd>
+                                </dl>
+                            </a>
+                        </li>*@
+                    <li>
+                        <dl>
+                            <dt class="@(Model.Anchor.anchorLevel >= 70 ? "ta_04_on": "ta_04")"></dt>
+                            <dd><p>更多特权</p><strong>敬请期待</strong></dd>
+                        </dl>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!--主播等级大于0时才展示当前任务列表-->
+        @if (ViewBag.isShowTask == 1)
+        {
+            <div class="area">
+                <div class="r_tit" style="height:4.2rem;">
+                    <h5><b></b>升级任务<i></i></h5>
+                    <span><a class="a_explain" href="http://live.9158.com/Pages/Anchor/level_explicate.html?menuType=0">（点击查看经验说明）</a></span>
+
+                    @if (Model.Anchor.isSign > 0)
+                    {
+                        <div class="link_txt"><span class="icon_signed"></span>您已签约，升级可享1.1倍加速</div>
+                    }
+                    else
+                    {
+                        <div class="link_txt">
+                            签约主播可享1.1倍经验加速升级
+                            <strong>
+                                <a href="http://livegl.9158.com/Active/signApply/Index.aspx?menuType=0&useridx=@Model.User.useridx">签约</a>
+                            </strong>
+                        </div>
+                    }
+                </div>
+                <div class="listbox">
+                    <ul class="lx_in">
+                        <li>
+                            <dl>
+                                <dt class="icon_ls_01"></dt>
+                                <dd><h4>每日开播时长</h4><p>任务进度 ：@Model.Task.onlineExp/120经验值</p></dd>
+                            </dl>
+                        </li>
+                        <li>
+                            <dl>
+                                <dt class="icon_ls_02"></dt>
+                                <dd><h4>每日喵粮数</h4><p>任务进度 ：@Model.Task.catfoodExp/100经验值</p></dd>
+                            </dl>
+                        </li>
+                        <li>
+                            <dl>
+                                <dt class="icon_ls_03"></dt>
+                                <dd><h4>周星榜前三</h4><p>任务进度 ：@Model.Task.weekStarExp/2400经验值</p></dd>
+                            </dl>
+                        </li>
+                        <li>
+                            <dl>
+                                <dt class="icon_ls_04"></dt>
+                                <dd><h4>日宝宝数80个</h4><p>任务进度 ：@Model.Task.babyWeekExp/160经验值</p></dd>
+                            </dl>
+                        </li>
+                        @*<li>
+                                <dl>
+                                    <dt class="icon_ls_05"></dt>
+                                    <dd><h4>直播间被分享次数</h4><p>任务进度 ：0/120经验值</p></dd>
+                                </dl>
+                            </li>*@
+                    </ul>
+                </div>
+                <p class="tips">PS：因数据缓存，页面更新等可能会导致数据异常</p>
+            </div>
+        }
+    </div>
+</div>
+
+<script type="text/javascript">
+    $('#value_con').css('width',@Model.Progress+'%');
+</script>

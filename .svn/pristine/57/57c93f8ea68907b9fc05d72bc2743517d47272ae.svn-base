@@ -1,0 +1,706 @@
+<template>
+<view class="contentBox">
+	<scroll-view scroll-y="true" @scrolltolower="getScrollmsg" class="scrollView">
+		<view class="main">
+			<view class="top">
+				<text>{{this.Language.language[this.tabbarLoginLanguage].language76}}</text>
+			</view>
+			<view class="center">
+				<view :style="no == false?'':'background:#343434'" class="new" @click="new_chat()" @touchstart="new_chat_start()" @touchend="new_chat_end()">
+					<image class="img" src="../../static/pictures/newChat_1.png"></image>
+					<text class="p">{{this.Language.language[this.tabbarLoginLanguage].language178}}</text>
+				</view>
+				<!-- chatListData -->
+				<view class="list" v-for="(item,index) in chatListData" :key="index" :id="index">
+					<!-- goAchormePage(item.useridx) -->
+					<image class="photo" :src="item.headpic" @click="goChatpopPage(item.useridx,item.nickname,item.headpic,item.online)"></image>
+					<text class="newMsgNum" v-if="item.newMsgData.length>0&&100>item.newMsgData.length">{{item.newMsgData.length}}</text>
+					<text class="newMsgNum" v-if="item.newMsgData.length>99">99+</text>
+					<view class="content" @click="goChatpopPage(item.useridx,item.nickname,item.headpic,item.online)">
+						<view class="name">
+							<view class="nameArea">
+								<text class="id">{{item.nickname}}</text>
+								<view v-if="item.online" class="status"></view>
+							</view>
+							<text class="data">
+								{{item.lastTime}}
+							</text>
+						</view>
+						<view class="p">
+							<text>{{item.fy_content}}</text>
+						</view>
+					</view>
+				</view>
+			</view>
+			<!-- TagBar -->
+			<view class="tabbarArea">
+				<view class="per" v-for="(item,index) in tabbarData" :key="index" :id="index" @click="getClickPer">
+					<image class="img" :src="item.imgsrcW" mode=""></image>
+				</view>
+			</view>
+			<view class="bottomFix">
+				
+			</view>
+		</view>
+	</scroll-view>
+</view>
+</template>
+
+<script>
+	import {encrypt,decrypt,system,systemId,base64ToArrayBuffer,sendData,sendD,sendD06,sendD07,sendD09,sendD11,sendD13,sendD15,sendD17,sendD207,sendD209,work,regMail,navigateTo} from "../../lib/js/GlobalFunction.js"
+	export default {
+		data() {
+			return {
+				tabbarLoginLanguage: null, // 用户语言
+				show_spot: true ,// 是否在线的值
+				show_chat: false ,// 控制列表是否为点击状态
+				no: false,
+				table:[
+					{id:0,data:'09/09', name:'@sasa.baby1235',content:'9月vip为两台飞机  享有8.9月百部影片，你的女神...', no:false},
+					{id:1,data:'09/09', name:'@sasa.baby1236',content:'9月vip为两台飞机  享有8.9月百部影片，你的女神...', no:false},
+					{id:2,data:'09/09', name:'@sasa.baby1237',content:'9月vip为两台飞机  享有8.9月百部影片，你的女神...', no:false},
+				],
+				page:1,//初始页数
+				chatListData:null,//聊天列表
+				// tabbar--
+				tabbarLoginData:null,//loginMsg
+				isAnchor:null,//是否为主播
+				tabbarCurrent:0,//点击的索引
+				tabbarData:[{imgsrcB:'../../static/imgs/room1w.png',imgsrcW:'../../static/imgs/room1w.png',text:'1'},
+					{imgsrcB:'../../static/imgs/fang1w.png',imgsrcW:'../../static/imgs/fang1w.png',text:'2'},
+					{imgsrcB:'../../static/imgs/mail1w.png',imgsrcW:'../../static/imgs/mail1w.png',text:'3'},
+					{imgsrcB:'../../static/imgs/xin1w.png',imgsrcW:'../../static/imgs/xin1y.png',text:'4'},
+					{imgsrcB:'../../static/imgs/my1w.png',imgsrcW:'../../static/imgs/my1w.png',text:'5'}],//
+			};
+		},
+		onLoad() {//监听页面加载，其参数为上个页面传递的数据，参数类型为Object
+				this.getLoginlanger(); // 获取语言
+				this.getLoginMsg()//
+		},
+		
+		//------------------------------------页面滚动-------------------------------------------------
+		onPageScroll(){
+		},
+		//------------------------------------页面滚动--------------------------------------------------
+		
+		methods:{
+			getLoginlanger:function(){ // 获取当前语言
+				var that = this;
+				uni.getStorage({
+					key: 'storage_login_language',
+					success: function (res) {
+						that.tabbarLoginLanguage = JSON.parse(res.data);
+						// console.log(that.tabbarLoginLanguage);
+						if(that.tabbarLoginLanguage == 0){
+							that.langer = 0;
+						}else if(that.tabbarLoginLanguage == 1){
+							that.langer = 1;
+						}else if(that.tabbarLoginLanguage == 2){
+							that.langer = 2;
+						}else if(that.tabbarLoginLanguage == 3){
+							that.langer =3;
+						}
+					}
+				});
+			},
+			getLoginMsg:function(){//登录信息
+				var that = this;
+				uni.getStorage({
+					key: 'storage_login_str',
+					success: function (res) {
+						that.tabbarLoginData = JSON.parse(res.data);
+						if(that.tabbarLoginData.isAnchor==false){
+							that.isAnchor = false;
+						}
+						that.getChatList()//
+						
+					}
+				});
+			},
+			getClickPer:function(e){//tabbar click
+				this.tabbarCurrent=e.currentTarget.id;
+				// console.log(e.currentTarget.id)
+				if(e.currentTarget.id==0){
+					// console.log("首页点击")
+					// uni.navigateTo({
+					// 	url: '/pages/home/home'
+					// });
+					navigateTo('/pages/home/home',null);
+				}else if(e.currentTarget.id==1){
+					// console.log("搜索点击")
+					// uni.navigateTo({
+					// 	url: '/pages/search/search'
+					// });
+					navigateTo('/pages/search/search',null);
+				}else if(e.currentTarget.id==2){
+					// console.log("信息点击")
+					// uni.navigateTo({
+					// 	url: '/pages/news/news'
+					// });
+					navigateTo('/pages/news/news',null);
+				}else if(e.currentTarget.id==3){
+					// console.log("聊天点击")
+					// uni.navigateTo({
+					// 	url: '/pages/chat/chat'
+					// });
+					navigateTo('/pages/chat/chat',null);
+				}else if(e.currentTarget.id==4){
+					// console.log(this.isAnchor)
+					if(this.isAnchor==false){
+						// console.log("不是主播")
+						// uni.navigateTo({
+						// 	url: '/pages/my/my'
+						// });
+						navigateTo('/pages/my/my',null);
+					}else{
+						// console.log("是主播")
+						// uni.navigateTo({
+						// 	url: '/pages/anchorme/anchorme'
+						// });
+						navigateTo('/pages/anchorme/anchorme',null);
+					}
+				}
+			},
+			chat_start:function(e){
+				if(this.table[e].no == false){
+					this.table[e].no = true;
+				}else{
+					// console.log(this.table[e].no)
+				}
+			},
+			chat_end:function(e){
+				if(this.table[e].no == true){
+					this.table[e].no = false;
+				}else{
+					// console.log(this.table[e].no)
+				}
+			},
+			new_chat_start:function(){
+				// console.log(this.no)
+				if(this.no == false){
+					this.no = true;
+				}else{
+					// console.log(this.no)
+				}
+			},
+			new_chat_end:function(){
+				// console.log(this.no)
+				if(this.no == true){
+					this.no = false;
+				}else{
+					// console.log(this.no)
+				}
+			},
+			// ----chat---
+			getChatList:function(){//聊天列表信息获取
+				// console.log(this.tabbarLoginData)
+				// console.log(this.tabbarLoginData.useridx)
+				// console.log(this.page)
+				var array=base64ToArrayBuffer(encrypt(JSON.stringify({
+					UserIdx:this.tabbarLoginData.useridx,//	int
+					Page:this.page,//	int 页码
+					Limit:20,//	int 页大小
+				})))
+				var res = JSON.parse(decrypt(sendData('POST',this.GLOBAL.urlPoint+'/userinfo/GetChatList',array)));
+				console.log(res)
+				var that = this;
+				if(res.code==100){
+					var jRes=JSON.parse(JSON.stringify(res.data.list))
+					jRes.forEach(function (value,index) {
+						var month = new Date(value.lastTime).getMonth()+1;
+						var day = new Date(value.lastTime).getDate();
+						value.lastTime=month+'/'+day;
+						
+						// console.log(value.content);
+						// console.log(that.tabbarLoginLanguage);
+						var va_content = value.content;
+						if(value.content == '[图片]' && that.tabbarLoginLanguage == 0){
+							var va_content = '[图片]';
+						}else if(value.content == '[视频]' && that.tabbarLoginLanguage == 0){
+							var va_content = '[视频]';
+						}else if(value.content == '[作品]' && that.tabbarLoginLanguage == 0){
+							var va_content = '[作品]';
+						}else if(value.content == '[礼物]' && that.tabbarLoginLanguage == 0){
+							var va_content = '[礼物]';
+						}else if(value.content == '[图片]' && that.tabbarLoginLanguage == 1){
+							var va_content = '[圖片]';
+						}else if(value.content == '[视频]' && that.tabbarLoginLanguage == 1){
+							var va_content = '[視頻]';
+						}else if(value.content == '[作品]' && that.tabbarLoginLanguage == 1){
+							var va_content = '[作品]';
+						}else if(value.content == '[礼物]' && that.tabbarLoginLanguage == 1){
+							var va_content = '[禮物]';
+						}else if(value.content == '[图片]' && that.tabbarLoginLanguage == 2){
+							var va_content = '[Image]';
+						}else if(value.content == '[视频]' && that.tabbarLoginLanguage == 2){
+							var va_content = '[Video]';
+						}else if(value.content == '[作品]' && that.tabbarLoginLanguage == 2){
+							var va_content = '[Work]';
+						}else if(value.content == '[礼物]' && that.tabbarLoginLanguage == 2){
+							var va_content = '[Gift]';
+						}else if(value.content == '[图片]' && that.tabbarLoginLanguage == 3){
+							var va_content = '[รูปภาพ]';
+						}else if(value.content == '[视频]' && that.tabbarLoginLanguage == 3){
+							var va_content = '[วิดีโอ]';
+						}else if(value.content == '[作品]' && that.tabbarLoginLanguage == 3){
+							var va_content = '[ผลงาน]';
+						}else if(value.content == '[礼物]' && that.tabbarLoginLanguage == 3){
+							var va_content = '[ของขวัญ]';
+						}
+						
+						value.fy_content = va_content;
+					});
+					// this.chatListData=jRes;
+					console.log(jRes)
+					this.getNewChatData(jRes)//拉取离线消息
+					
+				}else{
+					uni.showToast({
+						title:res.msg,
+						duration: 1500,
+						icon:"none",
+					});
+				}
+			},
+			new_chat:function(){//新建聊天
+				// uni.navigateTo({
+				// 	url: '/pages/newchat/newchat'
+				// });
+				navigateTo('/pages/newchat/newchat',null);
+			},
+			goAchormePage:function(msg){//跳转主播个人信息页面
+				// console.log(msg)
+				// uni.navigateTo({
+				// 	url: '/pages/anchorpersonal/anchorpersonal?AnchorIdx='+msg+'&Type=2'+'&pageId=13'
+				// });
+				var obj = encodeURIComponent(encrypt(JSON.stringify({
+					AnchorIdx:msg,
+					Type:2,
+					pageId:13
+				})))
+				navigateTo('/pages/anchorpersonal/anchorpersonal',obj);
+			},
+			goChatpopPage:function(useridx,nickname,headpic,online){//跳转
+				// console.log(useridx)
+				// console.log(nickname)
+				// console.log(headpic)
+				// uni.navigateTo({
+					// url: '/pages/chatpop/chatpop?useridx='+useridx+'&nickname='+nickname+'&headpic='+headpic+'&online='+online
+				// });
+				var obj = encodeURIComponent(encrypt(JSON.stringify({
+					useridx:useridx,
+					nickname:nickname,
+					headpic:headpic,
+					online:online,
+					pageId:13
+				})))
+				navigateTo('/pages/chatpop/chatpop',obj);
+			},
+			getNewChatData:function(chatList){//拉取离线聊天信息
+				var that =this;
+				// -------------
+				var array =JSON.stringify({
+					"appId": 100,            //   int   APP ID
+					"useridx": this.tabbarLoginData.useridx,   //   int   发送者
+				})
+				// console.log(JSON.parse(array))
+				var arr = sendD207(array);
+				// --------socket-login---------------
+				// console.log(this.$Socket.isconnect)
+				// console.log(this.$Socket)
+				if(this.$Socket.isconnect==false){
+					this.$Socket.onReload()
+				}
+				this.$Socket.nsend(arr)
+				this.$Socket.eventPatch.onMsg((msg,sk)=>{    //监听是否接受消息
+					setTimeout(function() {
+					// console.log(msg)
+					// console.log(sk)
+					 var fileReader = new FileReader();
+					     fileReader.onload = function (progressEvent) {
+					     	var arrayBuffer = this.result; // arrayBuffer即为blob对应的arrayBuffer
+					     	var HeadRecv = new Uint32Array(arrayBuffer, 0, 3);
+					     	var strArray = new Uint8Array(arrayBuffer, 12, HeadRecv[0] - 12 - 1);
+					     	var str = new TextDecoder().decode(strArray);//{"code":-1,"error":"用户名或密码错误"}
+					     	// console.log(HeadRecv[1],JSON.parse(str))
+					     	//to do
+							// console.log(HeadRecv[1])
+							// console.log(JSON.parse(str))
+							var msgdata =JSON.parse(str);
+							// console.log(msgdata)
+							if(HeadRecv[1]==20008){
+								if(msgdata.code==0&&msgdata.msgs!=null){
+									
+									// console.log('拉取成功')
+									// console.log(msgdata.msgs)
+									// console.log(chatList)
+									
+									chatList.forEach(function (value,index) {
+										value.newMsgData=[]
+										// console.log(value.useridx)//聊天对象idx
+										msgdata.msgs.forEach(function (value1,index1) {
+											if(value.useridx==value1.useridx){
+												value.newMsgData.push(value1)
+											}
+											// console.log(value1.useridx)//聊天对象idx
+										});
+									});
+									that.chatListData=chatList;
+									// console.log(that.chatListData);
+									var maxMsgIdData = [];//msgId数组
+									msgdata.msgs.forEach(function (value1,index1) {
+										maxMsgIdData.push(value1.msgId);
+										// console.log(value1.useridx)//聊天对象idx
+									});
+									var maxMsgId = maxMsgIdData.sort(function(a,b){
+										return b-a;
+									})[0];
+									// console.log(maxMsgId)
+									// ------回复服务器已读----
+									var arrayR =JSON.stringify({
+										"appId": 100,            //   int   APP ID
+										"msgId":maxMsgId,//最大msgId
+										"useridx": that.tabbarLoginData.useridx,   //   int   发送者
+									})
+									// console.log(JSON.parse(arrayR))
+									var arrR = sendD209(arrayR);
+									// console.log(arr)
+									// --------socket-login---------------
+									// console.log(that.$Socket.isconnect)
+									// console.log(this.$Socket)
+									if(that.$Socket.isconnect==false){
+										that.$Socket.onReload()
+									}
+									that.$Socket.nsend(arrR)
+									that.$Socket.eventPatch.onMsg((msg,sk)=>{    //监听是否接受消息
+										setTimeout(function() {
+										
+										        
+										// console.log(msg)
+										// console.log(sk)
+										 var fileReader = new FileReader();
+										     fileReader.onload = function (progressEvent) {
+										     	var arrayBuffer = this.result; // arrayBuffer即为blob对应的arrayBuffer
+										     	var HeadRecv = new Uint32Array(arrayBuffer, 0, 3);
+										     	var strArray = new Uint8Array(arrayBuffer, 12, HeadRecv[0] - 12 - 1);
+										     	var str = new TextDecoder().decode(strArray);//{"code":-1,"error":"用户名或密码错误"}
+										     	// console.log(HeadRecv[1],JSON.parse(str))
+										     	//to do
+												// console.log(HeadRecv[1])
+												// console.log(JSON.parse(str))
+												var msgdata =JSON.parse(str);
+												if(HeadRecv[1]==2000899){
+													
+													// that.money=msgdata.price;
+													// uni.setStorage({
+													// 	key: 'storage_login_str',
+													// 	data: str,
+													// 	success: function () {
+													// 		console.log('success');
+													// 	}
+													// });
+												}else if(HeadRecv[1]==10010){
+													// uni.showToast({
+													// 	title: '登录信息过期，请重新登录',
+													// 	duration: 1500,
+													// 	icon:"none",
+													// 	success: function () {
+													// 			// uni.navigateTo({
+													// 			// 	url: '/pages/startup/startup'
+													// 			// });
+													// 			navigateTo('/pages/startup/startup',null);
+													// 	}
+													// });
+													
+												}
+										     	
+										     };
+										     fileReader.readAsArrayBuffer(msg.data);
+										 }, 0);
+									})
+									// ------回复服务器已读----
+								}else{
+									chatList.forEach(function (value,index) {
+										value.newMsgData=[]
+									});
+									that.chatListData=chatList;
+								}
+								
+							}else if(HeadRecv[1]==10010){
+								// uni.showToast({
+								// 	title: '登录信息过期，请重新登录',
+								// 	duration: 1500,
+								// 	icon:"none",
+								// 	success: function () {
+								// 			uni.navigateTo({
+								// 				url: '/pages/startup/startup'
+								// 			});
+								// 			navigateTo('/pages/startup/startup',null);
+								// 	}
+								// });
+								
+							}
+					     	
+					     };
+					     fileReader.readAsArrayBuffer(msg.data);
+						  }, 0);
+				})
+				// -------------------end--
+			},
+			
+			//------------------------------滚动加载------------------------------------------
+			getBottomNewmsg:function(){ // 页面下滑功能
+				//--------------
+				var that = this
+				window.onscroll = function(){  // 由于需要使用 onPageScroll 无法使用 scroll-view 所以使用onscroll来判断页面是否滚动到底部
+				    //变量scrollTop是滚动条滚动时，距离顶部的距离
+				    var scrollTop = document.documentElement.scrollTop;
+				    //变量windowHeight是可视区的高度
+				    var windowHeight = document.documentElement.clientHeight;
+				    //变量scrollHeight是滚动条的总高度
+				    var scrollHeight = document.documentElement.scrollHeight;
+				           //滚动条到底部的条件
+						   // console.log(this.GLOBAL);
+					if(scrollTop+windowHeight==scrollHeight){
+						//写后台加载数据的函数
+						// console.log("距顶部"+scrollTop+"可视区高度"+windowHeight+"滚动条总高度"+scrollHeight);
+						// console.log(that.GLOBAL.urlPoint);
+						that.page++;
+						
+						var array=base64ToArrayBuffer(encrypt(JSON.stringify({
+							UserIdx:that.tabbarLoginData.useridx,//	int
+							Page:that.page,//	int 页码
+							Limit:20,//	int 页大小
+						})))
+						var res = JSON.parse(decrypt(sendData('POST',that.GLOBAL.urlPoint+'/userinfo/GetChatList',array)));
+						// console.log(res)
+						if(res.code==100){
+							var jRes=JSON.parse(JSON.stringify(res.data.list))
+							jRes.forEach(function (value,index) {
+								var month = new Date(value.lastTime).getMonth()+1;
+								var day = new Date(value.lastTime).getDate();
+								value.lastTime=month+'/'+day;
+							});
+							// that.chatListData=jRes;
+							that.chatListData.push(jRes);
+							// console.log(jRes)
+							that.getNewChatData(that.chatListData)//拉取离线消息
+							
+						}else{
+							uni.showToast({
+								title:res.msg,
+								duration: 1500,
+								icon:"none",
+							});
+						}
+					}
+				}   
+			},
+			//------------------------------滚动加载------------------------------------------
+			getScrollmsg:function(){
+				this.page++;
+				var array=base64ToArrayBuffer(encrypt(JSON.stringify({
+					UserIdx:this.tabbarLoginData.useridx,//	int
+					Page:this.page,//	int 页码
+					Limit:20,//	int 页大小
+				})))
+				var res = JSON.parse(decrypt(sendData('POST',this.GLOBAL.urlPoint+'/userinfo/GetChatList',array)));
+				// console.log(res)
+				// console.log(res.data.list.length)
+				if(res.code==100){
+					if(res.data.list.length==0){
+						
+					}else{
+						var jRes=JSON.parse(JSON.stringify(res.data.list))
+						jRes.forEach(function (value,index) {
+							var month = new Date(value.lastTime).getMonth()+1;
+							var day = new Date(value.lastTime).getDate();
+							value.lastTime=month+'/'+day;
+						});
+						// this.chatListData=jRes;
+						this.chatListData.push(jRes);
+						// console.log(jRes)
+						this.getNewChatData(this.chatListData)//拉取离线消息
+						// console.log(this.chatListData);
+					}
+				}else{
+					uni.showToast({
+						title:res.msg,
+						duration: 1500,
+						icon:"none",
+					});
+				}
+			},
+			
+			//------------------------------滚动加载------------------------------------------
+		}
+	}
+</script>
+
+<style lang="scss">
+page{
+	width: 100%;
+	height: 100%;
+	background: #191919;
+}
+.contentBox{
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+.scrollView{
+	width: 100%;
+	height: 100%;
+
+.main{
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items:center;
+	flex-direction:column;
+	.bottomFix{
+		width: 100%;
+		height: 90rpx;
+	}
+	.top{
+		position:fixed; //  样式修改
+		top: 0rpx; //  样式修改
+		z-index:999; //  样式修改
+		width: 100%;
+		height:100rpx;
+		background: #252525;
+		font-size: 30rpx;
+		color:#FFFFFF;
+		line-height: 100rpx;
+		text-align: center;
+	}
+	.center{
+		margin-top: 100rpx;
+		.new{
+			display:flex;
+			align-items: center;
+			width:694rpx;
+			height:129rpx;
+			padding: 0rpx 28rpx;
+			
+			.img{
+				width: 90rpx;
+				height: 90rpx;
+				margin-right: 40rpx;
+			}
+			.p{
+				width:565rpx;
+				border-bottom: 1rpx solid #343434;
+				line-height: 129rpx;
+				font-size:26rpx;
+				color:#FFFFFF;
+			}
+		}
+		.list{
+			display:flex;
+			align-items:center;
+			padding: 0rpx 28rpx;
+			width:694rpx;
+			height:113rpx;
+			position: relative;
+			.photo{
+				background: #646464;
+				height: 90rpx;
+				width: 90rpx;
+				border-radius: 50%;
+				margin-right: 40rpx;
+			}
+			.newMsgNum{
+				width: 44rpx;
+				height: 44rpx;
+				line-height: 44rpx;
+				text-align: center;
+				font-size: 20rpx;
+				position: absolute;
+				color: #fff;
+				background: red;
+				border-radius: 50%;
+				left: 92rpx;
+				top: 12rpx;
+			}
+			.content{
+				display:flex;
+				flex-direction: column;
+				justify-content:center;
+				align-items:center;
+				height:113rpx;
+				border-bottom: 1rpx solid #343434;
+				.name{
+					width: 565rpx;
+					display:flex;
+					align-items:center;
+					justify-content: space-between;
+					.nameArea{
+						width: 300rpx;
+						height: 44rpx;
+						display:flex;
+						align-items:center;
+						// line-height:62rpx;
+						// justify-content: space-between;
+						.id{
+							color:#FFFFFF;
+							font-size:26rpx;
+							line-height:48rpx;
+							max-width: 275rpx;
+							overflow: hidden;
+							text-overflow:ellipsis;
+							white-space: nowrap;
+						}
+						.status{
+							margin-left: 11rpx;
+							height: 12rpx;
+							width: 12rpx;
+							background: #00FF2A;
+							border-radius: 50%;
+						}
+					}	
+					.data{
+						color: #ACACAC;
+						font-size: 22rpx;
+						line-height: 22rpx;
+						float: right;
+					}
+				}
+				.p{
+					width:565rpx;
+					color: #ACACAC;
+					font-size: 22rpx;
+					line-height: 36rpx;
+					margin-top: 9rpx;
+					overflow: hidden;
+					text-overflow:ellipsis;
+					white-space: nowrap;
+				}
+			}
+		}
+		
+	}
+		// --tabbar ---
+	.tabbarArea{
+		height: 90rpx;
+		width: 100%;
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		z-index: 9999;
+		display: flex;
+		justify-content: space-around;
+		align-items: center;
+		background:rgba(25,25,25,1);
+		.per{
+			width: 54rpx;
+			height: 50rpx;
+			.img{
+				width: 54rpx;
+				height: 50rpx;
+			}
+		}
+	}
+}
+}
+</style>

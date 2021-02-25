@@ -1,0 +1,461 @@
+<template>
+	<view class="main">
+			<view class="probar"></view>
+			<view class="brief">
+				<view class="img">
+					<image :src="listNum.BackgroundPicUrl" class="photo"></image>
+					<view v-if="listNum.Online" class="status"></view>
+				</view>
+				<view class="name">
+					<view class="id">
+						<text class="p1">{{listNum.MyName}}@fe</text>
+						<text v-if="listNum.Fans" class="p2"></text>
+						<text v-else class="p2">{{follow}}</text>
+					</view>
+					<text class="p">{{date}}</text>
+				</view>
+				<image class="del" src="../../static/pictures/delete_1.png" @click="goBack()"></image>
+			</view>
+			<view v-if="show" class="content" @click="display()">
+				<text class="p1">{{listNum.Content}}</text>
+				<image class="img" src="../../static/pictures/more2_1.png"></image>
+			</view>
+			<view v-else class="content1" @click="display()">
+				<text class="p1">{{listNum.Content}}</text>
+				<image class="img" src="../../static/pictures/more2_1.png"></image>
+			</view>
+			<view v-if="show" class="label">
+				<!-- <view class="box" v-for="(item,index) in label" :key="index" :id="index">
+					<text class="p">{{item.index}}</text>
+				</view> -->
+				<view class="box" v-for="item of label" :key="item">
+					<text class="p">#{{item}}</text>
+				</view>
+			</view>
+			<view class="video_info">
+				<view class="time">
+					<image class="img" src="../../static/pictures/unlock_1.png"></image>
+					<text class="p">{{time.hours}}:{{time.minutes}}:{{time.seconds}}</text>
+				</view>
+				<view class="unlock">
+					<image class="img" src="../../static/pictures/unlock_1.png"></image>
+					<text class="p">{{listNum.UnLockCount}}</text>
+				</view>
+				<view class="like">
+					<image class="img" src="../../static/pictures/fabulous_1.png"></image>
+					<text class="p">{{listNum.GoodEvaluate}}</text>
+				</view>
+				<view class="posts">
+					<image class="img"></image>
+					<text class="p">{{listNum.CONT}}新帖子</text>
+					<image class="img1" src="../../static/pictures/more2_1.png"></image>
+				</view>
+			</view>
+			<view v-if='listNum.Buy' class="bottom">
+				
+			</view>
+			<view v-else class="bottom">
+				<view class="button">
+					<text class="p1">解锁</text>
+					<text class="p2"></text>
+					<image class="img" src="../../static/pictures/zuanshi_1.png"></image>
+					<text class="p3">{{listNum.UnLockMoney}}</text>
+				</view>
+				<image class="img1" src="../../static/pictures/gengduo1_1.png"></image>
+			</view>
+			
+		<view class="movie">
+			<!-- :objectFit="fill" -->
+			<video class="video" :loop="true" :autoplay='true' muted='muted' :controls='false' :show-center-play-btn="true" :src="listNum.ResourceUrl"></video>
+		</view>
+	</view>
+</template>
+
+<script>
+	import {encrypt,decrypt,system,systemId,base64ToArrayBuffer,sendData,sendD,work} from "../../lib/js/GlobalFunction.js"
+	export default {
+		data() {
+			return {
+				pageId: null, // 页面ID用于判断页面回退到什么页面
+				follow: '关注',
+				date: '17h ago',
+				num: 24,
+				show: true,// 控制介绍文字的显示
+				listNum: null, // 获取搜索页面传来的数组
+				time: {},
+				label: null, // 标签数组
+				UserIdx: null,  // 用户IDX
+				AnchorIdx: null, // 主播IDX
+				ResourceoId: null, //视频ID
+			};
+		},
+		onLoad: function (option) { //option为object类型，会序列化上个页面传递的参数
+			// console.log(option); //打印出上个页面传递的参数。
+			this.UserIdx = option.UserIdx; // 用户IDX
+			this.AnchorIdx = option.AnchorIdx; // 主播IDX
+			this.ResourceoId = option.ResourceoId; //视频ID
+			this.pageId = option.pageId;
+			
+			this.getInitMsg(); // 获取搜索页面的数据
+			this.getArray(); // 把获取到的数据中的标签字符串转换成数组
+			this.getRest();
+			
+		},
+		methods:{
+			display:function(){
+				if(this.show == true){
+					this.show = false;
+				}else{
+					this.show = true;
+				}
+				// uni.showToast({
+				// 	title: 'msgdata.error',
+				// 	// duration: 1000,
+				// 	position: 'bottom',
+				// 	// icon:"none",
+				// });
+			},
+			getInitMsg:function(){ // 获取搜索页面传来的参数
+				// console.log(this.UserIdx) //用户IDX
+				// console.log(this.AnchorIdx) // 主播IDX
+				// console.log(this.ResourceoId) //视频ID
+				var array=base64ToArrayBuffer(encrypt(JSON.stringify({
+					UserIdx:this.UserIdx,//	int
+					AnchorIdx:this.AnchorIdx,//	int
+					ResourceoId:this.ResourceoId,//	int
+				})))
+				var res = JSON.parse(decrypt(sendData('POST',this.GLOBAL.urlPoint+'/userinfo/GetResource',array)));
+				if(res.code==100){
+					console.log(res.data);
+					this.listNum = res.data;
+				}
+			},
+			goBack:function(){ // 页面关闭按钮
+				if(this.pageId == 0){
+					uni.navigateTo({
+						url: '../../pages/search/search'
+					})
+				} else if(this.pageId == 1){
+					uni.navigateTo({
+						url: '../../pages/newsearch/newsearch'
+					})
+				} else{
+					console.log(this.pageId);
+				}
+				
+			},
+			getArray:function(){ // 把获取到的数据中的标签字符串转换成数组
+				// var a = this.listNum.Label;
+				var a ="#大胸#大奶#性感诱惑";
+				this.label = a.split("#")
+				
+				for(var i = 0 ;i<this.label.length;i++){  
+						if(this.label[i] == "" || this.label[i] == null || typeof(this.label[i]) == "undefined" || typeof(this.label[i]) == " ")  
+						{  
+							this.label.splice(i,1);  
+							i= i-1;  
+				        }  
+				} 
+				// console.log(this.label);
+			},
+			getRest:function(){ // 视频剩余时间
+				// var b = this.listNum.ExpireTime.replace(/T/g, ' ').replace(/\.[\d]{3}Z/, ''); // 获取到到期的时间
+				var b = '2019-11-10 21:20:00';
+				// var c = b.getTime();
+				var now = new Date().getTime();
+				var time = Date.parse(b);
+				var rest = time-now;
+				var hours;
+				var minutes;
+				var seconds;
+				if(rest <= 0){
+					hours = '00'
+					minutes = '00'
+					seconds = '00'
+				}else{
+					hours = Math.floor(rest / (1000 * 60 * 60 ))<10?'0'+ Math.floor(rest / (1000 * 60 * 60 )):Math.floor(rest / (1000 * 60 * 60 ));
+					minutes = Math.floor(rest % (1000 * 60 * 60) / (1000 * 60))<10?'0' + Math.floor(rest % (1000 * 60 * 60) / (1000 * 60)):Math.floor(rest % (1000 * 60 * 60) / (1000 * 60));
+					seconds = Math.floor((rest % (1000 * 60)) / 1000)<10?'0' + Math.floor((rest % (1000 * 60)) / 1000):Math.floor((rest % (1000 * 60)) / 1000);
+				// console.log(hours);
+				// console.log(minutes);
+				// console.log(seconds);
+				}
+				this.time.hours = hours;
+				this.time.minutes = minutes;
+				this.time.seconds = seconds;
+			}
+		}
+	}
+</script>
+
+<style lang="scss">
+page{
+	width: 100%;
+	height: 100%;
+}
+.main{
+	width:100%;
+	height:100%;
+	position:relative;
+	.probar{
+		width: 100%;
+		height: 24rpx;
+	}
+	.brief{
+		width:698rpx;
+		height:65rpx;
+		padding: 24rpx 32rpx 0rpx 20rpx;
+		display:flex;
+		align-items:center;
+		justify-content:space-between;
+		.img{
+			width: 60rpx;
+			height: 60rpx;
+			padding-right: 15rpx;
+			position:relative;
+			z-index:999;
+			.photo{
+				width:60rpx;
+				height: 60rpx;
+				background: #877DF5;
+				border:2px solid #fff;
+				border-radius: 50%;
+			}
+			.status{
+				height: 20rpx;
+				width: 20rpx;
+				background: #17FF2A;
+				position: absolute;
+				top: 41rpx;
+				left: 41rpx;
+				border-radius: 50%;
+			}
+		}
+		.name{
+			position:fixed;
+			left: 95rpx;
+			z-index:999;
+			// align-self:flex-start;
+			display:flex;
+			flex-direction:column;
+			// justify-content:center;
+			.id{
+				line-height:26rpx;
+				.p1{
+					font-size: 26rpx;
+					color: #FFFFFF;
+					line-height: 26rpx;
+					padding-bottom: 5rpx;
+				}
+				.p2{
+					font-size: 26rpx;
+					color: #FFD600;
+					line-height: 26rpx;
+					padding: 0rpx 32rpx;
+				}
+			}
+			.p{
+				color:rgba(255,255,255,0.5);
+				font-size: 22rpx;
+				line-height: 22rpx;
+			}
+		}
+		.del{
+			width: 36rpx;
+			height: 36rpx;
+			z-index:999;
+			position:relative;
+		}
+	}
+	.content{
+		padding: 27rpx 29rpx 0rpx 20rpx;
+		.p1{
+			color: #FFFFFF;
+			font-size: 26rpx;
+		}
+		.img{
+			width: 24rpx;
+			height: 24rpx;
+			line-height: 24rpx;
+			padding: 10rpx;
+			margin-left:17rpx;
+			vertical-align: middle;
+		}
+	}
+	.content1{
+		padding: 27rpx 29rpx 0rpx 20rpx;
+		display:flex;
+		align-items:center;
+		.p1{
+			width: 80%;
+			color: #FFFFFF;
+			font-size: 26rpx;
+			display: -webkit-box;
+			-webkit-box-orient: vertical;
+			-webkit-line-clamp: 1;
+			overflow: hidden;
+		}
+		.img{
+			width: 24rpx;
+			height: 24rpx;
+			line-height: 24rpx;
+			padding: 10rpx;
+			margin-left:17rpx;
+			vertical-align: middle;
+		}
+	}
+	.label{
+		display: flex;
+		align-items: center;
+		padding:10rpx 10rpx 0rpx 10rpx;
+		.box{
+			height:30rpx;
+			background:rgba(0,0,0,0.5);
+			border-radius:15px;
+			padding: 4rpx 11rpx;
+			margin-left: 10rpx;
+			display:flex;
+			align-items:center;
+			justify-content:center;
+			.p{
+				font-size: 22rpx;
+				padding: 10rpx;
+				color:#FFFFFF;
+				line-height: 22rpx;
+			}
+		}
+	}
+	.video_info{
+		width: 710rpx;
+		position:absolute;
+		top:1158rpx;
+		display: flex;
+		align-items: center;
+		padding:0rpx 20rpx;
+		.time{
+			display:flex;
+			align-items:center;
+			margin-right:34rpx;
+			.img{
+				width: 23rpx;
+				height: 21rpx;
+				margin-right:13rpx;
+			}
+			.p{
+				font-size:22rpx;
+				line-height: 22rpx;
+				color: #FFFFFF;
+			}
+		}
+		.unlock{
+			display:flex;
+			align-items:center;
+			margin-right:34rpx;
+			.img{
+				width: 23rpx;
+				height: 21rpx;
+				margin-right:13rpx;
+			}
+			.p{
+				font-size:22rpx;
+				line-height: 22rpx;
+				color: #FFFFFF;
+			}
+		}
+		.like{
+			display:flex;
+			align-items:center;
+			margin-right:34rpx;
+			.img{
+				width: 23rpx;
+				height: 21rpx;
+				margin-right:13rpx;
+			}
+			.p{
+				font-size:22rpx;
+				line-height: 22rpx;
+				color: #FFFFFF;
+			}
+		}
+		.posts{
+			display: flex;
+			align-items: center;
+			height: 45rpx;
+			background: #00D8FF;
+			border-radius:22rpx;
+			padding:2rpx 23rpx 2rpx 2rpx;
+			margin-left:105rpx;
+			.img{
+				width:40rpx;
+				height:40rpx;
+				border-radius:50%;
+				background: #877DF5;
+			}
+			.p{
+				color:#FFFFFF;
+				font-size: 22rpx;
+				padding: 0rpx 16rpx;
+			}
+			.img1{
+				width:20rpx;
+				height: 12rpx;
+			}
+		}
+	}
+	.bottom{
+		position:absolute;
+		top: 1234rpx;
+		left: 20rpx;
+		display: flex;
+		align-items: center;
+		.button{
+			display: flex;
+			align-items: center;
+			justify-content:center;
+			width:640rpx;
+			border:2rpx solid #FFD600;
+			border-radius:36rpx;
+			.p1{
+				color: #FFD600;
+				font-size: 36rpx;
+				line-height: 36rpx;
+			}
+			.p2{
+				width:2rpx;
+				height:34rpx;
+				background:#FFD600;
+				border-radius:1rpx;
+				margin-left: 12rpx
+			}
+			.p3{
+				color: #FFD600;
+				font-size: 36rpx;
+				line-height: 36rpx;
+			}
+			.img{
+				width: 34rpx;
+				height: 25rpx;
+				margin: 23rpx 15rpx 23rpx 10rpx;
+			}
+		}
+		.img1{
+			width: 36rpx;
+			height: 36rpx;
+			margin-left: 23rpx;
+			padding: 10rpx;
+		}
+	}
+	.movie{
+		width: 100%;
+		height: 100%;
+		position:fixed;
+		top:0rpx;
+		left:0rpx;
+		z-index:-1;
+		.video{
+			width:100%;
+			height: 100%;
+		}
+	}
+}
+</style>

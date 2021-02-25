@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+<html style="font-size: 359.733px;">
+<head lang="zh-CN">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="screen-orientation" content="portrait">
+    <meta name="x5-orientation" content="portrait">
+    <title>登录</title>
+    <script src="Scripts/common.js"></script>
+    <script>
+        //判断屏幕宽度计算字号大小
+        //(function (doc, win) { var docEl = doc.documentElement, resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize', recalc = function () { var clientWidth = docEl.clientWidth; if (!clientWidth) { return; } docEl.style.fontSize = 100 * (clientWidth / 375) + 'px'; }; if (!doc.addEventListener) { return; } win.addEventListener(resizeEvt, recalc, false); doc.addEventListener('DOMContentLoaded', recalc, false); recalc(); })(document, window);
+        (function (doc, win) {
+            var docEl = doc.documentElement,
+        		resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        		recalc = function () {
+        		    var clientWidth = docEl.clientWidth;
+        		    if (!clientWidth) {
+        		        return;
+        		    }
+        		    console.log('resize');
+        		    docEl.style.fontSize = 100 * (clientWidth / 375) + 'px';
+        		};
+            if (!doc.addEventListener) {
+                return;
+            }
+            win.addEventListener(resizeEvt, recalc, false);
+            doc.addEventListener('DOMContentLoaded', recalc, false);
+            recalc();
+        })(document, window);
+    </script>
+    <link href="Content/Css/login-min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="login-wrap">
+        <div class="img"></div>
+        <h2>请登录您的喵播账号</h2>
+        <div class="login-way">
+            <!--<h3>请选择登录方式</h3>-->
+            <ul class="login-way-list">
+                <!--<li class="js_login_qq">
+                    <input type="text" placeholder="请输入账号" style="width:100%;height:100%"/>
+                </li>
+                <li class="js_login_qq">
+
+                    <input type="text" placeholder="请输入密码" style="width:100%;height:100%" />
+                </li>-->
+                <li class="js_login_qq">
+                    <a href="javascript:qqLogin()">
+                        <i class="icon-login icon-QQ"></i>QQ
+                    </a>
+                </li>
+                <!--<li class="js_login_wx" data-type="wx">
+                    <a href="javascript:wxLogin()">
+                        <i class="icon-login icon-wechat"></i>微信
+                    </a>
+                </li>
+                <li class="js_login_weibo">
+                    <a href="javascript:weiboLogin();">
+                        <i class="icon-login icon-weibo"></i>微博
+                    </a>
+                </li>-->
+                <li class="js_login_mobile_code" data-type="mobile_code">
+                    <a href="http://passport.9158.com/">
+                        <i class="icon-login icon-miaobo"></i>喵播
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        var from = getQueryStr('from')
+        if (from == null || from.length < 0 || from == "") {
+            from = "http://live.9158.com";
+        }
+
+        var qqLogin = function () {
+            window.location.href = "http://live.9158.com/Passport/ThirdLogin?logintype=1&from=" + from + "";
+        }
+
+        var wxLogin = function () {
+            window.location.href = "http://live.9158.com/Passport/ThirdLogin?logintype=2&from=" + from + "";
+        }
+
+        var weiboLogin = function () {
+            alert("敬请期待！");
+            //window.location.href = "http://live.9158.com/Passport/ThirdLogin?logintype=2&from=" + from + "";
+        }
+
+    </script>
+</body>
+</html>

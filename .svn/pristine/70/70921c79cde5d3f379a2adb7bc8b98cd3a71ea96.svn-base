@@ -1,0 +1,47 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <title>春节福利一次送个够</title>
+    <script src="~/Content/common/js/pxtorem.js"></script>
+    <script src="~/Scripts/lib/jquery-1.8.2.min.js"></script>
+    <link href="~/Content/common/css/invite.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="bg">
+        <div class="num">@ViewBag.inviteCode</div>
+    </div>
+    <div class="bg1">
+        <a href="javascript:download();"><div class="download">下载喵播</div></a>
+        <ol>
+            <li>被邀请人必须为首次登录喵播的用户；</li>
+            <li>登录成功后，不需要再次填写邀请码，即可收到红包提醒；</li>
+            <li>请至APP-【发现】-【精彩活动】-【答题红包】进行提现，如有问题请咨询客服。</li>
+            <li>本次活动最终解释权归喵播平台所有。</li>
+        </ol>
+    </div>
+</body>
+</html>
+
+<script type="text/javascript">
+    function download() {
+        if (browser.is_weixin()) {
+            window.location = "http://a.app.qq.com/o/simple.jsp?pkgname=com.tiange.miaolive";
+        }
+        else if (browser.versions.ios || browser.versions.iPhone || browser.versions.iPad) {
+            console.log('1');
+
+            window.location = "https://itunes.apple.com/cn/app/miaobo/id1229560692?l=zh&ls=1&mt=8";
+        }
+        else if (browser.versions.android) {
+            window.location.href = "http://update.9158.com/miaolive/Miaolive.apk";
+        } else {
+            window.location.href = "http://a.app.qq.com/o/simple.jsp?pkgname=com.tiange.miaolive";
+        }
+    }
+</script>

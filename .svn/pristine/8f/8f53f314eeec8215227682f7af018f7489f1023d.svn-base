@@ -1,0 +1,18 @@
+/* CSS Document */
+*{ padding:0; margin:0; border:0; border:none; list-style:none; text-decoration:none; font-family:"黑体-简", "HelveticaNeueLT Std", "华文黑体"; color: #000;}
+@media screen and (min-width:540px) and (max-device-width: 1200px) {html{ font-size:150%;}}
+@media screen and (min-width:410px)  and (max-device-width:540px) {html{ font-size:115%;}}
+@media screen and (min-width:370px)  and (max-device-width:410px) {html{ font-size:105%;}}
+@media screen and (min-width:350px)  and (max-device-width:370px) {html{ font-size:100%;}}
+@media screen and (max-device-width:350px) {html{ font-size:90%;}}
+body{ width: 100%;}
+article { width: 92%; padding: 0 4%; background: #FFF url('../images/login.JPG') repeat-y top center; float: left; }
+h3{ width: 100%;  padding: 2rem 0 0.6rem 0; text-align: center; line-height: 2rem; font-size: 1em; float: left;}
+dl{ width: 50%; padding: 3rem 0 5rem 0; float: left; position: relative;}
+dt{ width: 100%; height: 1.6rem; line-height: 1.6rem; font-size: 1em; float: left;}
+dd{ width: 100%; text-indent: 0.5em; line-height: 1.4rem; font-size: 0.8em; float: left;}
+ul{ float: left; }
+li{ width: 100%; padding: 0.5rem 0; text-indent: 2em;  line-height: 1.6rem; font-size: 0.8em; float: left;}
+h4{ width: 100%; padding: 0.4rem 0; line-height: 1.6rem; font-size: 1em; float: left;}
+span{ padding-left: 2rem;}
+.autograph div{ width:8rem; position: absolute; top: 2rem; left: 1rem;} 

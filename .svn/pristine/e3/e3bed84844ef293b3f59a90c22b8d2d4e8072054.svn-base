@@ -1,0 +1,146 @@
+﻿<!doctype html>
+<html>
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <link href="../../Content/living/AnchorLevel.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+    <script type="text/javascript">
+        var scale = $(window).width() / 640;
+        //alert(scale);
+        $('html').css('font-size', 120 * scale + '%');
+    </script>
+    <title>主播等级</title>
+</head>
+
+<body>
+
+    <div class="all">
+        <div class="head">
+            <div class="user_head">
+                <img src="../../content/living/images/user_hd1.png" />
+                <div class="rank_bg"></div>
+                <div class="living_rank living_rank1"><span>20</span></div>
+                <span class="img_circle"></span>
+                <span class="img_circle2"></span>
+            </div>
+
+            <div class="experience">
+                <div class="next">距离Lv.6还差777经验</div>
+                <div class="value">
+                    <div class="value_bg"></div>
+                    <div class="value_con" style="width:20%;"></div>
+                    <div class="value_text">LV5</div>
+                </div>
+                <div class="tips" style="display:none;">签约主播可享1.1倍加速 <a href="#1" class="btn_signed">开通</a></div>
+                <div class="tips" style="display:block;"><span class="icon_signed"></span>您已签约，升级可享1.1倍加速</div>
+            </div>
+        </div>
+
+
+        <div class="privilege">
+            <div class="title"><span class="dot"></span>主播特权</div>
+            <div class="list">
+                <div class="item">
+                    <div class="icon icon_star1"></div>
+                    <div class="text">
+                        <span class="text_title">等级标识</span>
+                        <span class="level">懵懂入世</span>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <div class="icon icon_live1"></div>
+                    <div class="text">
+                        <span class="text_title">录屏特权</span>
+                        <span class="level">情窦初开</span>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <div class="icon icon_hot1"></div>
+                    <div class="text">
+                        <span class="text_title">热门推荐</span>
+                        <span class="level">初尝禁果</span>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <div class="icon icon_money1"></div>
+                    <div class="text">
+                        <span class="text_title">日常补贴</span>
+                        <span class="level">阅人无数</span>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <div class="icon icon_more1"></div>
+                    <div class="text">
+                        <span class="text_title">更多特权</span>
+                        <span class="level">敬请期待</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+
+
+        <div class="mission">
+            <div class="title"><span class="dot"></span>当前任务</div>
+            <div class="list">
+                <div class="item">
+                    <div class="icon mission_living"></div>
+                    <div class="text">
+                        <span class="text_title">每日开播时长</span>
+                        <span class="detail">已开播/总时长 ：2小时12分钟/4小时</span>
+                    </div>
+                    <div class="complete"><span class="ms_complete"></span>己完成</div>
+                </div>
+
+                <div class="item item_no_top">
+                    <div class="icon mission_fish"></div>
+                    <div class="text">
+                        <span class="text_title">每日猫粮数</span>
+                        <span class="detail">已收获/总猫粮 ：20000/1000000</span>
+                    </div>
+                    <div class="complete"><span class="ms_complete"></span>己完成</div>
+                </div>
+
+                <div class="item item_no_top">
+                    <div class="icon mission_baby"></div>
+                    <div class="text">
+                        <span class="text_title">周宝宝500数</span>
+                        <span class="detail">已获得/总宝宝数 ：200/500</span>
+                    </div>
+                    <div class="complete"><span class="ms_complete"></span>己完成</div>
+                </div>
+
+                <div class="item item_no_top">
+                    <div class="icon mission_123"></div>
+                    <div class="text">
+                        <span class="text_title">周星榜前三</span>
+                        <span class="detail">当前周星榜完成度 1/6</span>
+                    </div>
+                    <div class="complete"><span class="ms_complete"></span>己完成</div>
+                </div>
+
+            </div>
+
+            <div class="explicate">PS，因可能存在系统缓存、页面更新导致数据异常，<br />请您立即联系我们。</div>
+
+        </div>
+
+
+
+    </div>
+
+</body>
+</html>

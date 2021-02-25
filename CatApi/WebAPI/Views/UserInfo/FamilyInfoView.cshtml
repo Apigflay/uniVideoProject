@@ -1,0 +1,116 @@
+﻿@model Model.Family
+
+@{
+    ViewBag.Title = "家族详情";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section head_css{
+    <link href="~/Content/Css/family.css?v=8" rel="stylesheet" />
+}
+
+<div class="family">
+
+    <div class="head">
+        <div class="name">家族名: @Model.familyName</div>
+        <div class="info">
+            <div class="info2">
+                <p><span>族长: </span>@Model.nickName@*<span class="male"></span>*@</p>
+                <p><span>ID号: </span>@Model.useridx</p>
+            </div>
+            @*<div class="line"></div>*@
+            <div class="number">
+                <p>&nbsp;</p>
+                <p><span class="count">主播数: </span> @Model.familyNum 个</p>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="post">
+        <div class="title"></div>
+        <div class="post_content">
+            @if (string.IsNullOrEmpty(Model.notice))
+            {
+                <span>@Model.familyName 欢迎你的加入，快一起来成为喵播最闪亮的当红主播吧，期待你的到来哦~ </span>
+            }
+            else
+            {
+                @Model.notice
+            }
+
+        </div>
+    </div>
+
+    @*<div class="contact">
+        @if (ViewBag.haveContact == 1)
+        {
+            <div class="title"></div>
+        }
+
+        @if (!string.IsNullOrEmpty(Model.weixin))
+        {
+            <div class="weixin">
+
+                <div class="list">
+                    <ul>
+                        <li>微信联系家族长</li>
+                        <li>第一步：长按复制下方微信号</li>
+                        <li><span class="btn_btn">@Model.weixin</span></li>
+                        <li>第二步：打开微信&raquo;添加朋友，粘贴微信号，搜索并加为好友</li>
+                        <li>
+                            <a href="weixin://">
+                                <div class="btn_btn">
+                                    <span class="icon"></span>
+                                    <span class="text">打开微信</span>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        }
+
+        @if (!string.IsNullOrEmpty(Model.qq))
+        {
+            <div class="qq">
+                <div class="list">
+                    <ul>
+                        <li>QQ联系家族长</li>
+                        <li>
+                            <div class="btn_btn">
+                                <span class="icon"></span>
+                                <a href="mqqwpa://im/chat?chat_type=wpa&src_type=web&version=1&uin=@Model.qq">
+
+                                    <span class="text">打开QQ</span>
+                                </a>
+                            </div>
+
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        }
+
+        @if (!string.IsNullOrEmpty(Model.mobilePhone))
+        {
+            <div class="phone">
+                <div class="list">
+                    <ul>
+                        <li>电话联系家族长</li>
+                        <li>
+                            <div class="btn_btn">
+                                <span class="icon"></span>
+                                <a href="tel:@Model.mobilePhone"> <span class="text">拨打电话</span></a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        }
+
+    </div>*@
+</div>

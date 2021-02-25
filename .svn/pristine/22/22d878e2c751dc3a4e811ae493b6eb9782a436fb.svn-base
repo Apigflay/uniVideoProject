@@ -1,0 +1,46 @@
+﻿<!doctype html>
+<html>
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <link href="../../Content/living/AnchorLevel.css" rel="stylesheet" />
+
+    <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+    <script type="text/javascript">
+        var scale = $(window).width() / 640;
+        //alert(scale);
+        $('html').css('font-size', 120 * scale + '%');
+    </script>
+    <title>日常补贴</title>
+</head>
+
+<body>
+
+    <div class="all">
+        <div class="explicate">
+            <div class="title"><span class="dot"></span>获取条件</div>
+
+            <div class="ex_text">
+                <p>70级及70级以上用户可享受</p>
+            </div>
+
+        </div>
+
+        <div class="explicate">
+            <div class="title"><span class="dot"></span>特权说明</div>
+
+            <div class="ex_text">
+                <p>主播每日正常开播2小时以上，可获得50元/天的日常补贴</p>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>

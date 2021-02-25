@@ -1,0 +1,126 @@
+﻿@{
+    ViewBag.Title = "VerEditView";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+@model Model.LiveVersion
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=0">
+
+<style type="text/css">
+    .text { width: 100%; }
+</style>
+
+@using (Html.BeginForm())
+{
+    <table class="table table-bordered">
+        <tr>
+            <td>类别：</td>
+            <td>
+                @{
+                    List<SelectListItem> item = new List<SelectListItem>();
+                    item.Add(new SelectListItem { Text = "礼物", Value = "1" });
+                    item.Add(new SelectListItem { Text = "喵播", Value = "2" });
+                    item.Add(new SelectListItem { Text = "猫播", Value = "3" });
+                }
+                @Html.DropDownList("type", item, Model.type)
+
+            </td>
+        </tr>
+        <tr>
+            <td>编号：</td>
+            <td>
+                @if (Model.id == 0)
+                {
+                    <input type="number" id="id" name="id" />
+                }
+                else
+                {
+                    @Html.DisplayTextFor(model => model.id)
+                }
+            </td>
+        </tr>
+        <tr>
+            <td>Bundleid：</td>
+            <td>
+                @Html.TextBoxFor(model => model.Bundleid)
+            </td>
+        </tr>
+        <tr>
+            <td>名称：</td>
+            <td>@Html.TextBoxFor(model => model.name)</td>
+        </tr>
+        <tr>
+            <td>审核版本号：</td>
+            <td>
+                @Html.TextBoxFor(model => model.auditVersion, new { @type = "number" })
+            </td>
+        </tr>
+        <tr>
+            <td>更新版本号：</td>
+            <td>
+                @*<span>-</span>*@
+                @Html.TextBoxFor(model => model.version, new { @type = "number" })
+                @*@Html.TextBoxFor(model => Html.Encode(model.version))*@
+                @*<span>+</span>*@
+            </td>
+        </tr>
+        <tr>
+            <td>是否强更：</td>
+            <td>
+                @{
+                List<SelectListItem> items = new List<SelectListItem>();
+                items.Add(new SelectListItem { Text = "是", Value = "1" });
+                items.Add(new SelectListItem { Text = "否", Value = "0" });
+                }
+                @Html.DropDownList("isupdate", items, Model.isUpdate)
+
+            </td>
+        </tr>
+        <tr>
+            <td>更新信息：</td>
+            <td>@Html.TextAreaFor(model => model.updateInfo, new { Rows = "7", Cols = "20" })</td>
+        </tr>
+        <tr>
+            <td>更新地址：</td>
+            <td>@Html.TextBoxFor(model => model.updateURL, new { @class = "text" })</td>
+        </tr>
+        <tr>
+            <td>操作：</td>
+            <td>
+                <input id="btnOK" type="button" value="确定" class="btn btn-primary" />
+                <a href="/H5/M/GetVersion" class="btn btn-primary">返回</a>
+            </td>
+        </tr>
+    </table>
+}
+<script type="text/javascript">
+    //添加和修改数据操作 datatype 1:添加 2：修改
+    $("#btnOK").click(function () {
+        var id = getQueryStr("id");
+        var datatype = getQueryStr("dataType");
+
+
+        $.ajax({
+            type: "POST",
+            url: "/H5/M/VerEditView?dataType=" + datatype + "&id=" + id,
+            data: $("form").serialize(),
+            success: function (d) {
+                if (d == 1) {
+                    alert("操作成功");
+                } else if (d == -1) {
+                    alert("系统错误");
+                } else
+                    alert("操作失败");
+
+                window.location = '/H5/M/GetVersion'
+            }
+        });
+    });
+
+    function getQueryStr(name) {
+        var reg = new RegExp("(^|\\?|&)" + name + "=([^&]*)(\\s|&|$)", "i");
+        if (reg.test(location.href)) return decodeURIComponent(RegExp.$2.replace(/\+/g, " "));
+        return "";
+    }
+</script>

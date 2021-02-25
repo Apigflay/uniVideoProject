@@ -1,0 +1,21 @@
+﻿@{
+    ViewBag.Title = "临时维护";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style type="text/css">
+    .nodata { width: 100%; margin: 0 auto; padding-top: 50%; text-align: center;  }
+    .nodata span { display: block; width: 10rem; margin: 0 auto; height: 10rem; background: url(http://live.9158.com/Content/Images/nodata.png) no-repeat; background-size: 100%; }
+
+</style>
+<div class="nodata">
+    <span class="img"></span>
+    @if (ViewBag.msg != "")
+    {
+        Html.Raw(ViewBag.msg);
+    }
+    else {
+        Html.Display("临时维护中，马上回来。。。。");
+    }
+
+</div>
+

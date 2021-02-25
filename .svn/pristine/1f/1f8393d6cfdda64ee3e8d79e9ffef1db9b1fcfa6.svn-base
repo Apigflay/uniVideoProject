@@ -1,0 +1,248 @@
+﻿@{
+    ViewBag.Title = "绑定支付宝";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Content/Css/babyExchange.css?v=v1" rel="stylesheet" />
+
+@using (Html.BeginForm("bindAlipay", "Pay"))
+{
+    @*<div class="all">*@
+    <br />
+    @*<div class="item_append">可提现金额<span></span> @Model.wallet 元</div>*@
+
+    <div class="item">
+        <span class="title">支付宝账号</span>
+        <div class="input"><input name="alipayID" type="email" placeholder="请输入你的支付宝账号" value=""></div>
+    </div>
+
+    <div class="item item_attach">
+        <span class="title">账号姓名</span>
+        <div class="input"><input name="realname" type="text" placeholder="请输入你的真实姓名" value=""></div>
+    </div>
+
+    <!--验证码部分-->
+    @*<div class="item" id="captchaBox" style="text-align:center;">
+            <span id="wait" class="show">正在加载验证码......</span>
+        </div>*@
+
+    @*<div class="item_append">支付宝账号和姓名一定要匹配,请仔细核对支付宝账号和姓名。</div>*@
+
+    <div class="the_btn">
+        <a href="javascript:;" class="btn_exchange">确 定</a>
+    </div>
+
+    <!--绑定成功提示-->
+    <div id="bindSuccess" class="de_hint" style="display:none;">
+        <h2>提现成功</h2>
+        <div class="da_with">
+            <h3>己成功提现 <span>0</span> 元</h3>
+            <h4>提现会有一定的延时，请留意本人的支付宝账号。</h4>
+        </div>
+        <div class="ht_shut">
+            <ul>
+                <li style="border-right:0.1rem solid rgba(0,0,0,.1);"><a href="">告诉大家</a></li>
+                <li><a href="">下次吧</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!--提现说明-->
+    <div class="explanation">
+        <p>提现说明：</p>
+        <ol>
+            <li>请您准确填写<span>本人</span>支付宝信息，信息错误将导致提现失败。</li>
+            <li>一个支付宝账号只能绑定一台手机</li>
+            <li>一般提现申请后1个工作日内到账，如未到账请联系官方客服。</li>
+        </ol>
+    </div>
+}
+
+<script src="/Scripts/lib/gt.js"></script>
+<script src="~/Content/layer/mobile/layer.js"></script>
+<script>
+
+    var scale = $(window).width() / 640;
+    $('html').css('font-size', 120 * scale + '%');
+
+    //var bind = {
+    //    CheckInput: function () {
+    //        var useridx = getQueryStr('useridx');
+    //        var sign = getQueryStr('chkcode');
+    //        var usertoken = getQueryStr('token');
+
+    //        var //$money = $('input[name="money"]').val().trim(),
+    //            $alipayid = $('input[name="alipayID"]').val().trim(),
+    //            $name = $('input[name="realname"]').val().trim()
+    //        //$phoneno = $('input[name="phoneno"]').val().trim();
+
+    //        if ($alipayid == '' || $name == '') {
+    //            layer.open({ skin: 'msg', content: "请正确填写信息", time: 2 });
+    //            return false;
+    //        }
+    //        bind.BindAlipay(useridx, sign);
+    //    },
+    //    BindAlipay: function (idx, sign) {
+    //        $.ajax({
+    //            timeout: 8000, //超时时间设置，单位毫秒
+    //            type: 'POST',
+    //            dataType: 'json',
+    //            url: '/Pay/bindAlipay?useridx=' + idx + '&chkcode=' + sign,
+    //            data: $("form").serialize(),
+    //            beforeSend: function () { },
+    //            success: function (response) {
+    //                if (response.code == 100) {
+    //                    layer.open({ skin: 'msg', content: "绑定支付宝成功", time: 2 });
+    //                    setTimeout(function () {
+    //                        window.location = "/Pay/ExChange?apiversion=2&isbind=1&useridx=" + idx + "&chkcode=" + sign;
+    //                    }, 1000);
+    //                } else if (response.code == 101) {
+    //                    layer.open({ skin: 'msg', content: "请正确填写信息", time: 2 });
+    //                } else if (response.code == 102) {
+    //                    layer.open({ skin: 'msg', content: "该用户或支付宝账号已被绑定", time: 2 });
+    //                } else if (response.code == 103) {
+    //                    layer.open({ skin: 'msg', content: "已存在支付宝账号，请联系官方运营", time: 2 });
+    //                } else {
+    //                    layer.open({ skin: 'msg', content: "绑定失败", time: 2 });
+    //                    setTimeout(function () {
+    //                        window.history.go(-1);
+    //                    }, 2000);
+    //                }
+    //            },
+    //            error: function (xhr, type) {
+    //                layer.open({ skin: 'msg', content: "操作超时", time: 2 });
+    //            }
+    //        });
+    //    },
+    //};
+
+    $(function () {
+
+        //获取验证码
+        var GetCaptchaData = function () {
+            $.ajax({
+                type: 'GET',
+                dataType: 'json',
+                url: '/Account/GetCaptcha?t=' + (new Date()).getTime(),// 获取id，challenge，success（是否启用failback）
+                success: function (data) {
+
+                    // 调用 initGeetest 进行初始化
+                    // 参数1：配置参数
+                    // 参数2：回调，回调的第一个参数验证码对象，之后可以使用它调用相应的接口
+                    initGeetest({
+                        // 以下 4 个配置参数为必须，不能缺少
+                        gt: data.gt,
+                        challenge: data.challenge,
+                        new_captcha: data.new_captcha,
+                        offline: !data.success, // 表示用户后台检测极验服务器是否宕机，一般不需要关注
+
+                        width: '98%',
+                        product: 'bind',// 产品形式，包括：float，embed，popup。注意只对PC版验证码有效
+                        protocol: 'https://' //设置验证设计到的请求使用协议
+                        // 更多配置参数说明请参见：http://docs.geetest.com/install/client/web-front/
+                    }, handlerEmbed);
+                },
+                error: function (xhr, type) { }
+            });
+        }
+        var useridx = getQueryStr('useridx');
+        var sign = getQueryStr('chkcode');
+        var usertoken = getQueryStr('token');
+
+        GetCaptchaData();
+
+        //及验证回调函数
+        var handlerEmbed = function (captchaObj) {
+
+            //极验验证准备好后
+            captchaObj.onReady(function () {
+                //$('#wait').hide();
+            });
+
+            //极验验证通过(成功)后调用发方法
+            captchaObj.onSuccess(function () {
+                console.log('及验证成功开始调用');
+
+                //校验是否点击了验证码
+                var validate = captchaObj.getValidate();
+                if (!validate) {
+                    layer.open({ skin: 'msg', content: "请先完成验证码验证", time: 2 });
+                    captchaObj.verify();
+                    return;
+                }
+
+                formSubmit();
+            });
+
+            //注册/或者登陆提交按钮操作
+            $('.btn_exchange').click(function () {
+                var $alipayid = $('input[name="alipayID"]').val().trim(),
+                    $realname = $('input[name="realname"]').val().trim()
+
+                if ($alipayid == '' || $realname == '') {
+                    layer.open({ skin: 'msg', content: "请正确填写信息", time: 2 });
+                    return;
+                }
+
+                //调用之前先通过前端表单校验(使用极验验证调用此方法)
+                //captchaObj.verify();
+
+                //不使用极验验证直接调用此方法
+                formSubmit();
+            });
+
+            // 将验证码加到id为captcha的元素里
+            // 验证码将会在下面指定的元素中显示出来
+            //captchaObj.appendTo('#captchaBox');
+        }
+
+        //表单提交
+        var formSubmit = function () {
+            //登陆或注册提交信息，比如：用户名，密码，验证码
+            $.ajax({
+                timeout: 8000, //超时时间设置，单位毫秒
+                type: 'POST',
+                dataType: 'json',
+                url: '/Pay/bindAlipay?useridx=' + useridx + '&chkcode=' + sign,
+                data: $("form").serialize(),
+                //ddata:{
+                // 验证码数据，这些数据不用自己获取
+                //        // 这是二次验证所需的三个值
+                //        // 当然，你也可以直接设置验证码单独校验，省略其他信息
+                //        geetest_challenge: validate.geetest_challenge,
+                //        geetest_validate: validate.geetest_validate,
+                //        geetest_seccode: validate.geetest_seccode
+                //}
+                beforeSend: function () { },
+                success: function (response) {
+                    if (response.code == 100) {
+                        layer.open({ skin: 'msg', content: "绑定支付宝成功", time: 2 });
+                        setTimeout(function () {
+                            window.location = "/Pay/ExChange?apiversion=3&isbind=1&useridx=" + useridx + "&chkcode=" + sign;
+                        }, 1000);
+                    } else if (response.code == 101) {
+                        layer.open({ skin: 'msg', content: "请正确填写信息", time: 2 });
+                    } else if (response.code == 102) {
+                        layer.open({ skin: 'msg', content: "该用户或支付宝账号已被绑定", time: 2 });
+                    } else if (response.code == 103) {
+                        layer.open({ skin: 'msg', content: "已存在支付宝账号，请联系官方运营", time: 2 });
+                    } else if (response.code == 12) {
+                        layer.open({ skin: 'msg', content: "验证码错误", time: 2 });
+                        captchaObj.reset();
+                    }
+                    else {
+                        layer.open({ skin: 'msg', content: "绑定失败", time: 2 });
+                        setTimeout(function () {
+                            window.history.go(-1);
+                        }, 2000);
+                    }
+                },
+                error: function (xhr, type) {
+                    layer.open({ skin: 'msg', content: "操作超时", time: 2 });
+                }
+            });
+        }
+
+    });
+
+</script>

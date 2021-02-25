@@ -1,0 +1,28 @@
+﻿<div class="inward">
+    <div class="brain bg02">
+        <div class="bn_inside">
+            <a href="javascript:Answer.Page.openHelpPageLayer('close');" class="icon_back"></a>
+            <div class="help">
+                <dl>
+                    <dt>游戏帮助</dt>
+                    <dd>
+                        <ol>
+                            <li>参加对战需要花费一定喵币，多人对战消耗游戏次数，1v1对战不消耗游戏次数 </li>
+                            <li>每用户每天可参加10次游戏，邀请新用户可得额外5次机会 </li>
+                            <li>1V1对战邀请列表仅显示30分钟内的邀请，有邀请要尽快去迎战哦。 </li>
+                        </ol>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>答题流程说明</dt>
+                    <dd>
+                        <ol>
+                            <li>每轮题目有5题或者12题，根据答题时间给予分数 </li>
+                            <li>每题满分为100分，慢1s，则少10分，错误则为0，拼手速的时候到了~ </li>
+                        </ol>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+</div>

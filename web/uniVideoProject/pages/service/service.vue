@@ -1,0 +1,388 @@
+<template>
+	<view class="main">
+		<view v-show="show" class="top" style="width: 100%; height: 90rpx;"><image class="back" src="../../static/pictures/delete_1.png" @click="back()"></image></view>
+		<view><image class="img" src="../../static/pictures/logo_1.png"></image></view>
+		<view><image class="title" src="../../static/pictures/shouyetitle_1.png"></image></view>
+		<view class="content" v-show="tabbarLoginLanguage == 0">
+			<b>服務條款关于 CAT</b></br> 
+			CAT 是一个付费浏览的社交通讯应用服务，用户可以透过创建、发布私密照片与影片，赚取潜在的获利。</br>
+			这些服务条款，包含我们的隐私权政策（以下统称为「条款」）是您使用 CAT 的规范。若您使用 CAT，表示您接受并同意遵守这些规范条款。如果您不同意任一条款，或是您不满意 CAT，我们唯一的建议是停止使用 CAT。</br>
+			我们保留随时修改条款的权利。如果我们做出重大变更，我们将努力透过 app 或是官网张贴变更告示，或是透过任何其他合理的方式通知您。此外，我们会在更新条款后您登入 CAT 时要求您同意更新的条款（例如要求您勾选「我同意条款」的按钮）。当您表示同意并持续使用 CAT，即表示您同意这些更新条款的规范。</br>
+			当您使用 CAT 时，我们与您便会透过电子通讯的方式进行沟通，此方式包含电子邮件、推播通知以及 app 系统讯息。您了解并同意我们提供给您的协议、通知、讯息发布等电子书面形式是符合法定要求的。</br>
+			您了解并同意使用 CAT 时会产生行动网路数据费用，且这些数据费用将完全由您承担。</br>
+			我们保留权力在任何时间以任何理由，没有责任在有告知或无告知的情况下进行：</br>
+			（一）修改、暂停或终止 CAT 或其任何功能；</br>
+			（二）限定、限制、暂停或终止您使用 CAT 或其任何功能；</br>
+			（三）删除、屏蔽或禁止您在 CAT 中张贴的内容；</br>
+			（四）监测您使用 CAT 时是否符合遵守条款与任何适用法律（包含您在 CAT 所发布或传送的任何内容或讯息）</br>
+			（五）调查任何可疑或涉嫌滥用或非法使用 CAT 的行为，并配合执法单位调查。</br>
+			
+			<b>使用 CAT</b></br>
+			您可以让您的追踪者看到您使用 CAT 创建和发布照片与影片，您也可以追踪或观看其他 CAT 用户的照片与影片，亦可以发送私讯给其他 CAT 用户。当用户使用 CAT 相机功能拍摄照片或影片时，其内容对于 CAT 而言是专属独有的，您只能在 CAT app 中浏览内容，且无法分享或输出到 CAT 之外的地方。</br>
+			当用户于CAT 中创建照片或影片（以下简称「内容」）时，内容创作者（以下简称「创作者」）可以让他/她的追随者（以下简称「追随者」）有偿或无偿观看其内容（以下简称分别为「免费内容」与「付费内容」）。针对付费内容，创作者会依照他/她期望收取的费用，设定一定数量的「CAT 点数」，而 CAT 将从中收取些许平台服务费。追随者需要在 app 中购买等值「CAT 点数」并完成支付才能观看该项内容。</br>
+			您可以在 CAT 中查询您的 CAT 点数余额（以下简称「余额」），您的余额包含：您已购买/储值的 CAT 点数，但尚未花费于其他创作者的付费内容；</br>
+			（二）其他跟随者欲观看您的付费内容时所支付给您的 CAT 点数以及其他跟随者赠送给您的 CAT 点数（以下皆称为「收益」）。</br>
+			
+			<b>重要提示：</b></br>
+			
+			（一）我们不拥有或掌控 CAT 中的用户内容，所有在 CAT 中交易与互动的用户内容仅限于创作者与其追随者之间，CAT若依照法令规定或主播要求而删除任何内容时，用户不得異议；</br>
+			（二）若创作者透过平台举办各项私人活动，其内容与官方无关，官方亦无责补偿或退款。</br>
+			<b>CAT 使用对象</b></br>
+			CAT 是一个提供给懂得尊重与负责的成年人的社交通讯平台，用户可创建任何的影片/照片/文字内容，其中可能包含成人资讯。</br>
+			当您开始使用 CAT 时，代表已了解 app 含有成人内容，且声明并保证：</br>
+			（一）您至少年满十八岁；</br>
+			（二）您会完全遵守这些条款；</br>
+			（三）您接受在任何装置中使用 CAT 的全部责任，无论该装置是否归您所有；</br>
+			（四）您接受由您所创建或提供的任何内容的全部责任；</br>
+			（五）您在使用 CAT 时，不会违反这些条款或任何适用法律。</br>
+			
+			<b>帐号注册</b></br>
+			您必须注册帐号才能进入并使用 CAT，注册时，您必须提供有效的电子邮件地址、用户名称和密码。同时您也必须建立 CAT 个人资料与相关内容以完成您的 CAT 个人资料。请特别注意在建立帐号的过程中，我们可能会需要您的手机号码来进行帐号验证手续。</br>
+			在完成 CAT 注册前，您声明并保证：</br>
+			（一）所有帐号注册的个人资料和内容（包含您从 Facebook 与 Twitter 或其他社群媒体服务中导入的内容），是由您提供给我们的真实个人资料与内容；</br>
+			（二）您未曾注册或拥有过 CAT 帐号（包含您透过不同的电子邮件、用户名称或手机号码注册）；</br>
+			（三）如您以前曾拥有过 CAT 帐号，您的旧帐号并未因违反这些条款而遭到暂停或终止；</br>
+			（四）您在 CAT 注册的帐号是您属于您个人且合法的，您不会出售、出租、出借、或将您到帐号转移到任何未经本公司书面许可的其他人；</br>
+			（五）您无法且您也不会试图透过未授权的第三方应用程式登入 CAT。</br>
+			您会为您的帐号发生的所有行为承担全部责任，您有责任维护您的登入资讯的安全性与保密性，您也同意如果您认为有人未经您的许可使用或是正在使用您的帐户，或透过任何违反安全的方式引起您的注意，您会立即通知我们。</br>
+			
+			在应用程式中购买若要观看别人的付费内容，您必须在应用程式中购买并支付等值 CAT 点数。应用商城可能会取决于您住的地方收取销售税（详细资讯请查看您所属的应用商城的条款与政策）。</br>
+			重要提示：所有应用程式中购买的 CAT 点数是无法退款的。 您明确了解并同意，您在 CAT 应用程式中购买 CAT 点数以观看付费内容，无论提供付费内容的创作者或是我们皆不会有任何责任义务为您提供任何理由的退款。您也同意我们只有在因 CAT 软体维修或其他技术故障而导致您的帐户余额错误时，才会进行必要的修正与调整。</br>
+			<b>遭官方停用</b></br>
+			您明确了解并同意我们保留权利在以下情况停用您的帐户：</br>
+			（一）您在使用 CAT 时违反了这些条款或任何适用法律；</br>
+			（二）您超过 60 天未登入 CAT，且经官方通知 7 日后仍未登入 CAT。</br>
+			重要提示：若您的帐户因以上原因而遭到停用，帐户内剩余的 CAT 点数将被视为永久作废。</br>
+			
+			<b>禁止行为</b></br>
+			我们要求所有 CAT 用户在任何时候使用 CAT 都能遵守条款。您不能使用 CAT 进行以下行为：</br>
+			伪造帐户注册资料，或擅自使用他人的讯息或内容；</br>
+			以任何方式或任何目的从事非法行为，包含涉及任何违反个人或实体权利的行为；</br>
+			创建、上传、发布、展示或传播任何以下用户内容：（一）侵犯他人著作权、商标权、隐私公开全或其他财产或人身权利（例如使用的姓名、肖像、图像或他人未经同意的身份）；</br>
+			创建、拷贝、复制、发布或修改任何不属于您或未经内容拥有者明确书面许可的内容（包含拍照或截图等）；</br>
+			反编译、逆向工程，或以其他任何方式试图挖掘获取的 CAT 原始码；</br>
+			干扰任何 CAT 的伺服器、网路或系统相关营运，包含但不限于骇客攻击、垃圾邮件或进行服务攻击、破坏或规避防火墙、加密机制、安全认证程序等，或试图观看您没有明确授权的讯息与他人帐户；</br>
+			使用任何自动化程序、工具或程式（包含但不限于网路爬虫、机器人与自动化脚本）来进入 CAT 或 CAT 的任何伺服器、网路与相关系统；或从 CAT 中收集或取得内容或资讯；</br>
+			使用 CAT 时进行任何违反本条款或任何适用法律的行为。</br>
+			
+			如需回报 CAT 不当使用之行为，请联系 CAT 客服：mycat1314@mycat1314.com。</br>
+			
+			<b>适用法律与争议解决</b></br>
+			本条款和本文所载的条款如有任何争议或歧见，应先进诚意协商解决，若无法达成协议，双方同意专属由台湾台北地方法院为管辖法院。您必须在台湾台北地方法院解决因本协议或 CAT 而引起的任何导致诉讼行动或纠纷（索偿）的索赔和原因。</br>
+		</view>
+		
+		<view class="content" v-show="tabbarLoginLanguage == 1">
+			<b>服務條款關於 CAT </b></br>
+			CAT 是壹個付費瀏覽的社交通訊應用服務，用戶可以透過創建、發布私密照片與影片，賺取潛在的獲利。</br>
+			這些服務條款，包含我們的隱私權政策（以下統稱為「條款」）是您使用 CAT 的規範。若您使用 CAT，表示您接受並同意遵守這些規範條款。如果您不同意任壹條款，或是您不滿意 CAT，我們唯壹的建議是停止使用 CAT。</br>
+			我們保留隨時修改條款的權利。如果我們做出重大變更，我們將努力透過 app 或是官網張貼變更告示，或是透過任何其他合理的方式通知您。此外，我們會在更新條款後您登入 CAT 時要求您同意更新的條款（例如要求您勾選「我同意條款」的按鈕）。當您表示同意並持續使用 CAT，即表示您同意這些更新條款的規範。</br>
+			當您使用 CAT 時，我們與您便會透過電子通訊的方式進行溝通，此方式包含電子郵件、推播通知以及 app 系統訊息。您了解並同意我們提供給您的協議、通知、訊息發布等電子書面形式是符合法定要求的。</br>
+			您了解並同意使用 CAT 時會產生行動網路數據費用，且這些數據費用將完全由您承擔。</br>
+			我們保留權力在任何時間以任何理由，沒有責任在有告知或無告知的情況下進行：</br>
+			（壹）	修改、暫停或終止 CAT 或其任何功能；</br>
+			（二）限定、限制、暫停或終止您使用 CAT 或其任何功能；</br>
+			（三）刪除、屏蔽或禁止您在 CAT 中張貼的內容；</br>
+			（四）監測您使用 CAT 時是否符合遵守條款與任何適用法律（包含您在 CAT 所發布或傳送的任何內容或訊息）</br>
+			（五）調查任何可疑或涉嫌濫用或非法使用 CAT 的行為，並配合執法單位調查。</br>
+			
+			<b>使用 CAT</b></br>
+			您可以讓您的追蹤者看到您使用 CAT 創建和發布照片與影片，您也可以追蹤或觀看其他 CAT 用戶的照片與影片，亦可以發送私訊給其他 CAT 用戶。當用戶使用 CAT 相機功能拍攝照片或影片時，其內容對於 CAT 而言是專屬獨有的，您只能在 CAT app 中瀏覽內容，且無法分享或輸出到 CAT 之外的地方。</br>
+			當用戶於CAT 中創建照片或影片（以下簡稱「內容」）時，內容創作者（以下簡稱「創作者」）可以讓他/她的追隨者（以下簡稱「追隨者」）有償或無償觀看其內容（以下簡稱分別為「免費內容」與「付費內容」）。針對付費內容，創作者會依照他/她期望收取的費用，設定壹定數量的「CAT 點數」，而 CAT 將從中收取些許平臺服務費。追隨者需要在 app 中購買等值「CAT 點數」並完成支付才能觀看該項內容。</br>
+			您可以在 CAT 中查詢您的 CAT 點數余額（以下簡稱「余額」），您的余額包含：您已購買/儲值的 CAT 點數，但尚未花費於其他創作者的付費內容；</br>
+			（二）其他跟隨者欲觀看您的付費內容時所支付給您的 CAT 點數以及其他跟隨者贈送給您的 CAT 點數（以下皆稱為「收益」）。</br>
+			
+			<b>重要提示：</b></br>
+			
+			（壹）我們不擁有或掌控 CAT 中的用戶內容，所有在 CAT 中交易與互動的用戶內容僅限於創作者與其追隨者之間，CAT若依照法令規定或主播要求而刪除任何內容時，用戶不得異議；</br>
+			（二）若創作者透過平臺舉辦各項私人活動，其內容與官方無關，官方亦無責補償或退款。</br>
+			<b>CAT 使用對象</b></br>
+			CAT 是壹個提供給懂得尊重與負責的成年人的社交通訊平臺，用戶可創建任何的影片/照片/文字內容，其中可能包含成人資訊。</br>
+			當您開始使用 CAT 時，代表已了解 app 含有成人內容，且聲明並保證：</br>
+			（壹）您至少年滿十八歲；</br>
+			（二）您會完全遵守這些條款；</br>
+			（三）您接受在任何裝置中使用 CAT 的全部責任，無論該裝置是否歸您所有；</br>
+			（四）您接受由您所創建或提供的任何內容的全部責任；</br>
+			（五）您在使用 CAT 時，不會違反這些條款或任何適用法律。</br>
+			
+			<b>帳號註冊</b></br>
+			您必須註冊帳號才能進入並使用 CAT，註冊時，您必須提供有效的電子郵件地址、用戶名稱和密碼。同時您也必須建立 CAT 個人資料與相關內容以完成您的 CAT 個人資料。請特別註意在建立帳號的過程中，我們可能會需要您的手機號碼來進行帳號驗證手續。</br>
+			在完成 CAT 註冊前，您聲明並保證：</br>
+			（壹）所有帳號註冊的個人資料和內容（包含您從 Facebook 與 Twitter 或其他社群媒體服務中導入的內容），是由您提供給我們的真實個人資料與內容；</br>
+			（二）您未曾註冊或擁有過 CAT 帳號（包含您透過不同的電子郵件、用戶名稱或手機號碼註冊）；</br>
+			（三）如您以前曾擁有過 CAT 帳號，您的舊帳號並未因違反這些條款而遭到暫停或終止；</br>
+			（四）您在 CAT 註冊的帳號是您屬於您個人且合法的，您不會出售、出租、出借、或將您到帳號轉移到任何未經本公司書面許可的其他人；</br>
+			（五）您無法且您也不會試圖透過未授權的第三方應用程式登入 CAT。</br>
+			您會為您的帳號發生的所有行為承擔全部責任，您有責任維護您的登入資訊的安全性與保密性，您也同意如果您認為有人未經您的許可使用或是正在使用您的帳戶，或透過任何違反安全的方式引起您的註意，您會立即通知我們。</br>
+			
+			在應用程式中購買若要觀看別人的付費內容，您必須在應用程式中購買並支付等值 CAT 點數。應用商城可能會取決於您住的地方收取銷售稅（詳細資訊請查看您所屬的應用商城的條款與政策）。</br>
+			重要提示：所有應用程式中購買的 CAT 點數是無法退款的。 您明確了解並同意，您在 CAT 應用程式中購買 CAT 點數以觀看付費內容，無論提供付費內容的創作者或是我們皆不會有任何責任義務為您提供任何理由的退款。您也同意我們只有在因 CAT 軟體維修或其他技術故障而導致您的帳戶余額錯誤時，才會進行必要的修正與調整。</br>
+			<b>遭官方停用</b></br>
+			您明確了解並同意我們保留權利在以下情況停用您的帳戶：</br>
+			（壹）您在使用 CAT 時違反了這些條款或任何適用法律；</br>
+			（二）您超過 60 天未登入 CAT，且經官方通知 7 日後仍未登入 CAT。</br>
+			重要提示：若您的帳戶因以上原因而遭到停用，帳戶內剩余的 CAT 點數將被視為永久作廢。</br>
+			
+			<b>禁止行為</b></br>
+			我們要求所有 CAT 用戶在任何時候使用 CAT 都能遵守條款。您不能使用 CAT 進行以下行為：</br>
+			偽造帳戶註冊資料，或擅自使用他人的訊息或內容；</br>
+			以任何方式或任何目的從事非法行為，包含涉及任何違反個人或實體權利的行為；</br>
+			創建、上傳、發布、展示或傳播任何以下用戶內容：（壹）侵犯他人著作權、商標權、隱私公開全或其他財產或人身權利（例如使用的姓名、肖像、圖像或他人未經同意的身份）；</br>
+			創建、拷貝、復制、發布或修改任何不屬於您或未經內容擁有者明確書面許可的內容（包含拍照或截圖等）；</br>
+			反編譯、逆向工程，或以其他任何方式試圖挖掘獲取的 CAT 原始碼；</br>
+			幹擾任何 CAT 的伺服器、網路或系統相關營運，包含但不限於駭客攻擊、垃圾郵件或進行服務攻擊、破壞或規避防火墻、加密機制、安全認證程序等，或試圖觀看您沒有明確授權的訊息與他人帳戶；</br>
+			使用任何自動化程序、工具或程式（包含但不限於網路爬蟲、機器人與自動化腳本）來進入 CAT 或 CAT 的任何伺服器、網路與相關系統；或從 CAT 中收集或取得內容或資訊；</br>
+			使用 CAT 時進行任何違反本條款或任何適用法律的行為。</br>
+			
+			如需回報 CAT 不當使用之行為，請聯系 CAT 客服：mycat1314@mycat1314.com。</br>
+			
+			<b>適用法律與爭議解決</b></br>
+			本條款和本文所載的條款如有任何爭議或歧見，應先進誠意協商解決，若無法達成協議，雙方同意專屬由臺灣臺北地方法院為管轄法院。您必須在臺灣臺北地方法院解決因本協議或 CAT 而引起的任何導致訴訟行動或糾紛（索償）的索賠和原因。</br>
+		</view>
+		
+		<view class="content" v-show="tabbarLoginLanguage == 2">
+			<b>ABOUT CAT</b></br>
+			CAT is a pay-to-view social messaging application service that allows users to create, publish and potentially earn money for their exclusive photos and videos.</br>
+			
+			These Terms of Service, together with our Privacy Policy (collectively, these "Terms"), govern your use of CAT. BY USING CAT, YOU ACCEPT AND AGREE TO BE BOUND BY THESE TERMS. If you do not agree with any of these Terms, or if you are dissatisfied with CAT for any reason, your sole and exclusive remedy is to discontinue use of CAT.</br>
+			We reserve the right to make changes to these Terms at any time. If we make material changes, we will endeavor to notify you of the changes, such as by posting a notice directly within the CAT app and/or on official website, or by any other reasonable method. Also, we may ask you to affirmatively agree to these Terms as modified (e.g., by pressing an "I Agree" button) at the time of your next login on CAT. By continuing to use CAT after such notice and/or acceptance, you agree to be bound by these Terms as modified.</br>
+			When using CAT, you are communicating with us electronically, and you consent to receiving communications from us electronically, including emails, push messages and in-app messages. You acknowledge and agree that all agreements, notices, disclosures that we provide to you electronically satisfy any legal requirement that such communications be in writing.</br>
+			By using CAT, you acknowledge and agree that standard carrier charges may apply and that depending on your wireless service plan, your wireless carrier may impose data and/or other charges when you use CAT, and that any and all such charges will solely be your responsibility.</br>
+			We reserve the right at any time and for any reason, with or without notice, and without liability to you, to: (i) modify, suspend or terminate CAT or any portion thereof; (ii) restrict, limit, suspend or terminate your access to CAT or any portion thereof; (iii) remove, block or disable any content you post on CAT; (iv) monitor your use of CAT (including any content or message you post or transmit on CAT) to verify compliance with these Terms and/or any applicable law; and (v) investigate any suspected or alleged misuse or unlawful use of CAT and cooperate with law enforcement in such investigation.</br>
+			
+			<b>HOW CAT WORKS</b></br>
+			CAT lets you create and publish your photos and videos for access by your followers on CAT. You can also follow and access photos and videos of other CAT users. CAT users can send private messages to one another. When users create photos/videos using the CAT camera function, such content is "exclusive" to CAT and can only be viewed within the CAT app and cannot be shared or exported outside of the CAT app.</br>
+			Upon creating a photo or video (the “Content") on CAT, the content creator (the “Creator”) can make that content accessible to his/her followers (the “Followers") either at no charge ("free content") or for a charge ("premium content"). For a premium content item, the Creator will designate a certain number of "CAT points" that he/she wishes to charge for the item, and CAT will charge a platform service fee. To access the item, a Follower will need to acquire the requisite total number of CAT points indicated for that item by making an in-app purchase of the equivalent dollar value based on the then-current applicable exchange rate published on CAT</br>
+			You can check the CAT Point balance (the “Balance”) in your account on CAT. Your Balance includes: (i) CAT Points you have purchased but not yet used toward purchases of access to other Creators' premium contents. If CAT deletes any content in accordance with the provisions of the law or the Creator request, the user shall not be able to discuss it; (ii) CAT Points that you have earned from other Followers' in-app purchases of access to your premium content, and Followers gifted you (the “Earnings”).</br>
+			
+			<b>WHO CAN USE CAT</b></br>
+			CAT is a social messaging platform for respectful and responsible grown-ups and is not a platform for posting or viewing pornography. IMPORTANT NOTE: As a general policy, we do not tolerate pornography on CAT and any user account that violates this policy may be deactivated immediately.</br>
+			
+			By using CAT, you represent and warrant that: (i) you are at least 18 years of age; (ii) you will fully comply with these Terms; (iii) you accept full responsibility for the use of CAT on any device, whether or not it is owned by you; (iv) you accept full responsibility for any User Content created or provided by you; and (v) your use of CAT will not violate these Terms or any applicable law.</br>
+			
+			<b>ACCOUNT REGISTRATION</b></br>
+			Account registration is required to access and use CAT. To register on CAT, you must provide a valid email address, a username, and a password. During account registration, you also have the ability to create a CAT profile and import your preexisting content to be a part of your CAT profile. Note that as part of the account registration process, we may ask for your mobile phone number for account verification purposes.</br>
+			
+			By registering on CAT, you represent and warrant that: (i) all account registration and profile information and content you provide to us (including content you choose to import from Facebook or any other social media service) is your own information and content and is truthful and accurate; (ii) you do not already have an existing account on CAT (including under a different email, username, or mobile number); (iii) if you previously had an account with CAT, your old account was not terminated or suspended by CAT for violation of these Terms; (iv) you register on CAT for your own personal and lawful, and you will not sell, rent, lease, loan or transfer your account to a third party without our written permission; and (v) you will not log in or attempt to log in on CAT through unauthorized third party applications.</br>
+			
+			You are fully responsible for any and all activities that occur on your account. You are responsible for maintaining the security and confidentiality of your login details and agree to immediately notify us if you believe someone has used or is using your account without your permission or any other breach of security is brought to your attention.</br>
+			
+			<b>IN-APP PURCHASES</b></br>
+			To access another's premium content item on CAT, you must acquire the requisite total number of CAT Points indicated for that item by making an in-app purchase of the equivalent dollar value. In-app purchases for CAT Points are handled through the applicable app store. The applicable app store may charge you a sales tax depending on where you live, and please check the app store's terms and policies for details.</br>
+			
+			IMPORTANT NOTE: All in-app purchases of CAT Points are FINAL AND NON-REFUNDABLE. By making an in-app purchase of CAT Points to access a premium item on CAT, you expressly acknowledge and agree that neither the Creator of such premium item nor we will have any obligation or liability to provide you with a refund for any reason. You also agree that we will make the necessary adjustment to correct the error in your Balance only when CAT software or technical glitch has resulted in an error in your Balance.</br>
+			
+			<b>ACCOUNT DEACTIVATION</b></br>
+			<b>ACCOUNT DEACTIVATION BY YOU</b></br>
+			Should you wish to deactivate your CAT account, please contact CAT customer support at mycat1314@mycat1314.com to submit your deactivation request. We will deactivate your account within 60 working days after receiving your request. </br>
+			
+			IMPORTANT NOTE: Upon deactivation of your account, any CAT Points Balance in your account will be deemed forfeited and will be lost permanently.</br>
+			
+			<b>ACCOUNT DEACTIVATION BY US</b></br>
+			By using CAT, you acknowledge and agree that we reserve the right to deactivate your account (with or without warning) if: (i) your use of CAT violates these Terms or any applicable law; or (ii) you do not log into the CAT app for more than 60 days and over 7 days after official reminder. </br>
+			
+			IMPORTANT NOTE: If your account is deactivated by us for violation of these Terms or any applicable law or due to dormancy, any CAT Points Balance in your account will be deemed forfeited and will be lost permanently.</br>
+			
+			<b>PROHIBITED USES</b></br>
+			We require that all CAT users respect and comply with these Terms at all times when using CAT.</br>
+			
+			<b>You may not :</b></br>
+			Falsify account registration information, or make unauthorized use of another's information or content;</br>
+			Use CAT in any manner or for any purpose that is illegal or unlawful, including engaging in any activity that violates any right of any person or entity;</br>
+			Create, upload, post, display, publish or distribute any User Content that (i) violates another's copyright, trademark, right of privacy, right of publicity, or other property or personal right (for example, using the name, likeness, image or other identity of another without proper consent);</br>
+			Copy, reproduce, distribute, modify, or create derivative works from, any content that you do not own and do not have express written permission to do so from the applicable content owner (this includes taking a picture or screenshot or otherwise making a copy of another's User Content);</br>
+			Decompile, disassemble, reverse engineer, or otherwise attempt to discover or derive the source code of CAT or any portion thereof;</br>
+			Interfere in any way with the operation of CAT or any server, network or system associated with CAT, including, without limitation: hacking, mail-bombing, flooding, overloading, or making "denial of service" attacks; breaching or circumventing firewall, encryption, security or authentication routines; accessing information not intended for you, or accessing another's account that you are not expressly authorized to access; use CAT for any unauthorized purpose, including, without limitation, for purposes of building a competitive product or service, monitoring the app's availability, performance or functionality, or for any other benchmarking or competitive purposes;</br>
+			Use any automated program, tool or process (including, without limitation, web crawlers, robots, bots, spiders, and automated scripts) to access CAT or any server, network or system associated with CAT, or to extract, collect, harvest or gather content or information from CAT;</br>
+			Make any other use of CAT that violates these Terms or any applicable law.</br>
+			
+			To report abuse or misuse of CAT, please contact CAT customer support at mycat1314@mycat1314.com.</br>
+			
+			<b>GOVERNING LAW; DISPUTE RESOLUTION</b></br>
+			The Terms and conditions as set out herein and any dispute or matterarising from or incidental to the use of CAT Services shall be governed by and construed in accordance with the laws of Taiwan, without regard to any conflicts of laws principles. Both you and CAT shall submit to the exclusive jurisdiction in Taipei District Court (Taiwan). Any dispute or claim between you and CAT regarding the CAT Services must be settled by arbitration utilizing the dispute resolution procedures of Taipei District Court (Taiwan).</br>
+		</view>
+		
+		<view class="content" v-show="tabbarLoginLanguage == 3">
+			<b>การให้บริการ</b></br>
+			<b>เกี่ยวกับ CAT</b></br>
+			      CAT คือบริการของแอปพลิเคชั่นที่ต้องเสียค่าบริการเพื่อที่จะเปิดดู ผู้ใช้สามารถสร้างผลงานเป็นของตัวเอง โพสต์ภาพและวิดีโอส่วนตัว และสามารถได้รับผลประโยชน์ทางอ้อม </br>
+			เงื่อนไขการบริการเหล่านี้ รวมไปถึงนโยบายความเป็นส่วนตัวของเรา (หลังจากนี้จะใช้คำว่า “เงื่อนไข” ) เป็นกฎการใช้ CAT ของคุณ แสดงให้เห็นว่าคุณยอมรับและเห็นด้วยที่จะปฏิบัติตามเงื่อนไขเหล่านี้ หากคุณไม่เห็นด้วยหรือไม่พอใจกับเงื่อนไขข้อใดของหนึ่งของ CAT ทางเราแนะนำให้คุณหยุดการใช้ CAT </br>
+			เรามีสิทธิ์ที่จะเปลี่ยนแปลงเงื่อนไขได้ตลอดเวลา หากเราจะมีการเปลี่ยนแปลงครั้งใหญ่ เราจะประกาศผ่านทางแอปพลิเคชั่นหรือเว็บไซต์ หรือประกาศผ่านทางช่องทางใดก็ได้ที่เหมาะสม นอกจากนี้ หลังจากที่เราได้ทำการปรับปรุงเงื่อนไขใหม่ เราจะขอร้องให้คุณตกลงกับเงื่อนไขใหม่เวลาลงชื่อเข้าสู่  CAT เช่น ชักชวนให้คุณเลือกปุ่ม [ฉันเห็นด้วยกับเงื่อนไข] เมื่อคุณเห็นด้วยและใช้ CAT ก็คือคุณเห็นด้วยกับเงื่อนไขที่ปรับปรุงใหม่ </br>
+			เมื่อคุณใช้ CAT เราจะติดต่อคุณผ่านทางช่องทางอิเล็กทรอนิคส์ ช่องทางที่ว่านี้รวมไปถึงอีเมล แจ้งไลฟ์ และข้อความในแอปพลิเคชั่น คุณเข้าใจและเห็นด้วยกับข้อตกลง ประกาศ ข่าว และช่องทางอิเล็กทรอนิคส์อื่น ๆ ที่มีรูปทรงเป็นหน้ากระดาษโดยถูกต้องตามข้อกำหนดของกฎหมาย </br>
+			เมื่อคุณเข้าใจและยินยอมที่จะใช้  CAT จะมีการเก็บค่าบริการข้อมูล และค่าบริการข้อมูลเหล่านี้คุณจะเป็นผู้รับผิดชอบทั้งหมด </br>
+			เราขอสงวนลิขสิทธิ์ไม่ว่าเวลาและเหตุผลใด ๆก็ตาม โดยมิต้องรับผิดชอบสิ่งใดภายใต้การดำเนินการของเหตุการณ์ที่ได้แจ้งให้ทราบหรือไม่ได้แจ้งให้ทราบ ดังนี้ </br>
+			1.1 ปรับปรุง ระงับหรือหยุดใช้ CAT หรือฟังก์ชั่นอื่นๆ </br>
+			1.2 กำหนด จำกัด  ระงับหรือหยุดใช้ CAT หรือฟังก์ชั่นอื่นๆ </br>
+			1.3 ลบ บล็อกหรือห้ามคุณโพสต์เนื้อหาบน CAT </br>
+			1.4 ควบคุมเวลาที่คุณใช้ CAT ว่าปฏิบัติตามเงื่อนไขและตามข้อกฎหมายหรือไม่ ( รวมไปถึงการโพสต์และแชร์เนื้อหาและข่าวใดๆก็ตามใน CAT ) </br>
+			1.5 ตรวจสอบสิ่งผิดปกติหรือพฤติกรรมที่เกี่ยวของกับการฝ่าฝืนกฎหมาย และให้ความร่วมมือกับเจ้าหน้าที่ในการตรวจสอบ </br>
+			<b>การใช้ CAT</b>
+			คุณสามารถอนุญาตให้ผู้ติดตามดูรูปและวิดีโอของคุณได้ และคุณก็สามารถดูรูปและวิดีโอของผู้ใช้ CAT คนอื่นได้  อีกทั้งยังสามารถส่งข้อความส่วนตัวไปให้ผู้ใช้ CAT คนอื่น ๆ ได้อีกด้วย เวลาที่ผู้ใช้ใช้กล้อง CAT ถ่ายรูปหรือวิดีโอ ภาพที่ถ่ายนั้นจะกลายเป็นลิขสิทธิ์ของ CAT ทันที คุณจึงสามารถดูได้แค่ใน CAT เท่านั้น นอกจากนี้ยังไม่สามารถแชร์หรือส่งไปยังแอปพลิเคชั่นอื่นได้ </br>
+			เมื่อผู้ใช้สร้างรูปภาพหรือวิดีโอใน CAT ( หลังจากนี้จะใช้คำว่า “เนื้อหา” ) ผู้สร้างเนื้อหา (หลังจากนี้จะใช้คำว่า “เจ้าของผลงาน” ) สามารถให้คนอื่นติดตาม (หลังจากนี้จะใช้คำว่า “ผู้ติดตาม” ) ดูเนื้อหาโดยมีค่าบริการหรือไม่มีก็ได้  (หลังจากนี้จะใช้คำว่า “เนื้อหาดูฟรี” และ “เนื้อหาเสียเงิน” ) ในส่วนของเนื้อหาเสียเงิน เจ้าของผลงานสามารถเก็บค่าบริการตามข้อเรียกร้องของผู้ติดตาม กำหนดจำนวนที่แน่นอน [คะแนน CAT] และ CAT ก็จะหักเงินค่าธรรมเนียมการบริการของแอปพลิเคชั่น ผู้ติดตามจะต้องจ่ายเงินให้มีมูลค่าเท่ากับ [คะแนน CAT]แล้วทำการจ่ายให้สำเร็จจึงจะสามารถดูเนื้อหานั้น ๆ ได้ </br>
+			คุณสามารถดูยอดคะแนนคงเหลือของคุณใน CAT ได้ (หลังจากนี้จะใช้คำว่า “ยอดคงเหลือ” ) ยอดคงเหลือมีดังนี้ </br>
+			1. เมื่อคุณซื้อหรือสะสมคะแนน CAT แล้ว แต่ยังไม่ได้ใช้จ่ายเพื่อดูเนื้อหาของเจ้าของผลงานคนอื่น </br>
+			2. เมื่อผู้ติดตามคนอื่นจ่ายเงินแล้วแลกเปลี่ยนเป็นคะแนน CAT เพื่อดูเนื้อหาของคุณและคะแนนที่ผู้ติดตามส่งเป็นของขวัญ (หลังจากนี้จะเรียกว่า “กำไร”) ให้คุณ </br>
+			<b>ข้อควรระวัง</b></br>
+			1. เราไม่มีสิทธิ์ในเนื้อหาบน CAT สิทธิ์ในการติดต่อทางธรกิจและการพูดคุยของผู้ใช้จำกัดแค่ระหว่างเจ้าของผลงานและผู้ติดตาม  หาก CAT ลบเนื้อหาใดก็ตาม ตามข้อบังคับทางกฎหมายหรือตามคำร้องของวีเจ ผู้ใช้ไม่สามารถคัดค้านได้ </br>
+			2. หากเจ้าของผลงานจัดกิจกรรมขึ้นมาเองโดยผ่านทางแอปพลิเคชั่น เนื้อหาเหล่านั้นไม่มีความเกี่ยวข้องกับเรา เราไม่มีความจำเป็นที่จะต้องชดใช้หรือคืนเงินใดๆทั้งสิ้น</br>
+			<b>กลุ่มผู้ใช้เป้าหมายของ CAT </b></br>
+			CAT เป็นแอปพลิเคชั่นสื่อสารเพื่อคนรุ่นใหม่ที่รู้จักเคารพและมีความรับผิดชอบ  ผู้ใช้สามารถสร้างเนื้อหาเกี่ยวกับรูป วิดีโอ หรือข้อความใด ๆก็ได้ รวมไปถึงเนื้อหาของผู้ใหญ่</br>
+			เมื่อคุณเริ่มใช้ CAT หมายความว่าคุณเข้าในเนื้อหาของผู้ใหญ่ในแอปแล้ว และขอยืนยันว่า </br>
+			1. อย่างน้องต้องมีอายุครบ 18 ปี </br>
+			2. สามารถปฏิบัติตามเงื่อนไขเหล่านี้ </br>
+			3. คุณยินยอมรับผิดชอบอย่างเต็มที่สำหรับการใช้ CAT ในอุปกรณ์ใด ๆ ไม่ว่าคุณจะเป็นเจ้าของอุปกรณ์หรือไม่ก็ตาม </br>
+			4. คุณยินยอมที่จะรับผิดชอบในเนื้อหาผลงานที่คุณสร้างขึ้นมาทั้งหมด </br>
+			5. เมื่อคุณใช้ CAT จะไม่ฝ่าฝืนเงื่อนไขเหล่านี้หรือกฎหมายใดๆที่เกี่ยวข้อง </br>
+			<b>การลงทะเบียนผู้ใช้</b></br>
+			คุณต้องลงทะเบียนบัญชีผู้ใช้ถึงจะสามารถเข้าใช้งานได้ เวลาลงทะเบียนคุณต้องใส่อีเมล ที่อยู่ ชื่อผู้ใช้และรหัสผ่านปัจจุบันที่ใช้ได้จริง ขณะเดียวกันคุณก็ต้องสร้างข้อมูลส่วนตัวและเนื้อหาที่เกี่ยวข้อง อีกทั้งสร้างประวัติใน CATให้เรียบร้อย กรุณาระมัดระวังในขั้นตอนการสร้างบัญชีผู้ใช้ เราอาจจะต้องการเบอร์มือถือของคุณเพื่อส่งรหัสยืนยัน</br>
+			ก่อนที่จะเสร็จสิ้นการลงทะเบียน คุณต้องยืนยันว่า </br>
+			1. เนื้อหา (รวมไปถึงใน Facebook Twitter หรือเนื้อหาที่เชื่อมโยงไปถึงบิการ ) ที่กรอกเพื่อลงทะเบียนบัญชีผู้ใช้ทั้งหมดเป็นความจริง </br>
+			2.คุณไม่เคยลงทะเบียนหรือมีบัญชีผู้ใช้ ( รวมไปถึงบัญชีที่ใช้อีเมล ชื่อ หรือเบอร์มือถือที่ไม่เหมือนกันลงทะเบียน ) ของ CAT</br>
+			3. ถ้าหากคุณเคยมีบัญชีผู้ใช้ CAT มาก่อน บัญชีก่าของคุณจะถูกระบบโดยที่ไม่ได้เกี่ยวข้องกับการฝ่าฝืนเงื่อนไขเหล่านี้</br>
+			4.บัญชีผู้ใช้ที่คุณลงทะเบียนเป็นของคุณเองอย่างถูกกฎหมาย คุณไม่สามารถขาย ให้เช่า ให้ยืม หรือย้ายโอนให้คนอื่นโดยที่ยังไม่ได้รับอนุญาตอย่างเป็นลายลักษณ์อักษรจากทางบริษัท</br>
+			5. คุณไม่สามารถและไม่มีสิทธิ์ที่จะให้บุคคลที่สามลงชื่อเข้าใช้ใน CAT</br>
+			คุณจะเป็นผู้รับผิดชอบการกระทำที่เกิดขึ้นกับบัญชีของคุณทั้งหมด คุณรับผิดชอบในความปลอดภัยและความลับของข้อมูล นอกจากนี้คุณยังยินยอมที่จะแจ้งให้เราทราบทันทีหากมีผู้ใช้บัญชีของคุณโดยมิได้นับอนุญาตหรือเรียกร้องความสนใจผ่านทางใดก็ตามเพื่อฝ่าฝืนระบบความปลอดภัย</br>
+			<b>การซื้อในแอปพลิเคชั่น</b></br>
+			หากต้องการดูเนื้อหาที่ต้องเสียค่าบริการของผู้อื่น คุณจำเป็นต้องซื้อในแอปพลิเคชั่นและเป็นจำนวนที่มีมูลค่าเท่ากับคะแนน CAT แอปพลิเคชั่นอาจจะคิดภาษี ( กรุณาดูรายละเอียดในเงื่อนไขและนโยบายของแอปพลิเคชั่น ) ตามเขตที่คุณอยู่</br>
+			<b>ข้อควรระวัง</b></br>
+			           คะแนน CAT ที่ซื้อในแอปพลิเคชั่นทั้งหมดไม่สามารถขอเงินคืนได้ คุณเข้าใจและเห็นด้วยที่จะซื้อคะแนน CAT ในแอปพลิเคชั่นเพื่อดูเนื้อหาที่ต้องเสียค่าบริการ โดยที่เจ้าของผลงานหรือเราจะไม่มีหน้าที่ที่ต้องรับผิดชอบในการคืนเงินใดๆทั้งสิ้น นอกจากนี้คุณยังเห็นด้วยที่จะให้เราปรับปรุงและแก้ไขเมื่อ CAT มีการปรับปรุงหรือเกิดการขัดข้องทางเทคนิคจนเป็นสาเหตุทำให้ยอดคงเหลือในบัญชีของคุณเกิดการผิดพลาด 
+			บัญชีผู้ใช้ถูกระงับ ู่</br>
+			<b>ระงับบัญชีผู้ใช้ด้วยตัวเอง</b></br>
+				หากคุณอยากระงับการใช้บัญชี CAT ของคุณ กรุณาติดต่อ CAT ที่  mycat1314@mycat1314.com หลังจากที่เราได้รับคำร้องของคุณภายใน 60 วันทำการ เราจะทำการระงับบัญชีของคุณ </br>
+			<b>ข้อควรระวัง</b></br>
+			หลังจากที่บัญชีผู้ใช้ของคุณถูกระงับแล้ว คะแนน CAT ในยอดคงเหลือจะถือเป็นโมฆะตลอดไป และไม่สามารถใช้ได้อีก</br>
+			คุณเข้าใจและเห็นด้วยกับเราที่จะสงวนลิขสิทธิ์ในการระงับบัญชีผู้ใช้ของคุณตามกรณีตามด้านล่าง</br>
+			1.ขณะที่คุณใช้ CAT คุณฝ่าฝืนเงื่อนไขหรือกฎหมายใด ๆก็ตาม</br>
+			2.คุณไม่ได้ลงชื่อเข้าใช้ใน CAT เกิน 60 วัน และหลังจากที่เราได้แจ้งไปแล้ว 7 วันก็ยังไม่มีการลงชื่อเข้าใช้</br>
+			<b>ข้อควรระวัง </b></br>
+			หากบัญชีของคุณถูกระงับด้วยกรณีดังที่กล่าวมานี้ คะแนน CAT ที่ยังเหลืออยู่จะถือว่าเป็นโมฆะตลอดไป</br>
+			<b>พฤติกรรมต้องห้าม</b></br>
+			เราขอร้องให้ผู้ใช้ CAT ทุกท่านปฏิบัติตามเงื่อนไขไม่ว่าเวลาใดก็ตาม และคุณไม่สามารถใช้ CATในการทำกิจกรรมดังต่อไปนี้</br>
+			-สร้างข้อมูลเท็จในการลงทะเบียน </br>
+			-ใช้วิธีหรือมีจุดประสงค์​ใดๆก็ตามที่ฝ่าฝืนกฎหมาย​ รวมไปถึงพฤติกรรมการละเมิดสิทธิในทรัพย์สิน​ส่วนบุคคล</br>
+			-สร้าง​ อัพโหลด​ โพสต์​ แสดงหรือเผยแพร่เนื้อหาต่อไปนี้ (1) ละเมิดลิขสิทธิ์​ของเจ้าของ​ เครื่องหมายการค้าทั้งส่วนตัวและสาธารณะหรือทำการยักยอกทรัพย์สิน​หรือละเมิดสิทธิส่วนบุคคล​ เช่น​ ใช้ชื่อ​ ภาพวาด​ รูปภาพหรือข้อมูลส่วนตัวที่ยังไม่ได้รับการอนุญาตจากเจ้าของ</br>
+			-สร้าง​ ลอกเลียน​ คัดลอก​ โพสต์​หรือแก้ไขเนื้อหา( รวมทั้งรูปภาพหรือภาพจับหน้าจอต่าง)​ ที่ไม่ใช่ของคุณหรือเนื้อหาที่ยังไม่มีการจดลิขสิทธิ์​ </br>
+			-พยายามแยก ถอดรหัสโปรแกรม​ หรือใช้วิธีใดๆก็ตามเพื่อพยายามที่จะเปิดเผยซอร์สโค้ดของ​ CAT</br>
+			-พยายามรบกวนเซิร์ฟเวอร์ เครือข่ายหรือระบบที่เกี่ยวข้องกับการทำงานของ CAT รวมไปถึงแต่ไม่จำกัดแค่การแฮกข้อมูล อีเมลขยะหรือการโจมตีด้านการบริการ ทำลายหรือหลบเลี่ยงกำแพงกันไฟ กลไกการเข้ารหัส ขั้นตอนการตรวจสอบความปลอดภัย  หรือพยายามดูข้อมูลที่คุณไม่มีสิทธิ์ที่ชัดเจนหรือเป็นข้อมูลของผู้อื่น </br>
+			-ใช้โปรแกรม เครื่องมือ กระบวนการอัตโนมัติ (รวมไปถึงแต่ไม่จำกัดแค่โปรแกรมรวบรวมข้อมูลเว็บหุ่นยนต์และสคริปต์อัตโนมัติ ) ใด ๆ เพื่อเข้าไปใน CAT เซิร์ฟเวอร์ของ CAT เครือข่ายหรือระบบที่เกี่ยวข้อง หรือเนื้อหาและข้อมูลที่รวบรวมมาจาก CAT</br>
+			<b>ฝ่าฝืนเงื่อนไขและข้อกฎหมายขณะใช้ CAT</b></br>
+			หากจะร้องเรียนพฤติกรรมการใช้ CAT ที่ไม่ถูกต้อง กรุณาติดต่อคอลเซนเตอร์ของ CAT ที่ mycat1314@mycat1314.com</br>
+			<b>กฎหมายที่ใช้บังคับและการระงับข้อพิพาท</b></br>
+				หากมีข้อพิพาทหรือความขัดแย้งใด ๆในบทบัญญัติในบทความนี้ ควรเจรจาต่อรองเพื่อแก้ไขด้วยความจริงในก่อน หากไม่สามารถเจรจาตกลงกันได้ ทั้งสองฝ่ายตกลงที่จะให้เอกสิทธิ์กับอำนาจศาลแขวงไต้หวันในกรุงไทเป คุณต้องขึ้นศาลที่กรุงไทเปในไต้หวันเพื่อแก้ปัญหาที่ทำให้เกิดการฟ้องร้องและสาเหตุของการฟ้องร้องหรือข้อพิพาทใด ๆ (การเรียกร้อง)</br>
+		</view>
+	</view>
+</template>
+
+<script>
+	import {encrypt,decrypt,system,systemId,base64ToArrayBuffer,sendData,sendD,work,sendD07,sendD11,navigateTo} from "../../lib/js/GlobalFunction.js"
+	export default {
+		data() {
+			return {
+				tabbarLoginLanguage: null, // 用户语言
+				pageId: null, // 用户返回上一页面需要的值
+				show: true, // 退出页面按钮是否显示
+			};
+		},
+		onLoad(obj){
+			var option=JSON.parse(decrypt(decodeURIComponent(obj.action)))
+			this.pageId = option.pageId;
+			this.tabbarLoginLanguage = option.tabbarLoginLanguage;
+			this.getLoginlanger();
+			this.chose();
+		},
+		methods:{
+				getLoginlanger:function(){ // 获取当前语言
+					var that = this;
+					uni.getStorage({
+						key: 'storage_login_language',
+						success: function (res) {
+							that.tabbarLoginLanguage = JSON.parse(res.data);
+							console.log(that.tabbarLoginLanguage);
+							if(that.tabbarLoginLanguage == 0){
+								that.langer = 0;
+							}else if(that.tabbarLoginLanguage == 1){
+								that.langer = 1;
+							}else if(that.tabbarLoginLanguage == 2){
+								that.langer = 2;
+							}else if(that.tabbarLoginLanguage == 3){
+								that.langer =3;
+							}
+						}
+					});
+				},
+				
+				chose:function(){ // 判断是否为安卓或IOS登录
+					if(this.pageId == 25 || this.pageId == 26){
+						this.show = false;
+					}
+				},
+				
+				back:function(){ // 退出
+					// uni.navigateTo({
+					// 	url: '/pages/dataset/dataset'
+					// });
+					// navigateTo('/pages/dataset/dataset',null);
+					// uni.navigateBack({
+					//     delta: 1
+					// });
+					if(this.pageId == 15){
+						navigateTo('/pages/startup/startup',null);
+					}else if(this.pageId == 16){
+						navigateTo('/pages/dataset/dataset',null);
+					}
+				}
+		}
+	}
+</script>
+
+<style lang="scss">
+page{
+	width: 100%;
+	height: 100%;
+	background: #000000;
+}
+.main{
+	width:100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items:center;
+	.top{
+		position:fixed;
+		left: 0rpx;
+		left: 0rpx;
+		z-index: 999;
+		width: 100%;
+		height: 100rpx;
+		background:rgba(0,0,0,0.5);
+		// background:red;
+		
+		.back{
+			position: absolute;
+			top: 20rpx;
+			right: 5rpx;
+			width: 36rpx;
+			height: 36rpx;
+			padding:10rpx;
+			margin-right: 25rpx;
+		}
+	}
+	.img{
+		width:317rpx;
+		height: 354rpx;
+		margin-top:100rpx;
+	}
+	.title{
+		width:311rpx;
+		height: 91rpx;
+		margin-top: 43rpx;
+		margin-bottom: 75rpx;
+	}
+	.content{
+		padding: 0rpx 51rpx;
+		color: #ACACAC;
+		font-size:26rpx;
+		line-height: 50rpx;
+		padding-bottom: 405rpx;
+	}
+}
+</style>

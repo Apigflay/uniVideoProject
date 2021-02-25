@@ -1,0 +1,15 @@
+﻿<div class="inward">
+    <div class="brain bg02">
+        <div class="bn_inside">
+            <a href="javascript:Answer.Page.openAccountLayer('close');" class="icon_back"></a>
+            <div class="hint">
+                <div class="ht_in">
+                    <div class="tixian">账户余额：<strong>@Math.Round(Model.MyWallet.myWallet, 2)元</strong></div>
+                    @*<a href="javascript:alert('提现请到个人中心')" class="btn_org">去提现</a>*@
+                    <p>前往发现页-精彩活动，选择答题红包提现</p>
+                </div>
+                <p style="text-align:center;">（提现需要满20才可以哦）</p>
+            </div>
+        </div>
+    </div>
+</div>

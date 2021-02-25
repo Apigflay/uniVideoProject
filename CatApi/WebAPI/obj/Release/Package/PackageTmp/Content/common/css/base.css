@@ -1,0 +1,82 @@
+﻿@charset "utf-8";
+body, p, ul, ol, li, dl, dt, dd, h1, h2, h3, h4, h5, h6, form, fieldset, legend, input, select, textarea, button, th, td { margin: 0; padding: 0; }
+h1, h2, h3, h4, h5, h6 { font-size: 100%; font-weight:normal;}
+ul, dl, ol { list-style: none; }
+img, fieldset, input[type="submit"] { border: 0 none; }
+img { display: inline-block; overflow: hidden; vertical-align: top; }
+em { font-style: normal; }
+table { border-collapse: collapse; border-spacing: 0; }
+button, input[type="button"] { cursor: pointer; border: 0 none; }
+menu { margin: 0; padding: 0; }
+input[type="number"] { -webkit-user-select: text; }
+a, button, input, img { -webkit-touch-callout: none; }
+input, select, textarea { outline: none; }
+.clearfix:after { content:"."; display:block; clear:both; visibility:hidden; line-height:0; height:0; font-size:0; }
+.clearfix { display:inline-block; zoom:1; }
+html[xmlns] .clearfix { display:block; }
+* html .clearfix { zoom:1; }
+html, body { height: 100%; }
+a { text-decoration: none;}
+html { font-size:62.5%; overflow-x:hidden;}
+body {  font-size: 1.2rem; line-height:1.4; color:#000; background:#f2f2f2;-webkit-user-select: none; -webkit-text-size-adjust: none!important; -webkit-overflow-scrolling:touch;/*流畅滚动*/ font-family: Helvetica,STHeiti,Droid Sans Fallback;}
+.wrap{  width:100%; height:100%;}
+
+/*等级*/
+/******** level *******/
+.the_level { position: relative; display: inline-block; width: 3.6rem; height: 1.6rem; margin-left:.1rem;}
+.the_level .level {  position: absolute; left: 0; display: inline-block; width: 1.7rem; height: 1.7rem; background-size: 100% 100%; z-index: 3; }
+.the_level .num, .the_level .num_bg { position: absolute; }
+.the_level .num_bg { width: 2.4rem; height: 1rem; left: .9rem; bottom:.2rem; display: inline-block; background-size: 100% 100%; z-index: 1; border-top-right-radius:.1rem; border-bottom-right-radius:.1rem; }
+.the_level .num { width: 2.2rem; text-align: center; color: #fff; left: 1.3rem; bottom:-0.04rem; font-family: 'num'; font-size: 1rem; letter-spacing:-.3rem; -webkit-transform: scale(0.68); z-index: 2;}
+@font-face { font-family: 'num'; src: url('num.woff') format('woff'); }
+
+.level1 { background-image:url(../images/level/level1.png); top: -.1rem; }
+.level11 { background-image:url(../images/level/level11.png); top: -.1rem;}
+.level15 { background-image:url(../images/level/level15.png); top: -.1rem;}
+.level30 { background-image:url(../images/level/level30.png); top: -.2rem;}
+.level31 { background-image:url(../images/level/level31.png); top: -.2rem;}
+.level32 { background-image:url(../images/level/level32.png); top: -.2rem;}
+.level34 { background-image:url(../images/level/level34.png); top: -.2rem;}
+.level35 { background-image:url(../images/level/level35.png); top: -.2rem;}
+.level39 { background-image:url(../images/level/level39.png); top: -.2rem; }
+.level130 { background-image:url(../images/level/Administration_@3x.png); }
+.level_se { background-image:url(../images/level/service_@3x.png); }
+
+.the_level .bg1 { background-image: url(../images/level40_3x.png); /*background: #00cc95;*/}
+.the_level .bg2 { background-image: url(../images/level80_3x.png); /*background: #00aadc;*/ }
+.the_level .bg3 { background-image: url(../images/level120_3x.png); /*background: #ff7300;*/ }
+.the_level .bg4 { background-image: url(../images/level160_3x.png); /*background: #c61fec;*/ }
+.the_level .bg5 { background-image: url(../images/level200_3x.png); /*background: #f50095;*/}
+.the_level .bg6 { background-image: url(../images/level240_3x.png); /*background: #f50019;*/ }
+/******** level *******/
+
+.male,.female { display: inline-block; width: 1.5rem; height: 1.5rem; background:url(../images/male@2x.png) no-repeat; background-size:100% 100%; margin-left:.1rem;}
+.female { background: url(../images/female@2x.png) no-repeat; background-size: 100% 100%;}
+
+.sta_live{ display:inline-block; width:1rem; height:1rem; -webkit-animation: icon_ani 0.5s steps(1) infinite; margin-left:.2rem;}
+ @-webkit-keyframes icon_ani { 0% {
+ background:url(../images/f1@2x.png) no-repeat left top;
+background-size:100% 100%;
+width:1rem; height:1rem;
+}
+ 50% {
+ background:url(../images/f2@2x.png) no-repeat left top;
+background-size:100% 100%;
+width:1rem; height:1rem;
+}
+ 100% {
+ background:url(../images/f3@2x.png) no-repeat left top;
+background-size:100% 100%;
+width:1rem; height:1rem;
+}
+}
+
+/*顶部*/
+.intit{ color:#000; background:#fff; height:3.7rem; width:100%; position:relative; line-height:3.7rem; text-align:center; font-size:1.5rem; position:fixed; top:0; left:0; right:0; z-index:10}
+.intit a{ width:1.6rem; height:1.6rem; background:url(../images/icon_back.png) no-repeat; background-size:100%; display:block; position:absolute; top:50%; left:1rem; margin-top:-.8rem;}
+
+.rank_text { text-align: center; padding: 1rem; display: block; }
+.rank_text span { display: block; color: rgba(255,255,255,.4); font-size: 1.1rem; margin-bottom: .2rem; }
+.rank_text span.update { display: inline-block; font-size: 1.1rem; color: rgba(245,218,73,.6); background: rgba(0,0,0,.4); border-radius: .3rem; padding: .1rem .8rem; }
+.rank_text span.blank { display: block; height: 1.2rem; }
+

@@ -1,0 +1,34 @@
+<template>
+	<view class="main">
+		<view class="top">
+			<image class="img" src="../../static/pictures/back_1.png" @click="goback()"></image>
+			消费明细
+		</view>
+	</view>
+</template>
+
+<script>
+	export default {
+		data() {
+			return {
+				
+			};
+		}
+	}
+</script>
+
+<style lang="scss">
+.main{
+	width:100%;
+	height: 100%;
+	display:flex;
+	flex-direction: column;
+	.top{
+		padding: 32rpx 0rpx;
+		background-color:#252525;
+		text-align: center;
+		font-size: 30rpx;
+		color:#FFFFFF;
+	}
+}
+</style>

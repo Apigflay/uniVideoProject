@@ -1,0 +1,14 @@
+﻿<div class="inward">
+    <div class="brain bg02">
+        <div class="bn_inside">
+            <a href="javascript:Answer.Page.open1v1InviteLayer('close');" class="icon_back"></a>
+            <a href="javascript:Answer.Page.openChallengeInviteLayer('open')" class="btn_org btn_star">发起挑战</a>
+            <div class="message">
+                <ul>
+                    @*<li><dl><dd><span>某某：</span>发起脑洞挑战，快去应战吧发起脑洞挑战，快去应战吧<strong>2分钟前</strong></dd><dt><a href="" class="btn_org">去应战</a></dt></dl></li>
+                    <li><dl><dd><span>某某：</span>发脑洞挑战，快去应战吧<strong>2分钟前</strong></dd><dt><a href="" class="btn_org">去应战</a></dt></dl></li>*@
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

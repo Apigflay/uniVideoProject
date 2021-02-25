@@ -1,0 +1,188 @@
+﻿@{
+    ViewBag.Title = "游戏中心";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/Css/GameIndex.css?v=2" rel="stylesheet" />
+<link href="~/Content/swiper/swiper-3.3.1.min.css" rel="stylesheet" />
+
+<style type="text/css">
+    .swiper-container { height: 15rem; }
+    .swiper-slide img { width: 100%; height: 15rem; overflow-x: hidden; }
+    /*当前翻页小圆点颜色*/
+    .swiper-pagination-bullet-active { background: #0ff; }
+    .swiper-container-horizontal > .swiper-pagination-bullets, .swiper-pagination-custom, .swiper-pagination-fraction { bottom: 1.98rem; }
+    .swiper-lazy { background: url(http://sr.ok.sina.com.cn/v3.0/images/loading.gif) no-repeat center; }
+    .footer { text-align: center; height: 3rem; }
+</style>
+
+<div class="all oy_scr">
+    <!--广告轮播-->
+    <div class="swiper-container">
+        <!--广告轮播父容器-->
+        <div class="swiper-wrapper">
+
+        </div>
+        <!-- 显示分页导航 -->
+        <div class="swiper-pagination"></div>
+
+        <!-- 如果需要导航按钮 -->
+        @*        <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>*@
+
+        <!-- 如果需要滚动条 -->
+        @*        <div class="swiper-scrollbar"></div>*@
+    </div>
+    <!--最受欢迎的游戏-->
+    <div id="top4" class="gm_elcome">
+        <div class="gm_labe gm_co1">
+            <span>最受欢迎游戏<b>TOP4</b></span>
+            <ul class="g_diam">
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+        </div>
+        <div class="gm_path"></div>
+    </div>
+    <!--其他游戏-->
+    <div class="gm_elcome">
+        <div class="gm_labe gm_co2">
+            <span>更多好玩的游戏</span>
+            <ul class="g_diam">
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+        </div>
+        <div class="gm_other"></div>
+    </div>
+    <footer class="footer">
+        <a href="http://live.9158.com/Pages/gameProtocol/index.html" target="_blank">游戏合作申请</a>
+    </footer>
+</div>
+<script src="~/Content/swiper/swiper.min.js"></script>
+<script src="~/Content/layer/mobile/layer.js"></script>
+
+<script type="text/javascript">
+    document.oncontextmenu = new Function("event.returnValue=false");
+    //document.onselectstart = new Function("event.returnValue=false");
+
+    var Game = {
+        version: "1.0",
+        useridx: getQueryStr('curuseridx'),
+        usertoken: getQueryStr('usertoken'),
+        lt: getQueryStr('logintype')
+    }
+    function gameData() {
+        $.ajax({
+            timeout: 6000, //超时时间设置，单位毫秒
+            type: 'POST',
+            data: { useridx: Game.useridx },
+            dataType: 'json',
+            url: '/GameCenter/GameData',
+            success: function (d) {
+                LoadAdHtml(d.data);//轮播图
+                LoadTop4Html(d.data);//最受欢迎Top4
+                LoadMoreHtml(d.data);//更多游戏
+            },
+            error: function (xhr, type) {
+                alert('Network Timeout' + type);
+            }
+        });
+    }
+
+    //1：广告焦点图
+    function LoadAdHtml(data) {
+        var adlist = data.adList;//广告焦点图列表
+        var adHtml = '';
+
+        if (adlist != null && adlist.length > 0) {
+            $.each(adlist, function (index, obj) {
+
+                adHtml += '<div class="swiper-slide">'
+                adHtml += '<a href="javascript:;" onclick="EnterGame(this,' + obj.gameid + ')">'
+                adHtml += '<img class="swiper-lazy" data-src=' + obj.activeBigPic + '></a>'
+                adHtml += '<div class="ad_con_wrap"><div class="bg"></div><span class="text">' + obj.activeName + '</span></div>';
+                adHtml += '</div>';
+            });
+        } else {
+            $('.swiper-container').css('display', 'none');
+        }
+
+        $('.swiper-wrapper').empty().append(adHtml);
+
+        //初始化轮播图插件必须要等到dom加载完之后调用插件才可用
+        var mySwiper = new Swiper('.swiper-container', {
+            direction: 'horizontal',
+            autoplay: 5000,
+            autoplayDisableOnInteraction: false,
+            loop: true,
+            preventClicks: false,
+            pagination: '.swiper-pagination',// 如果需要分页器
+            lazyLoading: true
+            //nextButton: '.swiper-button-next',// 如果需要前进后退按钮
+            //prevButton: '.swiper-button-prev',
+            //scrollbar: '.swiper-scrollbar',// 如果需要滚动条
+        })
+    }
+    //2：最受欢迎的游戏
+    function LoadTop4Html(data) {
+        var toplist = data.topList;
+        var topHtml = '';
+
+        if (toplist != null && toplist.length > 0) {
+            $.each(toplist, function (i, item) {
+                //topHtml += '<li><a href="javascript:;" onclick="EnterGame(this,' + item.gameid + ')">';
+                //topHtml += '<div><img src=' + item.activePic + '><span>' + item.gameName + '</span><b>进入</b></div></a></li>';
+                topHtml += '<div class="item"><a href="javascript:;" onclick="EnterGame(this,{0})">'
+                        + '<div><img src="{1}"><span>{2}</span><b>进入</b></div></a></div>';
+
+                topHtml = topHtml.format(item.gameid, item.activePic, item.gameName);
+            });
+        } else {
+            $('#top4').css("display", 'none');
+            //topHtml += '<li><a href="javascript:;" onclick="EnterGame(this,102)">';
+            //topHtml += '<div><img src="http://liveimg.9158.com/pic/game/20160809/201608091724489625.png"><span>像素小鸟</span><b>进入</b></div></a></li>';
+        }
+        $('.gm_path').append(topHtml);
+    }
+    //3：更多游戏
+    function LoadMoreHtml(data) {
+        var moredata = data.moreList;
+        var moreHtml = '';
+
+        if (moredata != null && moredata.length > 0) {
+            $.each(moredata, function (index, item) {
+                moreHtml += '<div class="item"><a href="javascript:;" onclick="EnterGame(this,' + item.gameid + ')">'
+                moreHtml += '<img src="' + item.activePic + '"><div class="h_pres"><span>' + item.gameName + '</span><p>' + item.content + '</p></div>'
+                moreHtml += '<span class="getbtn">进入</span></a></div>';
+
+            });
+        } else {
+            moreHtml += '<div class="item"><a href="javascript:;" onclick="EnterGame(this,102)">'
+            moreHtml += ' <img src="http://liveimg.9158.com/pic/game/20160809/201608091724489625.png"><div class="h_pres">'
+            moreHtml += '<span>像素小鸟</span><p>超好玩的像素游戏</p></div><span class="getbtn">进入</span></a></div>';
+        }
+        $('.gm_other').append(moreHtml);
+    }
+    //进入游戏
+    function EnterGame(obj, id) {
+        if (id != 102) {
+            location.href = "http://mb.shuod.com/ghelp/?random=1&GameID=" + id;
+        } else {
+            live.EnterGame(obj, id);
+        }
+    }
+
+    //String.prototype.format = function () {
+    //    if (arguments.length == 0) return this;
+    //    for (var s = this, i = 0; i < arguments.length; i++)
+    //        s = s.replace(new RegExp("\\{" + i + "\\}", "g"), arguments[i]);
+    //    return s;
+    //};
+
+    gameData();
+
+</script>

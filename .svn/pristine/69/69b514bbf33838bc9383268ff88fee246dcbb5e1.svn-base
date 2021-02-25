@@ -1,0 +1,250 @@
+<template>
+	<view class="main">
+		<view class="top">
+			<view class="flex">
+				<view class="image">
+					<image class="img" src="../../static/pictures/back_1.png" @click="goBack()"></image>
+				</view>
+				<view class="title">
+					<text class="p1">#{{label}}</text>
+					<text class="p2">{{num}} {{this.Language.language[this.tabbarLoginLanguage].language81}}</text>
+				</view>
+			</view>
+		</view>
+		<view class="movie">
+			<view class="video">
+				<view class="listPer" v-for="(item,index) in listNum" :key="index">
+					<image class="img" :src="item.BackgroundPicUrl" mode="" @click="goVideo(item)"></image>
+					<image class="photo" :src="item.SmallPic" @click="goAnchor(item)"></image>
+					<view v-if="item.Online" class="status"></view>
+					<view class="text">{{item.Content}}</view>
+				</view>
+			</view>
+		</view>
+	</view>
+</template>
+
+<script>
+	import {encrypt,decrypt,system,systemId,base64ToArrayBuffer,sendData,sendD,work,navigateTo} from "../../lib/js/GlobalFunction.js"
+	export default {
+		data() {
+			return {
+				tabbarLoginLanguage: null, // 用户语言
+				label: '',
+				num: 1159,
+				listNum:null, // 页面加载获取的数据表
+			};
+		},
+		onLoad: function (obj) { //option为object类型，会序列化上个页面传递的参数
+			var option=JSON.parse(decrypt(decodeURIComponent(obj.action)))
+			// console.log(option); //打印出上个页面传递的参数。
+			this.label = option.searchname; // 获取到上一个页面传过来的 搜索名称
+			this.num = option.searchCount; 
+			this.pageId = option.pageId; // 上一个页面的ID
+			this.getLoginlanger(); // 获取语言
+			this.getInitMsg();
+			
+		},
+		
+		methods:{
+			getLoginlanger:function(){ // 获取当前语言
+				var that = this;
+				uni.getStorage({
+					key: 'storage_login_language',
+					success: function (res) {
+						that.tabbarLoginLanguage = JSON.parse(res.data);
+						console.log(that.tabbarLoginLanguage);
+					}
+				});
+			},
+			getLoginMsg:function(){ // 登录信息
+				var that = this;
+				uni.getStorage({
+					key: 'storage_login_str',
+					success: function (res) {
+						that.tabbarLoginData = JSON.parse(res.data);
+						console.log(that.tabbarLoginData);
+						that.UserIdx = that.tabbarLoginData.useridx
+						if(that.tabbarLoginData.isAnchor==false){
+							that.isAnchor = false;
+						}
+					}
+				});
+			},
+			
+			getInitMsg:function(){ // 页面初始化加载内容
+				// console.log(this.label)
+				var array=base64ToArrayBuffer(encrypt(JSON.stringify({
+					Where: this.label,//	string
+					// Where: this.label,//	string
+					Type:4,//	int
+					Page:1,//	int
+				})))
+				var res = JSON.parse(decrypt(sendData('POST',this.GLOBAL.urlPoint+'/userinfo/GetSearchModel',array)));
+				if(res.code==100){
+					console.log(res.data);
+					this.listNum = res.data;
+				}
+				// console.log(this.listNum.UserIdx);
+			},
+			
+			goVideo: function(e){ // 跳转视频页面
+				// console.log(e.UserIdx);
+				// console.log(e.RescourceId);
+				// uni.navigateTo({
+				// 	url: "/pages/video/video?AnchorIdx=" + e.UserIdx + "&ResourceoId=" + e.RescourceId + "&pageId=" + 5 + "&searchname=" + this.label + "&searchCount=" + this.num
+				// }); 
+				var obj = encodeURIComponent(encrypt(JSON.stringify({
+					AnchorIdx:e.UserIdx,
+					ResourceoId:e.RescourceId,
+					pageId:5,
+					searchname:this.label,
+					searchCount:this.num
+				})))
+				navigateTo('/pages/video/video',obj)
+			},
+			
+			goAnchor:function(e){ // 跳转到主播信息页面
+				// console.log(e)
+				// uni.navigateTo({
+				// 	url: "/pages/anchorpersonal/anchorpersonal?pageId="+ 5 + "&AnchorIdx=" + e.UserIdx + "&Type=" + 2 + "&searchname=" + this.label + "&searchCount=" + this.num
+				// }); 
+				var obj = encodeURIComponent(encrypt(JSON.stringify({
+					AnchorIdx:e.UserIdx,
+					ResourceoId:e.RescourceId,
+					pageId:5,
+					searchname:this.label,
+					searchCount:this.num,
+					Type:2
+					
+				})))
+				navigateTo('/pages/anchorpersonal/anchorpersonal',obj)
+			},
+			
+			goBack:function(){
+				this.pageId = 0;
+				if(this.pageId == 0){
+					// uni.navigateTo({
+					// 	url: "/pages/search/search"
+					// }); 
+					navigateTo('/pages/search/search',null)
+				}
+				
+			}
+		}
+	}
+</script>
+
+<style lang="scss">
+page{
+	width: 100%;
+	height: 100%;
+	background: #191919;
+}
+.main{
+	width:100%;
+	height: 100%;;
+	background: #191919;
+	.top{
+		position:fixed;
+		top:0rpx;
+		left:0rpx;
+		right:0rpx;
+		z-index:9999;
+		.flex{
+			height: 100rpx;
+			padding-left:29rpx;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			background-color:#3B3B3B;
+			.image{
+				width:30rpx;
+				height:30rpx;
+				position: fixed;
+				top:32rpx;
+				left:29rpx;
+				// margin-right:255rpx;
+				.img{
+					width:30rpx;
+					height:30rpx;
+				}
+			}
+			.title{
+				display:flex;
+				flex-direction:column;
+				justify-content:center;
+				align-items:center;
+				.p1{
+					font-size: 30rpx;
+					font-weight:500;
+					color: #FFFFFF;
+				}
+				.p2{
+					font-size: 22rpx;
+					font-weight:400;
+					color: #ACACAC;
+				}
+			}
+		}
+	}
+	.movie{
+		.video{
+			background: #191919;
+			padding: 128rpx 14rpx 0rpx 28rpx;
+			display: flex;
+			justify-content: flex-start;
+			align-items: center;
+			flex-wrap: wrap;
+			.listPer{
+				width: 222rpx;
+				height: 310rpx;
+				background: #4CD964;
+				margin-bottom: 28rpx;
+				margin-right: 14rpx;
+				position: relative;
+				.img{
+					border-radius:8rpx;
+					width: 222rpx;
+					height: 310rpx;
+				}
+				.photo{
+					background: #232323;
+					position: absolute;
+					height: 60rpx;
+					width: 60rpx;
+					border:2px solid #fff;
+					border-radius: 50%;
+					top: 10rpx;
+					left: 10rpx;
+				}
+				.status{
+					height: 20rpx;
+					width: 20rpx;
+					background: #17FF2A;
+					position: absolute;
+					top:55rpx;
+					left: 55rpx;
+					border-radius: 50%;
+				}
+				.text{
+					position: absolute;
+					width:197rpx;
+					height:68rpx;
+					bottom: 9rpx;
+					left: 12rpx;
+					font-size:22rpx;
+					font-weight:400;
+					color:#FFFFFF;
+					line-height:34rpx;
+					display: -webkit-box;
+					-webkit-box-orient: vertical;
+					-webkit-line-clamp: 2;
+					overflow: hidden;
+				}
+				
+			}
+		}
+	}
+}
+</style>

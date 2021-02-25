@@ -1,0 +1,327 @@
+<template>
+	<view class="main">
+		<view class="top">
+			<image class="img" src="../../static/pictures/houtui_1.png" @click="goback()"></image>
+			{{this.Language.language[this.tabbarLoginLanguage].language63}}
+		</view>
+		<scroll-view :scroll-y="true" @scrolltolower="getNewmsg" class="content">
+			<view class="search">
+				<form @submit="formSubmit">
+					<input class="section__title" id="search" type="search" :placeholder="fy_place[tabbarLoginLanguage]" @input="check()"/>
+				</form>
+			</view>
+			
+			<view class="list">
+				<view class="listPer" v-for="(item,index) in model1Data" :key="index">
+					<view class="left" @click="goNewachormelist(item)">
+						<image class="photo" :src="item.headpic"></image>
+						<view v-if="item.online" class="status"></view>
+					</view>
+					<view class="content" @click="goNewachormelist(item)">
+						<view class="center">
+							<view class="p1">{{item.nickname}}<view v-if="item.Online" class="spot"></view></view>
+							<text class="p2">{{item.content}}</text>
+						</view>
+						<view class="right">
+							<image class="right_chat" src="../../static/pictures/chat_1.png"></image>
+						</view>
+					</view>
+				</view>
+			</view>
+		</scroll-view>
+	</view>
+</template>
+
+<script>
+	import {encrypt,decrypt,system,systemId,base64ToArrayBuffer,sendData,sendD,work,regMail,navigateTo} from "../../lib/js/GlobalFunction.js"
+	export default {
+		data() {
+			return {
+				tabbarLoginLanguage: null, // 用户语言
+				pagebackId: null, //接收其他页面的pageId
+				tabbarLoginData:null,//loginMsg
+				isAnchor:null,//是否为主播
+				useridx: null, // 用户IDX
+				model1Data: null, // 获取页面信息的变量
+				model2Data: null, // 页面下拉获取更新信息的变量
+				Where: '', // 用户搜索内容
+				Page: 1, // 当前页数
+				
+				fy_place: ['搜索','搜索','search','ค้นหา'], //placeholder部分的文字翻译内容
+			};
+		},
+		onLoad:function(obj){
+			var option=JSON.parse(decrypt(decodeURIComponent(obj.action)));
+			this.pagebackId = option.pageId;
+			this.getLoginlanger(); // 获取语言
+			this.getLoginMsg();
+			this.getInitMsg();
+		},
+		
+		
+		methods:{
+			getLoginlanger:function(){ // 获取当前语言
+				var that = this;
+				uni.getStorage({
+					key: 'storage_login_language',
+					success: function (res) {
+						that.tabbarLoginLanguage = JSON.parse(res.data);
+						console.log(that.tabbarLoginLanguage);
+						
+					}
+				});
+			},
+			getLoginMsg:function(){//登录信息
+				var that = this;
+				uni.getStorage({
+					key: 'storage_login_str',
+					success: function (res) {
+						that.tabbarLoginData = JSON.parse(res.data);
+						console.log(that.tabbarLoginData); // 用户信息
+						that.useridx = that.tabbarLoginData.useridx
+						if(that.tabbarLoginData.isAnchor==false){
+							that.isAnchor = false;
+						}
+					}
+				});
+			},
+			
+			getInitMsg:function(e){ //页面初始化的时候信息加载内容
+				var array=base64ToArrayBuffer(encrypt(JSON.stringify({
+					UserIdx: this.useridx, // int 用户名
+					Page: this.Page, // int 页面
+					Limit: 10, // 单个页面数据值
+					Type: 0, // 搜索类型 0列表 1-搜索
+					Where: this.Where // string 用户搜索内容
+				})))
+				var res = JSON.parse(decrypt(sendData('POST',this.GLOBAL.urlPoint+'/UserInfo/GetFansList',array)));
+				console.log(res);
+				if(res.code==100){
+					this.model1Data = res.data.list;
+				}
+			},
+			
+			check:function(){ // 用户输入事件
+				this.Where = event.target.value; // 因为下拉加载需要搜索内容所以定义
+				console.log(this.Where);
+				
+				var array=base64ToArrayBuffer(encrypt(JSON.stringify({
+					UserIdx: this.useridx, // int 用户名
+					Page: 1, // int 页面
+					Limit: 10, // 单个页面数据值
+					Type: 1, // 搜索类型 0列表 1-搜索
+					Where: this.Where // string 用户搜索内容
+				})))
+				var res = JSON.parse(decrypt(sendData('POST',this.GLOBAL.urlPoint+'/UserInfo/GetFansList',array)));
+				console.log(res);
+				if(res.code==100){
+					this.model1Data = res.data.list;
+				}
+			},
+			
+			//--------------------------------跳转主播主页-----------------------------------------------
+			goAnchor:function(e){
+				// uni.navigateTo({
+				// 	url: '/pages/anchorpersonal/anchorpersonal?AnchorIdx=' + e.useridx + '&Type=' + 2 + '&pageId=' + 12
+				// });
+				var obj = encodeURIComponent(encrypt(JSON.stringify({
+					AnchorIdx:e.useridx,
+					Type:2,
+					pageId:12
+				})))
+				navigateTo('/pages/anchorpersonal/anchorpersonal',obj);
+			},
+			//--------------------------------跳转主播主页-----------------------------------------------
+			
+			//-------------------------------跳转聊天页面----------------------------------------------
+			goNewachormelist:function(e){
+				var obj = encodeURIComponent(encrypt(JSON.stringify({
+					useridx: e.useridx,
+					nickname: e.nickname,
+					headpic: e.headpic,
+					online: e.online,
+					pageId: 12,
+					pagebackId: this.pagebackId,
+				})))
+				navigateTo('/pages/chatpop/chatpop',obj);
+			},
+			//-------------------------------跳转聊天页面----------------------------------------------
+			
+			//-------------------------------滚动下滑加载------------------------------------------------
+			getNewmsg:function(){
+				this.Page++;
+				var array=base64ToArrayBuffer(encrypt(JSON.stringify({
+					UserIdx: this.useridx, // int 用户名
+					Page: this.Page, // int 页面
+					Limit: 10, // 单个页面数据值
+					Type: 1, // 搜索类型 0列表 1-搜索
+					Where: this.Where // string 用户搜索内容
+				})))
+				var res = JSON.parse(decrypt(sendData('POST',this.GLOBAL.urlPoint+'/UserInfo/GetFansList',array)));
+				console.log(res);
+				if(res.code==100){
+					this.model2Data = res.data.list;
+					this.model1Data.push.apply(this.model1Data,this.model2Data); // 让两个数组合并
+					// console.log(this.model1Data)
+				}
+			},
+			//-------------------------------滚动下滑加载------------------------------------------------
+			
+			//---------------------------------回退-----------------------------------------------------
+			goback:function(){
+				// uni.navigateTo({
+				// 	url: '/pages/anchorme/anchorme'
+				// });
+				if(this.pagebackId == 17){
+					navigateTo('/pages/my/my',null);
+				}else if(this.pagebackId == 6){
+					navigateTo('/pages/anchorme/anchorme',null);
+				}
+				
+			}
+			//---------------------------------回退-----------------------------------------------------
+		}
+	}
+</script>
+
+<style lang="scss">
+page{
+	width: 100%;
+	height: 100%;
+	background: #191919;
+}
+.main{
+	width: 100%;
+	height: 100%;
+	background: #191919;
+	display:flex;
+	align-items: center;
+	flex-direction:column;
+	.top{
+		width: 100%;
+		padding: 32rpx 0rpx;
+		background-color:#252525;
+		text-align: center;
+		font-size: 36rpx;
+		color:#FFFFFF;
+		.img{
+			position: absolute;
+			left: 10rpx;
+			width: 36rpx;
+			height: 36rpx;
+			padding: 10rpx;
+		}
+	}
+	.content{
+		width: 100%;
+		height: 1200rpx;
+		// overflow-y:scroll;
+		.search{ // 搜索栏样式
+			width: 694rpx;
+			padding: 23rpx 28rpx 23rpx 28rpx;
+			.section__title{ //搜索栏中的 input
+				height: 54rpx;
+				color:#ACACAC;
+				border-radius:8px;
+				font-size: 30rpx;
+				font-weight:400;
+				background-color:#343434;
+				background-image: url(../../static/pictures/search_1.png);
+				background-repeat: no-repeat; /*设置图片不重复*/
+				background-position: left; /*图片显示的位置*/
+				background-position:12rpx; // 设置图片位置
+				padding-left: 70rpx; //设置搜索文字位置
+				background-size: 31rpx 31rpx; // 搜索图标的大小
+			}
+		}
+		.list{
+			padding-left:28rpx;
+			// padding-top:100rpx;
+			// padding-bottom:90rpx;
+			.listPer{
+				height: 113rpx;
+				display:flex;
+				.left{ // 头像
+					position: relative;
+					padding: 12rpx 0rpx 11rpx 0rpx;
+					height: 90rpx;
+					width: 90rpx;
+					.photo{ // 头像
+						background: #646464;
+						height: 90rpx;
+						width: 90rpx;
+						border-radius: 50%;
+					}
+					.status{
+						height: 20rpx;
+						width: 20rpx;
+						background: #17FF2A;
+						position: absolute;
+						top: 80rpx;
+						left: 70rpx;
+						border-radius: 50%;
+					}
+				}
+				.content{
+					width:100%;
+					height:113rpx;
+					border-bottom: 1rpx solid #343434;
+					margin-left:39rpx;
+					margin-right:28rpx;
+					display:flex;
+					align-items:center;
+					justify-content:space-between;
+					.center{ // 内容
+						display: flex;
+						flex-direction:column;
+						justify-content:center;
+						max-width: 500rpx;
+						overflow: hidden;
+						text-overflow:ellipsis;
+						white-space: nowrap;
+						color:#FFFFFF;
+						.p1{
+							font-size: 26rpx;
+							font-weight:500;
+							color: #FFFFFF;
+							max-width: 350rpx;
+							overflow: hidden;
+							text-overflow:ellipsis;
+							white-space: nowrap;
+							.spot{
+								display: inline-block;
+								vertical-align: middle;
+								margin-left: 11rpx;
+								height: 12rpx;
+								width: 12rpx;
+								background: #00FF2A;
+								border-radius: 50%;
+							}
+						}
+						.p2{
+							font-size: 22rpx;
+							font-weight:400;
+							margin-top:9rpx;
+							color:#ACACAC;
+							max-width: 390rpx;
+							overflow: hidden;
+							text-overflow:ellipsis;
+							white-space: nowrap;
+						}
+					}
+					.right{
+						display:flex;
+						flex-direction:column;
+						align-items:flex-end;
+						.right_chat{
+							width: 50rpx;
+							height: 50rpx;
+						}
+					}
+				}
+			}
+		}
+		
+	}
+}
+</style>

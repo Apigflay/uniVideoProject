@@ -1,0 +1,169 @@
+﻿@{
+    ViewBag.Title = "主播后台";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    body {
+        margin: 0;
+        background: #F2F2F2;
+    }
+    .banner{
+        position:relative;
+        width:100%;
+    }
+    .top {
+        width: 100%;
+        height: auto;
+        border-bottom: .1rem solid #d0d0d0;
+        padding-bottom: 1rem;
+    }
+        .top p {
+            margin-left: 5%;
+            font-size: 1.1rem;
+            font-weight: bold;
+            font-family: PingFangSC-Regular;
+            font-weight: 400;
+        }
+    .top .leftImg {
+        width: 20%;
+        float: left;
+        margin: 5%;
+    }
+        .top .leftImg img {
+            width: 100%;
+            border-radius: 50%;
+        }
+    .rightTest p {
+        padding-top: 10%;
+    }
+    .Middle {
+        width: 94%;
+        margin-left: 3%;
+        margin-top: 5%;
+        line-height: 40%;
+        position:relative;
+
+    }
+        .Middle h2 {
+            margin-left: 10%;
+            margin-top: 1%;
+        }
+        .Middle p {
+            padding: 1.5%;
+            padding-left: 10%;
+            font-size: 120%;
+            font-family: PingFangSC-Regular;
+            font-weight: 400;
+        }
+        .Middle span {
+            color: #FF7B10;
+        }
+        .Middle img{
+            width:100%;
+        }
+    .tixianbody {
+        position: absolute;
+        margin-top: -40%;
+        width: 100%;
+    }
+        .tixianbody img {
+            width: 30%;
+            margin-left: 60%;
+            position: absolute;
+            margin-top: -12%;
+        }
+    .p1 {
+        padding-top: 4% !important;
+    }
+    .p2 img {
+        width: 30%;
+        margin-left: 11.5rem;
+        margin-top: -10%;
+    }
+    .p3 {
+        text-align: center;
+            margin-top: 8.8%;
+    }
+    .list {
+        background: white;
+        width: 92%;
+        margin-left: 4%;
+        border-radius: 1.1rem;
+    }
+        .list h2 {
+            margin-left: 10%;
+            padding-top: 5%;
+        }
+
+        .list p {
+            padding-left: 10%;
+            font-size: 120%;
+            font-family: PingFangSC-Regular;
+            font-weight: 400;
+        }
+
+        .list span {
+            color: #FF7B10;
+        }
+    h2 img {
+        padding-right: 15%;
+        padding-top: 1%;
+        float: right;
+        width: 30%;
+    }
+    .border {
+        width: 90%;
+        margin-left: 5%;
+        border-top: 1px solid #DDDDDD;
+        text-align: center;
+    }
+</style>
+<div class="banner">
+    <div class="top">
+        <p>用户IDX: @ViewBag.useridx</p>
+        <p style="font-size: 1.0rem;">遇到问题，请联系您的专属客服</p>
+        <input type="hidden" id="useridx" value="@ViewBag.useridx" />
+    </div>
+    <div class="Middle">
+        <img src="~/Content/common/images/anchoradmin/tixianbg.png" />
+        <div class="tixianbody">
+            <h2>提现</h2>
+            <p class="p1">当前余额: <span>@ViewBag.money</span></p>
+            <p class="p2">已蜜化: <span>@ViewBag.sale</span> </p>
+            <img onclick="Tixian()" src="~/Content/common/images/anchoradmin/tixian.png" />
+            <p class="p3"><a onclick="TixianInfo()">查看订单</a></p>
+        </div>
+    </div>
+
+    @*<div class="list">
+        <h2>道具奖励 <img src="~/Content/common/images/anchoradmin/jiangli.png" /></h2>
+
+        <p class="p1" style="margin-top: -4%;">今日道具奖励: <span>222</span></p>
+        <p class="p2">本周道具奖励: <span>222</span></p>
+        <div class="border">
+            <p style="padding-bottom: 1.2rem;"><a>查看详情</a></p>
+        </div>
+
+    </div>
+    <div class="list">
+        <h2>其他奖励 <img src="~/Content/common/images/anchoradmin/qita.png" /></h2>
+
+        <p class="p1" style="margin-top: -4%;">上周房间奖励: <span>222</span></p>
+        <p class="p2">上周推荐奖励: <span>222</span></p>
+        <div class="border">
+            <p style="padding-bottom: 1.2rem;"><a>查看详情</a></p>
+        </div>
+
+    </div>*@
+
+</div>
+
+<script>
+    var useridx = $("#useridx").val();
+    function Tixian() {
+        window.location.href = '/Pay/userPutForward?useridx=' + useridx; 
+    }
+    function TixianInfo() {
+        window.location.href = 'AnchorTixianList?useridx=' + useridx;
+    }
+</script>

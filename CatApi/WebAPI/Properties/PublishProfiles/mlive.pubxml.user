@@ -1,0 +1,1070 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+您 Web 项目的发布/打包进程将使用此文件。您可以通过编辑此 MSBuild 文件
+来自定义该进程的行为。若要了解与此相关的详细信息，请访问 http://go.microsoft.com/fwlink/?LinkID=208121。
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword />
+    <_PublishTargetUrl>D:\网站发布\mjlive</_PublishTargetUrl>
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="404.html">
+      <publishTime>05/16/2019 18:32:34</publishTime>
+    </File>
+    <File Include="App_GlobalResources/Resource.en.resx">
+      <publishTime>05/16/2019 18:32:32</publishTime>
+    </File>
+    <File Include="App_GlobalResources/Resource.resx">
+      <publishTime>05/16/2019 18:32:32</publishTime>
+    </File>
+    <File Include="App_GlobalResources/Resource.zh-TW.resx">
+      <publishTime>05/16/2019 18:32:32</publishTime>
+    </File>
+    <File Include="Areas/H5/Views/Active/inviteNew.cshtml">
+      <publishTime>05/16/2019 18:32:32</publishTime>
+    </File>
+    <File Include="Areas/H5/Views/Income/BabyRecord.cshtml">
+      <publishTime>05/16/2019 18:32:32</publishTime>
+    </File>
+    <File Include="Areas/H5/Views/Income/RedPacket.cshtml">
+      <publishTime>05/16/2019 18:32:32</publishTime>
+    </File>
+    <File Include="Areas/H5/Views/Income/withdrawRecord.cshtml">
+      <publishTime>05/16/2019 18:32:32</publishTime>
+    </File>
+    <File Include="Areas/H5/Views/M/ConfigEditView.cshtml">
+      <publishTime>05/16/2019 18:32:32</publishTime>
+    </File>
+    <File Include="Areas/H5/Views/M/GetConfigList.cshtml">
+      <publishTime>05/16/2019 18:32:32</publishTime>
+    </File>
+    <File Include="Areas/H5/Views/M/GetVersion.cshtml">
+      <publishTime>05/16/2019 18:32:32</publishTime>
+    </File>
+    <File Include="Areas/H5/Views/M/Index.cshtml">
+      <publishTime>05/16/2019 18:32:32</publishTime>
+    </File>
+    <File Include="Areas/H5/Views/M/MajiaEditView.cshtml">
+      <publishTime>05/16/2019 18:32:32</publishTime>
+    </File>
+    <File Include="Areas/H5/Views/M/MajiaVersionView.cshtml">
+      <publishTime>05/16/2019 18:32:32</publishTime>
+    </File>
+    <File Include="Areas/H5/Views/M/VerEditView.cshtml">
+      <publishTime>05/16/2019 18:32:32</publishTime>
+    </File>
+    <File Include="Areas/H5/Views/Material/GameInfo.cshtml">
+      <publishTime>05/16/2019 18:32:32</publishTime>
+    </File>
+    <File Include="Areas/H5/Views/Ranking/FansRank.cshtml">
+      <publishTime>05/16/2019 18:32:32</publishTime>
+    </File>
+    <File Include="Areas/H5/Views/Ranking/LiushuiRank.cshtml">
+      <publishTime>05/16/2019 18:32:32</publishTime>
+    </File>
+    <File Include="Areas/H5/Views/Ranking/RankIndex.cshtml">
+      <publishTime>05/16/2019 18:32:32</publishTime>
+    </File>
+    <File Include="Areas/H5/Views/Ranking/StarRank.cshtml">
+      <publishTime>05/16/2019 18:32:32</publishTime>
+    </File>
+    <File Include="Areas/H5/Views/User/AnchorAdmin.cshtml">
+      <publishTime>05/16/2019 18:32:32</publishTime>
+    </File>
+    <File Include="Areas/H5/Views/User/AnchorLevel.cshtml">
+      <publishTime>05/16/2019 18:32:32</publishTime>
+    </File>
+    <File Include="Areas/H5/Views/User/AnchorLevelNew.cshtml">
+      <publishTime>05/16/2019 18:32:32</publishTime>
+    </File>
+    <File Include="Areas/H5/Views/User/AnchorTixianList.cshtml">
+      <publishTime>05/16/2019 18:32:32</publishTime>
+    </File>
+    <File Include="Areas/H5/Views/User/GoDownloadAnchor.cshtml">
+      <publishTime>05/16/2019 18:32:32</publishTime>
+    </File>
+    <File Include="Areas/H5/Views/User/Instructions.cshtml">
+      <publishTime>05/16/2019 18:32:32</publishTime>
+    </File>
+    <File Include="Areas/H5/Views/User/JoinPeople.cshtml">
+      <publishTime>05/16/2019 18:32:32</publishTime>
+    </File>
+    <File Include="Areas/H5/Views/User/MyLevel.cshtml">
+      <publishTime>05/16/2019 18:32:32</publishTime>
+    </File>
+    <File Include="Areas/H5/Views/User/RechargeActivity.cshtml">
+      <publishTime>05/16/2019 18:32:32</publishTime>
+    </File>
+    <File Include="Areas/H5/Views/User/Service.cshtml">
+      <publishTime>05/16/2019 18:32:32</publishTime>
+    </File>
+    <File Include="Areas/H5/Views/User/WebDownload.cshtml">
+      <publishTime>05/16/2019 18:32:32</publishTime>
+    </File>
+    <File Include="Areas/H5/Views/User/WebDownload_1.cshtml">
+      <publishTime>05/16/2019 18:32:32</publishTime>
+    </File>
+    <File Include="Areas/H5/Views/Web.config">
+      <publishTime>05/16/2019 18:32:32</publishTime>
+    </File>
+    <File Include="bin/Aliyun.MNS.dll">
+      <publishTime>05/16/2019 18:32:31</publishTime>
+    </File>
+    <File Include="bin/Antlr3.Runtime.dll">
+      <publishTime>05/16/2019 18:32:33</publishTime>
+    </File>
+    <File Include="bin/BLL.dll">
+      <publishTime>06/05/2019 15:12:37</publishTime>
+    </File>
+    <File Include="bin/BLL.pdb">
+      <publishTime>06/05/2019 15:12:37</publishTime>
+    </File>
+    <File Include="bin/Common.dll">
+      <publishTime>06/05/2019 15:12:34</publishTime>
+    </File>
+    <File Include="bin/Common.pdb">
+      <publishTime>06/05/2019 15:12:34</publishTime>
+    </File>
+    <File Include="bin/DAL.dll">
+      <publishTime>06/05/2019 15:12:36</publishTime>
+    </File>
+    <File Include="bin/DAL.pdb">
+      <publishTime>06/05/2019 15:12:36</publishTime>
+    </File>
+    <File Include="bin/Enyim.Caching.dll">
+      <publishTime>05/16/2019 18:32:47</publishTime>
+    </File>
+    <File Include="bin/LitJson.dll">
+      <publishTime>05/16/2019 18:32:34</publishTime>
+    </File>
+    <File Include="bin/Lucene.Net.dll">
+      <publishTime>05/16/2019 18:32:49</publishTime>
+    </File>
+    <File Include="bin/Lucene.Net.pdb">
+      <publishTime>05/16/2019 18:32:49</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Web.Infrastructure.dll">
+      <publishTime>05/16/2019 18:32:34</publishTime>
+    </File>
+    <File Include="bin/Model.dll">
+      <publishTime>06/05/2019 15:12:33</publishTime>
+    </File>
+    <File Include="bin/Model.pdb">
+      <publishTime>06/05/2019 15:12:33</publishTime>
+    </File>
+    <File Include="bin/MongoDB.Bson.dll">
+      <publishTime>05/16/2019 18:32:31</publishTime>
+    </File>
+    <File Include="bin/MongoDB.Driver.dll">
+      <publishTime>05/16/2019 18:32:31</publishTime>
+    </File>
+    <File Include="bin/Newtonsoft.Json.dll">
+      <publishTime>05/16/2019 18:32:33</publishTime>
+    </File>
+    <File Include="bin/OAuth.dll">
+      <publishTime>06/05/2019 15:12:35</publishTime>
+    </File>
+    <File Include="bin/OAuth.pdb">
+      <publishTime>06/05/2019 15:12:35</publishTime>
+    </File>
+    <File Include="bin/PanGu.dll">
+      <publishTime>05/16/2019 18:32:31</publishTime>
+    </File>
+    <File Include="bin/PanGu.Lucene.Analyzer.dll">
+      <publishTime>05/16/2019 18:32:31</publishTime>
+    </File>
+    <File Include="bin/Submail.dll">
+      <publishTime>05/16/2019 18:32:31</publishTime>
+    </File>
+    <File Include="bin/System.Net.Http.dll">
+      <publishTime>05/16/2019 18:32:33</publishTime>
+    </File>
+    <File Include="bin/System.Net.Http.Formatting.dll">
+      <publishTime>05/16/2019 18:32:34</publishTime>
+    </File>
+    <File Include="bin/System.Net.Http.WebRequest.dll">
+      <publishTime>05/16/2019 18:32:33</publishTime>
+    </File>
+    <File Include="bin/System.Web.Helpers.dll">
+      <publishTime>05/16/2019 18:32:34</publishTime>
+    </File>
+    <File Include="bin/System.Web.Http.dll">
+      <publishTime>05/16/2019 18:32:34</publishTime>
+    </File>
+    <File Include="bin/System.Web.Http.WebHost.dll">
+      <publishTime>05/16/2019 18:32:33</publishTime>
+    </File>
+    <File Include="bin/System.Web.Mvc.dll">
+      <publishTime>05/16/2019 18:32:33</publishTime>
+    </File>
+    <File Include="bin/System.Web.Optimization.dll">
+      <publishTime>05/16/2019 18:32:34</publishTime>
+    </File>
+    <File Include="bin/System.Web.Razor.dll">
+      <publishTime>05/16/2019 18:32:34</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.Deployment.dll">
+      <publishTime>05/16/2019 18:32:34</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.dll">
+      <publishTime>05/16/2019 18:32:34</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.Razor.dll">
+      <publishTime>05/16/2019 18:32:34</publishTime>
+    </File>
+    <File Include="bin/ThirdAPI.dll">
+      <publishTime>06/05/2019 15:12:37</publishTime>
+    </File>
+    <File Include="bin/ThirdAPI.pdb">
+      <publishTime>06/05/2019 15:12:37</publishTime>
+    </File>
+    <File Include="bin/WebAPI.dll">
+      <publishTime>06/05/2019 15:12:39</publishTime>
+    </File>
+    <File Include="bin/WebAPI.pdb">
+      <publishTime>06/05/2019 15:12:39</publishTime>
+    </File>
+    <File Include="bin/Webdiyer.MvcPager.dll">
+      <publishTime>05/16/2019 18:32:34</publishTime>
+    </File>
+    <File Include="bin/WebGrease.dll">
+      <publishTime>05/16/2019 18:32:34</publishTime>
+    </File>
+    <File Include="bin/ZmopSdk.dll">
+      <publishTime>05/16/2019 18:32:31</publishTime>
+    </File>
+    <File Include="Content/boostrap/bootstrap-theme.css">
+      <publishTime>05/16/2019 18:32:38</publishTime>
+    </File>
+    <File Include="Content/boostrap/bootstrap.css">
+      <publishTime>05/16/2019 18:32:38</publishTime>
+    </File>
+    <File Include="Content/boostrap/bootstrap.js">
+      <publishTime>05/16/2019 18:32:38</publishTime>
+    </File>
+    <File Include="Content/common/css/anchorlevel.css">
+      <publishTime>05/16/2019 18:32:37</publishTime>
+    </File>
+    <File Include="Content/common/css/base.css">
+      <publishTime>05/16/2019 18:32:37</publishTime>
+    </File>
+    <File Include="Content/common/css/mylevel.css">
+      <publishTime>05/16/2019 18:32:37</publishTime>
+    </File>
+    <File Include="Content/common/css/num.woff">
+      <publishTime>05/16/2019 18:32:37</publishTime>
+    </File>
+    <File Include="Content/common/css/ranking.css">
+      <publishTime>05/16/2019 18:32:37</publishTime>
+    </File>
+    <File Include="Content/common/css/style_star.css">
+      <publishTime>05/16/2019 18:32:37</publishTime>
+    </File>
+    <File Include="Content/common/images/1%402x.png">
+      <publishTime>05/16/2019 18:32:36</publishTime>
+    </File>
+    <File Include="Content/common/images/1_bj.png">
+      <publishTime>05/16/2019 18:32:36</publishTime>
+    </File>
+    <File Include="Content/common/images/2%402x.png">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/common/images/2_bj.png">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/common/images/3%402x.png">
+      <publishTime>05/16/2019 18:32:37</publishTime>
+    </File>
+    <File Include="Content/common/images/backbg.png">
+      <publishTime>05/16/2019 18:32:36</publishTime>
+    </File>
+    <File Include="Content/common/images/bance%402x.png">
+      <publishTime>05/16/2019 18:32:36</publishTime>
+    </File>
+    <File Include="Content/common/images/banner.png">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/common/images/bao_%402x.png">
+      <publishTime>05/16/2019 18:32:37</publishTime>
+    </File>
+    <File Include="Content/common/images/bbdh_%402x.png">
+      <publishTime>05/16/2019 18:32:37</publishTime>
+    </File>
+    <File Include="Content/common/images/bg1.png">
+      <publishTime>05/16/2019 18:32:36</publishTime>
+    </File>
+    <File Include="Content/common/images/bg1_01.png">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/common/images/bg1_02.png">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/common/images/bg2.png">
+      <publishTime>05/16/2019 18:32:36</publishTime>
+    </File>
+    <File Include="Content/common/images/bg3.png">
+      <publishTime>05/16/2019 18:32:36</publishTime>
+    </File>
+    <File Include="Content/common/images/biaoqian.png">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/common/images/biaoqian2.png">
+      <publishTime>05/16/2019 18:32:36</publishTime>
+    </File>
+    <File Include="Content/common/images/bietie_%402x.png">
+      <publishTime>05/16/2019 18:32:36</publishTime>
+    </File>
+    <File Include="Content/common/images/bj_%402x.png">
+      <publishTime>05/16/2019 18:32:36</publishTime>
+    </File>
+    <File Include="Content/common/images/chat.png">
+      <publishTime>05/16/2019 18:32:36</publishTime>
+    </File>
+    <File Include="Content/common/images/crown%402x.png">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/common/images/ct_top_bg.png">
+      <publishTime>05/16/2019 18:32:37</publishTime>
+    </File>
+    <File Include="Content/common/images/decoration.png">
+      <publishTime>05/16/2019 18:32:36</publishTime>
+    </File>
+    <File Include="Content/common/images/dedngji_%402x.png">
+      <publishTime>05/16/2019 18:32:36</publishTime>
+    </File>
+    <File Include="Content/common/images/diyimingbiaoqian.png">
+      <publishTime>05/16/2019 18:32:36</publishTime>
+    </File>
+    <File Include="Content/common/images/down%402x.png">
+      <publishTime>05/16/2019 18:32:37</publishTime>
+    </File>
+    <File Include="Content/common/images/f1%402x.png">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/common/images/f2%402x.png">
+      <publishTime>05/16/2019 18:32:37</publishTime>
+    </File>
+    <File Include="Content/common/images/f3%402x.png">
+      <publishTime>05/16/2019 18:32:36</publishTime>
+    </File>
+    <File Include="Content/common/images/female%402x.png">
+      <publishTime>05/16/2019 18:32:36</publishTime>
+    </File>
+    <File Include="Content/common/images/fish_%402x.png">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/common/images/honor/lv1_%403x.png">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/common/images/honor/lv2_%403x.png">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/common/images/honor/lv3_%403x.png">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/common/images/honor/lv4_%403x.png">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/common/images/honor/lv5_%403x.png">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/common/images/icon_back.png">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/common/images/icon_cha.png">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/common/images/icon_hot.png">
+      <publishTime>05/16/2019 18:32:36</publishTime>
+    </File>
+    <File Include="Content/common/images/icon_hot1.png">
+      <publishTime>05/16/2019 18:32:36</publishTime>
+    </File>
+    <File Include="Content/common/images/icon_jian.png">
+      <publishTime>05/16/2019 18:32:36</publishTime>
+    </File>
+    <File Include="Content/common/images/icon_live.png">
+      <publishTime>05/16/2019 18:32:36</publishTime>
+    </File>
+    <File Include="Content/common/images/icon_live1.png">
+      <publishTime>05/16/2019 18:32:37</publishTime>
+    </File>
+    <File Include="Content/common/images/icon_money.png">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/common/images/icon_money1.png">
+      <publishTime>05/16/2019 18:32:36</publishTime>
+    </File>
+    <File Include="Content/common/images/icon_more.png">
+      <publishTime>05/16/2019 18:32:36</publishTime>
+    </File>
+    <File Include="Content/common/images/icon_more1.png">
+      <publishTime>05/16/2019 18:32:36</publishTime>
+    </File>
+    <File Include="Content/common/images/icon_ok.png">
+      <publishTime>05/16/2019 18:32:36</publishTime>
+    </File>
+    <File Include="Content/common/images/icon_star.png">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/common/images/icon_star1.png">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/common/images/icon_t_mark.png">
+      <publishTime>05/16/2019 18:32:37</publishTime>
+    </File>
+    <File Include="Content/common/images/jiantou.png">
+      <publishTime>05/16/2019 18:32:36</publishTime>
+    </File>
+    <File Include="Content/common/images/level/Administration_%403x.png">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/common/images/level/crown_diamond.png">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/common/images/level/level1.png">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/common/images/level/level11.png">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/common/images/level/level15.png">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/common/images/level/level30.png">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/common/images/level/level31.png">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/common/images/level/level32.png">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/common/images/level/level34.png">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/common/images/level/level35.png">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/common/images/level/level39.png">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/common/images/level/service_%403x.png">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/common/images/level120_3x.png">
+      <publishTime>05/16/2019 18:32:37</publishTime>
+    </File>
+    <File Include="Content/common/images/level160_3x.png">
+      <publishTime>05/16/2019 18:32:37</publishTime>
+    </File>
+    <File Include="Content/common/images/level200_3x.png">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/common/images/level240_3x.png">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/common/images/level40_3x.png">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/common/images/level80_3x.png">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/common/images/mail%402x.png">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/common/images/male%402x.png">
+      <publishTime>05/16/2019 18:32:37</publishTime>
+    </File>
+    <File Include="Content/common/images/money.png">
+      <publishTime>05/16/2019 18:32:36</publishTime>
+    </File>
+    <File Include="Content/common/images/more.png">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/common/images/num/0_3x.png">
+      <publishTime>05/16/2019 18:32:37</publishTime>
+    </File>
+    <File Include="Content/common/images/num/1_3x.png">
+      <publishTime>05/16/2019 18:32:37</publishTime>
+    </File>
+    <File Include="Content/common/images/num/2_3x.png">
+      <publishTime>05/16/2019 18:32:37</publishTime>
+    </File>
+    <File Include="Content/common/images/num/3_3x.png">
+      <publishTime>05/16/2019 18:32:37</publishTime>
+    </File>
+    <File Include="Content/common/images/num/4_3x.png">
+      <publishTime>05/16/2019 18:32:37</publishTime>
+    </File>
+    <File Include="Content/common/images/num/5_3x.png">
+      <publishTime>05/16/2019 18:32:37</publishTime>
+    </File>
+    <File Include="Content/common/images/num/6_3x.png">
+      <publishTime>05/16/2019 18:32:37</publishTime>
+    </File>
+    <File Include="Content/common/images/num/7_3x.png">
+      <publishTime>05/16/2019 18:32:37</publishTime>
+    </File>
+    <File Include="Content/common/images/num/8_3x.png">
+      <publishTime>05/16/2019 18:32:37</publishTime>
+    </File>
+    <File Include="Content/common/images/num/9_3x.png">
+      <publishTime>05/16/2019 18:32:37</publishTime>
+    </File>
+    <File Include="Content/common/images/one%402x.png">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/common/images/one%402x1.png">
+      <publishTime>05/16/2019 18:32:36</publishTime>
+    </File>
+    <File Include="Content/common/images/paihangtb.png">
+      <publishTime>05/16/2019 18:32:36</publishTime>
+    </File>
+    <File Include="Content/common/images/paiming1.png">
+      <publishTime>05/16/2019 18:32:36</publishTime>
+    </File>
+    <File Include="Content/common/images/paiming2.png">
+      <publishTime>05/16/2019 18:32:36</publishTime>
+    </File>
+    <File Include="Content/common/images/paiming3.png">
+      <publishTime>05/16/2019 18:32:36</publishTime>
+    </File>
+    <File Include="Content/common/images/power.png">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/common/images/pp1.jpg">
+      <publishTime>05/16/2019 18:32:36</publishTime>
+    </File>
+    <File Include="Content/common/images/rank_%402x.png">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/common/images/remen_%402x.png">
+      <publishTime>05/16/2019 18:32:37</publishTime>
+    </File>
+    <File Include="Content/common/images/return.png">
+      <publishTime>05/16/2019 18:32:36</publishTime>
+    </File>
+    <File Include="Content/common/images/share_%402x.png">
+      <publishTime>05/16/2019 18:32:36</publishTime>
+    </File>
+    <File Include="Content/common/images/star_ph_num1bg.png">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/common/images/star_ph_tit.png">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/common/images/star_top_bg.png">
+      <publishTime>05/16/2019 18:32:36</publishTime>
+    </File>
+    <File Include="Content/common/images/tequan_%402x.png">
+      <publishTime>05/16/2019 18:32:37</publishTime>
+    </File>
+    <File Include="Content/common/images/three%402x.png">
+      <publishTime>05/16/2019 18:32:36</publishTime>
+    </File>
+    <File Include="Content/common/images/tiaozhanjieshu_1.png">
+      <publishTime>05/16/2019 18:32:37</publishTime>
+    </File>
+    <File Include="Content/common/images/tiaozhanjieshu_2.png">
+      <publishTime>05/16/2019 18:32:37</publishTime>
+    </File>
+    <File Include="Content/common/images/time_%402x.png">
+      <publishTime>05/16/2019 18:32:36</publishTime>
+    </File>
+    <File Include="Content/common/images/TV_%402x.png">
+      <publishTime>05/16/2019 18:32:36</publishTime>
+    </File>
+    <File Include="Content/common/images/two%402x.png">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/common/images/txt_help.png">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/common/images/txt_yu.png">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/common/images/up%402x.png">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/common/images/vip.png">
+      <publishTime>05/16/2019 18:32:36</publishTime>
+    </File>
+    <File Include="Content/common/images/vsing.png">
+      <publishTime>05/16/2019 18:32:36</publishTime>
+    </File>
+    <File Include="Content/common/images/yy01.png">
+      <publishTime>05/16/2019 18:32:37</publishTime>
+    </File>
+    <File Include="Content/common/images/yy02.png">
+      <publishTime>05/16/2019 18:32:37</publishTime>
+    </File>
+    <File Include="Content/common/images/yy03.png">
+      <publishTime>05/16/2019 18:32:37</publishTime>
+    </File>
+    <File Include="Content/common/images/zhibojianguanli_%402x.png">
+      <publishTime>05/16/2019 18:32:36</publishTime>
+    </File>
+    <File Include="Content/Css/babyExchange.css">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/Css/devote.css">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/Css/exchange.css">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/Css/family.css">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/Css/fund.css">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/Css/GameIndex.css">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/Css/income.css">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/Css/login-min.css">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/Css/mobile.css">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/Css/nopage.css">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/Css/Play.css">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/Css/preview.css">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/Css/privilege.css">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/Css/protocol.css">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/Css/shareInvite_V2.css">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/dropload/dropload.css">
+      <publishTime>05/16/2019 18:32:38</publishTime>
+    </File>
+    <File Include="Content/dropload/dropload.js">
+      <publishTime>05/16/2019 18:32:38</publishTime>
+    </File>
+    <File Include="Content/i18n/js/jquery.i18n.properties.js">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/i18n/js/jquery.i18n.properties.min.js">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/i18n/lang/strings.properties">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/LaoWo/css/style.css">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/LaoWo/images/bank/gsyh%402x.png">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/LaoWo/images/bank/hxyh%402x.png">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/LaoWo/images/bank/nyyh%402x.png">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/LaoWo/images/bank/zgyh%402x.png">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/LaoWo/images/btn_back%402x.png">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/LaoWo/images/btn_back%402x_1.png">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/LaoWo/images/redgou.png">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/LaoWo/images/txicon%402x.png">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/LaoWo/js/adapter.js">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/LaoWo/js/jquery-1.11.3.js">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/LaoWo/js/layer/layer.js">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/LaoWo/js/layer/need/layer.css">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/LaoWo/js/qrcode.js">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/LaoWo/js/userPutForward.js">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/layer/layer.js">
+      <publishTime>05/16/2019 18:32:40</publishTime>
+    </File>
+    <File Include="Content/layer/mobile/layer.js">
+      <publishTime>05/16/2019 18:32:40</publishTime>
+    </File>
+    <File Include="Content/layer/mobile/need/layer.css">
+      <publishTime>05/16/2019 18:32:40</publishTime>
+    </File>
+    <File Include="Content/layer/need/layer.css">
+      <publishTime>05/16/2019 18:32:40</publishTime>
+    </File>
+    <File Include="Content/layer/skin/default/icon-ext.png">
+      <publishTime>05/16/2019 18:32:40</publishTime>
+    </File>
+    <File Include="Content/layer/skin/default/icon.png">
+      <publishTime>05/16/2019 18:32:40</publishTime>
+    </File>
+    <File Include="Content/layer/skin/default/layer.css">
+      <publishTime>05/16/2019 18:32:40</publishTime>
+    </File>
+    <File Include="Content/layer/skin/default/loading-0.gif">
+      <publishTime>05/16/2019 18:32:40</publishTime>
+    </File>
+    <File Include="Content/layer/skin/default/loading-1.gif">
+      <publishTime>05/16/2019 18:32:40</publishTime>
+    </File>
+    <File Include="Content/layer/skin/default/loading-2.gif">
+      <publishTime>05/16/2019 18:32:40</publishTime>
+    </File>
+    <File Include="Content/layer/skin/moon/default.png">
+      <publishTime>05/16/2019 18:32:40</publishTime>
+    </File>
+    <File Include="Content/layer/skin/moon/style.css">
+      <publishTime>05/16/2019 18:32:40</publishTime>
+    </File>
+    <File Include="Content/lazyload/jquery.lazyload.js">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/lazyload/jquery.lazyload.min.js">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/living/AnchorLevel.css">
+      <publishTime>05/16/2019 18:32:38</publishTime>
+    </File>
+    <File Include="Content/living/star_num.woff">
+      <publishTime>05/16/2019 18:32:38</publishTime>
+    </File>
+    <File Include="Content/swiper/swiper-3.3.1.min.css">
+      <publishTime>05/16/2019 18:32:40</publishTime>
+    </File>
+    <File Include="Content/swiper/swiper-3.3.1.min.js">
+      <publishTime>05/16/2019 18:32:40</publishTime>
+    </File>
+    <File Include="Content/swiper/swiper.min.css">
+      <publishTime>05/16/2019 18:32:40</publishTime>
+    </File>
+    <File Include="Content/swiper/swiper.min.js">
+      <publishTime>05/16/2019 18:32:40</publishTime>
+    </File>
+    <File Include="Content/tipAlert/iTips.css">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/tipAlert/iTips.js">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/tipAlert/iTips.min.js">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Content/vue/vue.js">
+      <publishTime>05/16/2019 18:32:38</publishTime>
+    </File>
+    <File Include="Content/vue/vue.min.js">
+      <publishTime>05/16/2019 18:32:38</publishTime>
+    </File>
+    <File Include="Content/week/level.css">
+      <publishTime>05/16/2019 18:32:38</publishTime>
+    </File>
+    <File Include="Content/week/num.woff">
+      <publishTime>05/16/2019 18:32:38</publishTime>
+    </File>
+    <File Include="Content/week/roomRank.css">
+      <publishTime>05/16/2019 18:32:38</publishTime>
+    </File>
+    <File Include="Content/week/totalRank.css">
+      <publishTime>05/16/2019 18:32:38</publishTime>
+    </File>
+    <File Include="Content/week/totalRank1.css">
+      <publishTime>05/16/2019 18:32:38</publishTime>
+    </File>
+    <File Include="Content/week/userRank.css">
+      <publishTime>05/16/2019 18:32:38</publishTime>
+    </File>
+    <File Include="Content/week/weekrank.css">
+      <publishTime>05/16/2019 18:32:38</publishTime>
+    </File>
+    <File Include="Content/week/weekrank1.css">
+      <publishTime>05/16/2019 18:32:38</publishTime>
+    </File>
+    <File Include="favicon.ico">
+      <publishTime>05/16/2019 18:32:33</publishTime>
+    </File>
+    <File Include="Global.asax">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="H5/2019-2-28/Index.html">
+      <publishTime>05/16/2019 18:32:45</publishTime>
+    </File>
+    <File Include="login.html">
+      <publishTime>05/16/2019 18:32:45</publishTime>
+    </File>
+    <File Include="miaoboAD/miaoboApp.css">
+      <publishTime>05/16/2019 18:32:34</publishTime>
+    </File>
+    <File Include="miaoboAD/miaoboApp.html">
+      <publishTime>05/16/2019 18:32:34</publishTime>
+    </File>
+    <File Include="mobile.html">
+      <publishTime>05/16/2019 18:32:34</publishTime>
+    </File>
+    <File Include="mobile/coinExplain/html/images/login.JPG">
+      <publishTime>05/16/2019 18:32:33</publishTime>
+    </File>
+    <File Include="mobile/coinExplain/html/images/就约我吧.png">
+      <publishTime>05/16/2019 18:32:33</publishTime>
+    </File>
+    <File Include="mobile/coinExplain/html/index.html">
+      <publishTime>05/16/2019 18:32:33</publishTime>
+    </File>
+    <File Include="mobile/coinExplain/html/style/style.css">
+      <publishTime>05/16/2019 18:32:33</publishTime>
+    </File>
+    <File Include="packages.config">
+      <publishTime>05/16/2019 18:32:34</publishTime>
+    </File>
+    <File Include="Pages/Anchor/day.html">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Pages/Anchor/hot24.html">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Pages/Anchor/level_explicate.html">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Pages/Anchor/living_level.html">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Pages/Anchor/privilege_explicate.html">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Pages/Anchor/screen.html">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Pages/down2.html">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Pages/gameProtocol/common/js/adapter.js">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Pages/gameProtocol/common/js/jquery-1.11.3.js">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Pages/gameProtocol/index.html">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+    <File Include="Resource/goto.html">
+      <publishTime>05/16/2019 18:32:34</publishTime>
+    </File>
+    <File Include="Scripts/common.js">
+      <publishTime>05/16/2019 18:32:34</publishTime>
+    </File>
+    <File Include="Scripts/common.min.js">
+      <publishTime>05/16/2019 18:32:34</publishTime>
+    </File>
+    <File Include="Scripts/fansWardRank_v2.js">
+      <publishTime>05/16/2019 18:32:34</publishTime>
+    </File>
+    <File Include="Scripts/giftstar.js">
+      <publishTime>05/16/2019 18:32:34</publishTime>
+    </File>
+    <File Include="Scripts/giftstar.min.js">
+      <publishTime>05/16/2019 18:32:34</publishTime>
+    </File>
+    <File Include="Scripts/income.js">
+      <publishTime>05/16/2019 18:32:34</publishTime>
+    </File>
+    <File Include="Scripts/lib/clipboard.min.js">
+      <publishTime>05/16/2019 18:32:34</publishTime>
+    </File>
+    <File Include="Scripts/lib/echo.min.js">
+      <publishTime>05/16/2019 18:32:34</publishTime>
+    </File>
+    <File Include="Scripts/lib/gt.js">
+      <publishTime>05/16/2019 18:32:34</publishTime>
+    </File>
+    <File Include="Scripts/lib/jquery-1.8.2.min.js">
+      <publishTime>05/16/2019 18:32:34</publishTime>
+    </File>
+    <File Include="Scripts/lib/jquery-3.1.1.js">
+      <publishTime>05/16/2019 18:32:34</publishTime>
+    </File>
+    <File Include="Scripts/lib/template.js">
+      <publishTime>05/16/2019 18:32:34</publishTime>
+    </File>
+    <File Include="Scripts/lib/TouchSlide.1.1.js">
+      <publishTime>05/16/2019 18:32:34</publishTime>
+    </File>
+    <File Include="Scripts/lib/zepto.min.js">
+      <publishTime>05/16/2019 18:32:34</publishTime>
+    </File>
+    <File Include="Scripts/MvcPager.js">
+      <publishTime>05/16/2019 18:32:34</publishTime>
+    </File>
+    <File Include="Scripts/roomRank.js">
+      <publishTime>05/16/2019 18:32:34</publishTime>
+    </File>
+    <File Include="Scripts/starRank.js">
+      <publishTime>05/16/2019 18:32:34</publishTime>
+    </File>
+    <File Include="Scripts/totalrank.min.js">
+      <publishTime>05/16/2019 18:32:34</publishTime>
+    </File>
+    <File Include="Scripts/totalrank_New.js">
+      <publishTime>05/16/2019 18:32:34</publishTime>
+    </File>
+    <File Include="Scripts/totalrank_v3.js">
+      <publishTime>05/16/2019 18:32:34</publishTime>
+    </File>
+    <File Include="Scripts/weekRank.js">
+      <publishTime>05/16/2019 18:32:34</publishTime>
+    </File>
+    <File Include="Views/About/AnchorAgreeMent.cshtml">
+      <publishTime>05/16/2019 18:32:33</publishTime>
+    </File>
+    <File Include="Views/About/getcaptcha.cshtml">
+      <publishTime>05/16/2019 18:32:33</publishTime>
+    </File>
+    <File Include="Views/About/Privacy.cshtml">
+      <publishTime>05/16/2019 18:32:33</publishTime>
+    </File>
+    <File Include="Views/About/UserAgreeMent.cshtml">
+      <publishTime>05/16/2019 18:32:33</publishTime>
+    </File>
+    <File Include="Views/BaiduPush/HotLiveShow.cshtml">
+      <publishTime>05/16/2019 18:32:32</publishTime>
+    </File>
+    <File Include="Views/GameCenter/GameIndex.cshtml">
+      <publishTime>05/16/2019 18:32:33</publishTime>
+    </File>
+    <File Include="Views/Home/Autodownload.cshtml">
+      <publishTime>05/16/2019 18:32:33</publishTime>
+    </File>
+    <File Include="Views/Home/Index.cshtml">
+      <publishTime>05/16/2019 18:32:33</publishTime>
+    </File>
+    <File Include="Views/Home/Mobile.cshtml">
+      <publishTime>05/16/2019 18:32:33</publishTime>
+    </File>
+    <File Include="Views/Pay/babyView.cshtml">
+      <publishTime>05/16/2019 18:32:33</publishTime>
+    </File>
+    <File Include="Views/Pay/bindAlipay.cshtml">
+      <publishTime>05/16/2019 18:32:33</publishTime>
+    </File>
+    <File Include="Views/Pay/ExChange.cshtml">
+      <publishTime>05/16/2019 18:32:33</publishTime>
+    </File>
+    <File Include="Views/Pay/ExChangeSuccess.cshtml">
+      <publishTime>05/16/2019 18:32:33</publishTime>
+    </File>
+    <File Include="Views/Pay/userPutForward.cshtml">
+      <publishTime>05/16/2019 18:32:33</publishTime>
+    </File>
+    <File Include="Views/Privilege/Index.cshtml">
+      <publishTime>05/16/2019 18:32:32</publishTime>
+    </File>
+    <File Include="Views/Privilege/LivePreview.cshtml">
+      <publishTime>05/16/2019 18:32:32</publishTime>
+    </File>
+    <File Include="Views/Rank/giftStarRank.cshtml">
+      <publishTime>05/16/2019 18:32:33</publishTime>
+    </File>
+    <File Include="Views/Rank/meuRank.cshtml">
+      <publishTime>05/16/2019 18:32:33</publishTime>
+    </File>
+    <File Include="Views/Rank/MyLevel.cshtml">
+      <publishTime>05/16/2019 18:32:33</publishTime>
+    </File>
+    <File Include="Views/Rank/RoomRank.cshtml">
+      <publishTime>05/16/2019 18:32:33</publishTime>
+    </File>
+    <File Include="Views/Rank/test.cshtml">
+      <publishTime>05/16/2019 18:32:33</publishTime>
+    </File>
+    <File Include="Views/Rank/totalRank.cshtml">
+      <publishTime>05/16/2019 18:32:33</publishTime>
+    </File>
+    <File Include="Views/Rank/UserWeekRank.cshtml">
+      <publishTime>05/16/2019 18:32:33</publishTime>
+    </File>
+    <File Include="Views/Rank/WeekRank.cshtml">
+      <publishTime>05/16/2019 18:32:33</publishTime>
+    </File>
+    <File Include="Views/Share/invitationShare.cshtml">
+      <publishTime>05/16/2019 18:32:32</publishTime>
+    </File>
+    <File Include="Views/Share/Play.cshtml">
+      <publishTime>05/16/2019 18:32:32</publishTime>
+    </File>
+    <File Include="Views/Shared/Error.cshtml">
+      <publishTime>05/16/2019 18:32:33</publishTime>
+    </File>
+    <File Include="Views/Shared/ErrorMsg.cshtml">
+      <publishTime>05/16/2019 18:32:33</publishTime>
+    </File>
+    <File Include="Views/Shared/TempView.cshtml">
+      <publishTime>05/16/2019 18:32:33</publishTime>
+    </File>
+    <File Include="Views/Shared/_Admin.cshtml">
+      <publishTime>05/16/2019 18:32:33</publishTime>
+    </File>
+    <File Include="Views/Shared/_AdminPartial.cshtml">
+      <publishTime>05/16/2019 18:32:33</publishTime>
+    </File>
+    <File Include="Views/Shared/_Footer.cshtml">
+      <publishTime>05/16/2019 18:32:33</publishTime>
+    </File>
+    <File Include="Views/Shared/_Layout.cshtml">
+      <publishTime>05/16/2019 18:32:33</publishTime>
+    </File>
+    <File Include="Views/Shared/_RankHead.cshtml">
+      <publishTime>05/16/2019 18:32:33</publishTime>
+    </File>
+    <File Include="Views/UserInfo/CommissionPutForwardSet.cshtml">
+      <publishTime>05/16/2019 18:32:33</publishTime>
+    </File>
+    <File Include="Views/UserInfo/FamilyInfoView.cshtml">
+      <publishTime>05/16/2019 18:32:33</publishTime>
+    </File>
+    <File Include="Views/UserInfo/userExchangeCion.cshtml">
+      <publishTime>05/16/2019 18:32:33</publishTime>
+    </File>
+    <File Include="Views/Web.config">
+      <publishTime>05/16/2019 18:32:32</publishTime>
+    </File>
+    <File Include="Views/_ViewStart.cshtml">
+      <publishTime>05/16/2019 18:32:32</publishTime>
+    </File>
+    <File Include="Web.config">
+      <publishTime>06/05/2019 15:03:45</publishTime>
+    </File>
+    <File Include="work.txt">
+      <publishTime>05/16/2019 18:32:35</publishTime>
+    </File>
+  </ItemGroup>
+</Project>

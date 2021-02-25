@@ -1,0 +1,948 @@
+<template>
+	<view class="main">
+		<view class="content">
+			<!-- 页面上部标题 -->
+			<view class="top"> 
+				<view class="left" @click="goBack()">
+					<image class="img" src="../../static/pictures/back_1.png"></image>
+				</view>
+				<view class="center1">
+					<view class="title">
+						<view class="spot" v-if="chatObjOnline==1"></view>
+						<text class="p">{{chatObjNickname}}</text>
+					</view>
+				</view>
+				<view class="right">
+					<view class="box">
+						<image class="img" src="../../static/pictures/zuanshi_1.png"></image>
+						<text class="p">{{tabbarLoginData.cash}}</text>
+					</view>
+				</view>
+			</view>
+			<!-- 页面中部聊天内容 -->
+			<view class="center" @click="close()">
+				<view class="chat">
+					<!-- 第一次聊天tips -->
+					<view class="span_hi" v-if="showhi">
+						<text class="p">{{hi}}</text>
+						<text class="p">{{hi1}}</text>
+					</view>
+					<!-- 日期 -->
+					<view class="span_date" v-if="showdate">
+						<text class="p">{{date}}</text>
+					</view>
+					<view class="span_chat">
+						<view :class="item.self == 1?'right':'left'"  v-for="(item,index) in chats" :key="index" :id="index">
+							<image class="img" :src="item.imgsrc"></image>
+							
+							<view class="div">
+								<image class="png" :src="item.pngsrc" v-if="item.pngshow"></image>
+								<text class="p">{{item.text}}</text>
+							</view>
+							<text class="p2">{{item.time}}</text>
+						</view>
+					</view>
+				</view>
+			</view>
+			<!-- 页面下部礼物 输入部分 -->
+			<view class="bottom">
+				<image class="img" src="../../static/pictures/liwu_1.png" @click="liwu()"></image>
+				<view class="p"></view>
+				<image class="img1" src="../../static/pictures/xiangji_1.png" @click="xiangji()"></image>
+				<view class="span" @click="chat()">
+					<text class="p1">以</text><image class="img2" src="../../static/pictures/zuanshi_1.png"></image><text class="p1">{{money}}传送信息</text>
+				</view>
+				<image class="send" src="../../static/imgs/send1y.png" mode="" @click="sendChatMsg"></image>
+				<input class="input" :style="inputBg" @blur="changeInputW" @focus="changeInputBg" v-model="inputMsg" type="text" value="" />
+			</view>
+			<view class="gift" v-show="show_gift">
+				<!-- swiper 滑动 -->
+				<view class="swiperArea">
+					<swiper class="swiper" :current="current" :circular="circular" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration" @animationfinish="getChangeMsg">
+						<swiper-item v-for="(item,index) in GiftsData" :key="index" :id="index">
+							<view class="swiper-item uni-bg-green">
+								<view class="listPer" v-for="(item1,index1) in item.list" :key="index1" :id="index1" @click="sendPic(item1.giftId)">
+									<view class="gift_img"><image class="photo" :src="item1.icon"></image></view>
+									<view class="gift_name">{{item1.name}}</view>
+									<view class="gift_num"><image class="img" src="../../static/pictures/zuanshi_1.png"></image><text class="text">{{item1.price}}</text></view>
+								</view>
+								
+							</view>
+						</swiper-item>
+						
+					</swiper>		
+				</view>
+				<!-- tab 组件 -->
+				<view class="tab">
+					<view :class="index==current?'tabActive':'item'" v-for="(item,index) in GiftsData" :key="index" :id="index" @click="changeTab(index)">
+						<text class="text">{{item.tabName}}</text>
+					</view>
+				</view>
+			</view>
+		</view>
+	</view>
+</template>
+
+<script>
+	import {encrypt,decrypt,system,systemId,productType,base64ToArrayBuffer,sendData,sendD,sendD06,sendD07,sendD09,sendD11,sendD13,sendD15,sendD17,sendD201,work,regMail} from "../../lib/js/GlobalFunction.js"
+	export default {
+		data() {
+			return {
+				name: '@sasa.baby1235', // 用户ID
+				num: 30, // 剩余钻石数
+				money:800, // 通话价格
+				show_gift: false,  // 页面礼物部分开关
+				showhi: true, // 新建聊天系统自带文字
+				showdate: true, // 是否显示上次聊天时间
+				style:"",//顶部固定导航
+				indicatorDots: false,//指示点显示
+				autoplay: false,//自动播放
+				interval: 2000,//间隔
+				duration: 500,//动画时长
+				circular:true,//衔接
+				current:0,//当前activity的滑块
+				hi:'跟对方说声嗨！',
+				hi1:' 开始你们的 1 对 1 聊天',
+				date: '08/26',
+				tabData:[ // tab 标题
+					{id: 0,text:'应援'},
+					{id: 1,text:'情趣用品'},
+					{id: 2,text:'角色扮演'},
+					{id: 3,text:'生日快乐'},
+					{id: 4,text:'漂亮宝贝'},
+					{id: 5,text:'奢华宝贝'}
+				],
+				chats:[
+					{
+						self: 0,
+						imgsrc: "../../static/pictures/search_1.png",
+						text: '想看看视频9月vip为两台飞机 享有8.9月百部影片，你的女... ',
+						time: '15:18'
+					},
+					{
+						self: 1,
+						imgsrc: "../../static/pictures/search_1.png",
+						text: '想看看视频9月vip为两台飞机 享有8.9月百部影片，你的女... ',
+						time: '15:18'
+					},
+					{
+						self: 1,
+						imgsrc: "../../static/pictures/search_1.png",
+						text: '想看看视频9月vip为两台飞机 享有8.9月百部影片，你的女... ',
+						time: '15:18'
+					},
+					{
+						self: 1,
+						imgsrc: "../../static/pictures/search_1.png",
+						text: '想看看视频9月vip为两台飞机 享有8.9月百部影片，你的女... ',
+						time: '15:18'
+					},
+					{
+						self: 1,
+						imgsrc: "../../static/pictures/search_1.png",
+						text: '想看看视频9月vip为两台飞机 享有8.9月百部影片，你的女... ',
+						time: '15:18'
+					},
+					{
+						self: 1,
+						imgsrc: "../../static/pictures/search_1.png",
+						text: '想看看视频9月vip为两台飞机 享有8.9月百部影片，你的女... ',
+						time: '15:18'
+					},
+					{
+						self: 0,
+						imgsrc: "../../static/pictures/search_1.png",
+						text: '想看看视频9月vip为两台飞机 享有8.9月百部影片，你的女... ',
+						time: '15:18'
+					},
+					{
+						self: 0,
+						imgsrc: "../../static/pictures/search_1.png",
+						text: '想看看视频9月vip为两台飞机 享有8.9月百部影片，你的女... ',
+						time: '15:18'
+					},
+					{
+						self: 0,
+						imgsrc: "../../static/pictures/search_1.png",
+						text: '想看看视频9月vip为两台飞机 享有8.9月百部影片，你的女... ',
+						pngsrc: "../../static/pictures/bgtop.jpg",
+						time: '15:18',
+						pngshow: true
+					},
+					{
+						self: 1,
+						imgsrc: "../../static/pictures/search_1.png",
+						pngsrc: "../../static/pictures/bgtop.jpg",
+						text: '想看看视频',
+						time: '15:18',
+						pngshow: true
+					},
+				],
+				scrollheight: null,
+				// 聊天信息----
+				tabbarLoginData:null,//login msg
+				chatObjUseridx:'',//当前聊天对象idx
+				chatObjNickname:'',//当前聊天对象名称
+				chatObjHeadpic:'',//当前聊天对象头像
+				chatObjOnline:'',//当前聊天对象是否在线
+				GiftsData:null,//礼物信息
+				inputBg:'',//聊天输入框背景
+				inputMsg:'',//聊天输入框信息
+			};
+		},
+		onLoad(option) {
+			this.chatObjUseridx=option.useridx;
+			this.chatObjNickname=option.nickname;
+			this.chatObjHeadpic=option.headpic;
+			this.chatObjOnline=option.online;
+			this.getLoginMsg()
+			this.getGiftsMsg()//礼物列表
+			this.getMsgPrice()//主播私讯价格
+		},
+		methods:{
+			getLoginMsg:function(){//登录信息
+				var that = this;
+				uni.getStorage({
+					key: 'storage_login_str',
+					success: function (res) {
+						console.log(JSON.parse(res.data))
+						that.tabbarLoginData = JSON.parse(res.data);
+					}
+				});
+			},
+			liwu:function(){ // 礼物页面
+				// console.log("aaa");
+				if(this.show_gift == false){
+					this.show_gift = true
+				}else{
+					this.show_gift = false
+				}
+			},
+			close:function() { // 点击页面body部分 关闭礼物页面
+				this.show_gift = false;
+			},
+			xiangji:function(){ // 相机
+				console.log("开始选择图片");
+				// ----------------
+				var that =this;
+				console.log(that.GLOBAL.urlPoint)
+				uni.chooseImage({
+					count:1,//图片数量
+					sizeType:['compressed '],//压缩图
+					sourceType:['album','camera'],//相册 相机
+					success: function (res) {
+						// console.log(res)
+						uni.request({
+							url: res.tempFilePaths[0],
+							method:'GET',
+							responseType: 'arraybuffer',
+							success: ress => {
+								// console.log(ress.data)//流
+								let base64 = wx.arrayBufferToBase64(ress.data); //把arraybuffer转成base64 
+								base64 = 'data:image/jpeg;base64,' + base64 //不加上这串字符，在页面无法显示的哦
+								// console.log(base64)
+								// ------------------2222-----
+								// 将base64转换为文件对象
+								function dataURLtoFile(dataurl, filename) {
+								  var arr = dataurl.split(',');
+								  var mime = arr[0].match(/:(.*?);/)[1];
+								  var bstr = atob(arr[1]);
+								  var n = bstr.length; 
+								  var u8arr = new Uint8Array(n);
+								  while(n--){
+									  u8arr[n] = bstr.charCodeAt(n);
+								  }
+								  // 转换成file对象
+								  return new File([u8arr], filename, {type:mime});//FormData File
+								  // 转换成成blob对象
+								  // return new Blob([u8arr],{type:mime});
+								}
+								// 将图片转换为base64,再将base64转换成file对象
+								var file=dataURLtoFile(base64,'imgHeader')
+								// console.log(file)
+								// --------------2222
+								var formData = new FormData();
+								formData.append('picture',file);
+								formData.append('userIdx',that.tabbarLoginData.useridx);//that.tabbarLoginData.useridx
+								formData.append('token',that.tabbarLoginData.webtoken);//that.tabbarLoginData.webtoken
+								formData.append('type',0);
+								formData.append('width',640);
+								formData.append('Height',640);
+				
+								var xhr = new XMLHttpRequest;
+								xhr.open('POST',that.GLOBAL.urlPoint+'/userinfo/newsUploadResource', false);
+								xhr.send(formData);
+								// console.log(xhr.responseText)
+								// console.log(decrypt(xhr.responseText))
+								var resObj=JSON.parse(decrypt(xhr.responseText))
+								if(resObj.code==100){
+									uni.showToast({
+										title: resObj.msg,
+										duration: 1500,
+										icon:"none",
+										success:function(res){
+											
+										}
+									});
+									console.log(resObj.data.orgin)
+									var nowTime = new Date().getTime();
+									var nickname=that.tabbarLoginData.nickname;
+									var headpic=that.tabbarLoginData.headpic;
+									var imgObj =JSON.stringify({fileName:resObj.data.orgin.url,
+												url:resObj.data.orgin.url,
+												height:640,
+												width:640,
+												})
+									console.log(imgObj)
+									console.log(JSON.parse(imgObj))
+									// -------------
+									var array =JSON.stringify({
+										"appId": 100,            //   int   APP ID
+										"useridx": that.tabbarLoginData.useridx,   //   int   发送者
+										"toUseridx": Number(that.chatObjUseridx),   //   int    消息接受者
+										"type": 2,                //  int    消息类型(1:文本 2.图片 3.视频 5.礼物)
+										"content": imgObj, //string  
+										"msgToken": JSON.stringify(nowTime),// string  
+										"retry":false,//  是否重发状态
+										"attach":{[nickname]:headpic},
+										"devId":systemId(),
+										"devType":system(),
+										"productType":productType(),
+									})
+									// console.log(JSON.parse(array))
+									
+									var arr = sendD201(array);
+									// --------socket-login---------------
+									console.log(that.$Socket.isconnect)
+									// console.log(this.$Socket)
+									if(that.$Socket.isconnect==false){
+										that.$Socket.onReload()
+									}
+									that.$Socket.nsend(arr)
+									that.$Socket.eventPatch.onMsg((msg,sk)=>{    //监听是否接受消息
+										console.log(msg)
+										// console.log(sk)
+										 var fileReader = new FileReader();
+										     fileReader.onload = function (progressEvent) {
+										     	var arrayBuffer = this.result; // arrayBuffer即为blob对应的arrayBuffer
+										     	var HeadRecv = new Uint32Array(arrayBuffer, 0, 3);
+										     	var strArray = new Uint8Array(arrayBuffer, 12, HeadRecv[0] - 12 - 1);
+										     	var str = new TextDecoder().decode(strArray);//{"code":-1,"error":"用户名或密码错误"}
+										     	// console.log(HeadRecv[1],JSON.parse(str))
+										     	//to do
+												console.log(HeadRecv[1])
+												console.log(JSON.parse(str))
+												var msgdata =JSON.parse(str);
+												if(HeadRecv[1]==20002){
+													if(msgdata.code==0){
+														that.inputBg='';
+														that.inputMsg='';
+													}
+													// that.money=msgdata.price;
+													// uni.setStorage({
+													// 	key: 'storage_login_str',
+													// 	data: str,
+													// 	success: function () {
+													// 		console.log('success');
+													// 	}
+													// });
+												}else if(HeadRecv[1]==10010){
+													uni.showToast({
+														title: '登录信息过期，请重新登录',
+														duration: 1500,
+														icon:"none",
+														success: function () {
+																uni.navigateTo({
+																	url: '/pages/startup/startup'
+																});
+														}
+													});
+													
+												}
+										     	
+										     };
+										     fileReader.readAsArrayBuffer(msg.data);
+									})
+									// ----------------
+									
+								}else{
+									uni.showToast({
+										title: resObj.msg,
+										duration: 1500,
+										icon:"none",
+										success:function(res){
+											
+										}
+									});
+								}
+								
+								// that.getMyInfoMsg()
+								
+							}
+						})
+						
+					}
+				});
+				// --------------------
+			},
+			// chat:function(){ //聊天
+			// 	console.log("abc");
+			// },
+			changeTab:function(e){ // tab 部分
+				this.current = e;
+				// console.log(this.current);
+			},
+			getChangeMsg:function(e){ // swiper 给 tab传值
+				this.current = e.detail.current
+			},
+			goBack:function(){ // 页面退回上一页
+				uni.navigateTo({
+					url: '/pages/chat/chat'
+				})
+				// uni.navigateBack({
+				//     delta: 1
+				// });
+			},
+			getGiftsMsg:function(){//礼物列表
+				uni.request({
+					url: this.GLOBAL.urlPoint+'/living/GetGiftList' ,//仅为示例，并非真实接口地址。
+					method:"GET",
+					data: {
+					},
+					success: (res) => {
+						if(JSON.parse(decrypt(res.data)).code==100){
+							var jRes =JSON.parse(decrypt(res.data)).data;
+							jRes.tabList.forEach(function (value,index) {
+								value.list=[]
+							});
+							jRes.tabList.forEach(function (value1,index1) {
+								jRes.giftList.forEach(function (value2,index2) {
+										if(value1.tabid==value2.tabid){
+											value1.list.push(value2)
+										}
+								});
+									
+							});
+							this.GiftsData=jRes.tabList;
+							console.log(jRes.tabList)
+						}
+					}
+				});
+			},
+			sendPic:function(giftId){//礼物图片点击
+				console.log(giftId)
+			},
+			// ---
+			changeInputBg:function(){//输入框聚焦
+				this.inputBg='background:#252525;'
+			},
+			changeInputW:function(event){//输入框失去焦点 若为空则透明
+				// this.inputBg=''
+				// console.log(event.target.value) 
+				if(event.target.value==''){
+					this.inputBg=''
+				}
+			},
+			sendChatMsg:function(){//发送按钮发送消息
+				// console.log("发送消息 ")
+				// console.log(this.inputMsg)
+				// console.log(this.tabbarLoginData)
+				var nowTime = new Date().getTime();
+				// console.log(nowTime)
+				var nickname=this.tabbarLoginData.nickname;
+				var headpic=this.tabbarLoginData.headpic;
+				var that =this;
+				// -------------
+				var array =JSON.stringify({
+					"appId": 100,            //   int   APP ID
+					"useridx": this.tabbarLoginData.useridx,   //   int   发送者
+					"toUseridx": Number(this.chatObjUseridx),   //   int    消息接受者
+					"type": 1,                //  int    消息类型(1:文本 2.图片 3.视频 5.礼物)
+					"content": this.inputMsg, //string  
+					"msgToken": JSON.stringify(nowTime),// string  
+					"retry":false,//  是否重发状态
+					"attach":{[nickname]:headpic},
+					"devId":systemId(),
+					"devType":system(),
+					"productType":productType(),
+				})
+				// console.log(JSON.parse(array))
+
+				var arr = sendD201(array);
+				// --------socket-login---------------
+				console.log(this.$Socket.isconnect)
+				// console.log(this.$Socket)
+				if(this.$Socket.isconnect==false){
+					this.$Socket.onReload()
+				}
+				this.$Socket.nsend(arr)
+				this.$Socket.eventPatch.onMsg((msg,sk)=>{    //监听是否接受消息
+					console.log(msg)
+					// console.log(sk)
+					 var fileReader = new FileReader();
+					     fileReader.onload = function (progressEvent) {
+					     	var arrayBuffer = this.result; // arrayBuffer即为blob对应的arrayBuffer
+					     	var HeadRecv = new Uint32Array(arrayBuffer, 0, 3);
+					     	var strArray = new Uint8Array(arrayBuffer, 12, HeadRecv[0] - 12 - 1);
+					     	var str = new TextDecoder().decode(strArray);//{"code":-1,"error":"用户名或密码错误"}
+					     	// console.log(HeadRecv[1],JSON.parse(str))
+					     	//to do
+							console.log(HeadRecv[1])
+							console.log(JSON.parse(str))
+							var msgdata =JSON.parse(str);
+							if(HeadRecv[1]==20002){
+								if(msgdata.code==0){
+									that.inputBg='';
+									that.inputMsg='';
+								}
+								// that.money=msgdata.price;
+								// uni.setStorage({
+								// 	key: 'storage_login_str',
+								// 	data: str,
+								// 	success: function () {
+								// 		console.log('success');
+								// 	}
+								// });
+							}else if(HeadRecv[1]==10010){
+								uni.showToast({
+									title: '登录信息过期，请重新登录',
+									duration: 1500,
+									icon:"none",
+									success: function () {
+											uni.navigateTo({
+												url: '/pages/startup/startup'
+											});
+									}
+								});
+								
+							}
+					     	
+					     };
+					     fileReader.readAsArrayBuffer(msg.data);
+				})
+				// ----------------
+			},
+			getMsgPrice:function(){//获取聊天信息
+				var that =this;
+				// -------------
+				var array =JSON.stringify({	
+					"useridx": this.tabbarLoginData.useridx,
+					"anchoridx": Number(this.chatObjUseridx),
+				})
+				// console.log(array)
+				var arr = sendD17(array);
+				// --------socket-login---------------
+				console.log(this.$Socket.isconnect)
+				// console.log(this.$Socket)
+				if(this.$Socket.isconnect==false){
+					this.$Socket.onReload()
+				}
+				this.$Socket.nsend(arr)
+				this.$Socket.eventPatch.onMsg((msg,sk)=>{    //监听是否接受消息
+					console.log(msg)
+					// console.log(sk)
+					 var fileReader = new FileReader();
+					     fileReader.onload = function (progressEvent) {
+					     	var arrayBuffer = this.result; // arrayBuffer即为blob对应的arrayBuffer
+					     	var HeadRecv = new Uint32Array(arrayBuffer, 0, 3);
+					     	var strArray = new Uint8Array(arrayBuffer, 12, HeadRecv[0] - 12 - 1);
+					     	var str = new TextDecoder().decode(strArray);//{"code":-1,"error":"用户名或密码错误"}
+					     	// console.log(HeadRecv[1],JSON.parse(str))
+					     	//to do
+							console.log(HeadRecv[1])
+							console.log(JSON.parse(str))
+							var msgdata =JSON.parse(str);
+							if(HeadRecv[1]==11018){
+								that.money=msgdata.price;
+								// uni.setStorage({
+								// 	key: 'storage_login_str',
+								// 	data: str,
+								// 	success: function () {
+								// 		console.log('success');
+								// 	}
+								// });
+							}else if(HeadRecv[1]==10010){
+								uni.showToast({
+									title: '登录信息过期，请重新登录',
+									duration: 1500,
+									icon:"none",
+									success: function () {
+											uni.navigateTo({
+												url: '/pages/startup/startup'
+											});
+									}
+								});
+								
+							}
+					     	
+					     };
+					     fileReader.readAsArrayBuffer(msg.data);
+				})
+				// ----------------
+			}
+		}
+	}
+</script>
+
+<style lang="scss">
+page{
+	width: 100%;
+	height: 100%;
+	background: #191919;
+}
+.main{
+	width:100%;
+	height:100%;
+	.content{
+		width:100%;
+		height:100%;
+		display:flex;
+		flex-direction:column;
+		align-items:center;
+		.top{
+			width:100%;
+			height: 100rpx;
+			background: #252525;
+			display:flex;
+			flex-direction:row;
+			justify-content:space-between;
+			align-items:center;
+			.left{
+				display:flex;
+				flex-direction:row;
+				align-items:center;
+				width:30rpx;
+				height:30rpx;
+				margin-left:29rpx;
+				padding:10rpx;
+				.img{
+					width:30rpx;
+					height: 30rpx;
+				}
+			}
+			.center1{
+				.title{
+					display:flex;
+					flex-direction:row;
+					align-items:center;
+					.spot{
+						display: inline-block;
+						vertical-align: middle;
+						margin-right: 12rpx;
+						height: 12rpx;
+						width: 12rpx;
+						background: #00FF2A;
+						border-radius: 50%;
+					}
+					.p{
+						color: #FFFFFF;
+						font-size: 26rpx;
+						font-weight: 500;
+					}
+				}
+			}
+			.right{
+				margin-right:28rpx;
+				.box{
+					display:flex;
+					flex-direction:row;
+					align-items:center;
+					heigth: 40rpx;
+					background:rgba(0,0,0,0.5);
+					border-radius: 6rpx;
+					padding: 9rpx 12rpx 9rpx 13rpx;
+					.img{
+						width:30rpx;
+						height:22rpx;
+						vertical-align: middle;
+						margin-right: 6rpx;
+					}
+					.p{
+						color: #FFD600;
+						font-size: 26rpx;
+						font-weight: 500;
+						line-height: 22rpx;
+					}
+				}
+			}
+		}
+		.center{
+			width:100%;
+			flex: 1;
+			display: flex;
+			flex-direction: column;
+			align-items:center;
+			overflow-y:scroll;
+			.chat{
+				width:100%;
+				.span_hi{
+					margin-top: 39rpx;
+					height: 62rpx;
+					display:flex;
+					flex-direction: column;
+					align-items:center;
+					.p{
+						line-height:36rpx;
+						color:#ACACAC;
+						font-size:26rpx;
+						font-weight:400;
+					}
+				}
+				.span_date{
+					margin: 28rpx 0rpx 35rpx 0rpx;
+					height: 30rpx;
+					display:flex;
+					flex-direction: column;
+					align-items:center;
+					.p{
+						color: #FFFFFF;
+						font-size: 20rpx;
+						font-weight: 400;
+						line-height: 36rpx;
+						border-radius: 15rpx;
+						background: rgba(172,172,172,0.3);
+						padding:6rpx 13rpx 6rpx 14rpx;
+						// margin-bottom:12rpx;
+					}
+				}
+				.span_chat{
+					// display:flex;
+					// flex-direction: row;
+					// align-items: flex-start;
+					// justify-content: flex-start;
+					.left{
+						display:flex;
+						flex-direction: row;
+						align-items: flex-start;
+						padding:0rpx 28rpx 0rpx 28rpx;
+						margin-bottom:16rpx;
+						.img{
+							width:50rpx;
+							height: 50rpx;
+							border-radius:50%;
+							background: #C0C0C0;
+							margin-right: 8rpx;
+						}
+						.div{
+							max-width: 418rpx;
+							background: #FFFFFF;
+							border-radius:8rpx;
+							padding:16rpx 26rpx 16rpx 25rpx;
+							display:flex;
+							flex-direction: column;
+							.p{
+								color: #000000;
+								font-size: 28rpx;
+								font-weight: 200;
+								line-height: 36rpx;
+								// margin:16rpx 26rpx 16rpx 25rpx;
+							}
+							.png{
+								width: 110rpx;
+								height: 154rpx;
+								border-radius: 8rpx;
+							}
+						}
+						
+						.p2{
+							align-self:flex-end;
+							color: #ACACAC;
+							font-size: 16rpx;
+							font-weight: 200;
+							margin-left: 14rpx;
+							// line-height:36px;
+						}
+					}
+					.right{
+						display:flex;
+						flex-direction: row-reverse;
+						align-items: flex-end;
+						padding:0rpx 28rpx 0rpx 28rpx;
+						margin-bottom:16rpx;
+						.img{
+							// width:50rpx;
+							// height: 50rpx;
+							// border-radius:50%;
+							// background: #C0C0C0;
+							// margin-right: 8rpx;
+							display: none;
+						}
+						.div{
+							max-width: 418rpx;
+							background: #343434;
+							border-radius:8rpx;
+							padding:16rpx 26rpx 16rpx 25rpx;
+							display:flex;
+							flex-direction: column;
+							.p{
+								color: #FFFFFF;
+								font-size: 28rpx;
+								font-weight: 200;
+								line-height: 36rpx;
+							}
+							.png{
+								width: 110rpx;
+								height: 154rpx;
+								border-radius: 8rpx;
+							}
+						}
+						
+						.p2{
+							align-self:flex-end;
+							color: #ACACAC;
+							font-size: 16rpx;
+							font-weight: 200;
+							margin-right: 14rpx;
+							// line-height:36px;
+						}
+					}
+					
+				}
+			}
+		}
+		.bottom{
+			width:100%;
+			height: 90rpx;
+			background:#252525;
+			display:flex;
+			flex-direction:row;
+			align-items:center;
+			justify-content:flex-start;
+			position: relative;
+			.img{
+				width: 46rpx;
+				height: 46rpx;
+				margin-left: 28rpx;
+			}
+			.p{
+				width: 2rpx;
+				height: 46rpx;
+				background: rgba(255,255,255,0.5);
+				margin: 0rpx 21rpx 0rpx 20rpx;
+			}
+			.img1{
+				width: 46rpx;
+				height: 46rpx;
+				margin-right: 28rpx;
+			}
+			.span{
+				display: flex;
+				flex-direction:row;
+				align-items:center;
+				justify-content:flex-start;
+				.p1{
+					color: #ACACAC;
+					font-size: 26rpx;
+					font-weight: 400;
+					line-height: 36rpx;
+				}
+				.img2{
+					width: 30rpx;
+					height: 22rpx;
+					vertical-align: middle;
+					margin:0rpx 5rpx 0rpx 5rpx;
+				}
+			}
+			.send{
+				width:46rpx;
+				height: 46rpx;
+				margin-left:260rpx;
+			}
+			.input{
+				left: 192rpx;
+				width: 420rpx;
+				position: absolute;
+				color: #fff;
+			}
+		}
+		.gift{
+			width: 100%;
+			height:395rpx;
+			.swiperArea{
+				// padding:0 25rpx;
+				height: 305rpx;
+				.swiper{
+					width: 100%;
+					height: 100%;
+					.swiper-item{
+						height: 100%;
+						display: flex;
+						justify-content: flex-start;
+						align-items: center;
+						flex-wrap: wrap;
+						overflow-y: scroll;
+						.listPer{
+							width: 240rpx;
+							// height: 160rpx;
+							color: #fff;
+							margin-top: 20rpx;
+							margin-bottom: 8rpx;
+							display: flex;
+							flex-direction:column;
+							align-items: center;
+							margin-left: 10rpx;
+							.gift_img{ // 礼物图片div大小
+								width: 140rpx;
+								height: 140rpx;
+								.photo{
+									width: 140rpx;
+									height: 140rpx;
+								}
+							}
+							.gift_name{
+								font-size:20rpx;
+								color:rgba(116,116,116,1);
+								line-height:36rpx;
+							}
+							.gift_num{
+								display: flex;
+								justify-content: center;
+								align-items: center;
+								.img{
+									width:20rpx;
+									height:14rpx;
+									margin-right: 5rpx;
+								}
+								.text{
+									font-size:18rpx;
+									font-family:PingFang TC;
+									font-weight:400;
+									color:rgba(255,255,255,1);
+									line-height:36rpx;
+								}
+							}
+						}
+					}				
+				}
+			}
+			.tab{
+				width: 100%;
+				overflow-x: scroll;
+				height: 90rpx;
+				background: #191919;
+				display:flex;
+				align-items:center;
+				.item{
+					color: #747474;
+					font-size: 26rpx;
+					font-weight: 400;
+					padding:32rpx 40rpx 33rpx 40rpx;
+					height: 25rpx;
+					line-height: 36rpx;
+					white-space:nowrap
+				}
+				.tabActive{
+					color:#FFFFFF;
+					font-size: 26rpx;
+					font-weight: 400;
+					margin:0rpx 40rpx 0rpx 40rpx;
+					height: 25rpx;
+					line-height: 36rpx;
+					white-space:nowrap
+				}
+			}
+		}
+		
+	}
+}
+</style>

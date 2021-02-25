@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>404</title>
+    <style type="text/css">
+        #mes { color: #ff0000; padding: 0 1rem; }
+    </style>
+    <script src="../Scripts/lib/jquery-1.8.2.min.js"></script>
+    <link href="../Content/Css/nopage.css" rel="stylesheet" />
+
+    <script type="text/javascript">
+        var i = 5;
+        var intervalid;
+        intervalid = setInterval("fun()", 1000);
+        function fun() {
+            if (i == 0) {
+                window.location = "http://live.9158.com";
+                clearInterval(intervalid);
+            }
+            document.getElementById("mes").innerHTML = i;
+            i--;
+        }
+    </script>
+</head>
+<body>
+    <div class="all">
+        <div class="room_none">
+            <div class="img"></div>
+            <h4>啊哦，页面君跑路了。此页面将在<span id="mes">5</span>秒后跳转首页</h4>
+        </div>
+    </div>
+
+</body>
+</html>

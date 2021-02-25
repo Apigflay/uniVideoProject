@@ -1,0 +1,23 @@
+﻿<div class="inward">
+    <div class="brain bg02">
+        <div class="bn_inside">
+            <div class="public">
+                <div class="pc_in" style="height:12rem;">
+                    <div class="pkarea">
+                        <b></b>
+                        <h4>等待对方接收邀请，请稍等...</h4>
+                        <dl class="k_left">
+                            <dt><img src="http://liveimg.9158.com/default.png"></dt>
+                            <dd></dd>
+                        </dl>
+                        <dl class="k_rig">
+                            <dt><img src="http://liveimg.9158.com/default.png"></dt>
+                            <dd></dd>
+                        </dl>
+                    </div>
+                </div>
+                <a href="javascript:Answer.Logic.cancelGame(2,0)" class="btn_gre">放弃游戏</a>
+            </div>
+        </div>
+    </div>
+</div>

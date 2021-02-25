@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>喵播-手机直播</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+    <link href="miaoboApp.css" rel="stylesheet" />
+    <style type="text/css">
+        body { font-size: 12px; font-family: "microsoft yahei","微软雅黑","黑体"; }
+    </style>
+</head>
+
+<body>
+    <div class="miaoboApp">
+        <div class="banner">
+            <img src="images/QR_down.png" class="QR">
+            <a class="btn01" href="https://itunes.apple.com/us/app/miao-bo-zui-meng-mei-yan-zhi/id1098626192?l=zh&ls=1&mt=8">
+                <img src="images/btn_download01.png">
+            </a>
+            <a class="btn02" href="http://update.9158.com/miaolive/Miaolive.apk">
+                <img src="images/btn_download02.png">
+            </a>
+        </div>
+        <div class="present">
+            <div class="part">
+                <img class="icon" src="images/icon_01.png">
+                <div class="text">
+                    <span class="title">视频秒开</span>
+                    <p>急速体验告别等待</p>
+                </div>
+            </div>
+            <div class="part">
+                <img class="icon" src="images/icon_02.png">
+                <div class="text">
+                    <span class="title">多麦互动</span>
+                    <p>直播间内任由你玩</p>
+                </div>
+            </div>
+            <div class="part">
+                <img class="icon" src="images/icon_03.png">
+                <div class="text">
+                    <span class="title">智能美颜</span>
+                    <p>瞬间变身白美富帅</p>
+                </div>
+            </div>
+            <div class="part">
+                <img class="icon" src="images/icon_04.png">
+                <div class="text">
+                    <span class="title">幸运礼物</span>
+                    <p>千倍大奖 等你来中</p>
+                </div>
+            </div>
+        </div>
+        <div class="foot" style="clear:both; width:100%; margin:0 auto; text-align:center; padding:10px;">
+            <div style="height:2rem;line-height:2rem;"><img src="../Content/Images/recordIcon.png" />浙公网安备案号 33070202100006号</div>
+        
+        </div>
+    </div>
+</body>
+</html>
+<script type="text/javascript">
+
+    var str = "";
+    str += "*********************************************\n";
+    str += "                   _ooOoo_  \n";
+    str += "                  o8888888o  \n";
+    str += "                 88\" . \"88  \n";
+    str += "                  (| -_- |)  \n";
+    str += "                  O\  =  /O  \n";
+    str += "               ____/`---'\____  \n";
+    str += "             .'  \\|     |//  `.  \n";
+    str += "            /  \\|||  :  |||//  \\  \n";
+    str += "           /  _||||| -:- |||||-  \\  \n";
+    str += "          |   | \\\  -   /// |    |  \n";
+    str += "           | \_|  ''\---/''  |    |  \n";
+    str += "           \  .-\__  `-`  ___/-.  /  \n";
+    str += "         ___`. .'  /--.--\  `. . __  \n";
+    str += "      .\"\" '<  `.___\_<|>_/___.'  >'\"\".  \n";
+    str += "     | | :  `- \`.;`\ _ /`;.`/ - ` : | |  \n";
+    str += "     \  \ `-.   \_ __\ /__ _/   .-` /  /  \n";
+    str + "=======`-.____`-.___\_____/___.-`____.-'======\n";
+    str += "                   `=---='  \n";
+    str += "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n";
+    console.log(str);
+</script>

@@ -1,0 +1,91 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>提现</title>
+    <meta charset="utf-8">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta http-equiv="cleartype" content="on">
+    <link href="~/Content/LaoWo/css/style.css" rel="stylesheet" type="text/css">
+    <script src="~/Content/LaoWo/js/jquery-1.11.3.js" type="text/javascript"></script>
+    <script src="~/Content/LaoWo/js/adapter.js" type="text/javascript"></script>
+</head>
+<body>
+    <input type="hidden" id="userIdx" value="@ViewBag.userIdx" />
+    <div class="wrap">
+        @*<div class="layer" id="bankLayer" style="display:none;">
+            <div class="pop_bot">
+                <div class="pt_in">
+                    <div class="top"><a class="return" href="javascript:userPutForward.htmlLode.bankList.bankListHide()"></a>选择银行卡</div>
+                    <div class="drop_con">
+                        <ul class="chbank" id="chbank">
+                          
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+        <div class="layer" id="loginLayer" style="display:none;">
+            <div class="pop">
+                <h3>请验证登录密码</h3>
+                <div class="in">
+                    <ul class="section2">
+                        @*<li>
+                            取款至
+                            <span>
+                                <dl class="bank_info" id="extractBankInfo">
+                                  
+                                </dl>
+                            </span>
+                        </li>*@
+                        <li>蜜币<input name="" id="extractMoney" type="text" value="22"></li>
+                    </ul>
+                    <div class="shuru"><input name="" id="pwd" type="password" placeholder="请输入蜜游登录密码"></div>
+                    <div class="wid_btn"><a href="javascript:void(0)" class="btn_pub" id="submit">确定</a></div>
+                </div>
+            </div>
+        </div>
+        @*<div class="head">
+            <div class="top"><a class="return" href="#1"></a>提现</div>
+        </div>*@
+        <div class="content">
+            @*<div class="item_top">
+                <dl class="bank_info" id="bank_info">
+                   您还没有添加银行卡
+                </dl>
+                <a href="javascript:void(0)" class="next"></a>
+            </div>*@
+            <div class="area">
+                <ul class="section">
+                    <li>提现金额：<input name="" id="moneyNum" type="number" placeholder="50000蜜币起提"></li>
+                    @*<li style="border-bottom:none;" id="money" money="@ViewBag.money">当前余额：￥@ViewBag.money</li>*@
+                    <li style="border-bottom:none;" id="money" money="@ViewBag.sale">已蜜化蜜币：@ViewBag.sale@*<a href="/UserInfo/GetGameBetLog" style="display:none" class="details">查看详情</a>*@</li>
+                    @*<li style="border-bottom:none;" id="sale" sale="@ViewBag.sale">总计可体现：@ViewBag.hk HK$<a href="/UserInfo/GetGameBetLog" style="display:none" class="details">查看详情</a></li>*@
+
+                </ul>
+            </div>
+            <div style="width: 100%; line-height: 3rem; font-size: 10px; text-align: center; color: #888;"  >
+              有效投注额达到存款100%即可提现。因此投注越多，提现额越大。
+            </div>
+            <div class="wid_btn"><a href="javascript:void(0)" class="btn_pub" id="extract">下一步</a></div>
+        </div>
+    </div>
+    <script src="~/Content/LaoWo/js/jquery-1.11.3.js"></script>
+    <script src="/Content/LaoWo/js/layer/layer.js"></script>
+    <script src="~/Content/LaoWo/js/userPutForward.js?v=1"></script>
+    <script type="text/javascript">
+
+        userPutForward.htmlLode.load();
+    
+
+    </script>
+</body>
+</html>
+
+

@@ -1,0 +1,117 @@
+<template>
+	<view class="main">
+		<view class="top">
+			<image class="img" src="../../static/pictures/back_1.png" @click="goback()"></image>
+			{{ModelName}}
+		</view>
+		<scroll-view class="content">
+			<view class="list">
+				
+			</view>
+		</scroll-view>
+	</view>
+</template>
+
+<script>
+	import {encrypt,decrypt,system,systemId,base64ToArrayBuffer,sendData,sendD,work,sendD07} from "../../lib/js/GlobalFunction.js"
+	export default {
+		data() {
+			return {
+				title: null, // 页面标题
+				type: null, // 页面类型
+				tabbarLoginData: null, // 页面加载获取到的用户信息
+				UserIdx: null, // 用户IDX
+				Page: null, // 页数
+				likeid: null, // 喜好   喜好 0-女性 1-男性 2-所有 没有喜好默认喜好女性 传0
+				model1Data: null, // 加载页面获取的数据
+				ModelName: null, // 标签类名
+			};
+		},
+		onLoad:function(option){
+			this.title = option.title;
+			this.type = option.type;
+			this.ModelName =option.ModelName;
+			this.getLoginMsg();
+		},
+		methods:{
+			// --------------------------页面初始加载用户数据-----------------------------------------
+			getLoginMsg:function(){ //登录信息
+				var that = this;
+				uni.getStorage({
+					key: 'storage_login_str',
+					success: function (res) {
+						that.tabbarLoginData = JSON.parse(res.data);
+						// console.log(that.tabbarLoginData);
+						that.loginMsgData = that.tabbarLoginData;
+						that.UserIdx = that.tabbarLoginData.useridx;
+						that.likeid = that.tabbarLoginData.sex;
+						if(that.tabbarLoginData.isAnchor==false){
+							that.isAnchor = false;
+						}
+						that.getInitMsg();
+					}
+				});
+			},
+			// --------------------------页面初始加载用户数据-----------------------------------------
+			
+			//----------------------------页面首次加载的数据------------------------------------------
+			getInitMsg:function(e){ //页面初始化加载的数据
+				var array=base64ToArrayBuffer(encrypt(JSON.stringify({
+					type: this.type,
+					useridx: this.UserIdx,
+					page: 1,
+					limit: 10,
+					likeid: this.likeid
+				})))
+				var res = JSON.parse(decrypt(sendData('POST',this.GLOBAL.urlPoint+'/UserInfo/HomeList',array)));
+				if(res.code==100){
+					console.log(res);
+					this.model1Data=res.data.list;
+					console.log(this.model1Data)
+				}
+			},
+			//----------------------------页面首次加载的数据------------------------------------------
+			
+			//------------------------------回退-----------------------------------------------------
+			goback:function(){
+				uni.navigateTo({
+					url: "/pages/home/home"
+				})
+			},
+			//------------------------------回退-----------------------------------------------------
+		}
+	}
+</script>
+
+<style lang="scss">
+page{
+	width: 100%;
+	height: 100%;
+	// background:rgba(35,35,35,1);#191919
+	background:#191919;
+}
+.main{
+	width:100%;
+	height: 100%;
+	display:flex;
+	flex-direction: column;
+	.top{
+		padding: 32rpx 0rpx;
+		background-color:#252525;
+		text-align: center;
+		font-size: 30rpx;
+		color:#FFFFFF;
+		.img{
+			position: absolute;
+			left: 10rpx;
+			width: 36rpx;
+			height: 36rpx;
+			padding: 10rpx;
+		}
+	}
+	.content{
+		flex: 1;
+		overflow-y: scroll;
+	}
+}
+</style>

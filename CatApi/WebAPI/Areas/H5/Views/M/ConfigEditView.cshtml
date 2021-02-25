@@ -1,0 +1,97 @@
+﻿@{
+    ViewBag.Title = "编辑";
+    Layout = "~/Views/Shared/_AdminPartial.cshtml";
+
+    var m = Model.config;
+}
+
+@model Model.View.VMAppConfig
+
+@using (Html.BeginForm())
+{
+    <table class="table table-bordered">
+        <tr>
+            <td>编号：</td>
+            <td>@Html.DisplayTextFor(model => m.id)</td>
+        </tr>
+        <tr>
+            <td>名称：</td>
+            <td>
+                @Html.DisplayTextFor(model => m.name)
+                @Html.Hidden("name", m.name)
+                <input id="name" name="name" type="hidden" value="@m.name" />
+            </td>
+        </tr>
+        <tr>
+            <td>数据：</td>
+            <td>
+                @{
+    //支付开关
+    if (Model.config.id == 11)
+    {
+        List<SelectListItem> item = new List<SelectListItem>();
+        item.Add(new SelectListItem { Text = "全部显示", Value = "0" });
+        item.Add(new SelectListItem { Text = "苹果支付", Value = "1" });
+        item.Add(new SelectListItem { Text = "国内支付", Value = "2" });
+        @Html.DropDownList("data", item, Model.config.data)
+    }
+    else if ((Model.config.id >= 12 && Model.config.id <= 15) || Model.config.id == 17 || Model.config.id == 18 || Model.config.id == 19)
+    {
+        List<SelectListItem> items = new List<SelectListItem>();
+        items.Insert(0, new SelectListItem { Text = "隐藏", Value = "0" });
+        items.Insert(1, new SelectListItem { Text = "显示", Value = "1" });
+        @Html.DropDownList("data", items, m.data, "--请选择--")
+                    @*@Html.DropDownList("data", items)*@
+
+    }
+    else
+    {
+        <textarea name="data" rows="7" cols="20">@m.data</textarea>
+    }
+                }
+            </td>
+        </tr>
+        @if (Request.QueryString["type"] == "2")
+        {
+            <tr>
+                <td>说明：</td>
+                <td>
+                    @*@Html.TextAreaFor(model => model.config.content, new { Rows = "7", Cols = "20" })*@
+                    <textarea name="content" rows="7" cols="20">@m.content</textarea>
+                </td>
+            </tr>
+        }
+        <tr>
+            <td>操作：</td>
+            <td>
+                <input id="btnAdd" type="button" value="确定" class="btn btn-primary" onclick="edit()" />&nbsp;&nbsp;
+                <a href="/H5/M/GetConfigList" class="btn btn-primary">返回</a>
+            </td>
+        </tr>
+    </table>
+}
+
+<script type="text/javascript">
+    function edit() {
+        $.ajax({
+            type: "POST",
+            url: "/H5/M/ConfigEdit/?type=" + getQueryStr("type") + "&id=" + getQueryStr("id"),
+            data: $("form").serialize(),
+            success: function (d) {
+                if (d == 1) {
+                    alert("操作成功");
+                } else if (d == -1) {
+                    alert("系统错误");
+                } else
+                    alert("操作失败");
+
+                window.location = '/H5/M/GetConfigList'
+            }
+        });
+    }
+    function getQueryStr(name) { // 获取url参数值   name：参数名
+        var reg = new RegExp("(^|\\?|&)" + name + "=([^&]*)(\\s|&|$)", "i");
+        if (reg.test(location.href)) return decodeURIComponent(RegExp.$2.replace(/\+/g, " "));
+        return "";
+    }
+</script>

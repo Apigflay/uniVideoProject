@@ -1,0 +1,72 @@
+<!-- 
+ 启动页         pages/startup/startup
+ 登录方式选择
+ 手机号获取验证码
+ 手机号登录
+ 获取验证码
+ 邮箱登录验证码
+ facebook google twittter 选择
+ 主页           pages/home/home
+ 登录成功绑定邮箱
+ 
+ 问题 头像上传地址是写死的     ------------------------------------------------------------------------问题
+ 
+ 
+ 修改资料页面			pages/changeintroduction/changeintroduction---------完成
+ 排行榜页面			pages/rankinglist/rankinglist  ----------------------1
+ 商品管理			pages/commoditymanagement/commoditymanagement -------1
+ 主播添加作品			pages/addworks/addworks-------------------------------完成
+ 收益管理			pages/revenuemanagement/revenuemanagement -----------1
+ 
+ 
+ 
+ 
+
+ 限时免费 			pages/freelimit/freelimit -------------------暂时不需要 
+ 搜索				pages/search/search  --------------1                                    pageId: 0
+ 标签				pages/tagsearch/tagsearch  --------------------1                        pageId: 5
+ 视频				pages/video/video  -----------------------------1 视频解锁功能没有完成 横向滚动条无法出现到底加载 scroll-view无效 从现在的视频页面跳转到其他视频页面后回退的时候出现无数据  视频页面关注功能无效
+ 信息				pages/news/news --------------------------1                             pageId: 2
+ 信息搜索			pages/newsearch/newsearch ---------------1                              pageId: 1
+ 聊天				pages/chat/chat
+ 新增聊天			pages/newchat/newchat
+ 聊天窗口			pages/chatpop/chatpop
+					
+ 我的页面			pages/my/my   -------用户  用户页面暂时未完成 需要修改
+ 通知设定页面			pages/notification/notification-----------0
+ 封锁名单			pages/lockuser/lockuser ------------------ 1
+ 个人资料			pages/personaldata/personaldata ----  ------未能找到
+ 
+ 主播个人资料 		pages/anchorpersonal/anchorpersonal   ----------1                      PageId: 4
+ 我的				pages/anchorme/anchorme   -------主播   --------1                       PageId: 6
+ 
+ h5个人资料设定		pages/dataset/dataset     
+ 
+ 我的电子收据			pages/electronicreceipt/electronicreceipt ------0
+ 搜索页喜好			pages/like/like
+ 已连接账号			pages/connectedaccount/connectedaccount
+ 主播信息列表       pages/newachormelist/newachormelist -------------1                goVideoId:3
+已解锁主播视频页面    pages/unlockvideo/unlockvideo  ----------------1                 nowpageid: 7
+ -->
+ 
+ 
+ 
+ 
+ <!-- 喜好弹出层  		 pages/ispurp/ispurp --------完成
+ 
+ 
+<!-- 
+第三方登录测试页面    pages/facebook/facebook
+
+ -->
+ 
+ <!-- 
+  主播号：13151050187  	123456789@qq.com
+		  15258831497  	15258831497@qq.com
+		  
+		  
+		  
+		  
+  用户号：15713801628   15713801628@qq.com
+		  
+  -->

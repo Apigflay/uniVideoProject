@@ -1,0 +1,79 @@
+﻿@{
+    ViewBag.Title = "我的等级";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section head_css{
+    <meta name="format-detection" content="telephone=no,email=no">
+    <link href="~/Content/common/css/base.css" rel="stylesheet" />
+    <link href="~/Content/common/css/mylevel.css?v=2" rel="stylesheet" />
+    <style type="text/css">
+        #value_con { width: 1px; transition: width 1s ease-in 0; -moz-border-radius: 0.8rem; -webkit-border-radius: 0.8rem; -moz-transition: width 1s ease-in 0; -webkit-transition: width 1s ease-in 0; }
+    </style>
+}
+
+<div class="wrap">
+    <div class="content">
+        <div class="ct_top">
+            <div class="me_head"><b class="icon_rank05"></b><img src="@ViewBag.photo"></div>
+            <div class="me_info">距离 LV @ViewBag.nextGrade 还差 @ViewBag.leaveValue 经验</div>
+            <dl class="me_state">
+                <dt>LV @ViewBag.grade</dt>
+                <dd id="value_con" style="min-width:1%"></dd>
+            </dl>
+        </div>
+        <div class="area">
+            <div class="r_tit"><h5><b></b>等级特权</h5></div>
+            <div class="tag">
+                <ul>
+                    <li>
+                        <dl>
+                            <dt><img src="~/Content/common/images/crown@2x.png"></dt>
+                            <dd><p>等级标识</p><strong>越高越尊贵</strong></dd>
+                        </dl>
+                    </li>
+                    <li>
+                        <dl>
+                            <dt><img src="~/Content/common/images/mail@2x.png"></dt>
+                            <dd><p>私聊消息</p><strong>3级以上</strong></dd>
+                        </dl>
+                    </li>
+                    <li>
+                        <dl>
+                            <dt><img src="~/Content/common/images/bance@2x.png"></dt>
+                            <dd><p>房间弹幕</p><strong>10级以上</strong></dd>
+                        </dl>
+                    </li>
+                    <li>
+                        <dl>
+                            <dt><img src="~/Content/common/images/up@2x.png"></dt>
+                            <dd><p>排位靠前</p><strong>越高越靠前</strong></dd>
+                        </dl>
+                    </li>
+                </ul>
+            </div>
+            <ul class="power">
+                <li>
+                    <dl>
+                        <dt><img src=@Url.Content("~/Content/common/images/tequan_@2x.png")></dt>
+                        <dd><p>更多特权</p><strong>敬请期待</strong></dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+        <div class="area">
+            <div class="r_tit" style="height:4.2rem;">
+                <h5><b></b>如何升级</h5>
+            </div>
+            <div class="text">
+                <p>1. 观看直播可以获得经验值</p>
+                <p>2. 在直播间发言，获得经验值</p>
+                <p>3. 分享主播到微信、QQ、微博等社交平台获取经验值</p>
+                <p>4. 赠送礼物、升级VIP是涨经验最快的方式</p>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $('#value_con').css('width',@ViewBag.progress+'%');
+</script>

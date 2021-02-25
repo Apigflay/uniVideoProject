@@ -1,0 +1,382 @@
+<template>
+	<view class="main">
+		<!-- top 背景 -->
+		<image :src="model1Data.Anchor.BackgroundUrl" class="top_bj"></image>
+		<!-- top 背景 -->
+		<!-- top -->
+		<view class="top">
+			<image class="img" src="../../static/pictures/houtui_1.png" @click="goBack()"></image>
+			<image class="size" src="../../static/pictures/gengduo1_1.png"></image>
+		</view>
+		<!-- top -->
+		<!--  影片数量-->
+		<view class="cont">
+			<text class="p1">{{model1Data.Anchor.Cont}}</text>
+			<text class="p2">群发影片</text>
+		</view>
+		<!-- 影片数量 -->
+		<!-- 头像 关注 -->
+		<view class="head">
+			<image class="photo" :src="model1Data.Anchor.SmallPic"></image>
+			<view class="box" :style="show==false?'background:#808080':''" @click="follow()">
+				<text v-if="show" class="p">关注</text>
+				<text v-else class="p1">关注中</text>
+			</view>
+		</view>
+		<!-- 头像 关注 -->
+		<!-- 用户名 国籍 -->
+		<view class="name">
+			<text class="p">{{model1Data.Anchor.MyName}}</text>
+			<image class="img" src="../../static/pictures/en_1.png"></image>
+		</view>
+		<!-- 用户名 国籍 -->
+		<!-- 在线或离线 -->
+		<view v-if="model1Data.Anchor.Online" class="line">
+			<image class="img" src="../../static/pictures/tuoyuan_1.png"></image>
+			<text class="p">在线</text>
+		</view>
+		<view v-else class="noline">
+			<view class="img"></view>
+			<text class="p">{{model1Data.Anchor.Lasttime}}</text>
+		</view>
+		<!-- 在线或离线 -->
+		<!-- 个人标签 -->
+		<view class="label">
+			<view class="box" v-for="(item,index) in model1Data.RecommendList" :key="index" :id="index" v-if="item.Type">
+				<image class="img" :style="'background:#89CC25'" :src="item.ImgUrl"></image>
+				<text class="p">{{item.Name}} No.{{item.RankNumber}}</text>
+			</view>
+		</view>
+		<!-- 个人标签 -->
+		<!-- 个人介绍 -->
+		<view class="introduce">
+			<view class="box">
+				<text class="p">{{model1Data.Anchor.Signatures}}</text>
+			</view>
+		</view>
+		<!-- 个人介绍 -->
+		<!-- 功能 -->
+		<view class="function">
+			<view class="gift" @click="goGift()">
+				<image class="img" src="../../static/pictures/liwu_1.png"></image>
+				<text class="p">送礼</text>
+			</view>
+			<view class="center_line"></view>
+			<view class="gift" @click="goChat()">
+				<image class="img" src="../../static/pictures/chat1_1.png"></image>
+				<text class="p">聊天</text>
+			</view>
+		</view>
+		<!-- 功能 -->
+	</view>
+</template>
+
+<script>
+	import {encrypt,decrypt,system,systemId,base64ToArrayBuffer,sendData,sendD,work} from "../../lib/js/GlobalFunction.js"
+	export default {
+		data() {
+			return {
+				UserIdx: null, //页面加载时获取到的用户IDX
+				AnchorIdx: null, // 页面加载时获取到的主播IDC
+				model1Data: null, // 获取通过接口得到的页面的用户数据
+				id: '@sasa.baby',
+				color: '#89CC25',
+				show: true,
+				show1: false,
+				table:[
+					{Name:'热门', color:'#89CC25'},
+					{Name:'全球榜No.1', color:'#F67776'}
+				],
+				content:[
+					{title:'新一代swag长腿女神妮妮'},
+					{title:'绝对高颜值  S曲线超长腿女主播'},
+					{title:'身高密码165/43/32C  寻数名优质男伴'}
+				]
+			};
+		},
+		onLoad: function (option) { //option为object类型，会序列化上个页面传递的参数
+			// console.log(option); //打印出上个页面传递的参数。
+			this.UserIdx = option.UserIdx; // 用户IDX
+			this.AnchorIdx = option.AnchorIdx; // 主播IDX
+			this.getInitMsg(); // 获取搜索页面的数据
+			this.getInitMsg(); //页面初始化的时候群发影片中的加载内容
+			
+		},
+		methods:{
+			getLoginMsg:function(){//登录信息
+				var that = this;
+				uni.getStorage({
+					key: 'storage_login_str',
+					success: function (res) {
+						that.tabbarLoginData = JSON.parse(res.data);
+						// console.log(that.tabbarLoginData.useridx);
+						that.loginMsgData = that.tabbarLoginData
+						if(that.tabbarLoginData.isAnchor==false){
+							that.isAnchor = false;
+						}
+					}
+				});
+			},
+			getInitMsg:function(e){ //页面初始化的时候群发影片中的加载内容
+				var array=base64ToArrayBuffer(encrypt(JSON.stringify({
+					UserIdx: this.UserIdx, // int
+					AnchorIdx: this.AnchorIdx // int
+				})))
+				var res = JSON.parse(decrypt(sendData('POST',this.GLOBAL.urlPoint+'/userinfo/GetAnchorInfo',array)));
+				if(res.code==100){
+					this.model1Data=res.data;
+					console.log(this.model1Data)
+				}
+			},
+			goBack:function(){
+				uni.navigateTo({
+					url: '../../pages/search/search'
+				})
+			},
+			
+			follow:function(){
+				if(this.show == true){
+					this.show = false;
+				}else{
+					this.show = true;
+				}
+			},
+			goGift:function(){
+				uni.navigateTo({
+					url: '../../pages/search/search'
+				})
+			},
+			goChat:function(){
+				uni.navigateTo({
+					url: '../../pages/chatpop/chatpop'
+				})
+			}
+		}
+	}
+</script>
+
+<style lang="scss">
+page{
+	width: 100%;
+	height: 100%;
+	background: #232323;
+}
+.main{
+	width: 100%;
+	height: 100%;
+	position:absolute;
+	// ---背景
+	.top_bj{
+		height: 400rpx;
+		width: 100%;
+		// background:url(../../static/pictures/juxing_1.png);
+	}
+	// ---- 设置部分
+	.top{
+		height: 150rpx;
+		width: 100%;
+		position:fixed;
+		top: 0;
+		left: 0;
+		z-index:9999;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		.img{
+			width: 36rpx;
+			height: 36rpx;
+			padding: 10rpx;
+			margin-left: 29rpx;
+		}
+		.size{
+			width: 38rpx;
+			height: 38rpx;
+			padding: 10rpx;
+			margin-right: 29rpx;
+		}
+	}
+	.cont{
+		position:absolute;
+		top:320rpx;
+		left:250rpx;
+		display:flex;
+		flex-direction: column;
+		align-items:center;
+		.p1{
+			font-size: 35rpx;
+			color: #FFFFFF;
+			line-height: 35rpx;
+			margin-bottom: 10rpx;
+		}
+		.p2{
+			font-size: 26rpx;
+			color: #FFFFFF;
+			line-height: 26rpx;
+		}
+	}
+	.head{
+		width: 694rpx;
+		display: flex;
+		justify-content: flex-start;
+		align-items: flex-end;
+		margin-top: -40rpx;
+		padding: 0rpx 28rpx 0rpx 28rpx;
+		width: 100%;
+		height: 100rpx;
+		.photo{
+			width:160rpx;
+			height:160rpx;
+			background: #151515;
+			border:2px solid rgba(255, 255, 255, 1);
+			border-radius:50%;
+			margin-right: 44rpx;
+		}
+		.box{
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			width:490rpx;
+			height:40rpx;
+			background:#FFD600;
+			border-radius:8rpx;
+			.p{
+				color: #FFFFFF;
+				font-size:26rpx;
+				line-height: 26rpx;
+			}
+			.p1{
+				color: #C8C7CC;
+				font-size:26rpx;
+				line-height: 26rpx;
+			}
+		}
+	}
+	.name{
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+		margin-top: 18rpx;
+		padding: 0rpx 29rpx;
+		.p{
+			padding-left: 30rpx;
+			color: #FFFFFF;
+			font-size: 26rpx;
+			line-height: 26rpx;
+		}
+		.img{
+			width: 25rpx;
+			height: 25rpx;
+			margin-left: 7rpx;
+		}
+	}
+	.line{
+		width: 692rpx;
+		display: flex;
+		align-items: center;
+		padding: 0rpx 29rpx;
+		margin-top:20rpx;
+		padding-left: 30rpx;
+		.img{
+			width: 20rpx;
+			height: 20rpx;
+			margin-right: 12rpx;
+		}
+		.p{
+			color: #00FF2A;
+			font-size: 22rpx;
+			line-height: 22rpx;
+		}
+	}
+	.noline{
+		width: 692rpx;
+		display: flex;
+		align-items: center;
+		padding: 0rpx 29rpx;
+		margin-top:20rpx;
+		padding-left: 30rpx;
+		.img{
+			width: 16rpx;
+			height: 16rpx;
+			border-radius: 50%;
+			background: #808080;
+			margin-right: 12rpx;
+		}
+		.p{
+			color: #808080;
+			font-size: 22rpx;
+			line-height: 22rpx;
+		}
+	}
+	.label{
+		width: 694rpx;
+		padding: 35rpx 20rpx 0rpx 28rpx;
+		display:flex;
+		flex-wrap:wrap;
+		.box{
+			background:#FFFFFF;
+			border-radius:17rpx;
+			line-height: 34rpx;
+			margin-right: 8rpx;
+			margin-bottom: 16rpx;
+			display:flex;
+			align-items:center;
+			.img{
+				// position: relative;
+				width: 37rpx;
+				height: 37rpx;
+				border:2rpx solid rgba(255,255,255,1);
+				border-radius:50%;
+			}
+			.p{
+				color: #747474;
+				font-size: 22rpx;
+				margin-left: 4rpx;
+				margin-right: 12rpx;
+				line-height: 22rpx;
+			}
+		}
+	}
+	.introduce{
+		width: 692rpx;
+		padding: 27rpx 29rpx;
+		.box{
+			.p{
+				// padding-left: 15rpx;
+				color:#FFFFFF;
+				font-size: 24rpx;
+				line-height: 24rpx;
+				padding-bottom: 27rpx;
+			}
+		}
+	}
+	.function{
+		display:flex;
+		justify-content:space-between;
+		align-items: center;
+		width: 492rpx;
+		height: 80rpx;
+		position: fixed;
+		bottom: 0rpx;
+		left: 0rpx;
+		padding: 0rpx 129rpx;
+		.gift{
+			display:flex;
+			align-items: center;
+			.img{
+				width:41rpx;
+				height:39rpx;
+			}
+			.p{
+				font-size:30rpx;
+				color: #FFFFFF;
+				margin-left: 17rpx;
+			}
+		}
+		.center_line{
+			width:2rpx;
+			height:44rpx;
+			background:#747474;
+		}
+	}
+}
+</style>

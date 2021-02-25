@@ -1,0 +1,100 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+ @*<title> @Html.Raw("来自" + ViewBag.myName + "的好友邀请")" </title>*@
+    <title>分享给好友 </title>
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta http-equiv="cleartype" content="on">
+    <link href="/Content/LaoWo/css/style.css" rel="stylesheet" type="text/css">
+    <script src="/Content/LaoWo/js/jquery-1.11.3.js" type="text/javascript"></script>
+    <script src="/Content/LaoWo/js/adapter.js" type="text/javascript"></script>
+    <script src="/Content/LaoWo/js/qrcode.js" type="text/javascript"></script>
+    <script src="/Content/LaoWo/js/clipboard.min.js" type="text/javascript"></script>
+</head>
+<body>
+    <div class="wrap">
+        @*<div class="head">
+            <div class="top"><a class="return" href="#1"></a>分享给好友</div>
+        </div>*@
+        <div class="content">
+            <div class="item_top">
+                邀请码<a href="javascript:codeCopy()" class="copy">复制</a>
+            </div>
+            <div class="item_con" id="code">@ViewBag.invitationCode</div>
+            <div class="item_extra">您的朋友注册时填写的该邀请码完成注册，您即为他的邀请人。</div>
+            <div class="item_top" style="display:none ">
+                邀请链接<a href="javascript:urlCopy()" class="copy">复制</a>
+            </div>
+            <div class="item_con copyText" id="item_con" style="display:none ">https://www.86d88...</div>
+            <div class="item_extra">您的朋友通过链接完成注册，您即为成为他的邀请人。</div>
+            <div class="item_top" style="display:none ">
+                邀请链接<a href="javascript:saveQRCode()" class="copy">保存到相册</a>
+            </div>
+            <div class="item_con" style="display:none "><b id="qrCode" style="border:none"></b></div>
+            <div class="item_extra" style="display:none ">您的朋友扫描二维码注册，您即为成为他的邀请人。</div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var qrcode = new QRCode("qrCode", {
+            text: $("#item_con").html(),
+            width: 98,
+            height: 98,
+        });
+       function client() {
+           var u = navigator.userAgent.toLowerCase();
+            var isAndroid = u.indexOf('android') > -1 || u.indexOf('adr') > -1; //android终端
+            var isiOS = !!u.match(/\(i[^;]+;( u;)? cpu.+mac os x/); //ios终端
+            if (isiOS) {
+                phone = "ios";
+            } else {
+                phone = "android";
+            }
+            return phone;
+        }
+
+
+       function codeCopy() {
+           var code = $("#code").html();
+           copyString(code);
+       };
+       function urlCopy() {
+           var url = $("#item_con").html();
+           copyString(url);
+       };
+
+       function copyString(str) {
+           var u = navigator.userAgent.toLowerCase();
+           if (u.indexOf("laowo") >= 0) {
+                if (client() == "ios") {
+                    window.location.href = "beautifulApp://copyString?info="+str;
+                } else {
+                    android.copyString(str);
+                }
+            }
+        }
+
+
+       function saveQRCode() {
+           var url = $("#item_con").html();
+           var u = navigator.userAgent.toLowerCase();
+           if (u.indexOf("laowo") >= 0) {
+               if (client() == "ios") {
+                   window.location.href = "beautifulApp://saveQRCode?info=" + url;
+                } else {
+                    android.saveQRCode(url);
+                }
+            }
+        }
+
+    </script>
+</body>
+</html>
+

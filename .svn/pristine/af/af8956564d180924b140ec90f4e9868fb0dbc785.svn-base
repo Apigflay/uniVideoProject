@@ -1,0 +1,21 @@
+﻿@{
+    ViewBag.Title = "房间贡献总榜";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/week/roomRank.css" rel="stylesheet" />
+<link href="~/Content/dropload/dropload.css?v=1" rel="stylesheet" />
+
+<style type="text/css">
+    .miao_rank { animation: fadeIn 1.0s; -webkit-animation: fadeIn 1.0s; -moz-animation: fadeIn 1.0s; animation-fill-mode: forwards; }
+    .imgLoading { background: url(http://sr.ok.sina.com.cn/v3.0/images/loading.gif) no-repeat center; }
+</style>
+
+<div class="rank_body" id="rank_body">
+
+    <div class="rank_con" id="rank_con">
+        <div class="miao_rank" id="rank1" style="left: 0"></div>
+    </div>
+</div>
+<script src="~/Content/dropload/dropload.js"></script>
+<script src="~/Scripts/lib/echo.min.js"></script>
+<script src="~/Scripts/roomRank.js"></script>

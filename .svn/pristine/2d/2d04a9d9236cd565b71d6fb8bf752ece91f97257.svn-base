@@ -1,0 +1,34 @@
+﻿@{
+    ViewBag.Title = "标题";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+
+
+<table class="table" style="border-bottom:1px solid #808080;margin-top:20px;">
+    @if (Model != null)
+    {
+        foreach (var item in Model)
+        {
+            <tr style="height:70px;">
+                <td width="30px;">@item.id</td>
+                <td>
+                    <div class="name">@item.name</div>
+                    <div class="content">
+                        @item.updateInfo
+                    </div>
+                    <span class="time">@item.updateTime.ToString("yyyy-MM-dd")</span>
+                </td>
+                <td>
+                    <a class="btn btn-link" href="@Url.Content("/H5/M/MajiaEditView")?id=@item.id">
+                        <span style="color: red">@item.auditVersion</span>
+                    </a>
+                    @*<a href="#" class="up">上移</a> <a href="#" class="down">下移</a> <a href="#" class="top">置顶</a>*@
+                </td>
+            </tr>
+        }
+    }
+    else { 
+        @Html.Raw("暂无数据");
+    }
+
+</table>

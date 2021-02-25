@@ -1,0 +1,34 @@
+﻿@model Model.MemberInfo
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminPartial.cshtml";
+}
+
+<script type="text/javascript" src="http://static.geetest.com/static/tools/gt.js"></script>
+
+<script type="text/javascript">
+    initGeetest({
+        // 以下配置参数来自服务端 SDK
+        gt: data.gt,
+        challenge: data.challenge,
+        offline: !data.success,
+        new_captcha: data.new_captcha
+    }, function (captchaObj) {
+        // 这里可以调用验证实例 captchaObj 的实例方法
+    })
+
+</script>
+
+<div style="width:99%;">
+    <div style="width: 30%; float: left;height:300px;">
+        <ul>
+            <li>
+                <dl>
+                    <dt><img src="@Model.Photo" /></dt>
+                    <dt>欢迎你：<span>@Model.NickName</span></dt>
+                </dl>
+            </li>
+        </ul>
+    </div>
+</div>
+

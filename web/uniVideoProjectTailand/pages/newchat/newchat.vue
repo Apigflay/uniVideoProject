@@ -1,0 +1,324 @@
+<template>
+<view class="contentBox">
+	<scroll-view scroll-y="true" @scrolltolower="getScrollmsg" class="scrollView">
+		<view class="main">
+			<view class="top">
+				<view class="left" @click="goChatPage">
+					<image class="img" src="../../static/pictures/back_1.png"></image>
+				</view>
+				<text class="p">{{this.Language.language[this.tabbarLoginLanguage].language174}}</text>
+			</view>
+			<view class="content">
+				<view class="search">
+					<form @submit="formSubmit">
+						<input class="section__title" id="search" type="search" :placeholder="fy_search[tabbarLoginLanguage]" @input="goForSearch"/>
+					</form>
+				</view>
+				<!-- newchatData -->
+				<view class="list" v-for="(item,index) in newchatData" :key="index" :id="index">
+					<view class="left" @click="goAchormePage(item.useridx)">
+						<image class="photo" :src="item.headpic"></image>
+					</view>
+					<view class="right" @click="goChatpopPage(item.useridx,item.nickname,item.headpic,item.online)">
+						<view class="bottom">
+							<view class="p1">{{item.nickname}}<view v-if="item.online==1" class="spot"></view></view>
+							<view class="p2">{{item.signature}}</view>
+						</view>
+					</view>
+				</view>
+			</view>
+		</view>
+	</scroll-view>
+</view>
+</template>
+
+<script>
+	import {encrypt,decrypt,system,systemId,base64ToArrayBuffer,sendData,sendD,sendD06,sendD07,sendD09,sendD11,sendD13,sendD15,sendD17,work,regMail,navigateTo} from "../../lib/js/GlobalFunction.js"
+	export default {
+		data() {
+			return {
+				tabbarLoginLanguage: null, // 用户语言
+				show_spot: true, // 判断主播是否在线的绿点
+				search:'',//
+				// newchat-----
+				tabbarLoginData:null,//loginMsg
+				page:1,//初始页数
+				newchatData:null,//聊天列表
+				newchatData2:null,// 页面滚动加载的聊天列表
+				
+				fy_search:['搜索','搜索','Search','ค้นหา'],
+			};
+		},
+		onLoad() {
+			this.getLoginlanger(); // 获取语言
+			this.getLoginMsg()
+			this.getNewChatMsg(0)
+		},
+		//------------------------------页面滚动----------------------------------------------
+		onPageScroll(){
+			// this.getBottomNewmsg(); // 计算页面是否滚动到底部
+		},
+		//------------------------------页面滚动----------------------------------------------
+		methods:{
+			getLoginlanger:function(){ // 获取当前语言
+				var that = this;
+				uni.getStorage({
+					key: 'storage_login_language',
+					success: function (res) {
+						that.tabbarLoginLanguage = JSON.parse(res.data);
+						console.log(that.tabbarLoginLanguage);
+					}
+				});
+			},
+			getLoginMsg:function(){//登录信息
+				var that = this;
+				uni.getStorage({
+					key: 'storage_login_str',
+					success: function (res) {
+						that.tabbarLoginData = JSON.parse(res.data);
+						if(that.tabbarLoginData.isAnchor==false){
+							that.isAnchor = false;
+						}
+					}
+				});
+			},
+			goChatPage:function(){
+				// uni.navigateTo({
+				// 	url: '/pages/chat/chat'
+				// });
+				navigateTo('/pages/chat/chat',null);
+			},
+			goForSearch:function(event){//搜索
+				console.log(event.target.value)
+				var array=base64ToArrayBuffer(encrypt(JSON.stringify({
+					UserIdx:this.tabbarLoginData.useridx,//	int
+					Page:this.page,//	int 页码
+					Limit:20,//	int 页大小
+					Type:1,//int	0列表 1-搜索
+					Where:event.target.value,//string	不是搜索是传空值
+				})))
+				var res = JSON.parse(decrypt(sendData('POST',this.GLOBAL.urlPoint+'/UserInfo/GetFollowList',array)));
+				// console.log(res)
+				if(res.code==100){
+					this.newchatData=res.data.list
+				}else{
+					uni.showToast({
+						title:res.msg,
+						duration: 1500,
+						icon:"none",
+					});
+				}
+			},
+			getNewChatMsg:function(type){
+				console.log(type)
+				var array=base64ToArrayBuffer(encrypt(JSON.stringify({
+					UserIdx:this.tabbarLoginData.useridx,//	int
+					Page:this.page,//	int 页码
+					Limit:20,//	int 页大小
+					Type:type,//int	0列表 1-搜索
+					Where:'',//string	不是搜索是传空值
+				})))
+				var res = JSON.parse(decrypt(sendData('POST',this.GLOBAL.urlPoint+'/UserInfo/GetFollowList',array)));
+				console.log(res)
+				if(res.code==100){
+					this.newchatData=res.data.list
+				}else{
+					uni.showToast({
+						title:res.msg,
+						duration: 1500,
+						icon:"none",
+					});
+				}
+			},
+			goAchormePage:function(msg){//跳转主播个人信息页面
+				// console.log(msg)
+				// uni.navigateTo({
+					// url: '/pages/anchorpersonal/anchorpersonal?AnchorIdx='+msg+'&Type=2'
+				// });
+				var obj = encodeURIComponent(encrypt(JSON.stringify({
+					AnchorIdx:msg,
+					Type:2,
+					pageId: 14
+				})))
+				navigateTo('/pages/anchorpersonal/anchorpersonal',obj);
+			},
+			goChatpopPage:function(useridx,nickname,headpic,online){//跳转
+				// console.log(useridx)
+				// console.log(nickname)
+				// console.log(headpic)
+				// uni.navigateTo({
+					// url: '/pages/chatpop/chatpop?useridx='+useridx+'&nickname='+nickname+'&headpic='+headpic+'&online='+online
+				// });
+				var obj = encodeURIComponent(encrypt(JSON.stringify({
+					useridx:useridx,
+					nickname:nickname,
+					headpic: headpic,
+					online:online,
+					pageId: 14
+					
+				})))
+				navigateTo('/pages/chatpop/chatpop',obj);
+			},
+			
+			//------------------------------滚动加载------------------------------------------
+			getScrollmsg:function(){
+				this.page++;
+				var array=base64ToArrayBuffer(encrypt(JSON.stringify({
+					UserIdx:this.tabbarLoginData.useridx,//	int
+					Page:this.page,//	int 页码
+					Limit:20,//	int 页大小
+					Type:0,//int	0列表 1-搜索
+					Where:'',//string	不是搜索是传空值
+				})))
+				var res = JSON.parse(decrypt(sendData('POST',this.GLOBAL.urlPoint+'/UserInfo/GetFollowList',array)));
+				// console.log(res)
+				if(res.code==100){
+					this.newchatData2=res.data.list
+					this.newchatData.push.apply(this.newchatData,this.newchatData2);
+					// console.log(this.newchatData)
+				}else{
+					uni.showToast({
+						title:res.msg,
+						duration: 1500,
+						icon:"none",
+					});
+				}
+			}
+			//------------------------------滚动加载------------------------------------------
+		}
+	}
+</script>
+
+<style lang="scss">
+page{
+	width: 100%;
+	height: 100%;
+	background: #191919;
+}
+.contentBox{
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+.scrollView{
+	width: 100%;
+	height: 100%;
+
+.main{
+	width: 100%;
+	height: 100%;
+	.top{
+		position:fixed;
+		top: 0rpx;
+		left: 0rpx;
+		right: 0rpx;
+		z-index: 9999;
+		background:#252525;
+		height:100rpx;
+		display:flex;
+		// justify-content:flex-start;
+		align-items:center ;
+		.left{
+			width: 30rpx;
+			height:30rpx;
+			margin-left: 29rpx;
+			display:flex;
+			align-items:center ;
+			.img{
+				width: 30rpx;
+				height:30rpx;
+			}
+		}
+		.p{
+			color: #FFFFFF;
+			font-size: 30rpx;
+			font-weight: 400;
+			line-height: 28rpx;
+			margin-left: 257rpx;
+		}
+	}
+	.content{
+		margin-top: 112rpx;
+		margin-left: 28rpx;
+		margin-right:28rpx;
+		
+		.search{
+			margin-bottom:16rpx;
+			.section__title{ // 搜索栏中的 input
+				height: 54rpx;
+				// color:#ACACAC;
+				color: #FFFFFF;
+				border-radius:8px;
+				font-size: 30rpx;
+				font-weight:400;
+				background-color:#343434;
+				background-image: url(../../static/pictures/search_1.png);
+				background-repeat: no-repeat; /*设置图片不重复*/
+				background-position: left; /*图片显示的位置*/
+				background-position:12rpx; // 设置图片位置
+				padding-left: 70rpx; //设置搜索文字位置
+				background-size: 31rpx 31rpx; // 搜索图标的大小
+			}
+		}
+		.list{
+			display:flex;
+			justify-content: flex-start;
+			align-items:center;
+			.left{
+				height: 90rpx;
+				width: 90rpx;
+				margin:12rpx 0rpx 11rpx 0rpx;
+				.photo{ // 头像
+					background: #646464;
+					height: 90rpx;
+					width: 90rpx;
+					border-radius: 50%;
+				}
+			}
+			.right{
+				flex:1;
+				padding:12rpx 0rpx 13rpx 0rpx;
+				margin-left:39rpx;
+				border-bottom:1rpx solid #343434;
+				.bottom{
+					display:flex;
+					flex-direction:column;
+					align-items:flex-start;
+					justify-content: center;
+					margin-top: 28rpx;
+					margin-bottom:26rpx;
+					.p1{
+						color:#FFFFFF;
+						font-size: 26rpx;
+						font-weight: 500;
+						line-height: 27rpx;
+						.spot{
+							display: inline-block;
+							vertical-align: middle;
+							margin-left: 11rpx;
+							height: 12rpx;
+							width: 12rpx;
+							background: #00FF2A;
+							border-radius: 50%;
+							vertical-align: middle;
+						}
+					}
+					.p2{
+						padding-right: 66rpx;
+						margin-top: 9rpx;
+						color:#ACACAC;
+						font-size: 22rpx;
+						font-weight: 400;
+						line-height: 34rpx;
+						display: -webkit-box;
+						-webkit-box-orient: vertical;
+						-webkit-line-clamp: 1;
+						overflow: hidden;
+					}
+				}
+			}
+		}
+	}
+}
+}
+</style>

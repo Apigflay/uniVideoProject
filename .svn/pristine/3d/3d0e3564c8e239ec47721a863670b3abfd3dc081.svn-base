@@ -1,0 +1,33 @@
+string_hello=ÄúºÃ{0}£¬»¶Ó­Ê¹ÓÃjQuery.i18n.properties£¬ÄúµÄÃÜÔ¿ÊÇ£º{1}¡£
+
+string_weekstar=Stars
+string_consume=Consume
+string_catfood=catfood
+string_anchor=Anchor
+string_family=Family
+string_ball=Ball
+string_me=me
+string_time=CurServerTime
+
+string_totalrank=Total
+string_month=Monthly
+string_week=Weekly
+string_day=Daily
+
+str_withdraw=withdraw
+str_withdraw_baby=withdrawBaby
+str_withdraw_details=withdrawDetails
+str_rp_details=redpacketDetails
+str_rmb=RMB
+
+#±¦±¦¶Ò»»Ò³Ãæ
+str_baby_title=BabyIncome
+str_baby_tsweek_num=babyNum(individual)
+str_baby_nums=LastWeekBabyNum:{0},WithdrawBabyNum: {1}
+str_baby_exchange_explain=BabyExchangeExplain
+str_baby_contact_explain=Official contact notes
+str_baby_explain1=Every Monday at 3 in the morning to settle the number of babies you got the week before. Exchange your baby for the week before release.
+str_baby_explain2=Show anchor (not joining the family) must be the baby painted in his own room, and the number of more than 20 can be cash.
+str_baby_explain3=Show anchor baby data only retained for one month, if more than a month did not mention the present, then this month is not mentioning the baby is now cleared.
+str_baby_explain4=If in doubt, please contact miaobo broadcast official operation <a href="mqqwpa://im/chat?chat_type=wpa&src_type=web&version=1&uin=314843529"><span class="icon_qq"></span>314843529</a>
+str_baby_official1=If you have any salary or family members and questions about the platform, you can contact the official operation WeChat : miaoboyunying

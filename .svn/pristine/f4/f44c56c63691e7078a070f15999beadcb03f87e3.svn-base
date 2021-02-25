@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=0">
+    <title>喵播美女直播</title>
+
+    <link href="~/Content/Css/mobile.css" rel="stylesheet" />
+    <script src="~/Scripts/lib/jquery-1.8.2.min.js"></script>
+    <script src="~/Scripts/lib/clipboard.min.js"></script>
+    <script src="~/Scripts/common.js?v=2"></script>
+</head>
+<body id="body" data-clipboard-text="@ViewBag.code">
+
+    <div class="wrap">
+        <div class="tip" style="padding:1rem 1rem;text-align:center;display:none;">如果没有自动跳转，点击下方下载按钮进行下载</div>
+        <div class="line"></div>
+        <div class="logo"></div>
+        <div class="text"></div>
+        <div class="phone"></div>
+        <div class="download-button" onclick="download()">立即下载</div>
+    </div>
+</body>
+</html>
+<script type="text/javascript">
+    //核心代码
+    //var container = document.getElementById('container');
+    //var pages = document.querySelectorAll('.page');
+    //var slip = Slip(container, 'x').webapp(pages);
+
+    eval(function (p, a, c, k, e, r) { e = function (c) { return c.toString(a) }; if (!''.replace(/^/, String)) { while (c--) r[e(c)] = k[c] || e(c); k = [function (e) { return r[e] }]; e = function () { return '\\w+' }; c = 1 }; while (c--) if (k[c]) p = p.replace(new RegExp('\\b' + e(c) + '\\b', 'g'), k[c]); return p }('$.6({0:\'3\',4:\'5\',1:\'/7/8?0=2\',9:a(){}});', 11, 11, 'type|url||POST|dataType|text|ajax|About|AccessStatis|success|function'.split('|'), 0, {}))
+
+    //如果加了参数isAuto=true则打开页面自动跳转下载
+    if (getQueryStr("isAuto") == "true") {
+        console.log('自动跳转');
+        $('.tip').css('display', 'block')
+
+        download();
+    }
+    //var oDiv = document.getElementById('body');   //获取元素div
+    //oDiv.onclick = function () {   //给元素增加点击事件
+    //    console.log(oDiv);
+    //};
+
+    //oDiv.click();  //执行点击事件，这样就模拟出了自动执行点击事件。
+
+    $(function () {
+
+        var clipboard = new Clipboard('body');
+
+        clipboard.on('success', function (e) {
+            e.clearSelection();
+            console.info('Action:', e.action);
+            console.info('Text:', e.text);
+            console.info('Trigger:', e.trigger);
+
+            s(e.text);
+        });
+
+        clipboard.on('error', function (e) {
+            console.log('出错啦' + e);
+            s('0');
+        });
+    })
+
+    function s(code) {
+        $.ajax({
+            type: 'POST',
+            url: '/home/copystati?code=' + code,
+            dataType: "text",
+            success: function () {
+            }
+        });
+    }
+
+</script>

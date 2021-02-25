@@ -1,0 +1,35 @@
+﻿@{
+    ViewBag.Title = "提现记录";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model Model.View.VMIncome
+
+<link href="~/Content/Css/babyExchange.css?v=2dad" rel="stylesheet" />
+
+<div class="all">
+    @if (Model.BabyRecordList != null && Model.BabyRecordList.Count > 0)
+    {
+        foreach (var item in Model.BabyRecordList)
+        {
+            <div class="one_log">
+
+                <div class="item item_head">
+                    <span class="title">申请时间</span>
+                    <div class="input"><span>@item.createTime</span></div>
+                </div>
+
+                <div class="item item_bottom item_attach2">
+                    <span class="title">宝宝数</span>
+                    <div class="input"><span>@item.nums 个</span></div>
+                </div>
+
+            </div>
+        }
+    }
+    else
+    {
+        <div style="width:100%;text-align:center;padding-top:14rem;">你还没有提现记录哦！</div>
+    }
+
+</div>

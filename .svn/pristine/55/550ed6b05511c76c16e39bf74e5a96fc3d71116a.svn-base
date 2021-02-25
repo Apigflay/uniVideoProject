@@ -1,0 +1,85 @@
+<template>
+	<view class="content">
+		<iframe class="iframe" :src="param" frameborder="0"></iframe>
+		<!-- pay.mycat1314.com/pay/payList?param={"useridx":"10009788","deviceType":"h5","deviceID":"设备id","buddleID":"h5","version":"1.0"} -->
+	</view>
+</template>
+
+<script>
+	import {encrypt,decrypt,system,systemId,base64ToArrayBuffer,sendData,sendD,work,regMail} from "../../lib/js/GlobalFunction.js"
+	export default {
+		data() {
+			return {
+				loginData:null,//登录信息
+				param:null,//url参数集合
+			};
+		},
+		onLoad() {
+			this.getLoginData()
+		},
+		methods:{
+			getLoginData:function(){//获取socket成功信息
+				var that = this;
+				uni.getStorage({
+					key: 'storage_login_str',
+					success: function (res) {
+						console.log(JSON.parse(res.data))
+						that.loginData = JSON.parse(res.data);
+						// console.log(this.loginData.bindmail);
+						// if(that.loginData.bindmail==false){
+						// 	// console.log("未绑定邮箱");
+						// 	that.marskShow = true;
+						// 	that.getCheckArea =true;
+						// }
+						// if(that.loginData.setnick==false){
+						// 	console.log('未设置喜好')
+						// 	that.marskShow = true;
+						// 	that.mainShowArea =true;
+						// }
+						that.getParamData()
+					}
+				});
+			},
+			getParamData:function(){
+				// if(this.loginData){
+				// 	
+				// }else if(){
+				// 	
+				// }else if(){
+				// 	
+				// }
+				// var language = 
+				var param = JSON.stringify({
+					useridx:JSON.stringify(this.loginData.useridx),
+					deviceType:"h5",
+					deviceID:systemId(),
+					buddleID:"h5",
+					version:"1.0.0",
+					language:"thailand",
+				})
+				console.log(param)
+				this.param ='http://pay.mycat1314.com/pay/PayList?param='+param;//encodeURI(
+				console.log(this.param)
+				console.log('http://pay.mycat1314.com/pay/PayList?param={"buddleID":"com.tg.facetalk","deviceID":"7BD1B8D6-6839-456D-9A0A-88E78CEDBA16","deviceType":"ios","language":"thailand","useridx":"10009790","version":"1.0.0"}')
+				// <!-- pay.mycat1314.com/pay/payList?param={"useridx":"10009788","deviceType":"h5","deviceID":"设备id","buddleID":"h5","version":"1.0"} -->
+			}
+		}
+	}
+</script>
+
+<style lang="scss">
+page{
+	width: 100%;
+	height: 100%;
+	// background:rgba(35,35,35,1);#191919
+	// background:#191919;
+}
+.content{
+	width: 100%;
+	height: 100%;
+	.iframe{
+		width: 100%;
+		height: 100%;
+	}
+}
+</style>

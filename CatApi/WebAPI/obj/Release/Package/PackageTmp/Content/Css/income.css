@@ -1,0 +1,72 @@
+/* CSS Document */
+/***** reset.css *******/
+html, body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, textarea, p, blockquote, th, td { margin: 0; padding: 0; moz-user-select: -moz-none; -moz-user-select: none; -o-user-select: none; -khtml-user-select: none; -webkit-user-select: none; -ms-user-select: none; user-select: none; }
+img { margin: 0; padding: 0; border: 0 none; }
+b, strong { font-weight: normal; }
+body { width: 100%; height: 100%; }
+address, caption, cite, code, dfn, em, i, th, var { font-style: normal; font-weight: normal; }
+ol, ul { list-style: none; }
+table { border-collapse: collapse; border-spacing: 0; }
+h1, h2, h3, h4, h5, h6 { font-size: 100%; font-weight: normal; }
+abbr, acronym { border: none; font-variant: normal; }
+select, input { vertical-align: middle; }
+blockquote:before, blockquote:after, q:before, q:after { content: ''; content: none; }
+.clearfix:after { content: "."; display: block; clear: both; visibility: hidden; line-height: 0; height: 0; font-size: 0; }
+.clearfix { display: inline-block; zoom: 1; }
+html[xmlns] .clearfix { display: block; }
+* html .clearfix { zoom: 1; }
+
+body { -webkit-user-select: none; -webkit-text-size-adjust: none; -webkit-tap-highlight-color: transparent; font-family: "Helvetica Neue","微软雅黑", Helvetica, STHeiTi, sans-serif; height: 100%; }
+body, html { height: 100%; }
+
+html { font-size: 62.5%; /*10 ÷ 16 × 100% = 62.5%*/ }
+body { font-size: 1.4rem; /*1.4 × 10px = 14px */ }
+h1 { font-size: 2.4rem; /*2.4 × 10px = 24px*/ }
+
+a { text-decoration: none; color: rgba(0,0,0,.6); }
+a, img { -webkit-touch-callout: none; }
+
+.v_pur { position: relative; width: 100%; margin: 0 auto; border-bottom: .1rem solid rgba(0,0,0,.1); overflow: hidden; background: #fff; }
+.v_pur ul li { width: 49%; float: left; }
+.v_pur ul li a { display: block; width: 40%; margin: 0 auto; text-align: center; padding: 1rem 0; font-size: 1.5rem; }
+.v_pur a:hover, .r_in { color: #ad5e4d; border-bottom: .3rem solid #ff669d; }
+.de_withd { padding: 0 1rem; margin: 0 auto; background: #fff; border-bottom: .1rem solid rgba(0,0,0,.1); }
+.de_withd h2, .de_withd h4 { font-size: 1rem; color: rgba(0,0,0,.6); padding: 0.8rem 0; }
+.w_sum { padding: 1rem 0; overflow: hidden; }
+.w_sum h3 { width: 50%; height: 2.5rem; font-size: 2rem; color: #333; float: left; }
+.w_sum h3 span { display: inline-block; width: 2.5rem; height: 2.5rem; background: url(../images/ico-cur.png) no-repeat; background-size: 100%; vertical-align: middle; margin-right: 0.4rem; }
+.w_sum h3 b { font-size: 1rem; }
+.s_btn { float: right; margin-right: 0.4rem; padding: .6rem 1.6rem; color: #ff6099; font-size: 1.5rem; text-align: center; border: .1rem solid #ff6099; border-radius: .4rem; }
+.myarea span { width: 1.4rem; height: 2rem; position: absolute; top: 25%; left: 2%; display: block; background: url(../images/ico-det.png) no-repeat; background-position: center center; background-size: 100%; }
+.s_set { border-top: .1rem solid rgba(0,0,0,.1); margin-top: 1rem; overflow: auto; }
+.s_set .item { margin-bottom: 1rem; }
+.s_set .item p { font-size: 1.3rem; color: rgba(0,0,0,.5); text-indent: 1.4rem; margin-top: .5rem; margin-bottom: 2.5rem; }
+.s_set .item .myarea { margin-top: -1px; height: 4rem; line-height: 4rem; background-color: #fff; border-bottom: .1rem solid rgba(0,0,0,.1); border-top: .1rem solid rgba(0,0,0,.1); color: rgba(0,0,0,1); font-size: 1.6rem; text-indent: 2.8rem; position: relative; }
+.s_set .item .t_it { text-indent: 3.5rem; }
+
+.s_set .item .myarea .extra { float: right; margin-right: 12%; color: #888; font-size: 1.4rem; }
+.s_set .item b { width: 1.4rem; height: 2rem; position: absolute; top: 25%; right: 2%; display: block; background: url(../images/arrowbg.png) no-repeat; background-position: center center; background-size: 100%; }
+.p_sta { padding: 0 1rem; }
+.p_sta h2 { font-size: 1.6rem; color: rgba(0,0,0,1); }
+.p_sta ol { margin-top: 0.8rem; list-style-type: decimal; }
+.p_sta ol li { line-height: 2rem; font-size: 1.2rem; color: rgba(0,0,0,.6); margin-top: 0.4rem; margin-left: 1.4rem; }
+.w_det { background: #fff; border-bottom: .1rem solid rgba(0,0,0,.1); overflow: hidden; padding: 1rem 1rem; }
+.w_det h2 { float: left; }
+.w_det h2 span { line-height: 1.6rem; font-size: 1.4rem; color: #000; display: block; }
+.w_det h2 b { line-height: 1.6rem; font-size: 1rem; color: rgba(0,0,0,.5); display: block; }
+.w_det h3 { line-height: 3.2rem; float: right; color: #ff6099; font-size: 1.6rem; }
+/*--------------弹框样式---------------*/
+.masklayer { width: 100%; height: 100%; background: rgba(0,0,0,0.2); position: fixed; top: 0px; left: 0px; z-index: 90; }
+.de_hint { width: 86%;position: fixed;overflow: hidden; background: #fff; border-radius: 1.2rem;  left: 7%; top: 14%; z-index: 99;  }
+.de_hint h2 { width: 100%; padding: 1.9rem 0; background: url(../images/bg-not.jpg) no-repeat; background-size: 100% 100%; font-size: 1.8rem; color: #fff; text-align: center; border-radius: 1rem 1rem 0 0;}
+.ht_input { width: 80%; display: block; color: rgba(0,0,0,1); border: .1rem solid rgba(0,0,0,0.2); padding: 1rem; font-size: 1.6rem; margin: 1.6rem auto 0 auto; border-radius: 0.4rem; outline: none; }
+.de_hint .ht_shut { border-top: .1rem solid rgba(0,0,0,.1); margin-top: 3rem; }
+.de_hint .ht_shut ul { display: -webkit-box; display: -moz-box; display: -ms-box; display: box; -webkit-box-orient: horizontal; -moz-box-orient: horizontal; -ms-box-orient: horizontal; box-orient: horizontal; -webkit-box-align: stretch; -moz-box-align: stretch; -ms-box-align: stretch; box-align: stretch; width: 100%; height: auto; background: rgba(255,255,255,1); border-bottom-left-radius: 1.2rem; border-bottom-right-radius: 1.2rem; }
+.de_hint .ht_shut ul li { -webkit-box-flex: 1; -moz-box-flex: 1; -ms-box-flex: 1; box-flex: 1; }
+.de_hint .ht_shut ul li a { display: block; padding: 1rem 0; text-align: center; font-size: 1.5rem; text-decoration: none; color: #f14e94; }
+.de_hint .ht_shut ul li a:hover { color: rgba(255,96,153,0.6); }
+.da_with { width: 90%; margin: 0 auto; padding-top: 2.5rem; }
+.da_with h3 { color: #333; font-size: 1.5rem; text-align: center; }
+.da_with h3 span { color: #ff6099; }
+.da_with h4 { margin-top: 1rem; line-height: 1.4rem; font-size: 1rem; color: rgba(0,0,0,0.6); text-align: center; }
+

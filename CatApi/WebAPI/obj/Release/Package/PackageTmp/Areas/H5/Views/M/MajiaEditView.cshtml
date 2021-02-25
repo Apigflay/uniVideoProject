@@ -1,0 +1,75 @@
+﻿@model Model.LiveVersion
+@{
+    ViewBag.Title = "MajiaEditView";
+    Layout = "~/Views/Shared/_Admin.cshtml";
+}
+<style type="text/css">
+    .text {
+        width: 100%;
+    }
+</style>
+
+@using (Html.BeginForm())
+{
+    <table class="table table-bordered">
+        <tr>
+            <td>编号：</td>
+            <td>
+                @if (Model.id == 0)
+                {
+                    <input type="number" id="id" name="id" />
+                }
+                else
+                {
+                    @Html.DisplayTextFor(model => model.id)
+                }
+            </td>
+        </tr>
+        <tr>
+            <td>名称：</td>
+            <td>@Html.DisplayFor(model => model.name)</td>
+        </tr>
+        <tr>
+            <td>审核版本号：</td>
+            <td>
+                @Html.TextBoxFor(model => model.auditVersion, new { @type = "number" })
+            </td>
+        </tr>
+        <tr>
+            <td>操作：</td>
+            <td>
+                <input id="btnOK" type="button" value="确定" class="btn btn-primary" />
+                <a href="/H5/M/MajiaVersionView?key=zhongqing" class="btn btn-primary">返回</a>
+            </td>
+        </tr>
+    </table>
+}
+<script type="text/javascript">
+    //添加和修改数据操作 datatype 1:添加 2：修改
+    $("#btnOK").click(function () {
+        var id = getQueryStr("id");
+
+        $.ajax({
+            type: "POST",
+            url: "/H5/M/MajiaEditView?id=" + id,
+            data: $("form").serialize(),
+            success: function (d) {
+                if (d == 1) {
+                    alert("操作成功");
+                } else if (d == -1) {
+                    alert("系统错误");
+                } else
+                    alert("操作失败");
+
+                window.location = '/H5/M/MajiaVersionView?key=zhongqing'
+            }
+        });
+    });
+
+    function getQueryStr(name) {
+        var reg = new RegExp("(^|\\?|&)" + name + "=([^&]*)(\\s|&|$)", "i");
+        if (reg.test(location.href)) return decodeURIComponent(RegExp.$2.replace(/\+/g, " "));
+        return "";
+    }
+</script>
+

@@ -1,0 +1,19 @@
+﻿@model IEnumerable<Model.WithdrawMoney>
+
+@{
+    ViewBag.Title = "提现记录";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/Css/income.css" rel="stylesheet" />
+
+
+@foreach (var item in Model)
+{
+    <div class="w_det">
+        <h2>
+            <span>提现</span><b>@item.succTime.ToString("yyyy-MM-dd HH:ss")</b>
+        </h2>
+        <h3>@item.amount 元</h3>
+    </div>
+}
+@Html.Partial("~/Views/Shared/_Footer.cshtml")

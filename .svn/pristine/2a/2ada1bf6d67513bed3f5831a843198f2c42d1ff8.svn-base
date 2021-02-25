@@ -1,0 +1,19 @@
+﻿
+<div class="inward">
+    <div class="brain bg03">
+        <div class="rank">
+            <div class="rk_tit"><dl><dt></dt><dd>排行榜TOP10</dd></dl><a href="javascript:Answer.Page.openRankingLayer('close')" class="btn_gre">返回首页</a></div>
+            <div class="rk_con">
+                <ul>
+                    @*
+                        <li><span class="rnw1"><b class="pri01"></b></span><span class="rnw2"><img src="common/images/12491.jpg"></span><span class="rnw3">赖建文赖建文赖建文赖建文</span><span class="rnw4">754分</span><span class="rnw5">获得3元现金</span></li>
+                        <li><span class="rnw1"><b class="pri02"></b></span><span class="rnw2"><img src="common/images/12491.jpg"></span><span class="rnw3">赖建文赖建文赖建文赖建文</span><span class="rnw4">754分</span><span class="rnw5">获得3元现金</span></li>
+                        <li><span class="rnw1"><b class="pri03"></b></span><span class="rnw2"><img src="common/images/12491.jpg"></span><span class="rnw3">赖建文赖建文赖建文赖建文</span><span class="rnw4">754分</span><span class="rnw5">获得3元现金</span></li>
+                    *@
+                </ul>
+                @*<div class="me_ph">1<strong>我的得分</strong><strong>19分</strong></div>*@
+            </div>
+        </div>
+    </div>
+</div>
+

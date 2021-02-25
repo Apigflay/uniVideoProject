@@ -1,0 +1,102 @@
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+body { -webkit-user-select:none; -webkit-text-size-adjust:none; -webkit-tap-highlight-color:transparent; font-family:"Helvetica Neue", Helvetica, STHeiTi, sans-serif; height:100%; }
+body,html { height:100%; }
+
+html { font-size:62.5%;/*10 ÷ 16 × 100% = 62.5%*/}
+body { font-size:1.4rem;/*1.4 × 10px = 14px */}
+h1 { font-size:2.4rem;/*2.4 × 10px = 24px*/}
+
+a {	text-decoration:none; }
+a, img { -webkit-touch-callout:none; }
+
+body,html { overflow-x:hidden; }
+
+
+.user_level { background:#f8f5f6; height:100%; }
+
+.user_level .head { height:20rem; background-color:#ffe68f; border-bottom:.1rem solid rgba(0,0,0,.1); background-image:url(images/level_head_bg.png); background-size:100% 100%; }
+.user_level .head .head_level { position:relative; height:16rem; text-align:center; }
+.user_level .head .head_level .level_user { position:absolute; z-index:2; left:0; right:0; display:inline-block; text-align:center; width:10rem; height:10rem; line-height:10rem; margin:0 auto; margin-top:2.4rem; font-size:2.6rem; background-image:url(images/medal_num.png); background-size:100% 100%; text-shadow:.1rem .1rem .1rem rgba(0,0,0,.1); color:#82280f;
+font-family:'num'; }
+.user_level .head .head_level .level_user i { margin-left:.4rem; font-style:normal; letter-spacing:-.4rem; }
+.user_level .head .head_level .level_user .num0,
+.user_level .head .head_level .level_user .num1,
+.user_level .head .head_level .level_user .num2,
+.user_level .head .head_level .level_user .num3,
+.user_level .head .head_level .level_user .num4,
+.user_level .head .head_level .level_user .num5,
+.user_level .head .head_level .level_user .num6,
+.user_level .head .head_level .level_user .num7,
+.user_level .head .head_level .level_user .num8,
+.user_level .head .head_level .level_user .num9 { display:inline-block; width:1.4rem; height:2rem; background-size:100% 100%; background-repeat:no-repeat; margin:.5rem -.1rem 0; }
+.user_level .head .head_level .level_user .num0 { background-image:url(images/0_3x.png); }
+.user_level .head .head_level .level_user .num1 { background-image:url(images/1_3x.png); }
+.user_level .head .head_level .level_user .num2 { background-image:url(images/2_3x.png); }
+.user_level .head .head_level .level_user .num3 { background-image:url(images/3_3x.png); }
+.user_level .head .head_level .level_user .num4 { background-image:url(images/4_3x.png); }
+.user_level .head .head_level .level_user .num5 { background-image:url(images/5_3x.png); }
+.user_level .head .head_level .level_user .num6 { background-image:url(images/6_3x.png); }
+.user_level .head .head_level .level_user .num7 { background-image:url(images/7_3x.png); }
+.user_level .head .head_level .level_user .num8 { background-image:url(images/8_3x.png); }
+.user_level .head .head_level .level_user .num9 { background-image:url(images/9_3x.png); }
+
+
+.user_level .head .head_level .color1,
+.user_level .head .head_level .color2,
+.user_level .head .head_level .color3,
+.user_level .head .head_level .color4,
+.user_level .head .head_level .color5,
+.user_level .head .head_level .color16 { position:absolute; left:0; right:0; bottom:0; width:12rem; margin:0 auto; height:7.38rem; z-index:1; background-size:100% 100%; }
+.user_level .head .head_level .color1 { background-image:url(http://liveimg.9158.com/pic/week/medal_color1.png); }
+.user_level .head .head_level .color2 { background-image:url(http://liveimg.9158.com/pic/week/medal_color2.png); }
+.user_level .head .head_level .color3 { background-image:url(http://liveimg.9158.com/pic/week/medal_color3.png); }
+.user_level .head .head_level .color4 { background-image:url(http://liveimg.9158.com/pic/week/medal_color4.png); }
+.user_level .head .head_level .color5 { background-image:url(http://liveimg.9158.com/pic/week/medal_color5.png); }
+.user_level .head .head_level .color6 { background-image:url(http://liveimg.9158.com/pic/week/medal_color6.png); }
+
+.user_level .head .progress { width:100%; margin:0 auto; text-align:center; }
+.user_level .head .progress .bg { position:relative; display:block; width:16rem; height:1.4rem; margin:1rem auto 0; background-color:rgba(0,0,0,.2); border-radius:.8rem; }
+.user_level .head .progress .bg .text { position:absolute; left:0; width:16rem; height:1.4rem; line-height:1.4rem; display:inline-block; text-align:center; z-index:2; color:#fff; }
+.user_level .head .progress .bg .lv_now,
+.user_level .head .progress .bg .lv_next { position:absolute; width:4rem; text-align:center; display:inline-block; color:#82280f; }
+.user_level .head .progress .bg .lv_now { left:-4rem; }
+.user_level .head .progress .bg .lv_next { right:-4rem; }
+.user_level .head .progress .bg .value { position:absolute; z-index:1; left:0; top:0; display:inline-block; height:1.4rem; border-radius:.8rem; }
+.user_level .head .progress .bg .value1 { background-color:#1bc899; }
+.user_level .head .progress .bg .value2 { background-color:#1ea6d8; }
+.user_level .head .progress .bg .value3 { background-color:#ec7d12; }
+.user_level .head .progress .bg .value4 { background-color:#ae2de4; }
+.user_level .head .progress .bg .value5 { background-color:#d32991; }
+.user_level .head .progress .bg .value6 { background-color:#d22222; }
+
+
+.user_level .up {  }
+.user_level .up .title { font-size:1.6rem; margin:1.4rem auto; width:90%; }
+.user_level .up .list { background:#fff; border-top:.1rem solid rgba(0,0,0,.1); border-bottom:.1rem solid rgba(0,0,0,.1); padding:1rem 0; }
+.user_level .up .list ul { width:80%; margin:0 auto; }
+.user_level .up .list li { margin:.8rem 0; list-style-type:decimal; font-size:1.4rem; color:rgba(0,0,0,.6); }
+
+
+.user_level .userful .title { font-size:1.6rem; margin:1.4rem auto; width:90%; }
+.user_level .userful .list { background:#fff; border-top:.1rem solid rgba(0,0,0,.1); border-bottom:.1rem solid rgba(0,0,0,.1); padding:1rem 0; }
+.user_level .userful .list ul { width:80%; margin:0 auto; }
+.user_level .userful .list li { margin:.8rem 0; list-style-type:decimal; font-size:1.4rem; color:rgba(0,0,0,.6); }
+
+
+
+
+ @font-face {
+  font-family: 'num';
+  src:url('num.woff') format('woff');
+ }
+
+
+

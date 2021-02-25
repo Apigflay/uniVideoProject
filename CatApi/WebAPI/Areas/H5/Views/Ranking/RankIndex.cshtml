@@ -1,0 +1,179 @@
+﻿@{
+    ViewBag.Title = ViewBag.title;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Head_css{
+    <link href="~/Content/common/css/base.css" rel="stylesheet" />
+    <link href="~/Content/common/css/ranking.css?V=21" rel="stylesheet" />
+    <link href="~/Content/dropload/dropload.css" rel="stylesheet" />
+    <script>
+        
+    </script>
+}
+
+<div class="wrap">
+    <div class="topnav">
+        <div class="tab">
+            @if (ViewBag.ranktype == 1)
+            {
+                <div data-id="1" id="tab1" class="tab_item tab_sel">@Resources.Resource.tab_rank_day</div>
+            }
+            <div data-id="2" id="tab2" class="tab_item">@Resources.Resource.tab_rank_weekly</div>
+            <div data-id="3" id="tab3" class="tab_item">@Resources.Resource.tab_rank_month</div>
+            <div data-id="4" id="tab4" class="tab_item">@Resources.Resource.tab_rank_total</div>
+        </div>
+    </div>
+    <div class="rank_con">
+        <div id="list-wrapper">
+            <div class="miao_rank content" style="left: 0%; display: block;"></div>
+            <div class="miao_rank content" style="left: 0%; display: none;"></div>
+            <div class="miao_rank content" style="left: 0%; display: none;"></div>
+            <div class="miao_rank content" style="left: 0%; display: none;"></div>
+        </div>
+    </div>
+</div>
+
+<!--主播、消费前三名模板-->
+<script type="text/html" id="rankTop_con_templete">
+    <div class="ct_top">
+        {{each rankList as item i}}
+        {{if item.pos <= 3}}
+        <div class="c_top{{item.pos}}">
+            <a href="javscript:;" onclick="live.ShowCard(this, '{{item.useridx}}')">
+                <div class="head">
+                    <b></b>
+                    <div class="sign"></div>
+                    <div class="inbg">
+                        <img class="imgLoading" onerror="javascript:this.src='http://liveimg.9158.com/default.png'" src="{{item.smallpic}}">
+                    </div>
+                </div>
+                <div class="these">
+                    <div class="in">
+                        <span class="name">{{item.myname}}</span>
+                        <span class="female"></span>
+                        <div class="the_level">
+                            <span class="level level{{item.level}}"></span>
+                            <span class="num_bg bg{{GetGradeRank(item.grade)}}"></span>
+                            <span class="num">{{item.grade}}</span>
+                        </div>
+                    </div>
+                    <div class="txt">
+                        {{GetTotalText(item.sumprice)}}
+                        {{if item.isOnline == 1}}
+                        <div class="sta_live"></div>
+                        {{/if}}
+                    </div>
+                </div>
+            </a>
+        </div>
+        {{/if}}
+        {{/each}}
+    </div>
+</script>
+
+<!--家族前三名模板-->
+<script type="text/html" id="Top3_Family_con_template">
+    <div class="ct_top">
+        {{each rankList as item i}}
+        {{if item.pos <= 3}}
+        <div class="c_top{{item.pos}}">
+            <a href="javscript:;" onclick="live.ShowCard(this, '{{item.useridx}}')">
+                <div class="head">
+                    <b></b>
+                    <div class="sign"></div>
+                    <div class="inbg">
+                        <img class="imgLoading" onerror="javascript:this.src='http://liveimg.9158.com/default.png'" src="{{item.smallpic}}">
+                    </div>
+                </div>
+                <div class="these">
+                    <div class="in">
+                        <span class="kin_name">{{item.myname}}</span>
+                    </div>
+                    @*<div class="txt">@ViewBag.rankTxt：{{item.sumprice}}</div>*@
+                    <div class="txt">{{GetTotalText(item.sumprice)}}</div>
+                </div>
+            </a>
+        </div>
+        {{/if}}
+        {{/each}}
+    </div>
+</script>
+
+<!--后N名数据-->
+<script type="text/html" id="rank_con_templete">
+    <div class="ct_bot">
+        {{each rankList as item i}}
+        {{if item.pos > 3}}
+        <div class="eachitem">
+            <a href="javscript:;" onclick="live.ShowCard(this, '{{item.useridx}}')">
+                <span class="u_num">{{item.pos}}</span>
+                <span class="u_head">
+                    <dl>
+                        <dd><img class="imgLoading" onerror="javascript:this.src='http://liveimg.9158.com/default.png'" src="{{item.smallpic}}"></dd>
+                    </dl>
+                </span>
+                <span class="u_info">
+                    <div class="in">
+                        <span class="name">{{item.myname}}</span>
+                        @if (ViewBag.ranktype != 3)
+                        {
+                            <span class="{{item.gender == 1 ? 'male':'female'}}"></span>
+                            <div class="the_level">
+                                <span class="level level{{item.level}}"></span>
+                                <span class="num_bg bg{{GetGradeRank(item.grade)}}"></span>
+                                <span class="num">{{item.grade}}</span>
+                            </div>
+                        }
+                    </div>
+                    <div class="txt">
+                        {{GetTotalText(item.sumprice)}}
+                        {{if item.isOnline == 1}}
+                        <div class="sta_live"></div>
+                        {{/if}}
+                    </div>
+                </span>
+                <span class="u_state"><b class="{{item.rankChange == 1 ? 'ue_up':'ue_down'}}"></b></span>
+            </a>
+        </div>
+        {{/if}}
+        {{/each}}
+    </div>
+</script>
+
+<script src="~/Content/dropload/dropload.js"></script>
+<script src="~/Scripts/lib/echo.min.js"></script>
+<script src="~/Scripts/lib/template.js"></script>
+<script src="~/Scripts/totalrank_New.js?v=24"></script>
+<script src="~/Content/i18n/js/jquery.i18n.properties.min.js"></script>
+
+<script type="text/javascript">
+
+    $(function () {
+        //document.write(navigator.language.toLowerCase().substr(0, 2));
+
+        var lang = (navigator.browserLanguage || navigator.language).toLowerCase();
+
+        if (lang.substr(0, 2) == "en" || lang == "zh-tw") {
+            init_i18n(function updateLang() {
+                //排行榜页面翻译
+                //$('#tab4').html($.i18n.prop('string_totalrank'));
+                //$('#tab3').html($.i18n.prop('string_month'));
+                //$('#tab2').html($.i18n.prop('string_week'));
+                //$('#tab1').html($.i18n.prop('string_day'));
+
+                //var ranktype = getQueryStr('ranktype');
+                //var title = '';
+                //if (ranktype == 1) {
+                //    title = $.i18n.prop('string_consumerank')
+                //} else if (ranktype == 2) {
+                //    title = $.i18n.prop('string_anchorrank');
+                //} else {
+                //    title = $.i18n.prop('string_familyrank');
+                //}
+                //$('title').html(title);
+            })
+        }
+    });
+
+</script>

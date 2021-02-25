@@ -1,0 +1,48 @@
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+/* BODY
+=============================================================================*/
+
+
+.all { padding:10px 15px; }
+
+body { background:#fff; font-size:100%; font-family:Helvetica, STHeiti, Droid Sans Fallback; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; -webkit-tap-highlight-color:transparent; }
+
+
+ul, ol {
+  padding-left:20px;
+}
+
+.the_user { padding:0 0 20px; margin:0 0 20px; }
+
+
+.user { margin:10px auto; font-size:1.4em; margin-top:30px; }
+.detail { font-size:1em; color:rgba(0,0,0,0.6); line-height:1.4; padding:0.2em 0 1em; margin-bottom:1em; }
+.detail span { color:rgba(248,78,148,.9); font-weight:bold; padding:0 .3em; font-size:1.2em; } 
+
+.btn_exchange,
+.btn_disable { display:inline-block; background-color:rgba(248,78,148,.9); color:#fff; text-align:center; margin:0 auto; width:100%; text-decoration:none; padding:.7em 0; border-radius:5px; font-size:1.1em; }
+.btn_exchange:active { background-color:rgba(248,78,148,1); color:rgba(255,255,255,.9); }
+
+a.btn_disable { background-color:rgba(248,78,148,.4); color:rgba(255,255,255,.6); }
+a.btn_disable:link { background-color:rgba(248,78,148,.4); color:rgba(255,255,255,.6); }
+a.btn_disable:visited { background-color:rgba(248,78,148,.4); color:rgba(255,255,255,.6); }
+a.btn_disable:hover { background-color:rgba(248,78,148,.4); color:rgba(255,255,255,.6); }
+a.btn_disable:active { background-color:rgba(248,78,148,.4); color:rgba(255,255,255,.6); }
+
+
+
+.explanation { margin-top:20px; font-size:.94em;  color:rgba(0,0,0,0.6); margin-bottom:30px; }
+.explanation p { padding:.2em 0; }
+.explanation li { line-height:1.6; }
+
+
+
+

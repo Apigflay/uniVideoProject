@@ -1,0 +1,103 @@
+﻿@{
+    ViewBag.Title = "邀好友拿现金红包";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model Model.UserInfo
+
+<link href="~/Content/Css/shareInvite_V2.css?v=1" rel="stylesheet" />
+
+<div class="wrap" data-clipboard-action="copy" data-clipboard-target="span">
+    @*<div class="area">
+            <div class="pic"><img src="@ViewBag.photo"></div>
+            <dl>
+                <dd>你已经和 @ViewBag.nickName 相互关注</dd>
+            </dl>
+            <p>长按复制下方邀请码</p>
+            <div class="copy"><span>@ViewBag.inviteCode</span></div>
+        </div>
+        <div class="bottom">
+            <div class="in">
+                <ol>
+                    <li>请先复制上方邀请码，并点击【下载喵播】下载喵播APP。并第一时间启动喵播APP。 </li>
+                    <li>您必须是通过微信账号首次登录喵播APP的新用户。 </li>
+                    <li>活动最终解释权归喵播所有。 </li>
+                </ol>
+            </div>
+
+            <a href="javascript:;" class="btn_open" onclick="download()">下载喵播</a>
+
+        </div>*@
+    <div class="area">
+        <img src="~/content/images/wbg01.jpg">
+        <div class="posi_con">
+            <div class="pic"><img src="@ViewBag.photo"></div>
+            <dl>
+                <dd>你已经和 @ViewBag.nickName 相互关注</dd>
+            </dl>
+        </div>
+    </div>
+    <div class="area">
+        <div class="copy"> <span>@ViewBag.inviteCode</span></div>
+        <img src="~/content/images/wbg02.jpg">
+    </div>
+    <div class="area">
+        <a href="javascript:download();" class="btn_open">下载喵播</a>
+
+        <img src="~/content/images/wbg03.jpg">
+    </div>
+    <div class="area">
+        <img src="~/content/images/wbg04.jpg">
+    </div>
+    <div class="area">
+        <div class="in">
+            <h3>说明</h3>
+            <ol>
+                <li>被邀请人必须为首次登录喵播的用户； </li>
+                <li>登录成功后，不需要再次填写邀请码，即可收到红包提醒； </li>
+                <li>请至APP-【我的】-【我的收益】-【现金提现】进行提现，首次提现不限金额。 </li>
+                <li>活动最终解释权归喵播所有。 </li>
+            </ol>
+        </div>
+        <img src="~/content/images/wbg05.jpg">
+    </div>
+</div>
+
+<script src="~/Scripts/lib/clipboard.min.js"></script>
+<script>
+    //var rem = { baseRem: 21, baseWidth: 375, rootEle: document.getElementsByTagName('html')[0], initHandle: function () { this.setRemHandle(); this.resizeHandle(); }, setRemHandle: function () { var clientWidth = document.documentElement.clientWidth; this.rootEle.style.fontSize = clientWidth * this.baseRem / this.baseWidth + "px"; }, resizeHandle: function () { var that = this; window.addEventListener("resize", function () { setTimeout(function () { that.setRemHandle(); }, 300); }); } }; rem.initHandle();
+    //$('html').css('font-size', 120 * ($(window).width() / 640) + '%');
+
+    function download() {
+        if (browser.is_weixin()) {
+            window.location = "http://a.app.qq.com/o/simple.jsp?pkgname=com.tiange.miaolive";
+        }
+        else if (browser.versions.ios || browser.versions.iPhone || browser.versions.iPad) {
+            console.log('1');
+
+            window.location = "https://itunes.apple.com/cn/app/miaobo/id1229560692?l=zh&ls=1&mt=8";
+        }
+        else if (browser.versions.android) {
+            window.location.href = "http://update.9158.com/miaolive/Miaolive.apk";
+        } else {
+            window.location.href = "http://a.app.qq.com/o/simple.jsp?pkgname=com.tiange.miaolive";
+        }
+    }
+
+
+    var clipboardDemos = new Clipboard('.wrap');
+    clipboardDemos.on('success', function (e) {
+        e.clearSelection();
+        console.info('Action:', e.action);
+        console.info('Text:', e.text);
+        console.info('Trigger:', e.trigger);
+        //showTooltip(e.trigger, 'Copied!');
+        //downloadtest();
+    });
+
+    clipboardDemos.on('error', function (e) {
+        console.error('Action:', e.action);
+        console.error('Trigger:', e.trigger);
+        alert('复制邀请码失败，请手动复制邀请码');
+    });
+
+</script>

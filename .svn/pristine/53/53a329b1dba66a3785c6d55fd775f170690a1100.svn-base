@@ -1,0 +1,63 @@
+<template>
+	<view class="main">
+		<image class="img" src="../../static/pictures/logo_1.png"></image>
+		<image class="title" src="../../static/pictures/shouyetitle_1.png"></image>
+		<view class="content" v-for="(item,index) in content" :key="index" :id="index">
+			<text class="p1">{{item[0].title}}</text>
+			<text class="p2">{{item[0].content}}</text>
+		</view>
+	</view>
+</template>
+
+<script>
+	export default {
+		data() {
+			return {
+				content:[
+						[
+							{title:'服务条款关于CAT',
+							content:'SWAG 是一个付费浏览的社交通讯应用服务，用户可以透过创建、发布私密照片与影片，赚取潜在的获利。'},
+							
+						]
+				]
+			};
+		}
+	}
+</script>
+
+<style lang="scss">
+page{
+	width: 100%;
+	height: 100%;
+	// background: #000000;
+}
+.main{
+	width:100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items:center;
+	padding: 42rpx 0rpx 405rpx 0rpx;
+	.img{
+		width:317rpx;
+		height: 354rpx;
+	}
+	.title{
+		width:311rpx;
+		height: 91rpx;
+		margin-top: 43rpx;
+		margin-bottom: 75rpx;
+	}
+	.content{
+		display: flex;
+		flex-direction: column;
+		padding: 0rpx 51rpx;
+		.p1{
+			// font-size: ;
+		}
+		.p2{
+			
+		}
+	}
+}
+</style>

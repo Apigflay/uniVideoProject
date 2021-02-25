@@ -1,0 +1,80 @@
+﻿@{
+    ViewBag.Title = "喵播美女直播";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/miaoboAD/miaoboApp.css" rel="stylesheet" />
+<script src="~/Scripts/lib/clipboard.min.js"></script>
+<div class="miaoboApp">
+    <div class="banner">
+        <img src="~/miaoboAD/images/QR_down.png" class="QR">
+        <a class="btn01 wrap" data-clipboard-text="@ViewBag.code" href="javascript:download()">
+            <img src="~/miaoboAD/images/btn_download01.png">
+        </a>
+        <a class="btn02 wrap" data-clipboard-text="@ViewBag.code" href="javascript:download()">
+            <img src="~/miaoboAD/images/btn_download02.png">
+        </a>
+    </div>
+    <div class="present">
+        <div class="part">
+            <img class="icon" src="~/miaoboAD/images/icon_01.png">
+            <div class="text">
+                <span class="title">视频秒开</span>
+                <p>急速体验告别等待</p>
+            </div>
+        </div>
+        <div class="part">
+            <img class="icon" src="~/miaoboAD/images/icon_02.png">
+            <div class="text">
+                <span class="title">多麦互动</span>
+                <p>直播间内任由你玩</p>
+            </div>
+        </div>
+        <div class="part">
+            <img class="icon" src="~/miaoboAD/images/icon_03.png">
+            <div class="text">
+                <span class="title">智能美颜</span>
+                <p>瞬间变身白美富帅</p>
+            </div>
+        </div>
+        <div class="part">
+            <img class="icon" src="~/miaoboAD/images/icon_04.png">
+            <div class="text">
+                <span class="title">幸运礼物</span>
+                <p>千倍大奖 等你来中</p>
+            </div>
+        </div>
+    </div>
+    <div class="foot" style="clear:both; width:100%; margin:0 auto; text-align:center; padding:10px;">
+        <div style="height:2rem;line-height:2rem;"><img src="../Content/Images/recordIcon.png" />浙公网安备案号 33070202100006号</div>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        var clipboard = new Clipboard('.wrap');
+        clipboard.on('success', function (e) {
+            e.clearSelection();
+            
+            console.info('Action:', e.action);
+            console.info('Text:', e.text);
+            console.info('Trigger:', e.trigger);
+            s(e.text);
+        });
+
+        clipboard.on('error', function (e) {
+            console.log('出错啦' + e);
+            s('0');
+        });
+    })
+
+    function s(code) {
+        $.ajax({
+            type: 'POST',
+            url: '/home/copystati?code=' + code,
+            dataType: "text",
+            success: function () {
+            }
+        });
+    }
+</script>

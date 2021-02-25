@@ -1,0 +1,108 @@
+﻿@model Model.View.VMIncome
+@{
+    ViewBag.Title = "宝宝收益";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section head_css{
+    <link href="~/Content/Css/babyExchange.css?v=4" rel="stylesheet" />
+}
+
+<div id="baby">
+    <div class="card_baby">
+        <div class="currency">宝宝数量（个）</div>
+        <div class="count">
+            <div class="arrow"></div>
+            <div class="icon_baby"></div>
+            <div class="text">@Model.MyWawa.nowweeknum </div>
+        </div>
+        <div class="tips">
+            <div class="text">上期宝宝数量：@Model.MyWawa.lastweeknum 个，可提现宝宝数量：@Model.MyWawa.wawaNum 个</div>
+        </div>
+
+        @if (Model.MyWawa.isSignAnchor == 1)
+        {
+            <div class="btn">
+                <a href="javascript:;" onclick="baby.withdrawBaby(1,'@Model.useridx','@Model.chkCode')">提现宝宝</a>
+
+                <a href="/H5/Income/BabyRecord?useridx=@Model.useridx">提现记录</a>
+            </div>
+        }
+        else if (Model.MyWawa.isSanhu == 1)
+        {
+            <div class="btn">
+                <a href="javascript:;" onclick="baby.withdrawBaby(2,'@Model.useridx','@Model.chkCode')">提现宝宝</a>
+
+                <a href="/H5/Income/BabyRecord?useridx=@Model.useridx">提现记录</a>
+            </div>
+        }
+    </div>
+
+    <div class="explanation">
+        <h4>宝宝兑换说明：</h4>
+        <ol id="babyExplain">
+            <li>每月1号、6号、11号、16号、21号、26号凌晨3点结算前一期获得的宝宝数量。本期发放前一期的宝宝兑换</li>
+            <li>未加入家族的主播请先加入家族，否则无法兑换宝宝，加入家族事宜请联系喵播官方人员</li>
+            <li>
+                若有疑问，请联系喵播官方运营
+                <a href="mqqwpa://im/chat?chat_type=wpa&src_type=web&version=1&uin=314843529"><span class="icon_qq"></span>314843529</a>。
+            </li>
+        </ol>
+        <h4>官方联系说明：</h4>
+        <ol id="officialol" style="list-style: none">
+            <li>如有薪资待遇或家族内部以及有关平台问题的主播，可联系官方运营微信：miaoboyunying</li>
+        </ol>
+    </div>
+
+</div>
+
+<script src="~/Content/i18n/js/jquery.i18n.properties.min.js"></script>
+<script type="text/javascript">
+
+    function updateLang() {
+        //两个按钮
+        $('.card_baby .btn a').eq(0).html($.i18n.prop('str_withdraw_baby'));
+        $('.card_baby .btn a').eq(1).html($.i18n.prop('str_withdraw_details'));
+
+        //标题
+        $('title').html($.i18n.prop('str_baby_title'));
+        //上周宝宝数量：{0} 个,可提现宝宝数量：{0} 个
+        $('.card_baby .tips .text').html($.i18n.prop('str_baby_nums', '@Model.MyWawa.lastweeknum', '@Model.MyWawa.wawaNum'));
+        //本周宝宝数
+        $('.card_baby .currency').html($.i18n.prop('str_baby_tsweek_num'));
+
+        //宝宝兑换说明,官方联系说明
+        $('.explanation h4').eq(0).html($.i18n.prop('str_baby_exchange_explain'));
+        $('.explanation h4').eq(1).html($.i18n.prop('str_baby_contact_explain'));
+
+        //宝宝收益说明
+        $('#babyExplain li').eq(0).html($.i18n.prop('str_baby_explain1'));
+        $('#babyExplain li').eq(1).html($.i18n.prop('str_baby_explain2'));
+        $('#babyExplain li').eq(2).html($.i18n.prop('str_baby_explain3'));
+        $('#babyExplain li').eq(3).html($.i18n.prop('str_baby_explain4'));
+
+        //官方说明
+        $('#officialol li').eq(0).html($.i18n.prop('str_baby_official1'));
+    }
+
+    var baby = {
+        withdrawBaby: function (t, idx, c) {
+            $.ajax({
+                timeout: 9000,
+                type: 'GET',
+                dataType: 'json',
+                url: '/Pay/babySubmitData',
+                data: { type: t, useridx: idx, chkcode: c },
+                beforeSend: function () { },
+                success: function (response) {
+                    alert(response.msg);
+                }
+            });
+        }
+    };
+
+    $(function () {
+        init_i18n(updateLang);
+
+    });
+</script>

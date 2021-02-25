@@ -1,0 +1,244 @@
+<template>
+	<view class="content">
+		<image class="more111" src="../../static/imgs/close1.png" mode="" @click="goBackPage"></image>
+		<image class="bgImg" src="../../static/imgs/copybgE.png" mode="" v-if="loginLanguage==0||loginLanguage==1||loginLanguage==2"></image>
+		<image class="bgImg" src="../../static/imgs/copybgT.png" mode="" v-if="loginLanguage==3"></image>
+		<view class="copyArea" :class="'copyArea'+index" v-if="loginLanguage==3" v-for="(item,index) in modelMsgData[0]" :key="index">
+			<input class="text" id="input1" type="text" ref="text"  :value="item" />
+			<view class="poop">
+				
+			</view>
+			<image class="bgImg" src="../../static/imgs/copyT.png" mode="" @click="getmodelMsgData(index)"></image>
+		</view>
+		<view class="copyArea" :class="'copyArea'+index" v-if="loginLanguage==0||loginLanguage==1||loginLanguage==2" v-for="(item,index) in modelMsgData[1]" :key="index">
+			<input class="text" id="input1" type="text" ref="text"  :value="item" />
+			<view class="poop">
+				
+			</view>
+			<image class="bgImg" src="../../static/imgs/copyE.png" mode="" @click="getmodelMsgData(index)"></image>
+		</view>
+		
+		<!-- <iframe class="iframe" :src="param" frameborder="0"></iframe> -->
+		<!-- pay.mycat1314.com/pay/payList?param={"useridx":"10009788","deviceType":"h5","deviceID":"设备id","buddleID":"h5","version":"1.0"} -->
+	</view>
+</template>
+
+<script>
+	import {encrypt,decrypt,system,systemId,base64ToArrayBuffer,sendData,sendD,work,regMail,navigateTo} from "../../lib/js/GlobalFunction.js"
+	export default {
+		data() {
+			return {
+				tabbarLoginLanguage: null, // 用户语言
+				loginData:null,//登录信息
+				param:null,//url参数集合
+				loginLanguage:null,//语言 @24coin familyk2019
+				modelMsgData:[['','Eielza','bangkokperry',''],['','Eielza','bangkokperry','']],//主播信息
+			};
+		},
+		onLoad() {
+			this.getLoginlanger(); // 获取语言
+			this.getLoginData()
+			this.getLoginLanguage()
+		},
+		methods:{
+			getLoginlanger:function(){ // 获取当前语言
+				var that = this;
+				uni.getStorage({
+					key: 'storage_login_language',
+					success: function (res) {
+						that.tabbarLoginLanguage = JSON.parse(res.data);
+						console.log(that.tabbarLoginLanguage);
+					}
+				});
+			},
+			getLoginData:function(){//获取socket成功信息
+				var that = this;
+				uni.getStorage({
+					key: 'storage_login_str',
+					success: function (res) {
+						// console.log(JSON.parse(res.data))
+						that.loginData = JSON.parse(res.data);
+						// console.log(this.loginData.bindmail);
+						// if(that.loginData.bindmail==false){
+						// 	// console.log("未绑定邮箱");
+						// 	that.marskShow = true;
+						// 	that.getCheckArea =true;
+						// }
+						// if(that.loginData.setnick==false){
+						// 	console.log('未设置喜好')
+						// 	that.marskShow = true;
+						// 	that.mainShowArea =true;
+						// }
+						// that.getParamData()
+						
+					}
+				});
+			},
+			getLoginLanguage:function(){//获取socket成功信息
+				var that = this;
+				uni.getStorage({
+					key: 'storage_login_language',
+					success: function (res) {
+						// console.log(JSON.parse(res.data))
+						that.loginLanguage = JSON.parse(res.data);
+						// console.log(this.loginData.bindmail);
+						// if(that.loginData.bindmail==false){
+						// 	// console.log("未绑定邮箱");
+						// 	that.marskShow = true;
+						// 	that.getCheckArea =true;
+						// }
+						// if(that.loginData.setnick==false){
+						// 	console.log('未设置喜好')
+						// 	that.marskShow = true;
+						// 	that.mainShowArea =true;
+						// }
+						// that.getParamData()
+					}
+				});
+			},
+			getParamData:function(){
+				var language = "chinese"
+				if(this.loginLanguage==0){
+					language = "chinese"
+				}else if(this.loginLanguage==1){
+					language = "chinese"
+				}else if(this.loginLanguage==2){
+					language = "english"
+				}else if(this.loginLanguage==3){
+					language = "thailand"
+				}
+				
+				var param = JSON.stringify({
+					useridx:JSON.stringify(this.loginData.useridx),
+					deviceType:"h5",
+					deviceID:systemId(),
+					buddleID:"h5",
+					version:"1.0.0",
+					language:language,
+				})
+				// console.log(param)
+				this.param ='https://pay.woopsss.com/pay/PayList?param='+param;//https://pay.mycat1314.com/pay/PayList
+
+				// console.log('http://pay.mycat1314.com/pay/PayList?param={"buddleID":"com.tg.facetalk","deviceID":"7BD1B8D6-6839-456D-9A0A-88E78CEDBA16","deviceType":"ios","language":"thailand","useridx":"10009790","version":"1.0.0"}')
+			},
+			goBackPage:function(){
+				// console.log(this.loginData.isAnchor)
+				if(this.loginData.isAnchor==true){
+					// uni.navigateTo({
+					// 	url: '/pages/anchorme/anchorme'
+					// });
+					navigateTo('/pages/anchorme/anchorme',null);
+				}else{
+					// uni.navigateTo({
+					// 	url: '/pages/my/my'
+					// });
+					navigateTo('/pages/my/my',null);
+				}
+			},
+			getmodelMsgData:function(index){//点击复制
+				var controls = document.getElementsByTagName('input');
+				controls[index].select(); //选择对象 
+				document.execCommand("Copy"); //执行浏览器复制命令
+			   if(this.tabbarLoginLanguage==0||this.tabbarLoginLanguage==1){
+				   var str = "已复制好，可贴粘";
+				   uni.showToast({
+						title:str,
+						icon:"none"
+				   })
+			   }else if(this.tabbarLoginLanguage==2){
+				   var str = "Copied and pasted";
+				   uni.showToast({
+						title:str,
+						icon:"none"
+				   })
+			   }else if(this.tabbarLoginLanguage==3){
+				   var str = "มันถูกคัดลอกและติด";
+				   uni.showToast({
+						title:str,
+						icon:"none"
+				   })
+			   }
+			}
+		}
+	}
+</script>
+
+<style lang="scss">
+page{
+	width: 100%;
+	height: 100%;
+	// background:rgba(35,35,35,1);#191919
+	background:#21317E;
+}
+.content{
+	width: 100%;
+	height: 100%;
+	position: relative;
+	.more111{
+		position: absolute;
+		z-index: 100009;
+		width: 36rpx;
+		height: 36rpx;
+		padding: 10rpx;
+		top: 28rpx;
+		right: 28rpx;
+		background: #fff;
+		
+	}
+	.bgImg{
+		position: absolute;
+		width: 750rpx;
+		height: 1330rpx;
+		z-index: 3;
+	}
+	.copyArea{
+		position: absolute;
+		width: 100%;
+		height: 50rpx;
+		z-index: 4;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		.text{
+			font-size: 40rpx;
+			margin-right: 150rpx;
+			color: #fff;
+			width: 350rpx;
+			// background: red;
+			height: 50rpx;
+		}
+		.poop{
+			width: 350rpx;
+			height: 50rpx;
+			// background: blue;
+			position: absolute;
+			left: 200rpx;
+			top: 0;
+		}
+		.bgImg{
+			height: 50rpx;
+			width: 125rpx;
+			margin-left: 200rpx;
+			
+		}
+	}
+	.copyArea0{
+		top: 600rpx;
+	}
+	.copyArea1{
+		top: 700rpx;
+	}
+	.copyArea2{
+		top: 800rpx;
+	}
+	.copyArea3{
+		top: 900rpx;
+	}
+	// .iframe{
+	// 	width: 100%;
+	// 	height: 100%;
+	// 	position: absolute;
+	// 	z-index: 10;
+	// }
+}
+</style>

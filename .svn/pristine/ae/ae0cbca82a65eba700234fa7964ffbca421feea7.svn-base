@@ -1,0 +1,110 @@
+﻿@{
+    ViewBag.Title = Resources.Resource.title_star;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Head_css
+{
+    <link href="~/Content/common/css/base.css" rel="stylesheet" />
+    <link href="~/Content/common/css/style_star.css?_=7711" rel="stylesheet" />
+    <link href="~/Content/swiper/swiper.min.css" rel="stylesheet" />
+    <style type="text/css">
+        .wrap { position:relative;overflow-x:hidden;width:100%;}
+        .content { right: 0; overflow-x:hidden;}
+        .rank_con { position: relative;}
+        .loading { height: 4rem; line-height: 4rem; text-align: center; color: #808080; }
+    </style>
+}
+<div class="wrap">
+    <div class="topnav">
+        <div class="tab">
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    @*<div class="tab_item tab_sel">铃铛</div>
+                        <div class="tab_item">星星</div>
+                        <div class="tab_item">香蕉</div>
+                        <div class="tab_item">玫瑰</div>*@
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="rank_con">
+        <div class="miao_rank content" style="left:0%;display:block;"></div>
+        <div class="miao_rank content" style="left:100%;display:none;"></div>
+        <div class="miao_rank content" style="left:200%;display:none;"></div>
+        <div class="miao_rank content" style="left:300%;display:none;"></div>
+        <div class="miao_rank content" style="left:400%;display:none;"></div>
+        <div class="miao_rank content" style="left:500%;display:none;"></div>
+        <div class="miao_rank content" style="left:600%;display:none;"></div>
+    </div>
+
+    <p class="tips" style="display:none">@Resources.Resource.lbl_rank_curTime：<span id="time"></span></p>
+    <p class="tips">@Resources.Resource.lbl_rank_tip</p>
+</div>
+
+<!--礼物tab切换html模板-->
+<script type="text/html" id="rank_tab_template">
+    {{each rankList as item i}}
+    <div onclick="tabEvent(this)" id="{{i}}" data-id="{{item.giftId}}" class="swiper-slide tab_item {{i==0?'tab_sel':''}}"></div>
+    {{/each}}
+</script>
+
+<!--本期前N名html模板，以及我的排名-->
+<script type="text/html" id="rank_con_templete">
+    <div class="ct_bot">
+        {{each curWeek as item i}}
+        <div class="eachitem ude_{{item.rowNo}}">
+            <a href="javscript:;" onclick="live.ShowCard(this, '{{item.useridx}}')">
+                <span class="u_num">{{item.rowNo >3 ? item.rowNo : ''}}<b></b></span>
+                <span class="u_head">
+                    <dl>
+                        <dd><img class="imgLoading" onerror="javascript:this.src='http://liveimg.9158.com/default.png'" src="{{item.smallpic}}"></dd>
+                    </dl>
+                </span>
+                <span class="u_info">
+                    <div class="in">
+                        <span class="name">{{item.myname}}</span>
+                        <span class="{{item.gender == 1 ? 'male':'female'}}"></span>
+                        <div class="the_level">
+                            <span class="level level{{item.level}}"></span>
+                            <span class="num_bg bg{{GetGradeRank(item.grade)}}"></span>
+                            <span class="num">{{item.grade}}</span>
+                        </div>
+                    </div>
+                    <div class="txt">
+                        @*数量：{{item.totalNum}}*@
+                        {{if item.isOnline == 1}}
+                        <div class="sta_live"></div>
+                        {{/if}}
+                    </div>
+                </span>
+            </a>
+        </div>
+        {{/each}}
+
+        <!--我的排名模板-->
+        <div class="eachitem ude_me">
+            <a href="#">
+                <span class="u_num"><strong>@Resources.Resource.lbl_rank_me</strong></span>
+                <span class="u_head">
+                    <dl><dt></dt><dd><img src="@ViewBag.photo" onerror="this.src='http://liveimg.9158.com/default.png'"></dd></dl>
+                </span>
+                <span class="u_info">
+                    <div class="in">
+                        {{if myRank}}
+                        第{{myRank.rowNo}}名<i>@Resources.Resource.lbl_rank_num：{{myRank.totalNum}}</i>
+                        {{else}}
+                        @Resources.Resource.lbl_rank_After50<i>@Resources.Resource.lbl_rank_noRank</i>
+                        {{/if}}
+                    </div>
+                </span>
+            </a>
+        </div>
+
+    </div>
+</script>
+
+<script src="~/Scripts/lib/echo.min.js"></script>
+<script src="~/Scripts/lib/template.js"></script>
+<script src="~/Content/swiper/swiper.min.js"></script>
+<script src="~/Scripts/starRank.js?_=4"></script>

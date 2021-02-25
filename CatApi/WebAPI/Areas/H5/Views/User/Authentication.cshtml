@@ -1,0 +1,166 @@
+﻿@{
+    ViewBag.Title = "认证中心";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, button, textarea, p, blockquote, th, hr {
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        background: #F2F2F2;
+    }
+
+    .top p {
+        width: 96%;
+        text-align: right;
+        color: #777777;
+        font-size: 0.1rem;
+    }
+
+    .top img {
+        width: 43%;
+    }
+
+    .topimg {
+        width: 100%;
+        text-align: center;
+    }
+
+    .banner {
+        width: 90%;
+        margin-left: 5%;
+        background: #FFFFFF;
+        border-radius: 5px;
+        margin-top: -0.6rem;
+    }
+
+        .banner p {
+            color: #000000;
+            padding: 4% 1% 2% 8%;
+        }
+
+    .bottom {
+        width: 80%;
+        margin-left: 5%;
+        /* text-align: center; */
+        border-bottom: 1px solid #DDDDDD;
+    }
+
+    .p1 {
+        color: #777777 !important;
+        font-size: 1.2rem;
+    }
+
+    .btn {
+        background-image: linear-gradient(to right,#FF6941,#FF19A6);
+        width: 9.2rem;
+        height: 1.3rem;
+        display: inline-block;
+        margin: 0.4rem;
+        color: #FFF;
+        text-align: center;
+        line-height: 1.3rem;
+        border-radius: 0.1rem;
+    }
+
+    .botton {
+        width: 70%;
+        height: 3.2rem;
+        background: #87CEFF;
+        border-radius: 50px;
+        line-height: 3.2rem;
+        text-align: center;
+        font-size: 1.5rem;
+        color: white;
+        margin-left: 15%;
+    }
+
+    #my_video {
+        margin-top: 2%;
+        padding-bottom: 4%;
+    }
+</style>
+<div class="top">
+    <p>认证视频拍摄示例</p>
+    <div class="topimg"><img src="~/Content/common/images/mj/top.png" /></div>
+</div>
+<div class="banner">
+    <p class="p1">认证条件</p>
+    <div class="bottom"></div>
+    <p>1.个人形象良好；</p>
+    <p>2.相册中至少上传一张你本人的照片。</p>
+    <p class="p1">认证方式</p>
+    <div class="bottom"></div>
+    <p>1.去一张纸，写上你的昵称和以下验证码：</p>
+    <p style="text-align:center;font-size: 1.5rem;">面具秘聊 @ViewBag.useridx</p>
+    <input type="hidden" id="hd" value="@ViewBag.useridx" />
+    <p>2.拿着这张纸，与你的正脸合拍一段视频(3-15s)。</p>
+    <p><input type="checkbox" id="check" /><span style="color:#777777;padding-left:3%">显示我的认证视频在个人主页</span></p>
+    <div id="my_video">
+        <div class="botton">上传认证视频</div>
+    </div>
+    <input style="display:none" class="btn" id="video_upload" type="file" accept=“image/*” onchange='handleInputChange()'>
+</div>
+
+<script src="~/Scripts/lib/jquery-1.8.2.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#my_video').click(function () {
+            $('#video_upload').click();
+        });
+
+    });
+    function handleInputChange(event) {
+        // 获取当前选中的文件
+        var file = document.getElementById('video_upload').files[0];
+        const imgMasSize = 1024 * 1024 * 10; // 10MB
+
+        // 检查文件类型
+        if (['avi', 'asf', 'wmv', 'mpeg', 'mov', 'mp4', 'quicktime', 'x-flv'].indexOf(file.type.split("/")[1].toLowerCase()) < 0) {
+            alert('文件格式不对，目前支持avi,asf,wmv,mpeg,mov,mp4,quicktime,flv格式')
+            //alert(file.type);
+            return;
+        }
+        // 文件大小限制
+        if (file.size > imgMasSize) {
+            alert('文件太大，请上传少于15秒的视频');
+            return;
+        }
+        doUpload();
+    }
+    function doUpload() {
+        var type = 0;
+        if ($("#check").attr("checked")) {
+            type = 1;
+        }
+        var formData = new FormData();
+        formData.append("useridx", $("#hd").val());
+        formData.append("type", type);
+        formData.append("file1", $('#video_upload')[0].files[0]);
+        $.ajax({
+            url: '../../H5/User/AuthenticationUpload',
+            type: 'post',
+            data: formData,
+            cache: false,
+            processData: false,
+            contentType: false,
+            async: false
+        }).done(function (res) {
+            if (res.code == "100") {
+                alert('视频已上传，等待审核中');
+            }
+            else if (res.code == "101") {
+                alert('您已经上传过了，请耐心等待审核！')
+            }
+            else {
+                alert('视频上传失败，请重新上传')
+            }
+        }).fail(function (res) {
+            alert('视频上传失败，请重新上传')
+
+        });
+    }
+
+</script>

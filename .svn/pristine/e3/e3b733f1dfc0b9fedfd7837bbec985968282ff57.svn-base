@@ -1,0 +1,76 @@
+﻿/*主体*/
+.content{}
+.content .ct_top{ width:100%; height:17rem; background:url(../images/bj_@2x.png) no-repeat; background-size:100% 100%; border-bottom:.1rem solid #e2e2e2; overflow:hidden; text-align:center;}
+
+.ct_top .me_head{ width:10.8rem; height:10.8rem; margin:1rem auto; margin-bottom:.4rem; position:relative; overflow:hidden; }
+.me_head img{ width:6.25rem; height:6.25rem; display:block; margin:2rem auto; border-radius:50%;}
+.me_head b{ position:absolute; top:0; left:0; display:block; width:11rem; height:11rem; z-index:11;}
+.me_head b.icon_rank01{background:url(../images/honor/lv1_@3x.png) no-repeat; background-size:100%;}
+.me_head b.icon_rank02{background:url(../images/honor/lv2_@3x.png) no-repeat; background-size:100%;}
+.me_head b.icon_rank03{background:url(../images/honor/lv3_@3x.png) no-repeat; background-size:100%;}
+.me_head b.icon_rank04{background:url(../images/honor/lv4_@3x.png) no-repeat; background-size:100%;}
+.me_head b.icon_rank05{background:url(../images/honor/lv5_@3x.png) no-repeat; background-size:100%;}
+.me_head strong{ position:absolute; bottom:0; left:50%; width:2rem; height:2.4rem; margin-left:-1rem; text-align:center; z-index:12; font-weight:normal; font-size:1rem; color:#fff; text-shadow:.1rem .1rem 0rem #777;}
+.ct_top .me_time{ width:7rem; border:.1rem solid #fff; background:url(../images/time_@2x.png) no-repeat .3rem .4rem rgba(0,0,0,0.1); background-size:5.3rem 1rem; height:3.3rem; position:absolute; top:2rem; left:0; border-bottom-right-radius:3rem; border-top-right-radius:3rem; border-left:none;}
+.ct_top .me_time strong{ width:7rem; text-align:center; font-size:1.1rem; color:#f06868; padding-top:1.6rem; display:block;}
+.ct_top .me_info{ font-size:1.1rem; color:#f06868;}
+.ct_top .me_state{ width:16.25rem; height:1rem; line-height:1rem; border:.2rem solid #f06868; border-radius:2rem; margin:.4rem auto; position:relative;}
+.ct_top .me_state dt{ position:absolute; top:0; left:0; width:100%; text-align:center;font-size:1rem; color:#000;}
+.ct_top .me_state dd{ background:#f06868; height:1rem; border-radius:2rem;}
+/*.ct_top .me_state dd i{ position:absolute; top:0; right:.2rem; font-style:normal; font-size:1rem; color:#f6ff00;}*/
+
+.operate{ width:100%; height:4.2rem; margin:.6rem auto; border-top:.1rem solid #e2e2e2; border-bottom:.1rem solid #e2e2e2; background:#fff;}
+.operate ul{ width:80%; margin:0 auto; height:3rem; line-height:3rem; text-align:center; margin-top:.7rem;}
+.operate ul li{ width:49%; display:inline-block;}
+.operate ul li i{ display:inline-block; width:2.8rem; height:2.8rem; background:url(../images/bbdh_@2x.png) no-repeat; background-size:100%; vertical-align:top; margin-right:.5rem;}
+.operate ul li i.icon_link{background:url(../images/zhibojianguanli_@2x.png) no-repeat; background-size:100%;}
+.operate ul li a:link,.operate ul li a:visited{ display:block; color:#000; width:100%; height:100%;}
+
+.area{ border-top:.1rem solid #e2e2e2; border-bottom:.1rem solid #e2e2e2; margin-bottom:-.1rem;}
+.area .r_tit{ width:100%; height:3.3rem; line-height:3.3rem; background:#fff; padding-top:.5rem; overflow:hidden; position:relative; }
+.area .r_tit h5{ width:100%; position:relative; text-indent:2rem; font-size:1.4rem;}
+
+.area .r_tit h5 b{ position:absolute; top:1rem; left:1.2rem; display:block; width:.33rem; height:1.2rem; background:#f06868; border-radius:2rem;}
+.area .r_tit h5 i{ position:absolute; top:1rem; left:25%; display:block; width:1.2rem; height:1.2rem; background:url(../images/icon_t_mark.png) no-repeat; background-size:100%; vertical-align:top;}
+.area .r_tit span{ position:absolute; top:.6rem; left:29%; display:block;}
+.area .r_tit span a:link,.area .r_tit span a:visited{ font-size:1rem; color:#999;}
+
+.area .r_tit .link_txt{ position:absolute; bottom:0; left:0; line-height:1.4; font-size:1.1rem; color:#f06868; text-indent:2rem;}
+.area .r_tit .link_txt a:link,.area .r_tit .link_txt a:visited{ background:#f06868; color:#fff; border-radius:.2rem; padding:0 .2rem; font-weight:normal; margin-left:.4rem;}
+
+@media (device-height:568px) and (-webkit-min-device-pixel-ratio:2) {
+.area .r_tit h5{  font-size:1.5rem;}
+.area .r_tit h5 i{ left:27%;}
+.area .r_tit span{ left:31%; }
+}
+.area .tag{ height:7rem; background:#fff; display: -webkit-box;  -webkit-box-align: center; -webkit-box-pack: center; padding-bottom:1.6rem;}
+.area .tag ul{ width:94%; display: -webkit-box; display: -moz-box; display: -ms-box; display: box; -webkit-box-orient: horizontal; -moz-box-orient: horizontal; -ms-box-orient: horizontal; box-orient: horizontal; -webkit-box-align: stretch; -moz-box-align: stretch; -ms-box-align: stretch; box-align: stretch; }
+.area .tag ul li { -webkit-box-flex: 1; -moz-box-flex: 1; -ms-box-flex: 1; box-flex: 1; text-align:center;}
+.area .tag ul li a:link,.area .tag ul li a:visited{ display:block; width:100%; height:100%; color:#000;}
+.area .tag dl{}
+.area .tag dl dt{ width:3.8rem; height:3.8rem; margin:.1rem auto;}
+.area .tag dl dt.ta_01{ background:url(../images/icon_star1.png) no-repeat; background-size:100%;}
+.area .tag dl dt.ta_02{ background:url(../images/icon_hot1.png) no-repeat; background-size:100%;}
+.area .tag dl dt.ta_03{ background:url(../images/icon_money1.png) no-repeat; background-size:100%;}
+.area .tag dl dt.ta_04{ background:url(../images/icon_more1.png) no-repeat; background-size:100%;}
+.area .tag dl dt.ta_01_on{ background:url(../images/icon_star.png) no-repeat; background-size:100%;}
+.area .tag dl dt.ta_02_on{ background:url(../images/icon_hot.png) no-repeat; background-size:100%;}
+.area .tag dl dt.ta_03_on{ background:url(../images/icon_money.png) no-repeat; background-size:100%;}
+.area .tag dl dt.ta_04_on{ background:url(../images/icon_more.png) no-repeat; background-size:100%;}
+.area .tag dl dd strong{ font-size:1rem; color:#c2c2c2; font-weight:normal;}
+
+.area .listbox{ width:100%; background:#fff;}
+.listbox .lx_in{ width:92%; margin:0rem auto; }
+.listbox .lx_in li{ width:100%; height:5.8rem; border-bottom:.1rem solid #e5e5e5; overflow:auto;}
+.lx_in li dl{ position:relative; margin-top:1.2rem;}
+.lx_in li dl dt{ width:3.3rem; height:3.3rem; position:absolute; top:0; left:0;}
+.lx_in li dl dt.icon_ls_01{ background:url(../images/TV_@2x.png) no-repeat; background-size:100%;}
+.lx_in li dl dt.icon_ls_02{ background:url(../images/fish_@2x.png) no-repeat; background-size:100%;}
+.lx_in li dl dt.icon_ls_03{ background:url(../images/rank_@2x.png) no-repeat; background-size:100%;}
+.lx_in li dl dt.icon_ls_04{ background:url(../images/bao_@2x.png) no-repeat; background-size:100%;}
+.lx_in li dl dt.icon_ls_05{ background:url(../images/share_@2x.png) no-repeat; background-size:100%;}
+.lx_in li dl dd{ padding-left:4rem; padding-top:.2rem;}
+.lx_in li dl dd h4{ padding-bottom:.1rem;}
+.lx_in li dl dd p{ font-size:1.1rem; color:#888;}
+
+.tips{ width:100%; padding:1rem 0rem; text-align:center; color:#999; background:#fff; font-size:1rem;}

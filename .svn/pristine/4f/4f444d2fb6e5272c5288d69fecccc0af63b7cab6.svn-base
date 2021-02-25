@@ -1,0 +1,487 @@
+<template>
+		<scroll-view scroll-y="true" @scrolltolower="getNewlist" class="main">
+			<!-- top -->
+			<view class="top">
+				<image class="img" src="../../static/pictures/shezhi_1.png" @click="goDatasetPage"></image>
+				<view class="imgArea">
+					<image class="size" src="../../static/pictures/lcon_1.png"></image>
+					<text class="font">{{tabbarLoginData.cash}}</text>
+				</view>
+			</view>
+			<!-- top -->
+			<!-- top 上推 出现层 -->
+			<view v-if="show" class="move">
+				<text class="p">{{name}}</text>
+			</view>
+			<view v-if="show1" class="move1">
+				<text class="p">已买商品</text>
+			</view>
+			<!-- top 上推 出现层 -->
+			<!-- top 背景 -->
+			<view :style="{backgroundImage: 'url(' + tabbarLoginData.background + ')', backgroundSize:'contain'}" class="top_bj"></view>
+			<!-- top 背景 -->
+			<!-- center -->
+			<view class="center">
+				<image :src="tabbarLoginData.headpic" class="photo"></image>
+				<view class="follow">
+					<text class="p">{{tabbarLoginData.like}}</text>
+					<text class="p1">关注中</text>
+				</view>
+				<view class="follow">
+					<text class="p">{{tabbarLoginData.fans}}</text>
+					<text class="p1">粉丝数</text>
+				</view>
+				<view class="edit" @click="goUpdateMsg">
+					<image src="../../static/pictures/search_1.png" class="img"></image>
+					<text class="p">编辑</text>
+				</view>
+			</view>
+			<!-- center -->
+			<!-- name 账号-->
+			<view class="name">
+				{{tabbarLoginData.nickname}}
+			</view>
+			<!-- name -->
+			<!-- 商品，收益 管理 -->
+			<view class="commodity " @click="goProductPage">
+				<text class="p">商品管理</text>
+				<image class="img" src="../../static/pictures/gengduo_1.png"></image>
+			</view>
+			<view class="profit"  @click="goRecivePage">
+				<text class="p">收益管理</text>
+				<image class="img" src="../../static/pictures/gengduo_1.png"></image>
+			</view>
+			<!-- 商品，收益 管理 -->
+			<!-- purchased  已购买商品 -->
+			<view class="purchased ">
+				<view class="p">
+					<text class="p1">已买商品</text>
+				</view>
+				<view class="list">
+					<view class="pro" v-for="(item,index) in table" :key="index" :id="index">
+						<image src="" class="photo"></image>
+						<view class="id">
+							<text class="p1">{{item.pro_name}}</text>
+							<view v-show=item.status class="status"></view>
+						</view>
+						<text class="p2">{{item.pro_num}}贴文</text>
+					</view>
+				</view>
+			</view>
+			<!-- purchased  -->
+			<!-- TagBar -->
+			<view class="tabbarArea">
+				<view class="per" v-for="(item,index) in tabbarData" :key="index" :id="index" @click="getClickPer">
+					<image class="img" :src="item.imgsrcW" mode=""></image>
+				</view>
+			</view>
+		</scroll-view>
+</template>
+
+<script>
+	export default {
+		data() {
+			return {
+				balance: '22,415',
+				follow: 13,
+				fans:13,
+				name:'@callum0852',
+				table:[
+					{pro_name:'@callum0852',pro_num: 8,status:true},
+					{pro_name:'@callum0852',pro_num: 8,},
+					{pro_name:'@callum0852',pro_num: 8,},
+					{pro_name:'@callum0852',pro_num: 8,},
+					{pro_name:'@callum0852',pro_num: 8,},
+					{pro_name:'@callum0852',pro_num: 8,},
+					{pro_name:'@callum0852',pro_num: 8,},
+					{pro_name:'@callum0852',pro_num: 8,},
+					{pro_name:'@callum0852',pro_num: 8,},
+					{pro_name:'@callum0852',pro_num: 8,}
+				],
+				show: false,
+				show1: false,
+				// tabbar--
+				tabbarLoginData:null,//loginMsg
+				isAnchor:null,//是否为主播
+				tabbarCurrent:0,//点击的索引
+				tabbarData:[{imgsrcB:'../../static/imgs/room1w.png',imgsrcW:'../../static/imgs/fang1w.png',text:'1'},
+					{imgsrcB:'../../static/imgs/fang1w.png',imgsrcW:'../../static/imgs/fang1w.png',text:'2'},
+					{imgsrcB:'../../static/imgs/mail1w.png',imgsrcW:'../../static/imgs/mail1w.png',text:'3'},
+					{imgsrcB:'../../static/imgs/xin1w.png',imgsrcW:'../../static/imgs/xin1w.png',text:'4'},
+					{imgsrcB:'../../static/imgs/my1w.png',imgsrcW:'../../static/imgs/my1y.png',text:'5'}],//
+			};
+		},
+		onLoad() {//监听页面加载，其参数为上个页面传递的数据，参数类型为Object
+				this.getLoginMsg()//
+		},
+		onPageScroll(){
+			if(document.documentElement.scrollTop>=100){
+				this.show = true;
+			}else{
+				this.show= false
+			}
+			if(document.documentElement.scrollTop>=310){
+				this.show1 = true;
+			}else{
+				this.show1= false
+			}
+		},
+		methods:{
+			getLoginMsg:function(){ // 登录信息
+				var that = this;
+				uni.getStorage({
+					key: 'storage_login_str',
+					success: function (res) {
+						that.tabbarLoginData = JSON.parse(res.data);
+						console.log(that.tabbarLoginData);
+						if(that.tabbarLoginData.isAnchor==false){
+							that.isAnchor = false;
+						}
+					}
+				});
+			},
+			getClickPer:function(e){//tabbar click
+				this.tabbarCurrent=e.currentTarget.id;
+				console.log(e.currentTarget.id)
+				if(e.currentTarget.id==0){
+					console.log("首页点击")
+					uni.navigateTo({
+						url: '/pages/home/home'
+					});
+				}else if(e.currentTarget.id==1){
+					console.log("搜索点击")
+					uni.navigateTo({
+						url: '/pages/search/search'
+					});
+				}else if(e.currentTarget.id==2){
+					console.log("信息点击")
+					uni.navigateTo({
+						url: '/pages/news/news'
+					});
+				}else if(e.currentTarget.id==3){
+					console.log("聊天点击")
+					uni.navigateTo({
+						url: '/pages/chat/chat'
+					});
+				}else if(e.currentTarget.id==4){
+					console.log(this.isAnchor)
+					if(this.isAnchor==false){
+						console.log("不是主播")
+						uni.navigateTo({
+							url: '/pages/my/my'
+						});
+					}else{
+						console.log("是主播")
+						uni.navigateTo({
+							url: '/pages/anchorme/anchorme'
+						});
+					}
+				}
+			},
+			
+			getNewlist:function(){
+				
+			},
+			
+			goUpdateMsg:function(){//编辑资料
+				uni.navigateTo({
+					url: '/pages/changeintroduction/changeintroduction'
+				});
+			},
+			goProductPage:function(){//商品管理页面
+				uni.navigateTo({
+					url: '/pages/commoditymanagement/commoditymanagement'
+				});	
+			},
+			goRecivePage:function(){//收益管理页面
+				uni.navigateTo({
+					url: '/pages/revenuemanagement/revenuemanagement'
+				});	
+			},
+			goDatasetPage:function(){//个人资料设定页面
+				uni.navigateTo({
+					url: '/pages/dataset/dataset'
+				});
+			}
+		}
+	}
+</script>
+
+<style lang="scss">
+page{
+	width: 100%;
+	height: 100%;
+	background: #232323;;
+}
+.main{
+	width: 100%;
+	height: 100%;
+	// ---背景
+	.top_bj{
+		height: 400rpx;
+		width: 100%;
+		// background:url(../../static/pictures/juxing_1.png);
+		}
+	// ---- 设置部分
+	.top{
+		height: 150rpx;
+		width: 100%;
+		position:fixed;
+		top: 0;
+		left: 0;
+		z-index:9999;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		.img{
+			width: 42rpx;
+			height: 40rpx;
+			padding: 10rpx;
+			margin-left: 25rpx;
+		}
+		.imgArea{
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			background:rgba(0,0,0,0.5);
+			border-radius:6rpx;
+			padding:14rpx 9rpx;
+			margin-right:28rpx;
+			.size{
+				width: 30rpx;
+				height: 22rpx;
+				margin-right: 13rpx;
+			}
+			.font{
+				font-size:26rpx;
+				color:rgba(255,214,0,1);
+			}
+		}
+	}
+	.move{
+		position: fixed;
+		top: 0;
+		left: 0;
+		z-index: 9998;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 100%;
+		height: 150rpx;
+		background-color:#252525;
+		transition: all 5s;
+		-webkit-transition: all 5s;	/* Safari 和 Chrome */
+		.p{
+			color: #FFFFFF;
+			font-size: 30rpx;
+		}
+	}
+	.move1{
+		position: fixed;
+		top: 150rpx;
+		left:0;
+		z-index: 9998;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 100%;
+		height: 50rpx;
+		background-color:#343434;
+		.p{
+			font-size:22rpx;
+			color: #FFFFFF;
+		}
+	}
+	// ------- 头像 关注 粉丝部分
+	.center{
+		display: flex;
+		justify-content: flex-start;
+		align-items: flex-start;
+		margin-top: -100rpx;
+		padding: 0rpx 28rpx 0rpx 28rpx;
+		width: 100%;
+		height: 100rpx;
+		.photo{
+			width:160rpx;
+			height:160rpx;
+			background: #151515;
+			border:2px solid rgba(255, 255, 255, 1);
+			border-radius:50%;
+			margin-right: 23rpx;
+		}
+		.follow{
+			display: flex;
+			flex-direction: column;
+			align-items:center;
+			padding:10rpx;
+			margin-top:8rpx;
+			margin-left:8rpx;
+			.p{
+				color: #FFFFFF;
+				font-size: 26rpx;
+			}
+			.p1{
+				color: #FFFFFF;
+				font-size: 22rpx;
+			}
+		}
+		.edit{
+			display: flex;
+			justify-content: flex-start;
+			align-items: flex-start;
+			margin-left:160rpx;
+			padding:10rpx;
+			padding:11rpx 19rpx;
+			border:2px solid rgba(255,255,255,1);
+			border-radius:8rpx;
+			margin-top:20rpx;
+			.img{
+				width:29rpx;
+				height:29rpx;
+				vertical-align: middle;
+			}
+			.p{
+				color: #FFFFFF;
+				font-size: 26rpx;
+				line-height: 25rpx;
+				margin-left: 16rpx;
+			}
+		}
+	}
+	.name{
+		max-width:500rpx;
+		overflow: hidden;
+		text-overflow:ellipsis;
+		white-space: nowrap;
+		
+		background: #232323;
+		padding-top:89rpx;
+		padding-left:60rpx;
+		padding-bottom:35rpx;
+		
+		font-size:30rpx;
+		color: #FFFFFF;
+	
+	}
+	.commodity{
+		// width:100%;
+		height: 100rpx;
+		background: #252525;
+		border: 1px solid #747474;
+		padding: 0rpx 37rpx;
+		display:flex;
+		align-items:center;
+		justify-content:space-between;
+		.p{
+			color: #FFFFFF;
+			font-size: 26rpx;
+			line-height: 26rpx;
+		}
+		.img{
+			width: 30rpx;
+			height: 30rpx;
+			padding: 10rpx;
+		}
+	}
+	.profit{
+		height: 100rpx;
+		background: #252525;
+		border: 1px solid #747474;
+		padding: 0rpx 37rpx;
+		display:flex;
+		align-items:center;
+		justify-content:space-between;
+		.p{
+			color: #FFFFFF;
+			font-size: 26rpx;
+			line-height: 26rpx;
+		}
+		.img{
+			width: 30rpx;
+			height: 30rpx;
+			padding: 10rpx;
+		}
+	}
+	
+	.purchased{
+		.p{
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			width:100%;
+			height:50rpx;
+			background-color:#343434;
+			.p1{
+				font-size: 22rpx;
+				color: #FFFFFF;
+			}
+		}
+		.list{
+			display: flex;
+			flex-direction: row;
+			flex-wrap: wrap;
+			justify-content: flex-start;
+			// align-items:center;
+			padding: 0rpx 20rpx;
+			.pro{
+				display: flex;
+				flex-direction:column;
+				align-items: center;
+				justify-content: center;
+				.photo{
+					width:220rpx;
+					height:220rpx;
+					background: #343434;
+					border-radius:50%;
+					margin:28rpx 8rpx 16rpx 8rpx;
+				}
+				.id{
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					height: 22rpx;
+					margin-bottom: 11rpx;
+					.p1{
+						color: #FFFFFF;
+						font-size: 22rpx;
+						line-height: 22rpx;
+					}
+					.status{
+						height: 14rpx;
+						width: 14rpx;
+						background: #17FF2A;
+						border-radius: 50%;
+						margin-left: 9rpx;
+					}
+				}
+				.p2{
+					color:#747474;
+					font-size: 22rpx;
+					margin-bottom: 11rpx;
+				}
+			}
+		}
+	}
+		// --tabbar ---
+	.tabbarArea{
+		height: 90rpx;
+		width: 100%;
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		z-index: 9999;
+		display: flex;
+		justify-content: space-around;
+		align-items: center;
+		background:rgba(25,25,25,1);
+		.per{
+			width: 54rpx;
+			height: 50rpx;
+			.img{
+				width: 54rpx;
+				height: 50rpx;
+			}
+		}
+	}
+}
+</style>

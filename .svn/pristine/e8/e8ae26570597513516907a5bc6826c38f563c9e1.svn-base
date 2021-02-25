@@ -1,0 +1,33 @@
+/* CSS Document */
+*{font-size:12px; font-family:Gotham, "Helvetica Neue", Helvetica, Arial, sans-serif; color:#505050;}
+a{ text-decoration:none;border:none;}
+body,div,h1,h2,p,dl,dd,h3,ul,li,dl,dd{margin:0 auto;padding:0;}
+h1,h3{font-weight:normal;}
+img{ border:none;}
+li,dl,dd{ list-style:none;}
+
+
+
+/*miaoboApp*/
+.miaoboApp{background-image:url(images/bg_background.jpg);background-repeat:no-repeat;margin:0 auto;background-position:top center;}
+
+.miaoboApp .banner{ position: relative;width:1000px;margin:0 auto; height:580px;}
+.miaoboApp .banner .QR{position: relative;margin-top: 200px; margin-left:600px;width: 241px; height:241px;}
+.miaoboApp .banner .btn01 { display:block;position: absolute;top: 472px;left:450px;cursor: pointer;}
+.miaoboApp .banner .btn02 { display:block;position: absolute;top: 472px;left:736px;cursor: pointer;}
+.miaoboApp .banner .btn01 img,.miaoboApp .banner .btn02 img{width: 254px; height:77px;}
+
+.miaoboApp .present{position: relative;width:1000px;margin:0 auto; height:100px;}
+.miaoboApp .present .part{ float:left; width:250px; height:120px;margin-top:20px;}
+.miaoboApp .present .icon{ float:left;width:60px; height:60px;}
+.miaoboApp .present .text{ float:left;width:180px; height:60px; margin-left:10px; }
+.miaoboApp .present .text .title{ display:block; height:30px; margin-top:6px;color:#000; text-height:36px; font-size:18px;}
+.miaoboApp .present .text p{color:#666; text-height:14px; font-size:14px;}
+
+
+
+
+
+
+
+

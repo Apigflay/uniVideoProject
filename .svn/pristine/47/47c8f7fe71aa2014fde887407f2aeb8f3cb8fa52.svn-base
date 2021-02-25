@@ -1,0 +1,531 @@
+<template>
+	<view class="main">
+		<view class="top">
+			<image src="../../static/pictures/back_1.png" class="img" @click="goBackPage"></image>
+			<text v-show="langer==0">设定</text>
+			<text v-show="langer==1">編輯</text>
+			<text v-show="langer==2">Edit</text>
+			<text v-show="langer==3">แก้ไข</text>
+		</view>
+		<view class="center">
+			<!-- 个人 -->
+			<view>
+				<text class="font">个人</text>
+				<view class="list" v-for="(item,index) in personal[langer]" :key="index" :id="index" @click="goNewPage1(index)">
+					<text class="p1">{{item.title}}</text>
+					<text v-show="item.no" v-if="sex1" class="p2">女性</text>
+					<text v-show="item.no" v-if="sex2" class="p2">男性</text>
+					<text v-show="item.no" v-if="sex3" class="p2">所有</text>
+					<image class="img" src="../../static/pictures/gengduo_1.png"></image>
+				</view>
+			</view>
+			<!-- 个人 -->
+			<view>
+				<text class="font">钱包</text>
+				<view class="list" v-for="(item,index) in wallet[langer]" :key="index" :id="index" @click="goNewPage2(index)">
+					<text class="p1">{{item.title}}</text>
+					<image class="img" src="../../static/pictures/gengduo_1.png"></image>
+				</view>
+			</view>
+			<view>
+				<text class="font">关于</text>
+				<view class="list" v-for="(item,index) in about[langer]" :key="index" :id="index" @click="goNewPage3(index)">
+					<text class="p1">{{item.title}}</text>
+					<text v-show="item.no" class="p2">简体中文</text>
+					<image class="img" src="../../static/pictures/gengduo_1.png"></image>
+				</view>
+			</view>
+			
+			<view class="exit" @click="goExit()">
+				<text v-for="(item,index) in closes[langer]" :key="index" :id="index" class="p">{{item.title}}</text>
+			</view>
+		</view>
+		
+		<!-- 遮罩层 -->
+		<view v-if="showmask" class="mask" @click="closemask"></view>
+		<!-- 遮罩层 -->
+		
+		<!-- 语言选择弹出层 -->
+		<view v-if="showpop" class="popup">
+			<view v-for="(item,index) in tables" :key="index" :id="index" class="box" @click="setLanger(index)">{{item.title}}</view>
+		</view>
+		<!-- 语言选择弹出层 -->
+		
+		<!-- 客服弹出层 -->
+		<view v-if="showsever" class="showsever">
+			客服电子邮箱：
+			<view class="p">mycat1314@mycat1314.com</view>
+		</view>
+		<!-- 客服弹出层 -->
+	</view> 
+</template>
+
+<script>
+	import {encrypt,decrypt,system,systemId,base64ToArrayBuffer,sendData,sendD,work,sendD07,sendD11,navigateTo} from "../../lib/js/GlobalFunction.js"
+	export default {
+		data() {
+			return {
+				tabbarLoginLanguage: null, // 用户语言
+				Sex: null, // 喜好
+				UserIdx: null, // 用户IDX
+				sex1: false, // 显示性别
+				sex2: false, // 显示性别
+				sex3: false, // 显示性别
+				showpop: false, // 语言选择弹出层
+				showmask: false, // 语言选择弹出层
+				showsever: false, // 联系客服弹出层
+				langer: null, // 当前页面语言
+				personal:[
+					[{title:'探索页喜好',no:'true'},
+					{title:'封锁名单',no:''},
+					{title:'删除账号',no:''}],
+					
+					[{title:'搜索頁喜好',no:'true'},
+					{title:'封鎖名單',no:''},
+					{title:'刪除賬號',no:''}],
+					
+					[{title:'Explore Preferences',no:'true'},
+					{title:'Blocklist',no:''},
+					{title:'Delete Account',no:''}],
+					
+					[{title:'ค้นหาหน้าที่คุณชอบ',no:'true'},
+					{title:'รายชื่อคนที่ถูกบล็อก',no:''},
+					{title:'ลบบัญชี',no:''}],
+				],
+				wallet:[
+					[{title:'消费明细'},
+					{title:'购买金币'}],
+					
+					[{title:'日誌'},
+					{title:'獲得金幣'}],
+					
+					[{title:'Journal'},
+					{title:'Get coins'}],
+					
+					[{title:'บันทึกประจำวัน'},
+					{title:'ได้รับเหรียญทอง'}],
+				], 
+				about:[
+					[{title:'语言',no:'true'},
+					{title:'服务条款',no:''},
+					{title:'隐私政策',no:''},
+					{title:'联系客服',no:''},
+					{title:'关于 Touch Me',no:''}],
+					
+					[{title:'語言',no:'true'},
+					{title:'服務條款',no:''},
+					{title:'隱私權政策',no:''},
+					{title:'聯繫客服',no:''},
+					{title:'關於 Touch Me',no:''}],
+					
+					[{title:'Language',no:'true'},
+					{title:'Terms of Service',no:''},
+					{title:'Privacy',no:''},
+					{title:'Support',no:''},
+					{title:'About  Touch Me',no:''}],
+					
+					[{title:'ภาษา',no:'true'},
+					{title:'ข้อตกลงของการบริการ',no:''},
+					{title:'นโยบายความเป็นส่วนตัว',no:''},
+					{title:'ติดต่อพนักงาน',no:''},
+					{title:'เกี่ยวกับ  Touch Me',no:''}],
+				],
+				closes:[
+					[{title: '登出'}],
+					[{title: '關閉'}],
+					[{title: 'Close'}],
+					[{title: 'ปิด'}],
+				],
+				
+				tables:[ // 语言选项
+					{title:'简体中文'},
+					{title:'繁体中文'},
+					{title:'英语'},
+					{title:'泰语'},
+				],
+				
+				// sexlist:[
+				// 	[
+				// 		{woman: 女性,},
+				// 		{man: 男性,},
+				// 		{whole: ,},
+				// 	]
+				// ]
+			};
+		},
+		onLoad(){
+			// var option=JSON.parse(decrypt(decodeURIComponent(obj.action)));
+			this.getLoginlanger(); // 获取语言
+			this.getLoginMsg();
+			this.getLoginlanger();
+		},
+		methods:{
+			getLoginlanger:function(){ // 获取当前语言
+				var that = this;
+				uni.getStorage({
+					key: 'storage_login_language',
+					success: function (res) {
+						that.tabbarLoginLanguage = JSON.parse(res.data);
+						console.log(that.tabbarLoginLanguage);
+						
+					}
+				});
+			},
+			//------------------------获取个人信息----------------------------------------
+			getLoginMsg:function(){ // 登录信息
+				var that = this;
+				uni.getStorage({
+					key: 'storage_login_str',
+					success: function (res) {
+						that.tabbarLoginData = JSON.parse(res.data);
+						// console.log(that.tabbarLoginData);
+						that.Sex = that.tabbarLoginData.sex;
+						that.UserIdx = that.tabbarLoginData.useridx;
+						if(that.tabbarLoginData.isAnchor==false){
+							that.isAnchor = false;
+						}
+						that.getLike();
+					}
+				});
+			},
+			
+			getLike:function(){
+				if(this.Sex == 0){
+					this.sex1 = true;
+					this.sex2 = false;
+					this.sex3 = false;
+				}else if(this.Sex == 1){
+					this.sex1 = false;
+					this.sex2 = true;
+					this.sex3 = false;
+				}else if(this.Sex == 2){
+					this.sex1 = false;
+					this.sex2 = false;
+					this.sex3 = true;
+				}
+			},
+			//------------------------获取个人信息----------------------------------------
+			
+			//------------------------获取当前语言----------------------------------------
+			getLoginlanger:function(){ // 获取当前语言
+				var that = this;
+				uni.getStorage({
+					key: 'storage_login_language',
+					success: function (res) {
+						that.tabbarLoginLanguage = JSON.parse(res.data);
+						// console.log(that.tabbarLoginLanguage);
+						that.langer = that.tabbarLoginLanguage;
+						if(that.tabbarLoginLanguage == 0){
+							that.langer = 0;
+						}else if(that.tabbarLoginLanguage == 1){
+							that.langer = 1;
+						}else if(that.tabbarLoginLanguage == 2){
+							that.langer = 2;
+						}else if(that.tabbarLoginLanguage == 3){
+							that.langer =3;
+						}
+					}
+				});
+				
+			},
+			//------------------------获取当前语言----------------------------------------
+			
+			//-------------------------设置语言-------------------------------------------
+			setLanger:function(e){
+				console.log(String(e));
+				var that = this;
+				uni.setStorage({
+					key: 'storage_login_language',
+					data: String(e),
+					success: function () {
+						that.langer = e;
+						console.log('success');
+						that.showpop = false;
+						that.showmask = false;
+					}
+				});
+			},
+			//-------------------------设置语言-------------------------------------------
+			
+			//--------------------个人部分---------------------------
+			goNewPage1:function(e){
+				// console.log(e)
+				if(e == 0){
+					// uni.navigateTo({
+					// 	url: '/pages/like/like'
+					// });
+					navigateTo('/pages/like/like',null);
+				}else if(e == 1){
+					// uni.navigateTo({
+					// 	url: '/pages/lockuser/lockuser'
+					// });
+					navigateTo('/pages/lockuser/lockuser',null);
+				}else if(e == 2){
+					// uni.navigateTo({
+					// 	url: '/pages/pagedelete/pagedelete'
+					// });
+					navigateTo('/pages/pagedelete/pagedelete',null);
+				}else{
+					console.log(e)
+				}
+			},
+			//--------------------个人部分---------------------------
+			
+			//--------------------钱包部分---------------------------
+			goNewPage2:function(e){
+				// console.log(e)
+				if(e == 0){
+					// uni.navigateTo({
+					// 	url: '/pages/detailed/detailed'
+					// });
+					navigateTo('/pages/detailed/detailed',null);
+				}else if(e == 1){
+					// uni.navigateTo({
+					// 	url: '/pages/anchorme/anchorme'
+					// });
+					navigateTo('/pages/paymoney/paymoney',null);
+				}else if(e == 2){
+					// uni.navigateTo({
+					// 	url: '/pages/electronicreceipt/electronicreceipt'
+					// });
+					navigateTo('/pages/electronicreceipt/electronicreceipt',null);
+				}
+			},
+			//--------------------钱包部分---------------------------
+			
+			//--------------------关于部分---------------------------
+			goNewPage3:function(e){
+				// console.log(e)
+				if(e == 0){ // 打开遮罩层 和 弹框
+					if(this.showpop == false){
+						this.showpop = true;
+						this.showmask = true
+					}else if(this.showpop == true){
+						this.showpop = false;
+						this.showmask = false;
+					}
+					
+				}else if(e == 1){
+					// uni.navigateTo({
+					// 	url: '/pages/service/service'
+					// });
+					var obj = encodeURIComponent(encrypt(JSON.stringify({
+						pageId:16,
+					})))
+					navigateTo('/pages/service/service',obj);
+					// window.open("/pages/service/service"); 
+				}else if(e == 2){
+					var obj = encodeURIComponent(encrypt(JSON.stringify({
+						pageId:16,
+					})))
+					navigateTo('/pages/privacyPage/privacyPage',obj);
+				}else if(e == 3){
+					// uni.navigateTo({
+					// 	url: '/pages/electronicreceipt/electronicreceipt'
+					// });
+					// navigateTo('/pages/about/about',null);
+					this.showmask = true;
+					this.showsever = true;
+					
+				}else if(e == 4){
+					var obj = encodeURIComponent(encrypt(JSON.stringify({
+						pageId:16,
+					})))
+					navigateTo('/pages/about/about',obj);
+				}
+			},
+			//--------------------关于部分---------------------------
+			
+			//---------------------关闭遮罩层和弹框-------------------------
+			closemask:function(){
+				this.showpop = false;
+				this.showmask = false;
+				this.showsever = false;
+			},
+			//---------------------关闭遮罩层和弹框-------------------------
+			
+			goBackPage:function(){ // 回退功能
+				if(this.tabbarLoginData.isAnchor == false){
+					// uni.navigateTo({
+					// 	url: "/pages/my/my"
+					// })
+					navigateTo('/pages/my/my',null);
+				}else if(this.tabbarLoginData.isAnchor == true){
+					// uni.navigateTo({
+					// 	url: "/pages/anchorme/anchorme"
+					// })
+					navigateTo('/pages/anchorme/anchorme',null);
+				}
+			},
+			//--------------------------退出功能--------------------------------------
+			goExit:function(){
+				navigateTo('/pages/startup/startup',null);
+			}
+			//--------------------------退出功能---------------------------------------
+		}
+	}
+</script>
+
+<style lang="scss">
+page{
+	width: 100%;
+	height: 100%;
+	background: #191919;
+}
+.main{
+	width: 100%;
+	height: 100%;
+	display:flex;
+	align-items:center;
+	flex-direction:column;
+	.top{
+		position:relative;
+		width:100%;
+		height:100rpx;
+		background: #252525;
+		font-size:30rpx;
+		color:#FFFFFF;
+		text-align:center;
+		line-height:100rpx;
+		.img{
+			width: 36rpx;
+			height: 36rpx;
+			position: absolute;
+			top: 32rpx;
+			left: 28rpx;
+		}
+	}
+	.center{
+		flex: 1;
+		overflow-y:scroll;
+		.font{
+			color: #747474;
+			font-size: 22rpx;
+			float:left;
+			align-self: flex-start;
+			padding: 20rpx 36rpx;
+			width: 678rpx;
+			border-bottom: 1rpx solid #747474;
+		}
+		.list{
+			width: 678rpx;
+			height: 100rpx;
+			padding: 0rpx 36rpx;
+			background-color: #252525;
+			border-bottom: 1rpx solid #747474;
+			display:flex;
+			align-items: center;
+			justify-content:space-between;
+			position:relative;
+			.p1{
+				font-size: 26rpx;
+				color: #FFFFFF;
+			}
+			.p2{
+				font-size: 26rpx;
+				color: #747474;
+				position:absolute;
+				right: 79rpx;
+				
+			}
+			.img{
+				width:30rpx;
+				height: 30rpx;
+			}
+		}
+		.exit{
+			width: 100%;
+			height: 100rpx;
+			background-color:#252525;
+			display:flex;
+			align-items:center;
+			justify-content:center;
+			margin:84rpx 0rpx 39rpx 0rpx;
+			.p{
+				color: #FF7676;
+				font-size: 30rpx;
+				line-height: 30rpx;
+			}
+		}
+	}
+	
+	// -------------------------------------语言选择弹出层--------------------------------------------------
+	.popup{
+		position: absolute;
+		top: 400rpx;
+		z-index: 1001;
+		background: #F1F1F1;
+		width: 500rpx;
+		// height: 650rpx;
+		border-radius: 15rpx;
+		display: flex;
+		flex-direction:column;
+		justify-content: center;
+		align-items:center;
+		.box{
+			font-size: 39rpx;
+			line-height: 120rpx;
+			// margin-top: 30rpx;
+			width: 90%;
+			border-bottom: 1rpx solid #C0C0C0;
+			text-align: center;
+		}
+	}
+	// -------------------------------------语言选择弹出层--------------------------------------------------
+	
+	//--------------------------------------客服弹出层-----------------------------------------------------
+	.showsever{
+		position: absolute;
+		top: 400rpx;
+		z-index: 1001;
+		background: #F1F1F1;
+		width: 550rpx;
+		// height: 650rpx;
+		border-radius: 15rpx;
+		padding: 15rpx;
+		font-size: 40rpx;
+		.p{
+			word-wrap:break-word;
+			margin-top: 25rpx;
+			padding: 10rpx;
+			width:100%;
+			font-size:32rpx;
+		}
+	}
+	//--------------------------------------客服弹出层-----------------------------------------------------
+	
+	//-------------------------------------页面遮罩层部分样式-------------------------------
+	.mask{    
+		position: fixed;
+		top:0;
+		left:0;
+		z-index:999;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		width: 100%;
+		height: 100%;
+		background: rgba(0,0,0,0.5);
+		.popup{
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			width:70%;
+			border-radius: 15rpx;
+			background:#FFFFFF;
+			.button{
+				width:100%;
+				font-size: 35rpx;
+				line-height: 35px;
+				padding:15rpx 0rpx;
+				text-align: center;
+				border-bottom: 1rpx solid #999999;
+				// height: 80rpx;
+			}
+		}
+	}
+	//-------------------------------------页面遮罩层部分样式-------------------------------
+}
+</style>

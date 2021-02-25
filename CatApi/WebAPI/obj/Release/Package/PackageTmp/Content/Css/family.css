@@ -1,0 +1,109 @@
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+body { /*-webkit-user-select:none;*/ -webkit-text-size-adjust:none; -webkit-tap-highlight-color:transparent; font-family:"Helvetica Neue", Helvetica, STHeiTi, sans-serif; height:100%; }
+body,html { height:100%; }
+
+html { font-size:62.5%;/*10 ÷ 16 × 100% = 62.5%*/}
+body { font-size:1.4rem;/*1.4 × 10px = 14px */}
+h1 { font-size:2.4rem;/*2.4 × 10px = 24px*/}
+
+a {	text-decoration:none;/*-webkit-user-select:none;*/ }
+a, img { -webkit-touch-callout:none; }
+html,body,p { margin:0; padding:0; }
+
+.family { border-radius:2rem; }
+
+.family .head { background:#fffbe6; height:15rem; border-bottom:.1rem solid rgba(0,0,0,.1); }
+.family .head .name { background:url(../images/family_name.png) no-repeat; background-size:100% 100%; width:28rem; margin:0 auto; height:5.6rem; line-height:5.8rem; vertical-align:middle; color:#7f3900; font-size:1.8rem; text-align:center; }
+
+.family .head .info { position:relative; height:9rem; font-size:1.6rem; }
+
+.family .head .info .info2 { position:absolute; left:10%; top:8%; }
+.family .head .info .info2 p { line-height:2; }
+.family .head .info .info2 p span { color:rgba(0,0,0,.6);}
+.family .head .info .info2 .male { display:inline-block; background:url(../images/boy2x.png) no-repeat; background-size:100%; width:1.6rem; height:1.6rem; vertical-align:text-bottom; }
+.family .head .info .info2 .female { display:inline-block; background:url(../images/girl2x.png) no-repeat; background-size:100%; width:1.6rem; height:1.6rem; vertical-align:text-bottom; }
+.family .head .info .number { position:absolute; right:10%; top:8%; }
+.family .head .info .number p { line-height:2; text-align:center; }
+.family .head .info .number p .count { color:rgba(0,0,0,.6);}
+
+.family .head .info .line { position:absolute; right:40%; top:22%; width:.1rem; background:rgba(0,0,0,.1); height:4rem; }
+
+.family .post { padding-top:1rem; }
+.family .post .title { background:url(../images/notice.png) no-repeat; background-size:100% 100%; width:28rem; height:6.72rem; margin:0 auto; }
+.family .post .post_content { width:84%; margin:0 auto; font-size:1.6rem; line-height:1.3; color:rgba(0,0,0,.6);height:5.8rem; overflow:hidden; }
+
+
+.contact { padding:.2rem 0 4rem;}
+.contact .title { background:url(../images/contact.png) no-repeat; background-size:100% 100%; width:28rem; height:6.72rem; margin:0 auto; }
+
+.contact .weixin,
+.contact .qq,
+.contact .phone { padding:1rem 0; width:84%; margin:0 auto; }
+
+
+.contact .weixin { background:#fff; padding-top:.4rem; }
+.contact .list { color:rgba(0,0,0,.6); margin:0 auto 0; }
+.contact .list ul { margin-top:.2rem; }
+.contact .list li { list-style-type:none; padding:.2rem 0; line-height:1.4; }
+.contact .list li strong { color:#fff; }
+
+.contact .list .btn_btn { display:block; border:.2rem solid #2bad13; padding:.5rem 3rem; color:#2bad13; font-size:1.6rem; border-radius:.6rem; text-align:center; margin:.2rem auto 1rem;
+                          -moz-user-select:text;-webkit-user-select: text;-ms-user-select: text;-khtml-user-select: text;user-select: text;}
+.contact .list .btn_btn .text { display:inline-block; vertical-align:top; margin-top:.4rem; color:#2bad13; text-decoration:none; }
+.contact .list .btn_btn .text a { color:#2bad13; }
+.contact .list .btn_btn .icon { display:inline-block; background-image:url(../images/icon_weixin.png); width:2.4rem; height:2.4rem; vertical-align:middle; background-size:100% 100%; }
+.contact .qq .list .btn_btn .icon { background-image:url(../images/icon_qq.png); }
+.contact .qq .list .btn_btn { border:.2rem solid #f14e94; color:#f14e94; }
+.contact .qq .list .btn_btn .text { color:#f14e94; }
+.contact .qq .list .btn_btn .text a { color:#f14e94; }
+
+.contact .phone .list .btn_btn .icon { background-image:url(../images/icon_phone.png?v=1); }
+.contact .phone .list .btn_btn { border:.2rem solid #42adff; color:#42adff; }
+.contact .phone .list .btn_btn .text { color:#42adff; }
+.contact .phone .list .btn_btn .text a { color:#42adff; }
+
+
+/***********************/
+.the_write {  }
+.the_write h4 { text-align:center; padding:2rem 0; font-size:1.6rem; }
+.the_write .item.no_top { border-top:none; }
+.the_write .item { position:relative; border-bottom:.1rem solid rgba(0,0,0,.1); border-top:.1rem solid rgba(0,0,0,.1); background:#fff; padding:1.4rem 1rem; font-size:1.5rem; }
+.the_write .item .name,
+.the_write .item .input { display:inline-block; padding-left:.2rem; }
+.the_write .item .necessary { position:absolute; right:1rem; color:#f00; top:1.6rem; }
+.the_write .item .necessary span { color:rgba(0,0,0,.6); }
+
+.the_write .item .input input { border:none; padding:.4rem 0; font-size:1.4rem; font-family:microsoft yahei; color:rgba(0,0,0,.8); }
+.the_write .item .input input:focus { outline:none; }
+.the_write .item .input textarea { border:none; height:7.2rem; font-size:1.4rem; font-family:microsoft yahei; color:rgba(0,0,0,.8); }
+.the_write .item .input textarea:focus { outline:none; }
+
+.the_write .item.item_height { height:8rem; }
+.the_write .item.item_height .input { display:block; width:100%; }
+.the_write .item.item_height .input textarea { width:98%; }
+
+
+.contact3 { padding:2rem 0 1rem; }
+.contact3 .title { font-size:1.6rem; text-align:center; }
+.contact3 p { text-align:center; color:#f00; }
+
+.btn { margin:1rem 0 2rem; }
+.btn a { display:block; width:90%; margin:0 auto; padding:1rem 0; background:#ff6099; font-size:1.6rem; text-align:center; color:#fff; border-radius:.4rem; }
+
+
+
+
+
+
+
+
+
+
+
+
+

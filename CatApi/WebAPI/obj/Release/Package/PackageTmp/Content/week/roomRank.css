@@ -1,0 +1,179 @@
+﻿@keyframes fadeIn {
+    0% { opacity: 0; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+/*Safari 和 Chrome*/
+@-webkit-keyframes fadeIn {
+    0% { opacity: 0; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+body { -webkit-user-select:none; -webkit-text-size-adjust:none; -webkit-tap-highlight-color:transparent; font-family:"Helvetica Neue", Helvetica, STHeiTi, sans-serif; height:100%; }
+body,html { height:100%; }
+
+html { font-size:62.5%;/*10 ÷ 16 × 100% = 62.5%*/}
+body { font-size:1.4rem;/*1.4 × 10px = 14px */}
+h1 { font-size:2.4rem;/*2.4 × 10px = 24px*/}
+
+a {	text-decoration:none; }
+a, img { -webkit-touch-callout:none; }
+
+
+.rank_body { position:relative; z-index:1; width:100%; /*height:100%;*/ overflow-x:hidden; }
+.rank_con { position:relative;width:100%; /*height:auto;*/ box-sizing:border-box;  }
+.miao_rank { position:relative; /*top:5rem;*/ right:0; left:0; z-index:2; width:100%; height:auto; zoom:1; /*padding:0px 10px; padding-bottom:5rem;*/ }
+
+.miao_rank .item { position:relative; height:6rem; border-bottom:.1rem solid rgba(0,0,0,.1); }
+.miao_rank .item a { display:inline-block; width:100%; text-decoration:none; color:#000; }
+.miao_rank .item a:link,
+.miao_rank .item a:visited,
+.miao_rank .item a:hover,
+.miao_rank .item a:active { text-decoration:none; color:#000; }
+.miao_rank .item .icon { display:inline-block; width:3rem; text-align:left; vertical-align:middle; margin-top:-3.8rem; margin-left:1rem; background-size:100% 100%; font-size:1.4rem; }
+.miao_rank .item .icon1,
+.miao_rank .item .icon2,
+.miao_rank .item .icon3 { text-indent:-10rem; }
+.miao_rank .item .icon1 { width:3rem; height:3rem; background-image:url(http://liveimg.9158.com/pic/week/rank_crown_1_2x.png); }
+.miao_rank .item .icon2 { width:2.4rem; height:2.4rem; background-image:url(http://liveimg.9158.com/pic/week/rank_crown_2_2x.png); }
+.miao_rank .item .icon3 { width:2rem; height:2rem; background-image:url(http://liveimg.9158.com/pic/week/rank_crown3_2x.png); }
+
+.miao_rank .item .the_img { position:relative; display:inline-block; width:5rem; height:5rem; margin-top:.5rem; }
+.miao_rank .item .the_img .img { position:absolute; display:inline-block; z-index:2; width:5rem; height:5rem; margin:0 auto; text-align:center;
+background-image:url(http://liveimg.9158.com/pic/week/img_bg_x.png); background-size:100% 100%; }
+.miao_rank .item .the_img .img_img { position:absolute; z-index:1; top:.3rem; left:0; bottom:0; right:0; width:4.4rem; height:4.4rem; margin:0 auto;
+text-align:center; }
+.miao_rank .item .the_img .img_img img { width:4.4rem; height:4.4rem; }
+
+.miao_rank .item .name { position:relative; display:inline-block; font-size:1.4rem; vertical-align:top; margin-top:1rem; }
+.miao_rank .item .name .name_name { display:inline-block; max-width:12rem; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; height:2rem; overflow:hidden; vertical-align:top; }
+.miao_rank .item .name .food { font-size:1rem; vertical-align:middle; color:rgba(0,0,0,.4); padding-top:.1rem; font-size:1.3rem; }
+
+.male,
+.female { display:inline-block; width:1.4rem; height:1.4rem; background-size:100% 100%; margin:.2rem .2rem 0; }
+.male { background-image:url(http://liveimg.9158.com/pic/week/boy2x.png); }
+.female { background-image:url(http://liveimg.9158.com/pic/week/girl2x.png); }
+/*.level { display:inline-block; width:1.5rem; height:1.5rem; background-size:100% 100%; margin:.2rem .2rem 0; }*/
+.level1 { background-image:url(http://liveimg.9158.com/pic/week/level/level1.png); }
+.level11 { background-image:url(http://liveimg.9158.com/pic/week/level/level11.png); }
+.level15 { background-image:url(http://liveimg.9158.com/pic/week/level/level15.png); }
+.level30 { background-image:url(http://liveimg.9158.com/pic/week/level/level30.png); }
+.level31 { background-image:url(http://liveimg.9158.com/pic/week/level/level31.png); }
+.level32 { background-image:url(http://liveimg.9158.com/pic/week/level/level32.png); }
+.level34 { background-image:url(http://liveimg.9158.com/pic/week/level/level34.png); }
+.level35 { background-image:url(http://liveimg.9158.com/pic/week/level/level35.png); }
+.level36 { background-image:url(http://liveimg.9158.com/pic/week/level/level36_2.png); }
+.name .level39 { background-image:url(http://liveimg.9158.com/pic/week/level/level39.png); }
+
+.the_level { position:relative; display:inline-block; width:1.7rem; height:1.7rem; margin:0 .2rem 0; }
+.the_level .level { position:absolute; left:0; top:0; z-index:3; display:inline-block; width:1.7rem; height:1.7rem; background-size:100% 100%; }
+.the_level .num,
+.the_level .num_bg { position:absolute; }
+.the_level .num_bg { z-index:1; left:1rem; bottom:.2rem; display:inline-block; width:2.168rem; height:1.1rem; background-size:100% 100%; }
+.the_level .bg1 { background-image:url(images/level40_3x.png); }
+.the_level .bg2 { background-image:url(images/level80_3x.png); }
+.the_level .bg3 { background-image:url(images/level120_3x.png); }
+.the_level .bg4 { background-image:url(images/level160_3x.png); }
+.the_level .bg5 { background-image:url(images/level200_3x.png); }
+.the_level .bg6 { background-image:url(images/level240_3x.png); }
+.the_level .num { z-index:2; color:#fff; left:1.15rem; bottom:.1rem; font-family:'num'; font-size:1rem; width:2.168rem; text-align:center; letter-spacing:-.2rem; -webkit-transform:scale(0.68);   }
+
+.miao_rank .item1 { height:14rem; }
+.miao_rank .item1 .icon1 { position:absolute; left:1rem; top:44%; margin:0; }
+.miao_rank .item1 .the_img { width:12rem; height:12rem; margin:0 auto; display:block; }
+.miao_rank .item1 .the_img .img { display:inline-block; position:absolute; z-index:2; width:12rem; height:12rem; margin:0 auto; background-image:url(http://liveimg.9158.com/pic/week/img_bg1.png); background-size:100% 100%; }
+.miao_rank .item1 .the_img .img_img { position:absolute; z-index:1; width:6rem; height:6rem; margin:0 auto; top:2.2rem; left:0; bottom:0; right:0;  }
+.miao_rank .item1 .the_img .img_img img { width:6rem; height:6rem; }
+.miao_rank .item1 .name { display:inline-block; width:96%; text-align:center; margin-top:-3rem; z-index:2; }
+.miao_rank .item1 .name .food { z-index:3; color:rgba(0,0,0,.4); padding-top:0; }
+
+.miao_rank .item2 { height:13rem; }
+.miao_rank .item2 .icon2 { position:absolute; left:1rem; top:44%; margin:0; }
+.miao_rank .item2 .the_img { width:12rem; height:12rem; margin:0 auto; display:block; }
+.miao_rank .item2 .the_img .img { display:inline-block; position:absolute; z-index:2; width:12rem; height:12rem; margin:0 auto; background-image:url(http://liveimg.9158.com/pic/week/img_bg2.png); background-size:100% 100%; }
+.miao_rank .item2 .the_img .img_img { position:absolute; z-index:1; width:5rem; height:5rem; margin:0 auto; top:2.6rem; left:0; bottom:0; right:0;  }
+.miao_rank .item2 .the_img .img_img img { width:5rem; height:5rem; }
+.miao_rank .item2 .name { display:inline-block; width:96%; text-align:center; margin-top:-3.8rem; z-index:2; }
+.miao_rank .item2 .name .food { z-index:3; color:rgba(0,0,0,.4); padding-top:0; }
+
+.miao_rank .item3 { height:12.5rem; }
+.miao_rank .item3 .icon3 { position:absolute; left:1rem; top:44%; margin:0; }
+.miao_rank .item3 .the_img { width:12rem; height:12rem; margin:0 auto; display:block; }
+.miao_rank .item3 .the_img .img { display:inline-block; position:absolute; z-index:2; width:12rem; height:12rem; margin:0 auto; background-image:url(http://liveimg.9158.com/pic/week/img_bg3.png); background-size:100% 100%; }
+.miao_rank .item3 .the_img .img_img { position:absolute; z-index:1; width:4.8rem; height:4.8rem; margin:0 auto; top:1.8rem; left:0; bottom:0; right:0;  }
+.miao_rank .item3 .the_img .img_img img { width:4.8rem; height:4.8rem; }
+.miao_rank .item3 .name { display:inline-block; width:96%; text-align:center; margin-top:-4.2rem; z-index:2; }
+.miao_rank .item3 .name .food { z-index:3; color:rgba(0,0,0,.4); padding-top:0; }
+
+
+.tab { position:fixed; width:100%; margin:0 auto; z-index:9;border-bottom:.1rem solid rgba(0,0,0,.1); background-color:#f8f5f6; }
+.tab .tab_item { display:inline-block; width:32%; text-align:center; padding:1rem 0; font-size:1.5rem; }
+.tab .tab_sel { color:#f14e94; border-bottom:.2rem solid rgba(241,78,148,1); margin-bottom:0rem; }
+
+.black { position:absolute; top:0; right:0; bottom:0; left:0; z-index:8; background-color:rgba(0,0,0,.6); width:100%; height:100%; }
+.miao_rank .position_card { position:absolute; z-index:9; top:0; right:0; bottom:0; left:0; margin:auto; width:82%; height:26rem; border-radius:1.1rem; background-color:#fff; }
+.miao_rank .card { position:relative; }
+.miao_rank .card .police,
+.miao_rank .card .close,
+.miao_rank .card .img,
+.miao_rank .card .img_img { position:absolute; }
+.miao_rank .card .police { background-image:url(images/police2x.png); left:1rem; top:.8rem; width:1.6rem; height:1.6rem; background-size:100% 100%; }
+.miao_rank .card .close { background-image:url(images/close_profile2x.png); right:1rem; top:1rem; width:1.2rem; height:1.2rem; background-size:100% 100%; }
+
+.miao_rank .card .img { top:2rem; right:0; bottom:0; left:0; z-index:11; background-image:url(images/profile_img_bg.png); width:8rem; height:8rem; margin:0 auto; background-size:100% 100%; }
+.miao_rank .card .img_img { top:2rem; right:0; bottom:0; left:0; z-index:10; width:8rem; height:8rem; margin:0 auto; }
+.miao_rank .card .img_img img { width:8rem; height:8rem; margin:0 auto; }
+
+.miao_rank .card .text { background-color:#f5f5f5; text-align:center; margin:0 auto; border-radius:1.1rem; }
+
+
+/*********************/
+.miao_rank .item .add,.miao_rank .item .add_s{ float:right; width:2.5rem; height:2.5rem; background:url(../images/icon_user_add.png) no-repeat; background-size:100%; margin-top:1.6rem; margin-right:.9rem;}
+.miao_rank .item .add_s{width:2.5rem; height:2.5rem; background:url(../images/icon_user_add_s.png) no-repeat; background-size:100%; }
+
+
+.tab .on{ color:#f14e94; border-bottom:.2rem solid rgba(241,78,148,1); margin-bottom:-.1rem;}
+
+.miao_rank .rank_text { text-align:center; margin-top:0.9rem;display:none; }
+.miao_rank .rank_text span { display:inline-block; color:rgba(255,255,255,.4); font-size:1.1rem; margin-bottom:2rem; }
+
+ @font-face {
+  font-family: 'num';
+  src:url('num.woff') format('woff');
+ }
+
+/*div.dropload-down { position:fixed; }*/
+.tabSpace { position: relative; height: 4.0rem; width: 100%; background: #fff; }
+/*排行榜无数据*/
+.nodata { width:100%;  margin:0 auto;  padding-top:50%; text-align:center; color:rgba(0,0,0,.6); }
+.nodata span { display:block; width:10rem; margin:0 auto; height:10rem; background:url(images/nodata.png) no-repeat; background-size:100%;  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

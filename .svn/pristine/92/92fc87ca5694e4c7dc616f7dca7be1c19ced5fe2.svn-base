@@ -1,0 +1,335 @@
+<template>
+	<view class="main">
+		<view class="top">
+			<image src="../../static/pictures/back_1.png" class="img" @click="goback()"></image>
+			<text>探索页喜好</text>
+		</view>
+		<view class="center">
+			<view class="content">
+				<view class="list">
+					<text class="p">女性</text>
+					<view :class="woman==1?'switch':'noswitch'" @click="woman_change()">
+						<view class="button"></view>
+					</view>
+				</view>
+				<view class="list1">
+					<text class="p">男性</text>
+					<view :class="man==1?'switch':'noswitch'" @click="man_change()">
+						<view class="button"></view>
+					</view>
+				</view>
+			</view>
+		</view>
+		
+		<view>
+			
+		</view>
+	</view>
+</template>
+
+<script>
+	import {encrypt,decrypt,system,systemId,base64ToArrayBuffer,sendData,sendD,work,sendD07,sendD11} from "../../lib/js/GlobalFunction.js"
+	export default {
+		data() {
+			return {
+				woman: 0, // 喜好女
+				man: 0, // 喜好男
+				choice: null, // 传递的喜欢值
+				UserIdx: null, // 用户IDX
+				Sex: null, // 喜好
+			};
+		},
+		onLoad:function(option){
+			this.getLoginMsg();
+		},
+		methods:{
+			getLoginMsg:function(){ // 登录信息
+				var that = this;
+				uni.getStorage({
+					key: 'storage_login_str',
+					success: function (res) {
+						that.tabbarLoginData = JSON.parse(res.data);
+						console.log(that.tabbarLoginData);
+						that.Sex = that.tabbarLoginData.sex;
+						that.UserIdx = that.tabbarLoginData.useridx;
+						if(that.tabbarLoginData.isAnchor==false){
+							that.isAnchor = false;
+						}
+						that.getLike();
+					}
+				});
+			},
+			
+			goback:function(){ // 回退功能
+				uni.navigateTo({
+					url: "/pages/dataset/dataset"
+				});
+			},
+			// --------------------------喜好判断--------------------------------------------------------
+			getLike:function(){
+				if(this.Sex == 0){
+					this.woman = 1;
+					this.man = 0;
+				}else if(this.Sex == 1){
+					this.woman = 0
+					this.man = 1;
+				}else if(this.Sex == 2){
+					this.woman = 1;
+					this.man = 1;
+				}
+			},
+			// --------------------------喜好判断--------------------------------------------------------
+			
+			// ----------------------------喜好按钮事件---------------------------------------------------
+			woman_change: function(){
+				console.log(this.woman)
+				if(this.woman == 0)
+				{
+					this.woman = 1;
+				}else if(this.woman == 1){
+					this.woman = 0;
+				}else{
+					console.log((this.woman))
+				}
+				this.getChoice();
+			},
+			man_change:function(){
+				// console.log(this.man)
+				if(this.man == 1)
+				{
+					this.man = 0;
+				}else if(this.man == 0){
+					this.man = 1;
+				}else{
+					console.log((this.man))
+				}
+				this.getChoice();
+			},
+			
+			getChoice:function(){
+				if(this.man == 1 && this.woman == 0){
+					this.Sex = 1;
+				}else if(this.man == 0 && this.woman == 1){
+					this.Sex = 0;
+				}else if(this.man == 1 && this.woman == 1){
+					this.Sex = 2
+				}else{
+					this.Sex = 0;
+				}
+				
+				// -------------socket接口提交数据-------------------------------
+				console.log(this.UserIdx);
+				console.log(this.Sex);
+				var that = this;
+				var array =JSON.stringify({
+					// "useridx": this.loginMsgData.useridx,
+					// "signature": this.textArea,
+					"useridx": Number(this.UserIdx),
+					"type": Number(this.Sex),
+				})
+				// console.log(array) //{"useridx":10009829,"toidx":"11000000","status":false}
+				var arr = sendD11(array);
+				// console.log(arr) // send07 加密后的 array数据
+				alert(this.$Socket.isconnect)
+				// console.log(this.$Socket)
+				if(this.$Socket.isconnect==false){
+					this.$Socket.onReload()
+				}
+				this.$Socket.nsend(arr)  //放射一个数据到服务器
+				this.$Socket.eventPatch.onMsg((msg,sk)=>{    //监听是否接受消息
+					console.log(msg)
+					// console.log(sk)
+					     var fileReader = new FileReader();
+					     fileReader.onload = function (progressEvent) {
+					     	var arrayBuffer = this.result; // arrayBuffer即为blob对应的arrayBuffer
+					     	var HeadRecv = new Uint32Array(arrayBuffer, 0, 3);
+					     	var strArray = new Uint8Array(arrayBuffer, 12, HeadRecv[0] - 12 - 1);
+					     	var str = new TextDecoder().decode(strArray);//{"code":-1,"error":"用户名或密码错误"}
+					     	
+							if(HeadRecv[1]==10010){
+								console.log(111)
+								uni.navigateTo({
+									url: '/pages/startup/startup'
+								});
+							
+							}else if(HeadRecv[1]==11012){
+								console.log(that.Sex)
+								console.log(that.tabbarLoginData)
+								var storage_login_str = that.tabbarLoginData;
+								storage_login_str.sex=that.Sex;
+								var str =JSON.stringify(storage_login_str)
+								// console.log(str)
+								uni.setStorage({
+									key: 'storage_login_str',
+									data: str,
+									success: function () {
+										console.log('success');
+									}
+								});
+							}else{
+								uni.showToast({
+									title: '标题',
+									duration: 1500
+								});
+							}
+					     	console.log(HeadRecv[1])
+					     	console.log(JSON.parse(str))
+					     };
+					     fileReader.readAsArrayBuffer(msg.data);
+				});
+				// -------------socket接口提交数据-------------------------------
+				
+				
+			},
+			// ----------------------------喜好按钮事件---------------------------------------------------
+		}
+	}
+</script>
+
+<style lang="scss">
+page{
+	width: 100%;
+	height: 100%;
+	background: #191919;
+}
+.main{
+	width: 100%;
+	height: 100%;
+	display:flex;
+	align-items:center;
+	flex-direction:column;
+	.top{
+		position: relative;
+		width: 100%;
+		height: 100rpx;
+		background-color: #252525;
+		font-size:30rpx;
+		color:#FFFFFF;
+		text-align:center;
+		line-height:100rpx;
+		.img{
+			position: absolute;
+			top: 32rpx;
+			left: 28rpx;
+			width: 36rpx;
+			height: 36rpx;
+		}
+	}
+	.center{
+		width:100%;
+		flex:1;
+		overflow-y:scroll;
+		.content{
+			width: 100%;
+			padding:60rpx 0rpx 0rpx 0rpx;
+			.list{
+				display: flex;
+				align-items:center;
+				justify-content:space-between;
+				width: 678rpx;
+				height: 100rpx;
+				padding: 0rpx 36rpx;
+				background:#252525;
+				border-top:1rpx solid #747474;
+				border-bottom:1rpx solid #747474;
+				.p{
+					color: #FFFFFF;
+					font-size: 26rpx;
+				}
+				.switch{
+					width: 80rpx;
+					height: 40rpx;
+					border-radius:20rpx;
+					border:2rpx solid #FFD600;
+					background-color: #FFD600;
+					margin:10rpx;
+					.button{
+						position: relative;
+						top: 2rpx;
+						bottom: 2rpx;
+						left: 42rpx;
+						right: 2rpx;
+						width: 36rpx;
+						height: 36rpx;
+						border-radius: 50%;
+						background-color: #FFFFFF;
+						box-shadow:0px 3px 4px 0px rgba(0, 0, 0, 0.25);
+					}
+				}
+				.noswitch{
+					width: 80rpx;
+					height: 40rpx;
+					border-radius:20rpx;
+					border:2rpx solid #747474;
+					margin:10rpx;
+					.button{
+						position: relative;
+						top: 2rpx;
+						bottom: 2rpx;
+						left: 2rpx;
+						right: 42rpx;
+						width: 36rpx;
+						height: 36rpx;
+						border-radius: 50%;
+						background-color: #FFFFFF;
+						box-shadow:0px 3px 4px 0px rgba(0, 0, 0, 0.25);
+					}
+				}
+			}
+			.list1{
+				display: flex;
+				align-items:center;
+				justify-content:space-between;
+				width: 678rpx;
+				height: 100rpx;
+				padding: 0rpx 36rpx;
+				background:#252525;
+				border-bottom:1rpx solid #747474;
+				.p{
+					color: #FFFFFF;
+					font-size: 26rpx;
+				}
+				.switch{
+					width: 80rpx;
+					height: 40rpx;
+					border-radius:20rpx;
+					border:2rpx solid #FFD600;
+					background-color: #FFD600;
+					margin:10rpx;
+					.button{
+						position: relative;
+						top: 2rpx;
+						bottom: 2rpx;
+						left: 42rpx;
+						right: 2rpx;
+						width: 36rpx;
+						height: 36rpx;
+						border-radius: 50%;
+						background-color: #FFFFFF;
+						box-shadow:0px 3px 4px 0px rgba(0, 0, 0, 0.25);
+					}
+				}
+				.noswitch{
+					width: 80rpx;
+					height: 40rpx;
+					border-radius:20rpx;
+					border:2rpx solid #747474;
+					margin:10rpx;
+					.button{
+						position: relative;
+						top: 2rpx;
+						bottom: 2rpx;
+						left: 2rpx;
+						right: 42rpx;
+						width: 36rpx;
+						height: 36rpx;
+						border-radius: 50%;
+						background-color: #FFFFFF;
+						box-shadow:0px 3px 4px 0px rgba(0, 0, 0, 0.25);
+					}
+				}
+			}
+		}
+	}
+}
+</style>

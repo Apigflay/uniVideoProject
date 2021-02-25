@@ -1,0 +1,333 @@
+﻿@{
+    ViewBag.Title = "专属客服";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style type="text/css">
+    body {
+        margin: 0;
+        background-color: #F2F2F2;
+    }
+
+    .top {
+        width: 100%;
+        position: relative;
+    }
+
+        .top img {
+            width: 100%;
+        }
+
+        .top p {
+            position: absolute;
+            font-size: 2.4rem;
+            margin-top: 7.5rem;
+            margin-left: 1.7rem;
+            color: white;
+        }
+
+        .top span {
+            position: absolute;
+            font-size: 1.2rem;
+            margin-top: 11.8rem;
+            margin-left: 1.7rem;
+            color: white;
+        }
+
+    .topImg {
+        position: absolute;
+        padding-left: 57%;
+        margin-top: -57%;
+    }
+
+    .banner {
+        margin-top: -26%;
+        float: left;
+        width: 100%;
+        position: relative;
+    }
+
+        .banner .list {
+            width: 90%;
+            background-color: white;
+            margin-left: 5%;
+            height: 8.5rem;
+            border-radius: 1.2rem;
+            margin-top: 1.3rem;
+        }
+
+    .bannerleft {
+        width: 25%;
+    }
+
+        .bannerleft img {
+            margin-left: 2.1rem;
+            padding-top: 1.9rem;
+            width: 4.5rem;
+        }
+
+    .bannermiddle {
+        float: left;
+        margin-left: 5.5rem;
+        margin-top: -12%;
+    }
+
+        .bannermiddle span {
+            margin-left: 2.5rem;
+            font-size: 1.9rem;
+        }
+
+    .bannerright {
+        float: right;
+        width: 20%;
+        margin-top: -4.7rem;
+        border: 0.2rem solid #FF7B10;
+        margin-right: 1.5rem;
+        line-height: 1.2rem;
+    }
+
+        .bannerright p {
+            color: #FF7B10;
+            text-align: center;
+            font-size: 1.2rem;
+        }
+    .Bannerbg {
+        z-index: 5;
+        position: fixed;
+        left: 0px;
+        top: 0px;
+        background: #000000;
+        opacity: 0.5;
+        width: 100%;
+        height: 100%;
+    }
+
+    #load {
+        width: 100%;
+        height: auto;
+        text-align: center;
+        position: relative;
+        z-index: 8;
+    }
+
+    .spinner {
+        width: 85%;
+        margin-left: 7.5%;
+        margin-top: -10%;
+        position: fixed;
+        z-index: 10;
+    }
+        .spinner img {
+            width: 100%;
+        }
+
+        /*.spinner span {
+            margin-top: -14%;
+            position: absolute;
+            font-size: 0.6rem;
+        }*/
+    .tip1 {
+        width: 50%;
+        margin-left: 25%;
+        background-color: white;
+        height: 3.5rem;
+        border-radius: 2.5rem;
+        position: absolute;
+        z-index: 10;
+        margin-top: -5.8%;
+    }
+        .tip1 p {
+            font-size: 1.5rem;
+            margin-top: 1.9%;
+        }
+        .span1 {
+            position: absolute;
+            margin-left: -32%;
+            margin-top: -30%;
+            font-size: 1.1rem;
+        }
+    .tip2 {
+        width: 30%;
+        background: #FF7B10;
+        position: absolute;
+        margin-left: 35%;
+        border-radius: 1.8rem;
+        height: 1.8rem;
+        line-height: 1.8rem;
+        margin-top: -10%;
+    }
+    .p1 {
+        position: absolute;
+        margin-top: -13.5rem;
+        margin-left: 36.5%;
+        font-size: 1.5rem;
+        color: #FF7B10;
+        text-align: center;
+    }
+    .bannermiddle p {
+        margin-top: -6%;
+        margin-left: 2.5rem;
+        font-size: 1.2rem;
+    }
+</style>
+<div class="top">
+    <p>专属客服</p>
+    <span>遇到问题，请联系你的专属客服</span>
+    <img src="~/Content/common/images/help/top.png" />
+    <div>
+        <img class="topImg" style="width:40%" src="~/Content/common/images/help/people.png" />
+    </div>
+</div>
+<div class="banner">
+    <div class="list">
+        <div class="bannerleft">
+            <img src="~/Content/common/images/help/wxline.png" />
+        </div>
+        <div class="bannermiddle">
+            <p>LINE帐号</p>
+            <p id="btn1" style="margin-top: -12%;">@@520meyou</p>
+        </div>
+        <div id="lxone" class="bannerright">
+            <p>联系客服</p>
+        </div>
+    </div>
+    <div class="list">
+        <div class="bannerleft">
+            <img src="~/Content/common/images/help/weixin.png" />
+        </div>
+        <div class="bannermiddle">
+            <p>微信号</p>
+            <p id="btn2" style="margin-top: -12%;">meyou52020</p>
+        </div>
+        <div id="lxtwo" class="bannerright">
+            <p>联系客服</p>
+        </div>
+    </div>
+    <div class="list">
+        <div class="bannerleft">
+            <img src="~/Content/common/images/help/qq.png" />
+        </div>
+        <div class="bannermiddle">
+            <p >QQ号</p>
+            <p id="btn3" style="margin-top: -12%;">2028942390</p>
+        </div>
+        <div id="lxthree" class="bannerright">
+            <p>联系客服</p>
+        </div>
+    </div>
+
+</div>
+<div id="load" style="display: none">
+    <div class="Bannerbg"></div>
+    <div class="spinner">
+        <div class="tip1"><p>温馨提示</p></div>
+        <img src="~/Content/common/images/help/alert.png" />
+        <p class="p1">已复制客服</p>
+        <span class="span1">请打开已复制客服号添加好友，联系我们</span>
+        <div class="tip2">我知道了</div>
+    </div>
+</div>
+<script src="~/Scripts/lib/jquery-1.8.2.min.js"></script>
+<script type="text/javascript">
+    $("#lxone").click(function () {
+        window.location.href = 'https://line.me/R/ti/p/%40hta7747k';
+        //codeCopy($("#btn1").html());
+        //$("#load").show();
+    })
+    $("#lxtwo").click(function () {
+        codeCopy($("#btn2").html());
+        //$("#load").show();
+    })
+    $("#lxthree").click(function () {
+        codeCopy($("#btn3").html());
+        //$("#load").show();
+    })
+    $(".tip2").click(function () {
+        $("#load").hide();
+    })
+
+    //function copyContent(elementId) {
+
+    //    // 动态创建 input 元素
+    //    var aux = document.createElement("input");
+
+    //    // 获得需要复制的内容
+    //    aux.setAttribute("value", document.getElementById(elementId).innerHTML);
+
+    //    // 添加到 DOM 元素中
+    //    document.body.appendChild(aux);
+
+    //    // 执行选中
+    //    // 注意: 只有 input 和 textarea 可以执行 select() 方法.
+    //    aux.select();
+
+    //    // 获得选中的内容
+    //    var content = window.getSelection().toString();
+
+    //    // 执行复制命令
+    //    var successful =document.execCommand("copy");
+
+    //    // 将 input 元素移除
+    //    document.body.removeChild(aux);
+
+    //    if (successful == true) {
+    //        return true;
+    //    }
+    //    else {
+    //        return flase;
+    //    }
+    //}
+    //$("#lxone").click(function () {
+    //    if (copyContent('btn1') == true) {
+    //        $("#load").show();
+    //    }
+    //    else {
+    //        alert('复制失败，请手动复制');
+    //    }
+    //})
+    //$("#lxtwo").click(function () {
+    //    if (copyContent('btn2') == true) {
+    //        $("#load").show();
+    //    }
+    //    else {
+    //        alert('复制失败，请手动复制');
+    //    }
+    //})
+    //$("#lxthree").click(function () {
+    //    if (copyContent('btn3') == true) {
+    //        $("#load").show();
+    //    }
+    //    else {
+    //        alert('复制失败，请手动复制');
+    //    }
+    //})
+
+    function client() {
+        var u = navigator.userAgent.toLowerCase();
+        var isAndroid = u.indexOf('android') > -1 || u.indexOf('adr') > -1; //android终端
+        var isiOS = !!u.match(/\(i[^;]+;( u;)? cpu.+mac os x/); //ios终端
+        if (isiOS) {
+            phone = "ios";
+        } else {
+            phone = "android";
+        }
+        return phone;
+    }
+   
+    function codeCopy(str) {
+            copyString(str);
+    };
+    function copyString(str) {
+        var u = navigator.userAgent.toLowerCase();
+        if (u.indexOf("laowo") >= 0) {
+            if (client() == "ios") {
+                window.location.href = "beautifulApp://copyString?info=" + str;
+            } else {
+                android.copyString(str);
+            }
+        }
+    }
+
+  
+
+</script>

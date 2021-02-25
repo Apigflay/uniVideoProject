@@ -1,0 +1,192 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>蜜币兑换</title>
+    <meta charset="utf-8">
+    
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta http-equiv="cleartype" content="on">
+   
+    <link href="/Content/LaoWo/css/style.css" rel="stylesheet" type="text/css">
+    <script src="/Content/LaoWo/js/jquery-1.11.3.js" type="text/javascript"></script>
+    <script src="/Content/LaoWo/js/adapter.js" type="text/javascript"></script>
+</head>
+<body>
+
+    <input type="hidden" id="useridx" value="@ViewBag.useridx" />
+    <div class="wrap">
+        <div class="content">
+            <div class="item_top">
+                当前金币余额：<strong id="cion" >@ViewBag.gameCion</strong>
+            </div>
+            <div class="item_top">
+                当前蜜币余额：<strong id="userCion">@ViewBag.userCion</strong>
+            </div>
+            <div class="re_con">
+                <h5>请选择充值金额：</h5>
+                <ul class="item clearfix" id="cionList">
+                    <li>
+                        <a href="" class="current">
+                            <h4>6000币</h4>
+                            <p>￥6</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <h4>12000币</h4>
+                            <p>￥12</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <h4>25000币</h4>
+                            <p>￥25</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <h4>68000币</h4>
+                            <p>￥68</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <h4>128000币</h4>
+                            <p>￥128</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <h4>388000币</h4>
+                            <p>￥388</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <h4>558000币</h4>
+                            <p>￥558</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="info"><p style="float:right;" id="spendCion">花费金币：￥6</p><p id="exchangeCion">兑换内容：600币</p></div>
+            <div class="wid_btn"><a href="javascript:Excgang.submit()" id="submit" class="btn_pub">确定兑换</a></div>
+        </div>
+    </div>
+    <script src="/Content/LaoWo/js/layer/layer.js"></script>
+    <script type="text/javascript">
+        var Excgang = {
+            data: {//数据
+                cionArry: [6, 12, 25, 68, 128, 388, 558],
+                cion :0,
+                useridx:$("#useridx").val()
+            },
+            dome: function () {//元素
+                var obj = {};
+                obj.cionList = $("#cionList");
+                obj.submit = $("#submit");
+                obj.cion = $("#cion");
+                obj.userCion = $("#userCion");
+                obj.spendCion = $("#spendCion");
+                obj.exchangeCion = $("#exchangeCion");
+
+                return obj;
+            }(),
+            htmlLode:{
+                cionListHtmlLode: function () {
+                    var htmlStr = "";
+                    for (var i = 0; i < Excgang.data.cionArry.length; i++) {
+                        htmlStr += "<li><a href=\"javascript:Excgang.htmlLode.cionLiOnclick(" + i + ")\"><h4>" + Excgang.data.cionArry[i] * 1000 + "币</h4><p>￥" + Excgang.data.cionArry[i] + "</p></a></li>";
+                    }
+                    Excgang.dome.cionList.html(htmlStr);
+                    Excgang.htmlLode.cionLiOnclick(0);
+                },
+                cionLiOnclick: function (index) {
+                    Excgang.dome.cionList.find("li .current").attr("class","");
+                    Excgang.dome.cionList.find("li").eq(index).find("a").attr("class", "current");
+                    Excgang.data.cion = Excgang.data.cionArry[index];
+                    Excgang.dome.spendCion.html("花费金币：￥" + Excgang.data.cion);
+                    Excgang.dome.exchangeCion.html("兑换内容：" + Excgang.data.cion * 1000 + "币");
+                }
+            },
+            submit: function () {
+                if (Excgang.dome.cion.html() == "0" || Excgang.dome.cion.html() == "") {
+                    layer.open({
+                        content: "余额不足",
+                        style: 'background:rgba(0,0,0,0.6); color:#fff; border:none;font-family:微软雅黑; margin-top: 70%;',
+                        time: 2
+                    });
+                    return;
+                }
+                if (Excgang.data.cion == 0 ) {
+                    layer.open({
+                        content: "请选择兑换额度",
+                        style: 'background:rgba(0,0,0,0.6); color:#fff; border:none;font-family:微软雅黑; margin-top: 70%;',
+                        time: 2
+                    });
+                    return;
+                }
+                Excgang.help.ajaxs("GET", "/UserInfo/userExchangeCionExec", "JSON", { useridx: Excgang.data.useridx, cion: Excgang.data.cion }, function (data) {
+                    if (data.code == 100) {
+                        Excgang.dome.cion.html(data.data.gameCion);
+                        Excgang.dome.userCion.html(data.data.userCion);
+                        Excgang.help.CoinChange(data.data.gameCion, data.data.userCion);
+                    }
+                    layer.open({
+                        content: data.msg,
+                        style: 'background:rgba(0,0,0,0.6); color:#fff; border:none;font-family:微软雅黑; margin-top: 70%;',
+                        time: 1
+                    });
+                });
+            
+            },
+            help: {//帮助
+                ajaxs: function (types, urls, dataTypes, datas, callBack) {
+                    $.ajax({
+                        type: types,
+                        url: urls,
+                        dataType: dataTypes,
+                        data: datas,
+                        cache: false,
+                        success: function (data) {
+                            callBack && callBack(data)
+                        }
+                    });
+                },
+                client: function () {
+                    var u = navigator.userAgent.toLowerCase();
+                    var isAndroid = u.indexOf('android') > -1 || u.indexOf('adr') > -1; //android终端
+                    var isiOS = !!u.match(/\(i[^;]+;( u;)? cpu.+mac os x/); //ios终端
+                    if (isiOS) {
+                        phone = "ios";
+                    } else {
+                        phone = "android";
+                    }
+                    return phone;
+                },
+                CoinChange: function (coni, mb) {
+                    var u = navigator.userAgent.toLowerCase();
+                    if (u.indexOf("laowo") >= 0) {
+                        if (Excgang.help.client() == "ios") {
+                            window.location.href = "beautifulApp://changeCoin&coin=" + coni + "&mb=" + mb;
+                        } else {
+                            android.CoinChange(coni, mb);
+                        }
+                    }
+                }
+            }
+        }
+        Excgang.htmlLode.cionListHtmlLode();
+        Excgang.htmlLode.cionLiOnclick(0);
+    </script>
+</body>
+
+</html>

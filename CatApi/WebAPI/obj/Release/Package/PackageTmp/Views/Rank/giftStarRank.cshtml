@@ -1,0 +1,73 @@
+﻿@{
+    ViewBag.Title = "周星礼物榜";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Head_css
+{
+    <link href="~/Content/week/totalRank.css?v=7-28" rel="stylesheet" />
+    <link href="~/Content/swiper/swiper.min.css" rel="stylesheet" />
+}
+
+<body class="star">
+    <div class="rank_body">
+        <div class="head">
+            <div class="top">
+                @Html.Partial("~/Views/Shared/_RankHead.cshtml")
+
+                @*<a class="refresh" href="javascript:;" onclick="window.location.reload()"></a>
+                    <div class="menu">
+                        <ul>
+                            <li id="menu4" class="sel">
+                                <a href="#">周星</a>
+                                <span class="icon_new"></span>
+                            </li>
+                            <li id="menu1"><a href="#">消费</a></li>
+                            <li id="menu2"><a href="#">主播</a></li>
+                            <li id="menu3"><a href="#">家族</a></li>
+                        </ul>
+                    </div>
+                    <a class="share" href="javascript:;" onclick="live.Share(this,'排行榜')"></a>*@
+            </div>
+
+            <div class="tab">
+                <div class="swiper-container">
+                    <div class="swiper-wrapper"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tabSpace"></div>
+        <div class="rank_con" id="rank_con" style="height:100%;"></div>
+        <div class="nodata" style="display:none"><span class="img"></span>程序喵熬夜统计数据中...</div>
+    </div>
+    <div class="showtime">当前服务器时间：<span id="time"></span></div>
+    <div class="timetip">周星数据统计时间为：每周一00:00到下周日23：59：59</div>
+
+
+    <script src="~/Scripts/lib/echo.min.js"></script>
+    <script src="~/Content/swiper/swiper.min.js"></script>
+    <script src="~/Scripts/giftstar.js?v=16"></script>
+    <script src="~/Content/i18n/js/jquery.i18n.properties.min.js"></script>
+    <script>
+
+        function updateLang() {
+            //排行榜页面翻译
+            $('#menu4 a').html($.i18n.prop('string_weekstar'));
+            $('#menu1 a').html($.i18n.prop('string_consume'));
+            $('#menu2 a').html($.i18n.prop('string_anchor'));
+            $('#menu3 a').html($.i18n.prop('string_family'));
+
+
+            $('.tab #1').html($.i18n.prop('string_totalrank'));
+            $('.tab #2').html($.i18n.prop('string_month'));
+            $('.tab #3').html($.i18n.prop('string_week'));
+            $('.tab #4').html($.i18n.prop('string_day'));
+
+        }
+        $(function () {
+            init_i18n(updateLang)
+        });
+
+    </script>
+</body>

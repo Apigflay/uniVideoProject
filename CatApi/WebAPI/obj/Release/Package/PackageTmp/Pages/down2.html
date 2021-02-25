@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>下载跳转页面</title>
+    <script src="../Scripts/lib/jquery-1.8.2.min.js"></script>
+    <script src="../Scripts/common.min.js"></script>
+</head>
+<body>
+    <script type="text/javascript">
+        var type = getQueryStr('type');
+
+        var weixin = '';
+        var android = '';
+        var ios = '';
+        //渠道名：city1,city2,city3
+        if (type == 1) {
+            weixin = 'http://a.app.qq.com/o/simple.jsp?pkgname=com.tiange.miaolive&ckey=CK1336581180765';
+            android = 'http://update.9158.com/miaolive/Miaolivecity1.apk';
+            ios = 'https://at.umeng.com/yuSDuC?cid=4';
+        } else if (type == 2) {
+            weixin = 'http://a.app.qq.com/o/simple.jsp?pkgname=com.tiange.miaolive&ckey=CK1336581002108';
+            android = 'http://update.9158.com/miaolive/Miaolivecity2.apk';
+            ios = 'https://at.umeng.com/jGneqi?cid=4';
+        } else if (type == 3) {
+            weixin = 'http://a.app.qq.com/o/simple.jsp?pkgname=com.tiange.miaolive&ckey=CK1336581180766';
+            android = 'http://update.9158.com/miaolive/Miaolivecity3.apk';
+            ios = 'https://at.umeng.com/ri0L1b?cid=4';
+        } else if (type == 4) {
+            weixin = 'http://a.app.qq.com/o/simple.jsp?pkgname=com.tiange.miaolive&ckey=CK1336770678219';
+            android = 'http://mobilead.01lm.com/mb/Miaolive1.2.0_M10086.apk';
+            ios = 'https://itunes.apple.com/cn/app/id1112060257?mt=8';
+        } else if (type == 5) {
+            weixin = '';
+            android = 'http://update.9158.com/miaolive/Miaolive1.4.0RJN.apk';
+            ios = 'https://itunes.apple.com/cn/app/id1116013635?mt=8';
+        }
+        
+        if (browser.is_weixin()) {
+            window.location = weixin;
+        } else if (browser.versions.ios || browser.versions.iPhone || browser.versions.iPad) {
+            window.location = ios;
+        }
+        else if (browser.versions.android) {
+            window.location = android;
+        } else {
+            window.location = weixin;
+        }
+
+    </script>
+</body>
+</html>

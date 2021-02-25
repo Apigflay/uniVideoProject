@@ -1,0 +1,170 @@
+﻿@model Model.View.VMIncome
+@{
+    ViewBag.Title = "红包收益";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section head_css{
+    <link href="~/Content/Css/income.css?v=5" rel="stylesheet" />
+    @*<style>
+            .layui-m-layermain { font-family: inherit; }
+            .layui-m-layerchild { background: none; border-radius: .6rem; width: 86%; }
+        </style>*@
+}
+
+<div id="container">
+    @if (Model.apiversion == 2)
+    {
+        <div class="v_pur">
+            <ul>
+                <li><a href="/Pay/Exchange?useridx=@Model.useridx&chkcode=@Model.chkCode&apiversion=@Model.apiversion" class="r_in">现金提现</a></li>
+                <li><a href="/Pay/babyView?useridx=@Model.useridx&chkcode=@Model.chkCode&apiversion=@Model.apiversion">宝宝提现</a></li>
+            </ul>
+        </div>
+    }
+    @*@Html.Partial("~/Views/Shared/_WithdrawHead.cshtml")*@
+
+    <div class="de_withd">
+        <h2>首次提现至少1元</h2>
+        <div class="w_sum">
+            <h3><span></span>@Math.Round(Model.MyWallet.myWallet, 2)<b>元</b></h3>
+
+            @if (Model.MyWallet.myWallet >= 1 && Model.MyWallet.isBindAlipay == 1)
+            {
+                <a href="javascript:income.withdrawMoney('@Model.useridx','@Model.chkCode');" class="s_btn">提现</a>
+            }
+            else
+            {
+                <a href="javascript:;" class="s_btn" style="color: rgb(128, 128, 128); border-color: rgb(128, 128, 128)">提现</a>
+            }
+
+        </div>
+
+        @if (Model.MyWallet.auditStatus == 0 && Model.MyWallet.useridx > 0)
+        {
+            <h4 class="clearfix"><span style="color:red;">审核中</span> (支付宝：@Model.MyWallet.aliPay) </h4>
+
+        }
+        else if (Model.MyWallet.isBindAlipay == 1)
+        {
+            <h4 class="clearfix">己绑定支付宝：@Model.MyWallet.aliPay</h4>
+        }
+        else
+        {
+            <h4 class="clearfix" style="color:red;">
+                还未绑定支付宝账号
+                <a href="@Url.Action("bindAlipay", "Pay", new {menuType=0, useridx = Model.useridx, chkcode = Model.chkCode })">立即绑定 ></a>
+            </h4>
+        }
+
+    </div>
+
+    <div class="s_set">
+        <div class="item">
+            <a href="@Url.Action("withdrawRecord", "Income",new { area="H5",menuType = 0,useridx = Model.useridx, token = Model.chkCode })">
+                <div class="myarea"><span></span>提现明细<b></b></div>
+            </a>
+            @*<a href="/H5/Income/withdrawRecord?menuType=0&useridx=@Model.useridx&token=@Model.chkCode">
+                    <div class="myarea"><span></span>{{withdrawDetails}}<b></b></div>
+                </a>*@
+        </div>
+        <div class="item">
+            <a href="/H5/Income/RedPacket?menuType=0&useridx=@Model.useridx&token=@Model.chkCode">
+                <div class="myarea"><span></span>红包明细<b></b></div>
+            </a>
+        </div>
+    </div>
+
+    <div class="p_sta">
+        <h2>现金提现说明：</h2>
+        <ol>
+            <li>提现需绑定支付宝帐号，一个支付宝帐号只能对应绑定一个当前平台帐号，请谨慎选择。</li>
+            <li>一般提现申请后1个工作日内到账，如未到账请联系官方客服。</li>
+            <li>当官方发现您通过非常规的手段参与红包活动，获取不正当的经济利益，官方会拒绝为您提现。</li>
+            <li>更多红包功能正在开发中，敬请期待！</li>
+        </ol>
+        <br />
+        <h2>官方联系说明：</h2>
+        <ol>
+            <li>如有薪资待遇或家族内部以及有关平台问题的主播，可联系QQ：314843529</li>
+        </ol>
+    </div>
+
+    <!--规则弹框-->
+    <div class="masklayer" style="display:none"></div>
+
+    <div id="bindAlipay" style="display:none;">
+        <div class="de_hint">
+            <h2>绑定支付宝</h2>
+            <input name="alipay" type="text" placeholder="绑定支付宝" class="ht_input" value="" />
+            <input name="realname" type="text" placeholder="真实姓名" class="ht_input" value="" />
+            <div class="ht_shut">
+                <ul>
+                    <li style="border-right:0.1rem solid rgba(0,0,0,.1);"><a href="javascript:;" onclick="income.withdrawMoney()">确定</a></li>
+                    <li><a href="javascript:;" onclick="income.closeBindAlipayMask()">取消</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="bindSuccess" style="display:none;">
+        <div class="de_hint">
+            <h2>提现成功</h2>
+            <div class="da_with">
+                <h3>己成功提现 <span id="momey">@Math.Round(Model.MyWallet.myWallet, 2)</span> 元</h3>
+                <h4>提现会有一定的延时，请留意本人的支付宝账号。</h4>
+            </div>
+            <div class="ht_shut">
+                <ul>
+                    <li><a href="javascript:;" onclick="share(this)" style="border-right:0.1rem solid rgba(0,0,0,.1);">告诉大家</a></li>
+                    <li><a href="javascript:income.closeSuccess()">知道了</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<script src="~/Content/layer/layer.js"></script>*@
+@*<script src="~/Content/vue/vue.min.js"></script>*@
+@*<script src="~/Content/i18n/js/jquery.i18n.properties.min.js"></script>*@
+<script src="~/Content/tipAlert/iTips.min.js"></script>
+<script src="~/Scripts/income.js?v=11"></script>
+
+<script type="text/javascript">
+    var useridx = getQueryStr('useridx');
+
+    //if (useridx == 60225969 || useridx == 60898882 || useridx == 63583358 || useridx == 62072771) {
+    //    $('h2').on("click", function () {
+    //        income.openSuccess();
+    //    });
+    //}
+
+    $(function () {
+        //init_i18n(0);
+
+        //var vm = new Vue({
+        //    el: '#container',
+        //    data: {
+        //        vue_withdraw: $.i18n.prop('str_withdraw'),
+        //        vue_rmb: $.i18n.prop('str_rmb')
+        //    }
+        //})
+        //在jQuery.i18n.properties回调函数外面掉要放在$(function(){})里面
+        //console.log($.i18n.prop('string_totalrank'));
+
+    });
+
+    function share(obj) {
+        var money = $('.da_with h3 span').html();
+
+        if (browser.versions.ios) {
+            //live.Share(obj, '分享');
+            obj.setAttribute("href", "miaobowpa:/onWithdrawShare&money=" + money + "&");
+        }
+        else if (browser.versions.android) {
+            obj.setAttribute("href", "javascript:android.onWithdrawShare(" + money + ")");
+        }
+        //弹起分享框时关闭提现成功遮罩层
+        income.closeSuccess()
+    }
+
+</script>

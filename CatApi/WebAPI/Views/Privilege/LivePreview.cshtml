@@ -1,0 +1,24 @@
+﻿@{
+    ViewBag.Title = "直播预览攻略";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/Css/preview.css?v=2" rel="stylesheet" />
+
+<div class="limit">
+    <div class="text"><p><span>@ViewBag.vipName</span>以上或<span>等级 @ViewBag.grade 级</span>以上的高级喵将获得视频预(tou)览(kui)能力~</p></div>
+    <div class="face"></div>
+</div>
+<div class="step"><img src="~/content/images/step.png" /></div>
+<div class="hurry_text">还等什么，快开启此等逆天天赋~</div>
+<div class="btn_open" onclick="goto()"><img id="imgLevel" src="~/content/images/level32.png" /><span>升级皇冠，瞬间获取该能力&raquo;</span></div>
+
+<script>
+    var useridx = getQueryStr("useridx");
+
+    $("#imgLevel").attr("src", "http://liveimg.9158.com/pic/week/level/level" + @ViewBag.vipLevel + ".png");
+
+    function goto() {
+        window.location.href = 'http://live.9158.com/Privilege/index?useridx=' + useridx;
+    }
+
+</script>

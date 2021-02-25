@@ -1,0 +1,115 @@
+﻿@{
+    ViewBag.Title = "提交申请";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model Model.View.VMIncome
+
+<link href="~/Content/Css/exchange.css?v=1111" rel="stylesheet" />
+
+@using (Html.BeginForm("WithdrawApply", "Pay"))
+{
+    <div class="all">
+        <div class="item item_single">
+            <span class="title">提现金额</span>
+            <div class="input"><input name="money" type="number" required placeholder="最少 @Model.WithdrawMinRequire 元" value=""></div>
+        </div>
+
+        <div class="item_append">剩余可提现<span>@Model.MyWallet.myWallet</span>元</div>
+
+        <div class="item">
+            <span class="title">支付宝账号</span>
+            <div class="input"><input name="alipayID" type="email" placeholder="请输入你的支付宝账号" value=""></div>
+        </div>
+
+        <div class="item item_attach">
+            <span class="title">真实姓名</span>
+            <div class="input"><input name="realname" type="text" placeholder="请输入你的真实姓名" value=""></div>
+        </div>
+
+        <div class="item_append">支付宝账号和姓名一定要匹配</div>
+
+        <div class="item">
+            <span class="title">手机号</span>
+            <div class="input"><input name="phoneno" type="tel" placeholder="请输入常用手机号" value=""></div>
+        </div>
+
+        <div class="the_btn">
+            <a href="javascript:apply()" class="btn_exchange">提交申请</a>
+        </div>
+        @*<a href="#1" class="btn_exchange btn_disable">提交兑换申请</a>*@
+
+        <div class="explanation">
+            <p>提现说明：</p>
+            <ol>
+                <li>目前仅支持提现到支付宝账号。</li>
+                <li>通过审核后，提现金额会在两个工作日内打入你的支付宝账号。</li>
+            </ol>
+        </div>
+
+    </div>
+}
+<script src="~/Scripts/lib/jquery-1.8.2.min.js"></script>
+<script src="~/Content/layer/mobile/layer.js"></script>
+<script>
+    var scale = $(window).width() / 640;
+    $('html').css('font-size', 120 * scale + '%');
+
+
+    function apply() {
+        var useridx = getQueryStr('useridx');
+        var sign = getQueryStr('sign');
+        var usertoken = getQueryStr('token');
+
+        var $money = $('input[name="money"]').val().trim(),
+            $alipayid = $('input[name="alipayID"]').val().trim(),
+            $name = $('input[name="realname"]').val().trim(),
+            $phoneno = $('input[name="phoneno"]').val().trim();
+
+        if ($money == '' || $alipayid == '' || $name == '' || $phoneno == '') {
+            layer.open({ skin: 'msg', content: "请正确填写信息", time: 2 });
+            return false;
+        }
+
+        $.ajax({
+            timeout: 8000, //超时时间设置，单位毫秒
+            type: 'POST',
+            dataType: 'json',
+            url: '/Pay/WithdrawApply?useridx=' + useridx + '&sign=' + sign + '&usertoken=' + usertoken,
+            data: $("form").serialize(),
+            beforeSend: function () { },
+            success: function (response) {
+                if (response == 1) {
+                    window.location = "/Pay/ExChangeSuccess";
+                } else if (response == -11) {
+                    layer.open({ skin: 'msg', content: "请正确填写信息", time: 2 });
+                } else if (response == -12) {
+                    layer.open({ skin: 'msg', content: "手机号格式不正确", time: 2 });
+
+                } else if (response == -13) {
+                    layer.open({ skin: 'msg', content: "操作超时", time: 2 });
+                    window.history.go(-1);
+                } else if (response == -14) {
+                    layer.open({ skin: 'msg', content: "不满足提现要求", time: 2 });
+                    setTimeout(function () {
+                        window.history.go(-1);
+                    }, 4000);
+                } else if (response == -15) {
+                    layer.open({ skin: 'msg', content: "金额输入有误", time: 2 });
+                } else if (response == -3) {
+                    layer.open({ skin: 'msg', content: "已有提现审核,请等待审核结果", time: 2 });
+                    setTimeout(function () {
+                        window.history.go(-1);
+                    }, 4000);
+                } else {
+                    layer.open({ skin: 'msg', content: "提现失败", time: 2 });
+                    setTimeout(function () {
+                        window.history.go(-1);
+                    }, 4000);
+                }
+            },
+            error: function (xhr, type) {
+                layer.open({ skin: 'msg', content: "操作超时", time: 2 });
+            }
+        });
+    }
+</script>

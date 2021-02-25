@@ -1,0 +1,28 @@
+﻿html, body, p { margin: 0; padding: 0; overflow: hidden; }
+
+html { width: 100%; height: 100%; }
+body { font-size: 100%; height: 100%; background: #000; font-family: Helvetica, STHeiti, Droid Sans Fallback; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; -webkit-tap-highlight-color: transparent; }
+
+.all { position: relative; height: 100%; width: 100%; display: block; }
+.icon_play { width: 4.4em; height: 4.4em; left: 50%; top: 50%; margin-left: -2.2em; margin-top: -2.2em; cursor: pointer; position: absolute; z-index: 9; display: block; background-image: url(../content/images/icon_play.png); background-size: 100% 100%; }
+.video { position: absolute; left: 0; top: 0; bottom: 0; right: 0; width: 100%; z-index: 1; height: 100%; display: block; }
+.video img { display: block; width: 100%; position: absolute; top: 50%; margin-top: -190px; }
+.bottom { position: fixed; bottom: 0px; left: 0; right: 0; width: 100%; z-index: 9; background-color: rgba(204,57,120,0.8); color: #fff; }
+.bottom .bottom_skin { padding: 16px 15px 20px; position: relative; }
+.bottom .logo { position: absolute; left: 40%; top: -34%; width: 3.6em; height: 3.6em; background: url(../content/images/logo.png) no-repeat; background-size: 100% 100%; }
+.bottom .text { display: inline-block; text-align: left; font-size: 1.2em; }
+.bottom .text p { padding: 0 0 6px 0; }
+.bottom .text .more { font-size: 70%; }
+.bottom .btn { position: absolute; top: 16px; right: 15px; display: inline-block; text-align: right; border: 2px solid #fff; font-size: 1.4em; border-radius: 10px 10px; padding: 8px 14px; }
+.bottom .idx { position: absolute; bottom: 0.4em; width: 90%; text-align: center; color: rgba(255,255,255,0.4); font-size: .9em; }
+
+.tips { position: fixed; right: 0; top: 0; z-index: 2; width: 28em; height: 14em; background: url(../content/images/tips.png) no-repeat; background-size: 100% 100%; }
+.end { position: fixed; top: 50%; left: 50%; margin-left: -4.6em; margin-top: -3em; z-index: 2; width: 8em; height: 1.6em; background-color: rgba(0,0,0,0.7); color: rgba(255,255,255,0.9); border-radius: 1em 1em; padding: 20px 10px; text-align: center; }
+
+.at_pc { position: relative; width: 360px; height: 640px; margin: 0 auto; }
+
+.at_pc .video { position: static; left: auto; top: auto; bottom: auto; right: auto; }
+.at_pc .icon_play { }
+.at_pc .bottom { position: absolute; }
+.at_pc .code2 { position: absolute; right: -9em; bottom: 6em; background-image: url(../content/images/code2_miao.png); background-size: 100% 100%; width: 8em; height: 8em; }
+.at_pc .end { margin-top: -7em; }

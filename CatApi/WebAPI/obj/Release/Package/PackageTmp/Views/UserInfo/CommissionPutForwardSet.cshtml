@@ -1,0 +1,267 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>推荐有礼</title>
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta http-equiv="cleartype" content="on">
+    <link href="~/Content/LaoWo/css/style.css" rel="stylesheet" type="text/css">
+    <script src="~/Content/LaoWo/js/jquery-1.11.3.js" type="text/javascript"></script>
+    <script src="~/Content/LaoWo/js/adapter.js" type="text/javascript"></script>
+</head>
+<body style="background:#fff;">
+    <style>
+        .recom .top p {
+            padding: 0.2rem;
+        }
+
+        .recom .top .p {
+            font-size: 2.2rem;
+        }
+
+        .recom .top .invity {
+            margin-top: 1.5rem;
+            width: 70%;
+            border: 0.1rem solid #FF7B10;
+            margin-left: 15%;
+            line-height: 3.5rem;
+            border-radius: 3.5rem;
+        }
+
+        .recom .top a {
+            border: 0.1rem solid #FF7B10;
+            border-radius: 0.6rem;
+        }
+
+            .recom .top a span {
+                padding: 0.5rem;
+            }
+
+        .bgmiddle {
+            width: 90%;
+            position: absolute;
+            margin-left: 5%;
+            margin-top: -56%;
+        }
+
+        .inveti {
+            position: absolute;
+            margin-left: 14.5%;
+            margin-top: -40%;
+        }
+
+            .inveti img {
+                width: 20%;
+                padding-left: 1.5rem;
+            }
+
+            .inveti span {
+                padding: 2.5%;
+                font-size: 1.1rem;
+                color: #f2f2f2;
+            }
+
+        .sy {
+            text-align: center;
+            padding: 1rem 0;
+            background-color: #E8297B;
+        }
+
+            .sy p {
+                color: #ffffff;
+                font-size: 1.5rem;
+            }
+
+        .endJs {
+            background-color: white;
+            width: 94%;
+            margin-left: 3%;
+            border-radius: 3.5%;
+        }
+
+            .endJs p {
+                text-align: center;
+                color: #333333 !important;
+                padding: 4% !important;
+            }
+
+            .endJs span {
+                color: #cf2a2a;
+            }
+
+        .end {
+            background-color: #D439AA;
+            margin-top: 5%;
+        }
+
+            .end .enddiv {
+                background-color: white;
+                width: 94%;
+                margin-left: 3%;
+                text-align: center;
+                line-height: 1.5rem;
+                border-radius: 0.5rem;
+            }
+
+        .Banner {
+            z-index: 5;
+            position: fixed;
+            left: 0px;
+            top: 0px;
+            background: #000000;
+            opacity: 0.5;
+            width: 100%;
+            height: 100%;
+        }
+
+        #load {
+            width: 100%;
+            height: auto;
+            text-align: center;
+            position: relative;
+            z-index: 8;
+        }
+
+        .spinner p {
+            height: 1.6rem;
+            line-height: 1.6rem;
+            text-align: center;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            border-radius: 0.2rem;
+            font-size: 1.5rem;
+            background: rgba(0,0,0,0.6);
+            color: #fff;
+            border: none;
+            font-family: 微软雅黑;
+        }
+    </style>
+    <div class="wrap">
+        <input type="hidden" id="info" value="@ViewBag.myUserAgentInfo" />
+        <input type="hidden" id="useridx" value="@ViewBag.useridx" />
+        <div class="content">
+            <div class="recom">
+                <div class="BackImg">
+                    <img style="width: 100%;" src="~/Content/common/images/share/banner.png" />
+                </div>
+                <div class="bgmiddle">
+                    <img onclick="codeCopy(1)" class="code-btn copy" id="btn" data-clipboard-target="#input" style="width: 100%;" src="~/Content/common/images/share/button.png" />
+                </div>
+                <div class="inveti">
+                    <span>我的邀请码</span><span style=" color: #ffffff;
+    font-size: 1.6rem;">@ViewBag.useridx</span> <img onclick="codeCopy(2)" src="~/Content/common/images/share/buttoninvity.png" />
+</div>
+<div class="sy">
+    <p style="padding-top: 1.5rem;">我的收益</p>
+    <p style="font-size: 1.1rem;">@ViewBag.Settlement  </p>
+</div>
+<div class="rm_bot">
+    <div class="endJs">
+        <p id="p1">上周收益:<span>555</span> 蜜币</p>
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="list">
+            <tr>
+                <td>会员数（位）</td>
+                <td class="fcred"></td>
+            </tr>
+            <tr>
+                <td>输赢值</td>
+                <td class="fcred"></td>
+            </tr>
+            <tr>
+                <td>佣金比例</td>
+                <td class="fcred">0.55</td>
+            </tr>
+            <tr>
+                <td>佣金（元）</td>
+                <td class="fcred"></td>
+            </tr>
+        </table>
+    </div>
+    <div class="end">
+        <div class="enddiv">
+            <p id="Rebate">累计收益:</p>
+        </div>
+        <p style="    line-height: 4.5rem;
+    margin-top: -3.1%;
+    text-align: center;
+    color: #ffffff;">以上蜜币已发送到主播帐号</p>
+    </div>
+</div>
+<div id="load" style="display: none">
+    <div class="Banner">
+        <div class="spinner">
+            <p>复制成功</p>
+        </div>
+    </div>
+
+</div>
+</div>
+</div>
+
+</div>
+
+<script src="~/Content/LaoWo/js/jquery-1.11.3.js"></script>
+<script src="~/Scripts/clipboard.min.js"></script>
+<script src="~/Scripts/clipboard.js"></script>
+<script type="text/javascript">
+    var info = $("#info").val();
+    if (info != "") {
+        info = eval("(" + info + ")");
+        //var tableHtml = "<tr><td>上周收益:" + info.weekRebate.toFixed(2) + "</td></tr>";
+        var tableHtml = "";
+        tableHtml += "<tr><td>等级</td><td>三级</td><td>二级</td><td>一级</td></tr>";
+        tableHtml += "<tr><td>会员数</td><td>" + info.subordinateNumOne.toFixed(2) + "</td><td>" + info.subordinateNumTwo.toFixed(2) + "</td><td>" + info.subordinateNumThree.toFixed(2) + "</td></tr>";
+        tableHtml += "<tr><td>输赢值</td><td>" + info.weekConsumeOne.toFixed(2) + "</td><td>" + info.weekConsumeTwo.toFixed(2) + "</td><td>" + info.weekConsumeThree.toFixed(2) + "</td></tr>";
+        tableHtml += "<tr><td>佣金比例</td><td>1%</td><td>5%</td><td>10%</td></tr>";
+        tableHtml += "<tr><td>佣金(元)</td><td>" + info.weekRebateOne.toFixed(2) + "</td><td>" + info.weekRebateTwo.toFixed(2) + "</td><td>" + info.weekRebateThree.toFixed(2) + "</td></tr>";
+        $("#weekRebate").html("上周收益:" + info.weekRebate.toFixed(2));
+        $("#Rebate").html("累计收益:" + info.Rebate.toFixed(2));
+        $("table").html(tableHtml);
+        $("#p1").html("上周收益:<span>" + info.weekRebate.toFixed(2) + "</span> 蜜币")
+    }
+    var useridx = $("#useridx").val();
+
+
+    function client() {
+        var u = navigator.userAgent.toLowerCase();
+        var isAndroid = u.indexOf('android') > -1 || u.indexOf('adr') > -1; //android终端
+        var isiOS = !!u.match(/\(i[^;]+;( u;)? cpu.+mac os x/); //ios终端
+        if (isiOS) {
+            phone = "ios";
+        } else {
+            phone = "android";
+        }
+        return phone;
+    }
+    var code = "【蜜游直播】你的好友" + useridx + "邀请你来看性感主播，玩刺激游戏，还能参与赚钱哟～下载地址：http://live.imeyoo.com/H5/User/Webdownload?channelid=0&agentCode=" + useridx + "  邀请码：" + useridx + "   ";
+    function codeCopy(x) {
+        if (x == 1) {
+            copyString(code);
+        }
+        else {
+            copyString(useridx);
+        }
+    };
+    function copyString(str) {
+        var u = navigator.userAgent.toLowerCase();
+        if (u.indexOf("laowo") >= 0) {
+            if (client() == "ios") {
+                window.location.href = "beautifulApp://copyString?info=" + str;
+            } else {
+                android.copyString(str);
+            }
+        }
+    }
+
+</script>
+</body>
+</html>

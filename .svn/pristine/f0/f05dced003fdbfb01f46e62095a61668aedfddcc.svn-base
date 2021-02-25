@@ -1,0 +1,28 @@
+﻿@{
+    ViewBag.Title = "喵播";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Head_css{
+    <style type="text/css">
+        body { background: #fff; font-size: 100%; font-family: Helvetica, STHeiti, Droid Sans Fallback; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; -webkit-tap-highlight-color: transparent; }
+
+        .room_none { padding: 0 0; margin: 10em 0 0; text-align: center; color: rgba(0,0,0,.8); }
+        .room_none .img { display: inline-block; width: 7rem; height: 7rem; margin: 0 auto; background-image: url(/content/images/nodata.png); background-size: 100% 100%; }
+        .room_none .msg-tips { line-height: 2.4; margin: 0 0 0; font-weight: 100; font-size: 1.2rem; }
+    </style>
+}
+@if (Model == null)
+{
+    <div class="room_none">
+        <div class="img"></div>
+        <h3>啊哦，你访问的页面出错啦~</h3>
+    </div>
+}
+else if (Model.code == "1")
+{
+    <div class="room_none">
+        <div class="img"></div>
+        <div class="msg-tips">@Model.msg</div>
+    </div>
+}

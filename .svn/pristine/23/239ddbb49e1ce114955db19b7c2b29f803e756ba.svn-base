@@ -1,0 +1,140 @@
+<template>
+	<view class="main">
+		<view class="top">
+			<image v-show="show" src="../../static/pictures/back_1.png" class="img" @click="goback()"></image>
+			<text>关于</text>
+		</view>
+		<view class="center">
+			<image src="../../static/pictures/logo_1.png" class="img"></image>
+			<view class="text1">Web App</view>
+			<view class="text1">v1.0.0(866b67a)</view>
+			<view class="text1">@cat 版權所有</view>
+			<view  class="text2">For more information visit</view>
+			<view class="yellow">www.mycat1314.com</view>
+			<view class="text3" >聯繫客服</view>
+			<view class="yellow">mycat1314@mycat1314.com</view>
+			<!-- {{this.Language.language[this.tabbarLoginLanguage].name2}} -->
+			
+		</view>
+	</view>
+</template>
+
+<script>
+	import {encrypt,decrypt,system,systemId,base64ToArrayBuffer,sendData,sendD,work,sendD07,navigateTo} from "../../lib/js/GlobalFunction.js"
+	// import {navigateTo} from "../../lib/js/GlobalFunction.js"
+	export default {
+		data() {
+			return {
+				tabbarLoginLanguage: null, // 用户语言
+				pageId: null ,// 页面ID
+				show: true, // 退出页面按钮是否显示
+				
+			};
+		},
+		onLoad(obj){
+			var option=JSON.parse(decrypt(decodeURIComponent(obj.action)))
+			this.pageId = option.pageId;
+			// this.getLoginMsg();
+			// console.log(JSON.parse(decrypt(decodeURIComponent('kW8USr8GUAzfFOC90S79NQ%3D%3D'))))
+			this.chose();
+			this.getLoginlanger(); // 获取语言
+		},
+		methods:{
+			getLoginlanger:function(){ // 获取当前语言
+			// console.log(decrypt('LDZVGiiPVwnl9jDOuakGIOl++yQIKW2fjyGBknmT1/g5biEs/qtE0GbX1vv+46Dl'))
+				var that = this;
+				uni.getStorage({
+					key: 'storage_login_language',
+					success: function (res) {
+						that.tabbarLoginLanguage = JSON.parse(res.data);
+						console.log(that.tabbarLoginLanguage);
+						if(that.tabbarLoginLanguage == 0){
+							that.langer = 0;
+						}else if(that.tabbarLoginLanguage == 1){
+							that.langer = 1;
+						}else if(that.tabbarLoginLanguage == 2){
+							that.langer = 2;
+						}else if(that.tabbarLoginLanguage == 3){
+							that.langer =3;
+						}
+					}
+				});
+			},
+			chose:function(){ // 判断是否为安卓或IOS登录
+				if(this.pageId == 25 || this.pageId == 26){
+					this.show = false;
+				}
+			},
+			
+			goback:function(){ // 回退功能
+				// uni.navigateTo({
+				// 	url: "/pages/dataset/dataset"
+				// });
+				navigateTo('/pages/dataset/dataset',null);
+			},
+		
+			// ----------------------------喜好按钮事件---------------------------------------------------
+		}
+	}
+</script>
+
+<style lang="scss">
+page{
+	width: 100%;
+	height: 100%;
+	background: #191919;
+}
+.main{
+	width: 100%;
+	height: 100%;
+	display:flex;
+	align-items:center;
+	flex-direction:column;
+	.top{
+		position: relative;
+		width: 100%;
+		height: 100rpx;
+		background-color: #252525;
+		font-size:30rpx;
+		color:#FFFFFF;
+		text-align:center;
+		line-height:100rpx;
+		.img{
+			position: absolute;
+			top: 32rpx;
+			left: 28rpx;
+			width: 36rpx;
+			height: 36rpx;
+		}
+	}
+	.center{
+		width:100%;
+		flex:1;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		font-size: 26rpx;
+		color: #fff;
+		.img{
+			width: 184rpx;
+			height: 206rpx;
+			margin-top:73rpx;
+			margin-bottom: 78rpx;
+		}
+		.yellow{
+			color:#FFD600;
+			margin-top:18rpx;
+			
+		}
+		.text1{
+			margin-bottom: 12rpx;
+		}
+		.text2{
+			margin-top: 47rpx;
+		}
+		.text3{
+			margin-top: 58rpx;
+		}
+	}
+}
+</style>

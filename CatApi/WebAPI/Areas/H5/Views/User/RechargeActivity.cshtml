@@ -1,0 +1,51 @@
+﻿@{
+    ViewBag.Title = "充值豪礼";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    body {
+        margin: 0;
+        overflow-y: hidden;
+        overflow-x: hidden;
+    }
+
+    .banner img {
+        width: 100%;
+        display: block;
+    }
+
+    .bottom {
+        position: fixed;
+        bottom: 0;
+    }
+
+    @@keyframes mymove {
+        from {
+            left: 0px;
+        }
+
+        to {
+            left: 100%;
+        }
+    }
+
+    @@-webkit-keyframes mymove /*Safari and Chrome*/ {
+        from {
+            left: 0px;
+        }
+
+        to {
+            left: 100%;
+        }
+    }
+</style>
+<div class="banner">
+    <div class="top"></div>
+    <img id="bg" src="~/Content/common/images/wuliao/recharge1.png" />
+    <a href="http://live.imeyoo.com/H5/User/Service">
+        <div class="bottom" id="downloadButton">
+            <img src="~/Content/common/images/wuliao/recharge2.png" />
+        </div>
+    </a>
+</div>
+

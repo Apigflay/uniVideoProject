@@ -1,0 +1,563 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+		    "path" : "pages/startup/startup",
+		    "style" : {
+				"app-plus": {
+				                  "titleNView": false
+				},
+				"navigationStyle":"custom"
+			}
+		},
+		{
+			"path": "pages/index/index",
+			"style": {
+				"app-plus": {
+                    "titleNView": false //禁用原生导航栏
+                },
+				"navigationStyle":"custom"
+			}
+		}
+        ,{
+            "path" : "pages/login/login",
+            "style" : {
+				"navigationBarTitleText": "uni-app login",
+				"navigationStyle":"custom"
+			}
+			
+        }
+        ,{
+            "path" : "pages/tabbar/tabbar",
+            "style" : {
+				"navigationBarTitleText": "uni-app tabbar",
+				"navigationStyle":"custom"
+			}
+        }
+        ,{
+            "path" : "pages/swiperbar/swiperbar",
+            "style" : {
+				"navigationBarTitleText": "uni-app swiperbar",
+				"navigationStyle":"custom"
+			}
+        }
+        ,{
+            "path" : "pages/scrolltop/scrolltop",
+            "style" : {
+				"app-plus": {
+				    "titleNView": false 
+				},
+				"navigationStyle":"custom"
+			}
+        }
+        ,{
+            "path" : "pages/home/home",
+            "style" : {
+				"app-plus": {
+				                  "titleNView": false
+				},
+				"navigationStyle":"custom"
+			}
+        }
+        ,{
+            "path" : "pages/scroll/scroll",
+            "style" : {
+				"app-plus": {
+				        "titleNView": false
+				},
+				"navigationStyle":"custom"
+			}
+        }
+        ,{
+            "path" : "pages/freelimit/freelimit",
+            "style" : {
+				"app-plus": {
+				                  "titleNView": false
+				},
+				"navigationStyle":"custom"
+			}
+        }
+        ,{
+            "path" : "pages/search/search",
+            "style" : {
+				"app-plus": {
+				                  "titleNView": false
+				},
+				"navigationStyle":"custom"
+			}
+        }
+        ,{
+            "path" : "pages/video/video",
+            "style" : {
+				"app-plus": {
+				                  "titleNView": false
+				},
+				"navigationStyle":"custom"
+			}
+        }
+        ,{
+            "path" : "pages/tagsearch/tagsearch",
+            "style" : {
+				"app-plus": {
+				                  "titleNView": false
+				},
+				"navigationStyle":"custom"
+			}
+        }
+        ,{
+            "path" : "pages/news/news",
+            "style" : {
+				"app-plus": {
+				                  "titleNView": false
+				},
+				"navigationStyle":"custom"
+			}
+        }
+        ,{
+            "path" : "pages/newsearch/newsearch",
+            "style" : {
+				"app-plus": {
+				                  "titleNView": false
+				},
+				"navigationStyle":"custom"
+			}
+        }
+        ,{
+            "path" : "pages/chat/chat",
+            "style" : {
+				"app-plus": {
+				                  "titleNView": false
+				},
+				"navigationStyle":"custom"
+			}
+        }
+        ,{
+            "path" : "pages/newchat/newchat",
+            "style" : {
+				"app-plus": {
+				                  "titleNView": false
+				},
+				"navigationStyle":"custom"
+			}
+        }
+        ,{
+            "path" : "pages/chatpop/chatpop",
+            "style" : {
+				"app-plus": {
+				                  "titleNView": false
+				},
+				"enablePullDownRefresh": false,
+				"navigationStyle":"custom"
+			}
+        }
+        ,{
+            "path" : "pages/facebook/facebook",
+            "style" : {
+				"navigationStyle":"custom"
+			}
+        }
+        ,{
+            "path" : "pages/my/my",
+            "style" : {
+				"app-plus": {
+				                  "titleNView": false
+				},
+				"navigationStyle":"custom"
+			}
+        }
+        ,{
+            "path" : "pages/changeintroduction/changeintroduction",
+            "style" : {
+				"app-plus": {
+				                  "titleNView": false
+				},
+				"navigationStyle":"custom"
+			}
+        }
+        ,{
+            "path" : "pages/lockuser/lockuser",
+            "style" : {
+				"app-plus": {
+				                  "titleNView": false
+				},
+				"navigationStyle":"custom"
+			}
+        }
+        ,{
+            "path" : "pages/notification/notification",
+            "style" : {
+				"app-plus": {
+				                  "titleNView": false
+				},
+				"navigationStyle":"custom"
+			}
+        }
+        ,{
+            "path" : "pages/rankinglist/rankinglist",
+            "style" : {
+				"app-plus": {
+				                  "titleNView": false
+				},
+				"navigationStyle":"custom"
+			}
+        }
+        ,{
+            "path" : "pages/personaldata/personaldata",
+            "style" : {
+				"app-plus": {
+				                  "titleNView": false
+				},
+				"navigationStyle":"custom"
+			}
+        }
+        ,{
+            "path" : "pages/anchorpersonal/anchorpersonal",//主播个人资料
+            "style" : {
+				"app-plus": {
+				                  "titleNView": false
+				},
+				"navigationStyle":"custom"
+			}
+        }
+        ,{
+            "path" : "pages/anchorme/anchorme",//主播我的
+            "style" : {
+				"app-plus": {
+				                  "titleNView": false
+				},
+				"navigationStyle":"custom"
+			}
+        }
+        ,{
+            "path" : "pages/commoditymanagement/commoditymanagement",//主播商品管理
+            "style" : {
+				"app-plus": {
+				                  "titleNView": false
+				},
+				"navigationStyle":"custom"
+			}
+        }
+        ,{
+            "path" : "pages/addworks/addworks",//主播添加作品
+            "style" : {
+				"app-plus": {
+				                  "titleNView": false
+				},
+				"navigationStyle":"custom"
+			}
+        }
+        ,{
+            "path" : "pages/revenuemanagement/revenuemanagement",//收益管理
+            "style" : {
+				"app-plus": {
+				                  "titleNView": false
+				},
+				"navigationStyle":"custom"
+			}
+        }
+        ,{
+            "path" : "pages/dataset/dataset",//h5个人资料设定
+            "style" : {
+				"app-plus": {
+				                  "titleNView": false
+				},
+				"navigationStyle":"custom"
+			}
+        }
+        ,{
+            "path" : "pages/electronicreceipt/electronicreceipt",//我的电子收据	
+            "style" : {
+				"app-plus": {
+				                  "titleNView": false
+				},
+				"navigationStyle":"custom"
+			}
+        }
+        ,{
+            "path" : "pages/like/like",//喜好
+            "style" : {
+				"app-plus": {
+				                  "titleNView": false
+				},
+				"navigationStyle":"custom"
+			}
+        }
+        ,{
+            "path" : "pages/connectedaccount/connectedaccount",//已连接账号
+            "style" : {
+				"app-plus": {
+				                  "titleNView": false
+				},
+				"navigationStyle":"custom"
+			}
+        }
+        ,{
+            "path" : "pages/ispurp/ispurp",
+            "style" : {
+				"app-plus": {
+				                  "titleNView": false
+				},
+				"navigationStyle":"custom"
+			}
+        }
+        ,{
+            "path" : "pages/newachormelist/newachormelist",//主播信息列表
+            "style" : {
+				"app-plus": {
+				                  "titleNView": false
+				},
+				"navigationStyle":"custom"
+			}
+        }
+        ,{
+            "path" : "pages/unlockvideo/unlockvideo",  // 我的主页中的已解锁主播中的已解锁视频页面 
+            "style" : {
+				"app-plus": {
+				                  "titleNView": false
+				},
+				"navigationStyle":"custom"
+			}
+        }
+        ,{
+            "path" : "pages/fanspopup/fanspopup", // 个人页面粉丝列表页面
+            "style" : {
+				"app-plus": {
+				                  "titleNView": false
+				},
+				"navigationStyle":"custom"
+			}
+        }
+        ,{
+            "path" : "pages/followpopup/followpopup", // 关注列表
+            "style" : {
+				"app-plus": {
+				                  "titleNView": false
+				},
+				"navigationStyle":"custom"
+			}
+        }
+        ,{
+            "path" : "pages/detailed/detailed", // 消费明细
+            "style" : {
+				"app-plus": {
+				                  "titleNView": false
+				},
+				"navigationStyle":"custom"
+			}
+        }
+        ,{
+            "path" : "pages/homevideolist/homevideolist", // 首页更多列表
+            "style" : {
+				"app-plus": {
+				                  "titleNView": false
+				},
+				"navigationStyle":"custom"
+			}
+        }
+        ,{
+            "path" : "pages/pagedelete/pagedelete",  // 删除用户页面
+            "style" : {
+				"app-plus": {
+				                  "titleNView": false
+				},
+				"navigationStyle":"custom"
+			}
+        }
+        ,{
+            "path" : "pages/addworksupdate/addworksupdate",//添加作品修改
+            "style" : {
+				"app-plus": {
+				                  "titleNView": false
+				},
+				"navigationStyle":"custom"
+			}
+        }
+        ,{
+            "path" : "pages/addworksupdatetime/addworksupdatetime",//添加作品修改  时间过期
+            "style" : {
+				"app-plus": {
+				                  "titleNView": false
+				},
+				"navigationStyle":"custom"
+			}
+        }
+        ,{
+            "path" : "pages/paymoney/paymoney",  // 充值页面
+            "style" : {
+				"app-plus": {
+				                  "titleNView": false
+				},
+				"navigationStyle":"custom"
+			}
+        }
+        ,{
+            "path" : "pages/gobackurl/gobackurl", // 第三方回传地址
+            "style" : {
+				"app-plus": {
+				                  "titleNView": false
+				},
+				"navigationStyle":"custom"
+			}
+        }
+        ,{
+            "path" : "pages/service/service", // 服务条款页面
+            "style" : {
+				"app-plus": {
+				                  "titleNView": false
+				},
+				"navigationStyle":"custom"
+			}
+        }
+        ,{
+            "path" : "pages/about/about", // 关于页面
+            "style" : {
+				"app-plus": {
+				                  "titleNView": false
+				},
+				"navigationStyle":"custom"
+			}
+        }
+        ,{
+            "path" : "pages/privacyPage/privacyPage", // 隐私页面
+            "style" : {
+				"app-plus": {
+				                  "titleNView": false
+				},
+				"navigationStyle":"custom"
+			}
+        }
+        
+        ,{
+            "path" : "pages/message/message", // 私讯价格页面
+            "style" : {
+				"app-plus": {
+				                  "titleNView": false
+				},
+				"navigationStyle":"custom"
+			}
+        }
+        ,{
+            "path" : "pages/outservice/outservice", // app端服务条款
+            "style" : {
+				"app-plus": {
+				                  "titleNView": false
+				},
+				"navigationStyle":"custom"
+			}
+        }
+        ,{
+            "path" : "pages/outprivacy/outprivacy", // app端隐私协议
+            "style" : {
+				"app-plus": {
+				                  "titleNView": false
+				},
+				"navigationStyle":"custom"
+			}
+        }
+        ,{
+            "path" : "pages/tintroduction/tintroduction",//介绍活动页
+            "style" : {
+				"app-plus": {
+				                  "titleNView": false
+				},
+				"navigationStyle":"custom"
+			}
+        }
+        ,{
+            "path" : "pages/tmerry/tmerry",//拉新活动页面
+            "style" : {
+				"app-plus": {
+				                  "titleNView": false
+				},
+				"navigationStyle":"custom"
+			}
+        }
+        ,{
+            "path" : "pages/foractivity/foractivity",//活动专用页面
+            "style" : {
+				"app-plus": {
+				                  "titleNView": false
+				},
+				"navigationStyle":"custom"
+			}
+        }
+        ,{
+            "path" : "pages/aboutios/aboutios",//ios 关于页面
+            "style" : {
+				"app-plus": {
+				                  "titleNView": false
+				},
+				"navigationStyle":"custom"
+			}
+        }
+        ,{
+            "path" : "pages/newuser/newuser",//入门活动页面
+            "style" : {
+				"app-plus": {
+				                  "titleNView": false
+				},
+				"navigationStyle":"custom"
+			}
+        }
+        ,{
+            "path" : "pages/payddmoney/payddmoney",//代理充值
+            "style" : {
+				"app-plus": {
+				                  "titleNView": false
+				},
+				"navigationStyle":"custom"
+			}
+        }
+        ,{
+            "path" : "pages/setvideomoney/setvideomoney",//設置
+            "style" : {
+				"app-plus": {
+				                  "titleNView": false
+				},
+				"navigationStyle":"custom"
+			}
+        }
+    ],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",//导航栏标题颜色及状态栏前景颜色，仅支持 black/white
+		"navigationBarTitleText": "woops",//导航栏标题文字内容
+		"navigationBarBackgroundColor": "#F8F8F8",//导航栏背景颜色（同状态栏背景色）
+		"backgroundColor": "#F8F8F8",//窗口的背景色
+		"onReachBottomDistance":50,//页面上拉触底事件触发时距页面底部距离，单位只支持px，详见页面生命周期
+		"scrollIndicator":"none"//
+		// "navigationBarShadow":{"colorType":"blue"}//原生导航条
+		// "navigationStyle":"custom"
+	}
+	// ,
+	// "tabBar": {
+	// 	"color": "#7A7E83",//tab 上的文字默认颜色
+	// 	"selectedColor": "#3cc51f",//tab 上的文字选中时的颜色
+	// 	"borderStyle": "black",//tabbar 上边框的颜色，仅支持 black/white
+	// 	"backgroundColor": "#000",//tab 的背景色
+	// 	"list": [{
+	// 		"pagePath": "pages/home/home",
+	// 		"iconPath": "static/imgs/room1w.png",
+	// 		"selectedIconPath": "static/imgs/room1y.png",
+	// 		"text": ""
+	// 	}, {
+	// 		"pagePath": "pages/search/search",
+	// 		"iconPath": "static/imgs/fang1w.png",
+	// 		"selectedIconPath": "static/imgs/fang1y.png",
+	// 		"text": ""
+	// 	}, {
+	// 		"pagePath": "pages/news/news",
+	// 		"iconPath": "static/imgs/mail1w.png",
+	// 		"selectedIconPath": "static/imgs/mail1y.png",
+	// 		"text": ""
+	// 	}, {
+	// 		"pagePath": "pages/chat/chat",
+	// 		"iconPath": "static/imgs/xin1w.png",
+	// 		"selectedIconPath": "static/imgs/xin1y.png",
+	// 		"text": ""
+	// 	},{
+	// 		"pagePath": "pages/my/my",
+	// 		"iconPath": "static/imgs/my1w.png",
+	// 		"selectedIconPath": "static/imgs/my1y.png",
+	// 		"text": ""
+	// 	}]
+	// }
+}

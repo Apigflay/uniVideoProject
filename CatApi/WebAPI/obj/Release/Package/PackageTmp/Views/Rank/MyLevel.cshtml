@@ -1,0 +1,53 @@
+﻿@{
+    ViewBag.Title = "用户等级";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section head_css{
+    <meta name="format-detection" content="telephone=no,email=no">
+    <link href="~/Content/week/level.css?v=2016-07-18:1111" rel="stylesheet" />
+    <style type="text/css">
+        .value { width: 1px; transition: width 1s ease-in 0; -moz-border-radius: 0.8rem; -webkit-border-radius: 0.8rem; -moz-transition: width 1s ease-in 0; -webkit-transition: width 1s ease-in 0; }
+    </style>
+}
+<div class="user_level">
+    <div class="head">
+        <div class="head_level">
+            <span class="level_user @ViewBag.levelUser"><i>@ViewBag.grade</i></span>
+            <span class="@ViewBag.color"></span>
+        </div>
+        <div class="progress">
+            <span class="bg">
+                <span class="lv_now grade">@ViewBag.curGrade</span>
+                <span class="lv_next">@ViewBag.nextGrade</span>
+                <span class="text">@ViewBag.curexp / @ViewBag.nextExp</span>
+                <span class="value @ViewBag.levelValue"></span>
+            </span>
+        </div>
+    </div>
+
+    <div class="up">
+        <div class="title">如何提升等级</div>
+        <div class="list">
+            <ul>
+                <li>观看直播可以获得经验值</li>
+                <li>在直播间发言，获得经验值</li>
+                <li>分享主播到微信、QQ、微博，获得经验值</li>
+                <li>赠送礼物、升级VIP是涨经验最快的方式</li>
+            </ul>
+        </div>
+    </div>
+    <div class="userful">
+        <div class="title">等级有什么用</div>
+        <div class="list">
+            <ul>
+                <li>专属等级图标，等级越高越尊贵</li>
+                <li>更多专享功能敬请期待……</li>
+            </ul>
+        </div>
+    </div>
+
+</div>
+<script type="text/javascript">
+    $('.value').css('width',@ViewBag.progress+'%');
+</script>

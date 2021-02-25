@@ -1,0 +1,135 @@
+<template>
+	<view class="content">
+		<image class="more1" src="../../static/imgs/more1.png" mode="" @click="goBackPage"></image>
+		<iframe class="iframe" :src="param" frameborder="0"></iframe>
+		<!-- pay.mycat1314.com/pay/payList?param={"useridx":"10009788","deviceType":"h5","deviceID":"设备id","buddleID":"h5","version":"1.0"} -->
+	</view>
+</template>
+
+<script>
+	import {encrypt,decrypt,system,systemId,base64ToArrayBuffer,sendData,sendD,work,regMail} from "../../lib/js/GlobalFunction.js"
+	export default {
+		data() {
+			return {
+				loginData:null,//登录信息
+				param:null,//url参数集合
+				loginLanguage:null,//语言
+			};
+		},
+		onLoad() {
+			this.getLoginData()
+			this.getLoginLanguage()
+		},
+		methods:{
+			getLoginData:function(){//获取socket成功信息
+				var that = this;
+				uni.getStorage({
+					key: 'storage_login_str',
+					success: function (res) {
+						// console.log(JSON.parse(res.data))
+						that.loginData = JSON.parse(res.data);
+						// console.log(this.loginData.bindmail);
+						// if(that.loginData.bindmail==false){
+						// 	// console.log("未绑定邮箱");
+						// 	that.marskShow = true;
+						// 	that.getCheckArea =true;
+						// }
+						// if(that.loginData.setnick==false){
+						// 	console.log('未设置喜好')
+						// 	that.marskShow = true;
+						// 	that.mainShowArea =true;
+						// }
+						that.getParamData()
+						
+					}
+				});
+			},
+			getLoginLanguage:function(){//获取socket成功信息
+				var that = this;
+				uni.getStorage({
+					key: 'storage_login_language',
+					success: function (res) {
+						// console.log(JSON.parse(res.data))
+						that.loginLanguage = JSON.parse(res.data);
+						// console.log(this.loginData.bindmail);
+						// if(that.loginData.bindmail==false){
+						// 	// console.log("未绑定邮箱");
+						// 	that.marskShow = true;
+						// 	that.getCheckArea =true;
+						// }
+						// if(that.loginData.setnick==false){
+						// 	console.log('未设置喜好')
+						// 	that.marskShow = true;
+						// 	that.mainShowArea =true;
+						// }
+						that.getParamData()
+					}
+				});
+			},
+			getParamData:function(){
+				var language = "chinese"
+				if(this.loginLanguage==0){
+					language = "chinese"
+				}else if(this.loginLanguage==1){
+					language = "chinese"
+				}else if(this.loginLanguage==2){
+					language = "english"
+				}else if(this.loginLanguage==3){
+					language = "thailand"
+				}
+				
+				var param = JSON.stringify({
+					useridx:JSON.stringify(this.loginData.useridx),
+					deviceType:"h5",
+					deviceID:systemId(),
+					buddleID:"h5",
+					version:"1.0.0",
+					language:language,
+				})
+				// console.log(param)
+				this.param ='http://pay.mycat1314.com/pay/PayList?param='+param;//
+
+				// console.log('http://pay.mycat1314.com/pay/PayList?param={"buddleID":"com.tg.facetalk","deviceID":"7BD1B8D6-6839-456D-9A0A-88E78CEDBA16","deviceType":"ios","language":"thailand","useridx":"10009790","version":"1.0.0"}')
+			},
+			goBackPage:function(){
+				// console.log(this.loginData.isAnchor)
+				if(this.loginData.isAnchor==true){
+					uni.navigateTo({
+						url: '/pages/anchorme/anchorme'
+					});
+				}else{
+					uni.navigateTo({
+						url: '/pages/my/my'
+					});
+				}
+			}
+		}
+	}
+</script>
+
+<style lang="scss">
+page{
+	width: 100%;
+	height: 100%;
+	// background:rgba(35,35,35,1);#191919
+	// background:#191919;
+}
+.content{
+	width: 100%;
+	height: 100%;
+	position: relative;
+	.more1{
+		position: absolute;
+		z-index: 10000;
+		width: 64rpx;
+		height: 48rpx;
+		padding: 10rpx;
+		top: 28rpx;
+		left: 28rpx;
+	}
+	.iframe{
+		width: 100%;
+		height: 100%;
+	}
+}
+</style>

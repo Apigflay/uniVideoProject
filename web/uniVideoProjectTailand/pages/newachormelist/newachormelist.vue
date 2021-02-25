@@ -1,0 +1,370 @@
+<template>
+	<scroll-view scroll-y="true" @scrolltolower="getNewmsg()" class="main">
+		<view class="top">
+			<image class="back" src="../../static/pictures/back_1.png" @click="goBack()"></image>
+			{{MyName}}
+			<image class="more"></image>
+		</view>
+		<view class="content">
+			<view class="list">
+				<!-- model1Data -->
+				<view class="listPer" v-for="(item,index) in model1Data" :key="index" @click="goVideo(item)">
+					<view class="left">
+						<image class="photo" :src="item.BackgroundPicUrl"></image>
+					</view>
+					<view class="content">
+						<view class="center">
+							<text class="p"><text class="p1"></text>{{item.Content}}</text>
+						</view>
+						<view class="bottom">
+							<view class="b_left">
+								<image class="img" src="../../static/pictures/bofang_1.png"></image>
+								<text v-if="item.show_hours" class="p">{{sy_remaining[tabbarLoginLanguage]}}{{item.hours}}{{sy_hour[tabbarLoginLanguage]}}</text>
+								<text v-if="item.show_minutes" class="p">{{sy_remaining[tabbarLoginLanguage]}}{{item.minutes}}{{sy_min[tabbarLoginLanguage]}}</text>
+								<text v-if="item.show_seconds" class="p">{{sy_remaining[tabbarLoginLanguage]}}{{item.seconds}}{{sy_sec[tabbarLoginLanguage]}}</text>
+								<image class="img" src="../../static/pictures/unlock_1.png"></image>
+								<text class="p">{{item.UnLockCount}}</text>
+								<image class="img" src="../../static/pictures/fabulous_1.png"></image>
+								<text v-if="item.GoodEvaluate==0" class="p">0%</text>
+								<text v-else class="p">{{Math.floor(item.GoodEvaluate/(item.GoodEvaluate+item.BadEvaluate)*100)}}%</text>
+							</view>
+							<view class="b_right">
+								<image class="img" src="../../static/imgs/goldM1.png"></image>
+								<text class="p" v-if="item.UnLockMoney != 0">{{item.UnLockMoney}}</text>
+								<text class="p" v-else>{{sy_free[tabbarLoginLanguage]}}</text>
+							</view>
+						</view>
+					</view>
+				</view>
+			</view>
+		</view>
+	</scroll-view>
+</template>
+
+<script>
+	import {encrypt,decrypt,system,systemId,base64ToArrayBuffer,sendData,sendD,work,navigateTo} from "../../lib/js/GlobalFunction.js"
+	export default {
+		data() {
+			return {
+				tabbarLoginLanguage: null, // 用户语言
+				pageId: null, // 页面ID用于页面跳转时候使用  --回退
+				goVideoId: 3, //页面ID用于页面跳转时候使用  --视频页面
+				model1Data: null, // 获取页面信息的变量
+				model2Data: null, // 页面下拉获取更新信息的变量
+				UserIdx: null, // 从页面获取的用户IDX
+				AnchorIdx: null, // 上一个页面获取到的主播IDX
+				MyName: null, // 从上一个页面获取到的用户名
+				ResourceoId: null, // 影片ID
+				Page: 1, // 当前页面页数
+				Type: 1, //0列表 1-搜索
+				Where: '', // 所搜条件
+				
+				sy_remaining: ['剩余','剩余','Remaining','เหลือ'], // 剩余时间的剩余两个字
+				sy_hour: ['小时','小時','Hour','ชม'],
+				sy_min: ['分钟','分鐘','Minute','นาที'],
+				sy_sec: ['秒','秒','Second','วินาที'],
+				sy_free: ['免费','免費','Free','ฟรี'],
+			};
+		},
+		onLoad: function (obj) { //option为object类型，会序列化上个页面传递的参数
+			var option=JSON.parse(decrypt(decodeURIComponent(obj.action)));
+			// console.log(option); //打印出上个页面传递的参数。
+			this.pageId = option.pageId;
+			this.AnchorIdx = option.AnchorIdx;
+			this.MyName = option.MyName;
+			
+			this.getLoginlanger(); // 获取语言
+			this.getLoginMsg(); // 登录信息
+			this.getInitMsg(); // 页面初始化通过获取到的主播idx加载数据
+			this.getTime(); // 计算帖子剩余时间
+		},
+		methods:{
+			getLoginlanger:function(){ // 获取当前语言
+				var that = this;
+				uni.getStorage({
+					key: 'storage_login_language',
+					success: function (res) {
+						that.tabbarLoginLanguage = JSON.parse(res.data);
+						console.log(that.tabbarLoginLanguage);
+					}
+				});
+			},
+			getLoginMsg:function(){//登录信息
+				var that = this;
+				uni.getStorage({
+					key: 'storage_login_str',
+					success: function (res) {
+						that.tabbarLoginData = JSON.parse(res.data);
+						// console.log(that.tabbarLoginData);
+						that.UserIdx = that.tabbarLoginData.useridx
+						if(that.tabbarLoginData.isAnchor==false){
+							that.isAnchor = false;
+						}
+					}
+				});
+			},
+			
+			getInitMsg:function(e){ // 页面初始化通过获取到的主播idx加载数据
+				if(this.tabbarLoginData.isAnchor==true){
+					var identity = 1;
+				}else if(this.tabbarLoginData.isAnchor==false){
+					var identity = 0;
+				}
+				var array=base64ToArrayBuffer(encrypt(JSON.stringify({
+					UserIdx: this.AnchorIdx,
+					Page: this.Page,
+					Type: 0,
+					Where: '',
+					identity:identity,//用户身份  默认是0 0-用户  1-主播
+				})))
+				var res = JSON.parse(decrypt(sendData('POST',this.GLOBAL.urlPoint+'/userinfo/GetFansAllSearch',array)));
+				if(res.code==100){
+					this.model1Data=res.data.list;
+					console.log(res);
+				}
+			},
+			
+			getNewmsg:function(){ // 页面触底时触发的事件
+				console.log(this.Page);
+				this.Page++;
+				if(this.tabbarLoginData.isAnchor==true){
+					var identity = 1;
+				}else if(this.tabbarLoginData.isAnchor==false){
+					var identity = 0;
+				}
+				var array=base64ToArrayBuffer(encrypt(JSON.stringify({
+					UserIdx: this.UserIdx, // int 用户IDX
+					Page: this.Page, // int 页面页数
+					Type: this.Type, // int 类型
+					Where: this.Where ,// string 搜索内容
+					identity:identity,//用户身份  默认是0 0-用户  1-主播
+				})))
+				var res = JSON.parse(decrypt(sendData('POST',this.GLOBAL.urlPoint+'/userinfo/GetFansAllSearch',array)));
+				// console.log(res);
+				if(res.code==100){
+					this.model2Data = res.data.list;
+				}
+				// console.log(this.model2Data);
+				this.model1Data = Object.assign(this.model1Data, this.model2Data);
+				this.model1Data.push.apply(this.model1Data,this.model2Data);
+				// console.log(this.model1Data);
+				
+				// ---------- 测试滑动加载代码
+				// var a = [1,2,3];
+				// var b = [4,5,6];
+				// a.push.apply(a,b);
+				// console.log(a);
+				// ---------- 测试滑动加载代码
+			},
+			
+			getTime:function(){ // 计算帖子剩余时间
+				// console.log(this.model1Data[0].ExpireTime)
+				// console.log(this.model1Data.length)
+				for(var i = 0; i<this.model1Data.length; i++){ //定义获取到数组的长度 进行循环读取数组中的ExpireTime变量
+					// console.log(this.model1Data.length);
+					var b = this.model1Data[i].ExpireTime.replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '').replace(/\-/g, '/');
+					// var b ="2019-10-18 16:00:00";
+					var str = b.split(".");
+					// console.log(str[0]);
+					var now = new Date().getTime();
+					var time = Date.parse(str[0]);
+					var rest = time-now;
+					var hours; // 获取小时数
+					var minutes; // 获取分钟数
+					var seconds; // 获取秒数
+					var show_hours = true; // 判断小时时间是否为空
+					var show_minutes = false; // 判断分钟时间是否为空
+					var show_seconds = false; // 判断秒钟时间是否为空
+					
+					if(rest <= 0){
+						hours = '00'
+						minutes = '00'
+						seconds = '00'
+					}else{
+						hours = Math.ceil(rest / (1000 * 60 * 60 ))<10?'0'+ Math.ceil(rest / (1000 * 60 * 60 )):Math.ceil(rest / (1000 * 60 * 60 ));
+						minutes = Math.ceil(rest % (1000 * 60 * 60) / (1000 * 60))<10?'0' + Math.ceil(rest % (1000 * 60 * 60) / (1000 * 60)):Math.ceil(rest % (1000 * 60 * 60) / (1000 * 60));
+						seconds = Math.ceil((rest % (1000 * 60)) / 1000)<10?'0' + Math.ceil((rest % (1000 * 60)) / 1000):Math.ceil((rest % (1000 * 60)) / 1000);
+						// console.log(hours);
+					}
+					this.model1Data[i]['hours'] = hours; // 将获取到的时间的数据存入对象数组中
+					this.model1Data[i]['minutes'] = minutes;
+					this.model1Data[i]['seconds'] = seconds;
+					// console.log(this.model1Data[i]);
+					// this.minutes.push(hours); // push 只能把数据存入数组
+					if(hours == '00'){
+						show_hours = false;
+						show_minutes = true;
+					}else if(minutes == '00'){
+						show_minutes = false;
+						show_seconds = true;
+						// console.log(this.show_minutes)
+					}else{
+						// console.log('111')
+					}
+					this.model1Data[i]['show_hours'] = show_hours;
+					this.model1Data[i]['show_minutes'] = show_minutes;
+					this.model1Data[i]['show_seconds'] = show_seconds;
+				}
+				// console.log(this.model1Data);
+			},
+			
+			goVideo:function(e){ // 跳转视频页面
+				// console.log(e);
+				// uni.navigateTo({
+				// 	// 传递的参数中UserIdx 是点击的视频的主播IDX. (AnchorIdx是当前打开的主播账号的idx  MyName 是当前主播名字) 
+				// 	// 括号中的内容是用于页面从视频页面回退的时候使用的数据
+				// 	url: "../../pages/video/video?pageId="+ this.goVideoId + "&UserIdx=" + this.UserIdx + "&AnchorIdx=" + e.UserIdx + "&ResourceoId=" + e.ResourcesId + "&gobackId=" + this.AnchorIdx + "&MyName=" + this.MyName
+				// }); 
+				var obj = encodeURIComponent(encrypt(JSON.stringify({
+					pageId:this.goVideoId,
+					UserIdx:this.UserIdx,
+					AnchorIdx: e.UserIdx,
+					ResourceoId:e.ResourcesId,
+					gobackId: this.AnchorIdx,
+					MyName: this.MyName
+				})))
+				navigateTo('/pages/video/video',obj)
+			},
+			
+			goBack:function(){ // 退回上一页面
+				if(this.pageId == 2){
+					// uni.navigateTo({
+					// 	url: "../../pages/news/news"
+					// }); 
+					navigateTo('/pages/news/news',null)
+				}else{
+					
+				}
+			}
+		}
+		
+	}
+</script>
+
+<style lang="scss">
+page{
+	width: 100%;
+	height: 100%;
+}
+.main{
+	width: 100%;
+	height: 100%;
+	background: #191919;
+	font-size: 30rpx;
+	line-height: 30rpx;
+	color: #FFFFFF;
+	display: flex;
+	align-items:center;
+	flex-direction: column;
+	.top{
+		width:100%;
+		height: 100rpx;
+		background:#252525;
+		display:flex;
+		align-items:center;
+		justify-content: space-between;
+		.back{
+			width: 36rpx;
+			height: 36rpx;
+			padding: 10rpx;
+			margin-left: 19rpx;
+		}
+		.more{
+			width: 38rpx;
+			height: 38rpx;
+			padding: 10rpx;
+			margin-right: 19rpx;
+		}
+	}
+	.content{
+		width:100%;
+		flex:1;
+		overflow-y:scroll;
+		.list{
+			padding-top:7rpx;
+			margin-left:28rpx;
+			.listPer{
+				display:flex;
+				border-bottom: 2px solid #343434;
+				.left{ // 头像
+					padding: 12rpx 0rpx 11rpx 0rpx;
+					height: 90rpx;
+					width: 90rpx;
+					.photo{ // 头像
+						background: #646464;
+						height: 90rpx;
+						width: 90rpx;
+						border-radius: 8rpx;
+					}
+				}
+				.content{
+					width:100%;
+					margin-left:39rpx;
+					margin-right:28rpx;
+					display:flex;
+					flex-direction:column;
+					justify-content: space-between;
+					.center{ // 内容
+						.p{ // 文字内容
+							margin-top: 10rpx;
+							font-size: 20rpx;
+							font-weight:400;
+							color:#FFFFFF;
+							display: -webkit-box;
+							-webkit-box-orient: vertical;
+							-webkit-line-clamp: 2;
+							overflow: hidden;
+							.p1{
+								font-size: 26rpx;
+								font-weight:500;
+								color: #FFFFFF;
+								margin-right: 27rpx;
+							}
+						}
+					}
+					.bottom{
+						width: 100%;
+						display: flex;
+						justify-content:space-between;
+						align-items: center;
+						margin-bottom: 12rpx;
+						.b_left{
+							display:flex;
+							align-items:center;
+							margin-top:11rpx;
+							.img{
+								width: 23rpx;
+								height: 21rpx;
+								margin: 0rpx 12rpx 0rpx 4rpx;
+							}
+							.p{
+								font-size:22rpx;
+								font-weight:400;
+								color: #FFFFFF;
+								line-height: 22rpx;
+							}
+						}
+						.b_right{
+							display:flex;
+							align-items:center;
+							margin-top:12rpx;
+							.img{
+								width: 22rpx;
+								height: 16rpx;
+							}
+							.p{
+								margin: 0rpx 1rpx 0rpx 8rpx;
+								color: #FFD600;
+								font-size: 20rpx;
+								font-weight:400;
+								line-height: 20rpx;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	
+}
+</style>

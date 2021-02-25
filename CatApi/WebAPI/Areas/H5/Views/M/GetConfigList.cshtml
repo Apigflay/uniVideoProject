@@ -1,0 +1,67 @@
+﻿@{
+    ViewBag.Title = "配置";
+    Layout = "~/Views/Shared/_AdminPartial.cshtml";
+}
+
+<style type="text/css">
+    .name { width: 130px; }
+</style>
+
+<table class="table table-bordered">
+    @if (Model.configs != null && Model.configs.Count > 0)
+    {
+        foreach (var item in Model.configs)
+        {
+            <tr>
+                <td>@item.id</td>
+                <td>
+                    名称：@item.name<br />
+                    数据：
+
+                    @if (item.id == 11)
+                    {
+                        if (item.data == "0")
+                        {
+                            @Html.Raw("全部显示")
+                        }
+                        else if (item.data == "1")
+                        {
+                            @Html.Raw("苹果充值")
+                        }
+                        else
+                        {
+                            @Html.Raw("国内充值")
+                        }
+                    }
+                    else if (item.id == 16)
+                    {
+                        @Html.Raw(item.data == "1" ? "微信" : "汇付宝")
+                    }
+                    else if (item.id == 12 || item.id == 13 || item.id == 14 || item.id == 15 || item.id == 17 || item.id == 18 || item.id == 19)
+                    {
+                        @Html.Raw(item.data == "1" ? "显示" : "隐藏")
+                    }
+                    else
+                    {
+                        @Html.Raw(item.data)
+                    }
+
+                </td>
+                @if (!Common.Tools.IsMobile())
+                {
+                    <td>@item.content</td>
+                }
+                <td>
+                    <a href="@Url.Content("/H5/M/ConfigEditView")?type=3&id=@item.id">修改</a> |
+                    <a href="@Url.Content("/H5/M/ConfigEditView")?type=2&id=@item.id">编辑</a>
+
+                </td>
+            </tr>
+        }
+    }
+    else
+    {
+        <tr style="text-align:center"><td colspan="4">没有数据</td></tr>
+    }
+
+</table>

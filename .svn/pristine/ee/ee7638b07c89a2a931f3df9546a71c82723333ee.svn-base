@@ -1,0 +1,420 @@
+<template>
+	<view class="content">
+		<view class="nav">
+			<image class="back" src="../../static/imgs/more1w.png" mode="" @click="goBackPage"></image>
+			<text class="title">上传作品</text>
+		</view>
+		<view class="mainArea">
+			<view class="name">
+				<text class="text">名称</text>
+				<input class="input" v-model="content" type="text" placeholder="可以复制黏贴" />
+			</view>
+			<view class="selectArea">
+				<text class="text">价格</text>
+				<select class="select" v-model="price">
+				  <option :value ="item.price" v-for="(item,index) in list1" :key="index">{{item.price}}钻</option>
+				</select>
+			</view>
+			<view class="uploadArea">
+				<text class="text">上传</text>
+				<select class="select" v-model="type">
+				  <option value ="0">图片</option>
+				  <option value ="1">视频</option>
+				</select>
+			</view>
+			<view class="chooseImgArea">
+				<text class="text" v-if="type==0">图片</text>
+				<text class="text" v-if="type==1">视频</text>
+				<view class="choose">
+					<view class="btnUp" @click="uploadFile">
+						选择上传
+					</view>
+					<view class="imgBox">
+						<image class="img" :src="localImgSrc" mode="" v-if="type==0"></image>
+						<video class="audio" :src="localVideoSrc" :loop="true" objectFit="cover" muted="muted" :show-center-play-btn="false" :controls="false" :autoplay="true" v-if="type==1"></video>
+					</view>
+				</view>
+			</view>
+			<view class="timeArea">
+				<text class="text">时效</text>
+				<select class="select" v-model="Prescription">
+				  <option :value ="item.price" v-for="(item,index) in list2" :key="index">{{item.price}}分钟</option>
+				</select>
+			</view>
+			<view class="tipArea">
+				<text class="text">标签</text>
+				<textarea class="input" value="" @input="getTextAreaMsg" placeholder="#性感#长腿" />
+			</view>
+			<view class="btn" @click="goSubmitMsg">
+				提交
+			</view>
+		</view>
+	</view>
+</template>
+
+<script>
+	import {encrypt,decrypt,system,systemId,base64ToArrayBuffer,sendData,sendD,sendD15,work,regMail} from "../../lib/js/GlobalFunction.js"
+	export default {
+		data() {
+			return {
+				loginMsgData:null,//登录信息
+				content:'',//string 标题
+				price:null,//init 0 免费
+				type:0,//init 类型 0-图片 1-视频
+				Resources:null,//文件对象
+				Prescription:0,//init 时效
+				Evaluate:'',//string	标签 示例 #性感#美女#少妇
+				upLoadFileData:null,//
+				list1:[],
+				list2:[],
+				localImgSrc:'',
+				localVideoSrc:'',
+			};
+		},
+		onLoad() {//监听页面加载，其参数为上个页面传递的数据，参数类型为Object
+				this.getLoginMsg()//登录信息
+				this.getUploadMsg()//资源上传配置
+				
+		},
+		methods:{
+			getLoginMsg:function(){
+				var that = this;
+				uni.getStorage({
+					key: 'storage_login_str',
+					success: function (res) {
+						that.loginMsgData = JSON.parse(res.data);
+						// that.getUploadMsg()//资源上传配置
+						
+					}
+				});
+			},
+			goBackPage:function(){//添加作品返回
+				uni.navigateTo({
+					url: '/pages/commoditymanagement/commoditymanagement'
+				});
+			},
+			goSubmitMsg:function(){
+				var formData = new FormData();
+				formData.append('userIdx',this.loginMsgData.useridx);
+				formData.append('token',this.loginMsgData.webtoken);
+				// formData.append('userIdx',10009829);
+				// formData.append('token','EE7F3B03972DBFFAAD3A686431F6EB1E');
+				formData.append('content',this.content);//标题
+				formData.append('price',this.price);
+				formData.append('type',this.type);
+				formData.append('Resources',this.Resources);//文件对象
+				formData.append('Prescription',this.Prescription);//时效
+				formData.append('Evaluate',this.Evaluate);//标签
+
+				var xhr = new XMLHttpRequest;
+				xhr.open('POST',this.GLOBAL.urlPoint+'/UserInfo/ResourcesUpload', false);
+				xhr.send(formData);
+				// console.log(decrypt(xhr.responseText))
+				var resObj=JSON.parse(decrypt(xhr.responseText))
+				if(resObj.code==100){
+					uni.showToast({
+						title: '上传成功',
+						duration: 1500,
+						success:function(res){
+							var timer =setTimeout(function(){
+								uni.navigateTo({
+									url: '/pages/commoditymanagement/commoditymanagement'
+								});
+								
+							},1500)
+							
+						}
+					});
+					
+				}
+				
+			},
+			uploadFile:function(){
+				if(this.type==0){
+						var that =this;
+						uni.chooseImage({
+						count:1,//图片数量
+						sizeType:['compressed '],//压缩图
+						sourceType:['album','album'],//相册
+						success: function (res) {
+							// console.log(res)
+							that.localImgSrc=res.tempFilePaths[0]
+							uni.request({
+								url: res.tempFilePaths[0],
+								method:'GET',
+								responseType: 'arraybuffer',
+								success: ress => {
+									// console.log(ress.data)//流
+									let base64 = wx.arrayBufferToBase64(ress.data); //把arraybuffer转成base64 
+									base64 = 'data:image/jpeg;base64,' + base64 //不加上这串字符，在页面无法显示的哦
+									// console.log(base64)
+									// ------------------2222-----
+									// 将base64转换为文件对象
+									function dataURLtoFile(dataurl, filename) {
+									  var arr = dataurl.split(',');
+									  var mime = arr[0].match(/:(.*?);/)[1];
+									  var bstr = atob(arr[1]);
+									  var n = bstr.length; 
+									  var u8arr = new Uint8Array(n);
+									  while(n--){
+										  u8arr[n] = bstr.charCodeAt(n);
+									  }
+									  // 转换成file对象
+									  return new File([u8arr], filename, {type:mime});//FormData File
+									  // 转换成成blob对象
+									  // return new Blob([u8arr],{type:mime});
+									}
+									// 将图片转换为base64,再将base64转换成file对象
+									var file=dataURLtoFile(base64,'imgHeader')
+									// console.log(file)
+									that.Resources=file;
+									// --------------2222
+								}
+							})
+						}
+					});
+				}else if(this.type==1){
+					// 选择视频-----
+					var that =this;
+						uni.chooseVideo({
+						compressed:true,//压缩
+						maxDuration:15,
+						count: 1,
+						sourceType: ['album'],
+						success: function (res) {
+							console.log(res.tempFilePath)
+							that.localVideoSrc=res.tempFilePath
+							uni.request({
+								url: res.tempFilePath,
+								method:'GET',
+								responseType: 'arraybuffer',
+								success: ress => {
+									console.log(ress.data)//流
+									let base64 = wx.arrayBufferToBase64(ress.data); //把arraybuffer转成base64 
+									// base64 = 'data:image/jpeg;base64,' + base64 //不加上这串字符，在页面无法显示的哦 
+									base64 = 'data:video/mp4;base64,' + base64 //不加上这串字符，在页面无法显示的哦
+									// base64 =  base64 //不加上这串字符，在页面无法显示的哦
+									// console.log(base64)
+									// ------------------2222-----
+									// 将base64转换为文件对象
+									function dataURLtoFile(dataurl, filename) {
+									  var arr = dataurl.split(',');
+									  var mime = arr[0].match(/:(.*?);/)[1];
+									  var bstr = atob(arr[1]);
+									  var n = bstr.length; 
+									  var u8arr = new Uint8Array(n);
+									  while(n--){
+										  u8arr[n] = bstr.charCodeAt(n);
+									  }
+									  // 转换成file对象
+									  return new File([u8arr], filename, {type:mime});//FormData File
+									  // 转换成成blob对象
+									  // return new Blob([u8arr],{type:mime});
+									}
+									// 将图片转换为base64,再将base64转换成file对象
+									var file=dataURLtoFile(base64,'aaa.mp4')
+									that.Resources=file;
+								}
+							})
+							
+						}
+					});
+					// 选择视频------
+				}
+			},
+			getUploadMsg:function(){//资源上传配置
+				uni.request({
+					url: this.GLOBAL.urlPoint+'/userinfo/GetRescoreConfig' ,//仅为示例，并非真实接口地址。
+					method:"POST",
+					data: {
+						token:this.loginMsgData.webtoken,//	string	
+						userIdx:this.loginMsgData.useridx,//	int
+						// token:'EE7F3B03972DBFFAAD3A686431F6EB1E',//	string	
+						// userIdx:10009829,//	int
+					},
+					success: (res) => {
+						this.upLoadFileData=JSON.parse(decrypt(res.data)).data;
+						this.list1=this.upLoadFileData.list1;
+						this.list2=this.upLoadFileData.list2;
+
+					}
+				});
+			},
+			getTextAreaMsg:function(event){
+				if(event.target.value[0]=="#"){
+					console.log('==')
+					this.Evaluate=event.target.value;
+				}else{
+					console.log('!')
+					this.Evaluate='';
+				}
+			}
+			
+		}
+	}
+</script>
+
+<style lang="scss">
+page{
+	width: 100%;
+	height: 100%;
+	background:rgba(25,25,25,1);
+}
+.content{
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	.nav{
+		height: 100rpx;
+		background:rgba(37,37,37,1);
+		line-height: 100rpx;
+		text-align: center;
+		.back{
+			position: absolute;
+			top: 22rpx;
+			left: 20rpx;
+			height: 36rpx;
+			width: 36rpx;
+			padding: 10rpx;
+		}
+		.title{
+			font-size:30rpx;
+			color:rgba(255,255,255,1);
+		}
+	}
+	.mainArea{
+		flex: 1;
+		background:rgba(25,25,25,1);
+		overflow-y:scroll;
+		// ----公共----
+		.name,.selectArea,.uploadArea,.timeArea,.tipArea,.chooseImgArea{
+			width: 690rpx;
+			height: 54rpx;
+			padding-top:28rpx;
+			margin-left: 30rpx;
+			display: flex;
+			// align-items: center;
+			.text{
+				font-size:30rpx;
+				color:rgba(172,172,172,1);
+				margin-right:28rpx;
+			}
+		}
+		// ----名称----
+		.name{
+			.input{
+				font-size:26rpx;
+				width:520rpx;
+				height:54rpx;
+				color:rgba(255,255,255,1);
+				background:rgba(52,52,52,1);
+				border-radius:8rpx;
+				text-indent: 30rpx;
+			}
+		}
+		// ----价格
+		.selectArea{
+			.select{
+				width:248rpx;
+				height:54rpx;
+				background:rgba(52,52,52,1);
+				border-radius:8rpx;
+				border:none;
+				text-indent: 30rpx;
+				font-size:26rpx;
+				color:rgba(255,255,255,1);
+			}
+		}
+		// ---上传
+		.uploadArea{
+			.select{
+				width:248rpx;
+				height:54rpx;
+				background:rgba(52,52,52,1);
+				border-radius:8rpx;
+				border:none;
+				text-indent: 30rpx;
+				font-size:26rpx;
+				color:rgba(255,255,255,1);
+			}
+		}
+		// ----选择图片---
+		.chooseImgArea{
+			height:592rpx;
+			.choose{
+				width:520rpx;
+				height:592rpx;
+				.btnUp{
+					width:516rpx;
+					height:50rpx;
+					border:2rpx solid rgba(255,214,0,1);
+					border-radius:8rpx;
+					font-size:26rpx;
+					color:rgba(255,214,0,1);
+					text-align: center;
+					line-height: 50rpx;
+				}
+				.imgBox{
+					width:520rpx;
+					height:520rpx;
+					background:rgba(52,52,52,1);
+					border-radius:8rpx;
+					margin-top: 28rpx;
+					.img{
+						width:520rpx;
+						height:520rpx;
+					}
+					.audio{
+						width:520rpx;
+						height:520rpx;
+					}
+				}
+			}
+		}
+		// ---时效---
+		.timeArea{
+			.select{
+				width:248rpx;
+				height:54rpx;
+				background:rgba(52,52,52,1);
+				border-radius:8rpx;
+				border:none;
+				text-indent: 30rpx;
+				font-size:26rpx;
+				color:rgba(255,255,255,1);
+			}
+		}
+		// ----标签----
+		.tipArea{
+			height: 180rpx;
+			align-items: flex-start;
+			.input{
+				width:520rpx;
+				height:180rpx;
+				background:rgba(52,52,52,1);
+				border-radius:8rpx;
+				border:none;
+				text-indent: 30rpx;
+				font-size:26rpx;
+				color:rgba(255,255,255,1);
+			}
+		}
+		// -----提交
+		.btn{
+			width:520rpx;
+			height:72rpx;
+			background:rgba(255,214,0,1);
+			border-radius:8rpx;
+			margin-top: 60rpx;
+			margin-bottom: 140rpx;
+			margin-left:115rpx;
+			font-size:30rpx;
+			color:rgba(0,0,0,1);
+			text-align: center;
+			font-weight:600;
+			line-height: 72rpx;
+		}
+	}
+}
+</style>

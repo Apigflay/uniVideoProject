@@ -1,0 +1,68 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="keywords" content="喵播直播" />
+    <title>喵播直播</title>
+    <script src="Scripts/lib/jquery-1.8.2.min.js"></script>
+    <script src="Scripts/common.js?v=4"></script>
+
+    <style type="text/css">
+        a, body, div, h2, h3, h4, html, i, img, input, li, p, span, strong, ul { margin: 0; padding: 0; }
+
+        body { -webkit-user-select: none; -webkit-text-size-adjust: none; -webkit-tap-highlight-color: transparent; font-family: "Helvetica Neue", Helvetica, STHeiTi, sans-serif; height: 100%; }
+        body, html { /*height:100%;*/ }
+
+        html { font-size: 62.5%; /*10 ÷ 16 × 100% = 62.5%*/ }
+        body { font-size: 1.4rem; /*1.4 × 10px = 14px */ }
+        body, html { overflow-x: hidden; height: 100%; }
+        body { background-image: url(Content/Images/download/bg.png); background-size: 100% 100%; width: 100%; margin: 0 auto; }
+        .line { position: absolute; top: 6em; left: 0; right: 0; border-bottom: 1px solid rgba(255,255,255,0.2); }
+        .logo,
+        .text,
+        .btn { position: relative; z-index: 2; }
+        .logo { background-image: url(Content/Images/download/logo.png); width: 10em; height: 4em; margin: 0 auto; background-size: 100% 100%; margin-top: 24px; }
+        .text { background-image: url(Content/Images/download/text.png); width: 16em; height: 2.83em; margin: 0 auto; background-size: 100% 100%; margin-top: 14px; }
+        .btn { background-image: url( Content/Images/download/btn.png); width: 16em; height: 4.67em; margin: 0 auto; background-size: 100% 100%; margin-top: 10px; }
+        .phone { position: absolute; top: 0; left: 0; right: 0; z-index: -2; background-image: url(Content/Images/download/phone.png); width: 100%; height: 100%; background-size: 100% 100%; }
+        .download-button { z-index: 2; display: block; width: 60vw; line-height: 10.33vw; background: #fc0; border-radius: 13.33vw; color: #333; font-weight: 900; margin: 8px auto; box-shadow: 0 3px 4px 3px #fae4dc; text-align: center; }
+    </style>
+</head>
+
+<body>
+    <div class="line"></div>
+    <div class="logo"></div>
+    <div class="text"></div>
+    <div class="phone"></div>
+    <div class="download-button" onclick="download()">立即下载</div>
+</body>
+</html>
+<script>
+    
+    console.log(getQueryStr('isAuto'));
+    //如果加了参数isAuto=true则打开页面自动跳转下载
+    if (getQueryStr("isAuto") == "true") {
+        console.log('自动跳转');
+        download();
+    }
+
+    function data() {
+        var link = window.location;
+        var refer = document.referrer;
+        $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            url: '/About/AccessStatis?url=' + link + '&referer=' + refer,
+            //data: param,
+            success: function (d) {
+                console.log(d);
+            }
+        });
+    }
+    data();
+</script>

@@ -1,0 +1,238 @@
+﻿@{
+    ViewBag.Title = "答题";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model Model.View.VMAnswer
+@section Head_css{
+    <link href="~/Content/common/css/answer.css?v=78" rel="stylesheet" />
+    <style type="text/css">
+        .pop p { height: 3rem; }
+        .myrank { color: red; }
+    </style>
+}
+<!--弹层-->
+<div id="layer" class="inward" style="display:none">
+    <div class="brain bg01">
+        <div class="layer">
+            <div class="pop">
+                @*<p>当前答题次数已用完，请明天再来吧</p>
+                    <div class="btn_w">
+                        <a href="">好的</a>
+                        @*<a href="">取消</a>
+                    </div>*@
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--首页-->
+<div class="wrap" id="answerIndex" style="display:block">
+    <div class="inward">
+        <div class="brain bg01">
+            <div class="item">
+                <div class="item_50">
+                    <div class="btn_linka">
+                        @if (ViewBag.isAnchor == 1)
+                        {
+                            <a href="javascript:Answer.Logic.setupGame(1)"></a>
+                        }
+                        else
+                        {
+                            <a href="javascript:Answer.Logic.morePeopleJoin(1)"></a>
+                        }
+                    </div>
+                </div>
+                <div class="item_50">
+                    <div class="btn_linkb">
+                        <a href="javascript:Answer.Page.open1v1InviteLayer('open');" class="btn_linkb">
+                            @*<i></i>*@
+                        </a>
+                    </div>
+                    <div class="it_sm">
+                        <div class="inin">
+                            <div class="btn_link_1"><a href="javascript:Answer.Page.openInviteLayer('open');"></a></div>
+                            <div class="btn_link_2"><a href="javascript:Answer.Page.openHelpPageLayer('open');"></a></div>
+                            <div class="btn_link_3"><a href="javascript:Answer.Page.openAccountLayer('open');"></a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--1v多准备页面-->
+<div class="wrap" id="prePage" style="display:none">
+    <div class="inward">
+        <div class="brain bg02">
+            <div class="bn_inside">
+                <div class="public">
+                    <div class="pc_in">
+                        <p>等待用户加入中... <br>当前已加入<strong>0</strong>人 </p>
+                    </div>
+                    @if (ViewBag.isAnchor == 1)
+                    {
+                        <a href="javascript:Answer.Logic.cancelGame(1,1)" class="btn_blue2">取消游戏</a>
+                        <a href="javascript:Answer.Logic.startGame();" class="btn_org">开始游戏</a>
+
+                        <i>满6人后，才能开始游戏哦</i>
+                    }
+                    else
+                    {
+                        <a href="javascript:Answer.Logic.cancelGame(1,0)" class="btn_blue2">放弃游戏</a>
+                        <i>满6人后，由主播开启</i>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--帮助页-->
+<div class="wrap" id="help" style="display:none">
+    @RenderPage("~/Views/GameCenter/_HelpPartial.cshtml")
+</div>
+
+<!--邀新页-->
+<div class="wrap" id="share" style="display:none">
+    @RenderPage("~/Views/GameCenter/_SharePartial.cshtml")
+</div>
+
+<!--余额页-->
+<div class="wrap" id="account" style="display:none">
+    @RenderPage("~/Views/GameCenter/_AccountPartial.cshtml")
+</div>
+
+<!--题目页-->
+<div class="wrap" id="subject" style="display:none">
+    @RenderPage("~/Views/GameCenter/_SubjectPartial.cshtml")
+</div>
+
+<!--答题排行榜页-->
+<div class="wrap" id="ranking" style="display:none">
+    @RenderPage("~/Views/GameCenter/answerRank.cshtml")
+</div>
+
+<!--答题结果页-->
+<div class="wrap" id="challengeResult" style="display:none">
+    @RenderPage("~/Views/GameCenter/_ChallengeResult.cshtml")
+</div>
+
+<div class="wrap" id="challengeResult2" style="display:none">
+    @RenderPage("~/Views/GameCenter/_SingleChallengeResult.cshtml")
+</div>
+
+<!--1v1发起挑战-->
+<div class="wrap" id="challengeApply" style="display:none">
+    @RenderPage("~/Views/GameCenter/_ChallengeInvite.cshtml")
+</div>
+
+<!--1v1邀请准备页-->
+<div class="wrap" id="inviteWait" style="display:none">
+    @RenderPage("~/Views/GameCenter/_InviteWaitPartial.cshtml")
+</div>
+
+<!--1v1发起挑战列表页-->
+<div class="wrap" id="singleInviteList" style="display:none">
+    @RenderPage("~/Views/GameCenter/_SingleInviteList.cshtml")
+</div>
+
+<!--排行榜模板-->
+<script type="text/html" id="rank_con_templete">
+
+    {{each rankList as item i}}
+    <li class="{{item.useridx == useridx ? 'myrank' : ''}}">
+        <span class="rnw1">
+            <b class="pri0{{item.rowNo}}"></b>
+        </span>
+        <span class="rnw2">
+            <img src="{{item.smallpic}}">
+        </span>
+        <span class="rnw3">{{item.myname}}</span>
+        <span class="rnw4">{{item.score}}分</span>
+
+        {{if item.rewardType == 1}}
+        <span class="rnw5">获得{{item.rewardCash}}元现金</span>
+        {{else if item.rewardType == 2}}
+        <span class="rnw5">获得{{item.rewardCash}}喵币</span>
+        {{else}}
+        <span class="rnw5"></span>
+        {{/if}}
+    </li>
+    {{/each}}
+
+</script>
+
+<!--1v1用户信息模板-->
+<script type="text/html" id="user_con_templete">
+    <div class="left_user"><div class="r_in"><dl><dt><img src="{{myPhoto}}"></dt><dd>0</dd></dl><div class="ur_info"><p>{{myName}}</p></div></div></div>
+    <div class="rig_user"><div class="r_in"><dl><dt><img src="{{toUserPhoto}}"></dt><dd>0</dd></dl><div class="ur_info"><p>{{toName}}</p></div></div></div>
+</script>
+
+<!--题目模板-->
+<script type="text/html" id="subject_con_template">
+    <div class="b_con">
+        <p><span>({{index}}/{{subLen}})</span>{{question}}</p>
+    </div>
+    <div class="b_bot">
+        <a data-id="1" href="javascript:selectAnswer(1,{{questionid}});" class="btn_org">{{option1}}</a>
+        <a data-id="2" href="javascript:selectAnswer(2,{{questionid}});" class="btn_org">{{option2}}</a>
+        <a data-id="3" href="javascript:selectAnswer(3,{{questionid}});" class="btn_org">{{option3}}</a>
+        <a data-id="4" href="javascript:selectAnswer(4,{{questionid}});" class="btn_org">{{option4}}</a>
+    </div>
+</script>
+
+<script src="~/Scripts/lib/jquery-1.8.2.min.js"></script>
+<script src="~/Scripts/lib/template.js"></script>
+<script src="~/Scripts/lib/encoding.js"></script>
+<script src="~/Scripts/lib/encoding-indexes.js"></script>
+
+<script src="~/Scripts/answerSocket.js?v=18"></script>
+<script type="text/javascript">
+
+    function selectAnswer(uAnswerNum,questionid) {
+
+        var turnid = Answer.Config.turnid;
+        var useridx = Answer.Config.useridx;
+        var type = Answer.Config.gametype;
+
+        //参与者选择答案
+        if (@ViewBag.isAnchor == 0 || type == 2) {
+            $('#questions .b_bot a').eq(uAnswerNum - 1).attr('class','btn_blue');
+            $('#questions .b_bot a').attr('href', 'javascript:;');
+
+            Answer.Config.uAnswerNum = uAnswerNum;
+            localStorage.setItem('uAnswerNum',uAnswerNum);
+            WebSocketObj.tgAnswerGame(useridx,turnid,questionid,uAnswerNum);
+        }
+    }
+
+    //初始化游戏页面
+    var Init = function () {
+        if (browser.versions.android) {
+            window.android.loadSuccess(1.78);
+        }
+        else {
+            window.location.href = 'gamecow:/loadSuccess&wh=1.78&';
+        }
+    };
+
+
+    $(function () {
+        //TODO 测试
+        //Answer.Logic.morePeopleJoin(2);
+        //Answer.Config.turnid = 2;
+        //Answer.Page.openRankingLayer('open');
+        //Answer.Page.openChallengeResult2('open');
+        //Answer.Page.openChallengeInviteLayer('open')
+        //Answer.Page.openSubjectLayer('open');
+
+
+        //Answer.Logic.load1v1UserInfoHtml(2,'');
+
+        WebSocketObj.connect("ws://122.227.23.109:8800");
+    });
+
+    Init();
+</script>

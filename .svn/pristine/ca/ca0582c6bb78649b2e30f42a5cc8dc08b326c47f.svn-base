@@ -1,0 +1,21 @@
+﻿@{
+    ViewBag.Title = "noPage";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Head_css{
+    <link href="~/Content/common/css/answer.css?v=9" rel="stylesheet" />
+}
+
+<!--首页-->
+<div class="wrap">
+    <div class="inward">
+        <div class="brain bg02">
+            <div class="bn_inside">
+                <div class="public">
+                    <div class="message">@ViewBag.message</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

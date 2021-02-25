@@ -1,0 +1,309 @@
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+/*Safari 和 Chrome*/
+@-webkit-keyframes fadeIn {
+    0% { opacity: 0; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+/* RESET
+=============================================================================*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video { margin: 0; padding: 0; border: 0; }
+
+body { -webkit-user-select: none; -webkit-text-size-adjust: none; -webkit-tap-highlight-color: transparent; font-family: "Helvetica Neue", Helvetica, STHeiTi, sans-serif; height: 100%; }
+body, html { height: 100%; }
+
+html { font-size: 62.5%; /*10 ÷ 16 × 100% = 62.5%*/ }
+body { font-size: 1.4rem; /*1.4 × 10px = 14px */ }
+h1 { font-size: 2.4rem; /*2.4 × 10px = 24px*/ }
+
+a { text-decoration: none; }
+a, img { -webkit-touch-callout: none; }
+
+
+.rank_body { position: relative; z-index: 1; width: 100%; overflow-x: hidden;background-color:#CF7AD2 }
+.rank_con { position: relative; width: 100%; box-sizing: border-box;  }
+.miao_rank { position: relative; right: 0; left: 0; z-index: 2; width: 100%; height: auto; border-radius: 2rem;
+    background-color: white; 
+     width: 95%;
+    margin: 0rem 1rem 1rem 0.8rem;  /*background-size:100% auto; background-repeat:no-repeat;overflow-x:hidden;*/ /*padding:0px 10px;*/ }
+/*border-radius: 2rem;
+    background-color: white;
+    width: 95%;
+    margin: 0rem 1rem 1rem 1rem;*/
+.miao_rank .item { position: relative; height: 6rem; border-bottom: .1rem solid rgba(0,0,0,.1); }
+.miao_rank .item a { display: inline-block; width: 100%; text-decoration: none; color: #000; }
+.miao_rank .item a:link,
+.miao_rank .item a:visited,
+.miao_rank .item a:hover,
+.miao_rank .item a:active { text-decoration: none; color: #000; }
+.miao_rank .item .icon { display: inline-block; width: 2.8rem; text-align: left; vertical-align: middle; margin-top: -3.8rem; margin-left: 1rem; background-size: 100% 100%; font-size: 1.4rem; }
+.miao_rank .item .icon1,
+.miao_rank .item .icon2,
+.miao_rank .item .icon3 { text-indent: -10rem; }
+.miao_rank .item .icon1 { width: 3rem; height: 3rem; background-image: url(http://liveimg.9158.com/pic/week/rank_crown_1_2x.png); }
+.miao_rank .item .icon2 { width: 2.4rem; height: 2.4rem; background-image: url(http://liveimg.9158.com/pic/week/rank_crown_2_2x.png); }
+.miao_rank .item .icon3 { width: 2rem; height: 2rem; background-image: url(http://liveimg.9158.com/pic/week/rank_crown3_2x.png); }
+
+/*排行榜排名变化*/
+.miao_rank .item .up,
+.miao_rank .item .down { display: inline-block; width: 3rem; text-align: left; vertical-align: middle; margin-top: -3.8rem; background-size: 100% 100%; font-size: 1.4rem; }
+.miao_rank .item .up { background: url("http://img.imeyoo.com/pic/rank/组 8.png") no-repeat; width: 2rem; height: 2rem; background-size: 100% 100%; }
+.miao_rank .item .down { background: url("http://img.imeyoo.com/pic/rank/组 8(1).png") no-repeat; width: 2rem; height: 2rem; background-size: 100% 100%; }
+
+.miao_rank .item .the_img { position: relative; display: inline-block; width: 5rem; height: 5rem; margin-top: .5rem; }
+.miao_rank .item .the_img .img { position: absolute; display: inline-block; z-index: 2; width: 5rem; height: 5rem; margin: 0 auto; text-align: center; background-image: url(http://liveimg.9158.com/pic/week/img_bg_x.png); background-size: 100% 100%; }
+.miao_rank .item .the_img .img_img { position: absolute; z-index: 1; top: .3rem; left: 0; bottom: 0; right: 0; width: 4.4rem; height: 4.4rem; margin: 0 auto; text-align: center; }
+.miao_rank .item .the_img .img_img img { width: 4.4rem; height: 4.4rem; }
+
+.miao_rank .item .name { position: relative; display: inline-block; font-size: 1.2rem; vertical-align: top; margin-top: 1rem; color: rgba(0,0,0,1); }
+.miao_rank .item .name .name_name { display: inline-block;color:black;  max-width: 13rem; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; height: 2rem; overflow: hidden; vertical-align: top; }
+.miao_rank .item .name .food { font-size: 1rem; vertical-align: middle; padding-top: 0rem; font-size: 1.2rem; color:#A36BDD; }
+
+/*家族昵称样式*/
+.miao_rank .item .name .name_name2 { position: relative; color: #000; padding-left: 1.2rem; padding-right: .4rem; max-width: 20rem; background: url(images/username_l1.png) no-repeat; background-size: auto 100%; height: 2.6rem; line-height: 2.6rem; vertical-align: middle; overflow: visible; }
+.miao_rank .item .name .name_name2:after { position: absolute; right: -2rem; top: 0; display: inline-block; background: url(images/username_r2.png) no-repeat left top; background-size: auto 100%; width: 2rem; content: "\20"; height: 2.6rem; line-height: 2.6rem; vertical-align: top; }
+
+.male,
+.female { display: inline-block; width: 1.4rem; height: 1.4rem; background-size: 100% 100%; margin: .2rem .2rem 0; }
+.male { background-image: url(http://liveimg.9158.com/pic/week/boy2x.png); }
+.female { background-image: url(http://liveimg.9158.com/pic/week/girl2x.png); }
+/*.level { display:inline-block; width:1.5rem; height:1.5rem; background-size:100% 100%; margin:.2rem .2rem 0; }*/
+.level1 { background-image: url(http://liveimg.9158.com/pic/week/level/level1.png); }
+.level11 { background-image: url(http://liveimg.9158.com/pic/week/level/level11.png); }
+.level15 { background-image: url(http://liveimg.9158.com/pic/week/level/level15.png); }
+.level30 { background-image: url(http://liveimg.9158.com/pic/week/level/level30.png); }
+.level31 { background-image: url(http://liveimg.9158.com/pic/week/level/level31_2.png); }
+.level32 { background-image: url(http://liveimg.9158.com/pic/week/level/level32.png); }
+.level34 { background-image: url(http://liveimg.9158.com/pic/week/level/level34.png); }
+.level35 { background-image: url(http://liveimg.9158.com/pic/week/level/level35.png); }
+.level36 { background-image: url(http://liveimg.9158.com/pic/week/level/level36_2.png); }
+.level39 { background-image: url(http://liveimg.9158.com/pic/week/level/level39.png); }
+
+
+
+
+.the_level { position: relative; display: inline-block; width: 1.7rem; height: 1.7rem; margin: 0 .2rem 0; }
+/*.the_level .level { position: absolute; left: 0; top: 0; z-index: 3; display: inline-block; width: 1.7rem; height: 1.7rem; background-size: 100% 100%; }*/
+.the_level .level { position: absolute; left: 3.12px; top: .4rem; z-index: 3; display: inline-block; width: 1.1rem; height: 1.1rem; background-size: 100% 100%; }
+.the_level .num,
+.the_level .num_bg { position: absolute; }
+/*.the_level .num_bg { z-index: 1; left: 1rem; bottom: .2rem; display: inline-block; width: 2.168rem; height: 1.1rem; background-size: 100% 100%; }*/
+.the_level .num_bg {z-index: 1;left: .2rem;bottom: 0.1rem;display: inline-block;width: 2.968rem;height: 1.2rem;background-size: 100% 100%;}
+.the_level .bg1 { background-image: url(images/level40_3x.png?v=2); }
+.the_level .bg2 { background-image: url(images/level80_3x.png); }
+.the_level .bg3 { background-image: url(images/level120_3x.png); }
+.the_level .bg4 { background-image: url(images/level160_3x.png); }
+.the_level .bg5 { background-image: url(images/level200_3x.png); }
+.the_level .bg6 { background-image: url(images/level240_3x.png); }
+/*.the_level .num { z-index: 2; color: #fff; left: 1.28rem; bottom: .16rem; font-family: 'num'; font-size: 1rem; width: 2.168rem; text-align: center; letter-spacing: -.3rem; -webkit-transform: scale(0.68); }*/
+.the_level .num { z-index: 2; color: #fff; left: 1.05rem; bottom: .1rem; font-family: 'num'; font-size: 1rem; width: 2.168rem; text-align: center; letter-spacing: -.2rem; -webkit-transform: scale(0.68); }
+
+/*直播标志*/
+.miao_rank .item .live { position: absolute; right: 2rem; top: 30%; }
+.miao_rank .item .live .livetext { display: block; background: #ff6099; padding: .4rem .6rem; color: #fff; font-size: 1.1rem; border-radius: 1.6rem; }
+
+.miao_rank .item1 { height: 15rem; background: url(images/item1_bg.png) no-repeat #fffac3 center center; background-size: 80% auto; }
+.miao_rank .item1 .icon1 { position: absolute; left: 1rem; top: 44%; margin: 0; }
+.miao_rank .item1 .up,
+.miao_rank .item1 .down { position: absolute; left: 4rem; top: 50%; margin: 0; }
+.miao_rank .item1 .follow { position: absolute; right: 2rem; top: -112%; }
+.miao_rank .item1 .follow .btn { display: inline-block; background: #ff6099; padding: .1rem 1.4rem; color: #fff; font-size: 2rem; border-radius: 1.6rem; }
+.miao_rank .item1 .follow .btn:hover { background: #f5548d; }
+.miao_rank .item1 .live { position: absolute; right: 2rem; top: 50%; }
+/*.miao_rank .item1 .live .livetext { display: inline-block; background: #ff6099; padding: .1rem 1.0rem; color: #fff; font-size: .7rem; border-radius: 1.6rem; }*/
+
+.miao_rank .item1 .the_img { width: 15.6rem; height: 13rem; margin: 0 auto; display: block; }
+.miao_rank .item1 .the_img .img { display: inline-block; position: absolute; z-index: 2; top: -1rem; width: 15.6rem; height: 13rem; margin: 0 auto; background-image: url(images/img_bg11.png); background-size: 100% 100%; }
+.miao_rank .item1 .the_img .img_img { position: absolute; z-index: 1; width: 6rem; height: 6rem; margin: 0 auto; top: 3rem; left: 0; bottom: 0; right: 0; }
+.miao_rank .item1 .the_img .img_img img { width: 6rem; height: 6rem; border-radius: 50%; }
+.miao_rank .item1 .name { display: inline-block; width: 96%; text-align: center; margin-top: -3rem; z-index: 2; }
+.miao_rank .item1 .name .food { z-index: 3; color: rgba(0,0,0,.4); padding-top: 0; }
+
+.miao_rank .item2 { height: 13rem; background: #fffde3; }
+.miao_rank .item2 .icon2 { position: absolute; left: 1rem; top: 44%; margin: 0; }
+.miao_rank .item2 .down,
+.miao_rank .item2 .up { position: absolute; left: 4rem; top: 48%; margin: 0; }
+.miao_rank .item2 .follow { position: absolute; right: 2rem; top: 45%; }
+.miao_rank .item2 .follow .btn { display: inline-block; background: #ff6099; padding: .1rem 1.4rem; color: #fff; font-size: 2rem; border-radius: 1.6rem; }
+.miao_rank .item2 .follow .btn:hover { background: #f5548d; }
+.miao_rank .item2 .live { position: absolute; right: 2rem; top: 45%; }
+/*.miao_rank .item2 .live .livetext{ display: inline-block; background: #ff6099; padding: .1rem 1.4rem; color: #fff; font-size: .7rem; border-radius: 1.6rem; }*/
+
+.miao_rank .item2 .the_img { width: 12rem; height: 12rem; margin: 0 auto; display: block; }
+.miao_rank .item2 .the_img .img { display: inline-block; position: absolute; z-index: 2; width: 12rem; height: 12rem; margin: 0 auto; background-image: url(images/img_bg22.png); background-size: 100% 100%; }
+.miao_rank .item2 .the_img .img_img { position: absolute; z-index: 1; width: 5rem; height: 5rem; margin: 0 auto; top: 2.6rem; left: 0; bottom: 0; right: 0; }
+.miao_rank .item2 .the_img .img_img img { width: 5rem; height: 5rem; border-radius: 50%; }
+.miao_rank .item2 .name { display: inline-block; width: 96%; text-align: center; margin-top: -3.8rem; z-index: 2; }
+.miao_rank .item2 .name .food { z-index: 3; color: rgba(0,0,0,.4); padding-top: 0; }
+
+.miao_rank .item3 { height: 12.5rem; background: #fffef4; }
+.miao_rank .item3 .icon3 { position: absolute; left: 1rem; top: 44%; margin: 0; }
+.miao_rank .item3 .down,
+.miao_rank .item3 .up { position: absolute; left: 4rem; top: 46%; margin: 0; }
+.miao_rank .item3 .follow { position: absolute; right: 2rem; top: 43%; }
+.miao_rank .item3 .follow .btn { display: inline-block; background: #ff6099; padding: .1rem 1.4rem; color: #fff; font-size: 2rem; border-radius: 1.6rem; }
+.miao_rank .item3 .follow .btn:hover { background: #f5548d; }
+.miao_rank .item3 .live { position: absolute; right: 2rem; top: 43%; }
+/*.miao_rank .item3 .live .livetext { display: inline-block; background: #ff6099; padding: .1rem 1.4rem; color: #fff; font-size: 1rem; border-radius: 1.6rem; }*/
+
+.miao_rank .item3 .the_img { width: 12rem; height: 12rem; margin: 0 auto; display: block; }
+.miao_rank .item3 .the_img .img { display: inline-block; position: absolute; z-index: 2; top: -.7rem; width: 12rem; height: 12rem; margin: 0 auto; background-image: url(images/img_bg33.png); background-size: 100% 100%; }
+.miao_rank .item3 .the_img .img_img { position: absolute; z-index: 1; width: 4.8rem; height: 4.8rem; margin: 0 auto; top: 2.2rem; left: 0; bottom: 0; right: 0; }
+.miao_rank .item3 .the_img .img_img img { width: 4.6rem; height: 4.6rem; border-radius: 50%; }
+.miao_rank .item3 .name { display: inline-block; width: 96%; text-align: center; margin-top: -4.2rem; z-index: 2; }
+.miao_rank .item3 .name .food { z-index: 3; color: rgba(0,0,0,.4); padding-top: 0; }
+
+
+/*****************/
+.head { position: fixed; background: #CF7AD2; margin: 0 auto; width: 100%; z-index: 9; }
+.head .top { position: relative; height: 4.7rem; margin-top: 1rem; }
+.head .top .return { position: absolute; display: inline-block; left: 1rem; width: 2.2rem; top: .3rem; height: 4.8rem; background: url(images/arrow_white.png) no-repeat left center; background-size: 42% 32%; }
+.head .top .share { position: absolute; display: inline-block; right: 0rem; width: 4.8rem; top: .3rem; height: 4.8rem; background: url(images/share_web.png) no-repeat center center; background-size: 50% 50%; }
+
+.head .top .menu { color: #fff; font-size: 1.6rem; width: 90%; margin: 0 auto; }
+.head .top .menu li { position: relative; width: 100%; text-align: center; list-style: none; display: inline-block; height: 4.8rem; line-height: 5.6rem; vertical-align: middle; }
+.head .top .menu a { color: rgba(255,255,255,.6); }
+.head .top .menu a.sel, .head .top .menu li.sel, .head .top .menu li.sel a { color: rgba(255,255,255,1); }
+.head .top .menu li .icon_new { background: rgba(0, 0, 0, 0) url("images/icon_hot.png") no-repeat scroll 0 0 / 100% 100%; display: inline-block; height: 1.96rem; position: absolute; right: -0.6rem; top: .3rem; width: 2.5rem; }
+
+
+/******** tab ************/
+.tab_all { position: relative; }
+.tab { /*position:fixed;*/ width: 100%;  background-color: #CF7AD2; }
+.tab .tab_item { display: inline-block;    margin-left: 12%; text-align: center; padding: .26rem 0rem; font-size: 1.4rem; width: 32% !important; color: white;background:linear-gradient(0deg,rgba(255,128,168,1) 0%,rgba(255,154,186,1) 100%);box-shadow:0px 5px 15px 0px rgba(189,116,214,0.34);border-radius:2rem; }
+.tab .tab_sel { color: white;    margin-left: 12%; border-bottom: .2rem solid rgba(241,78,148,1); margin-bottom: -.1rem;width: 32% !important;background:linear-gradient(0deg,rgba(134,85,222,1) 0%,rgba(169,101,224,1) 100%);box-shadow:0px 5px 15px 0px rgba(189,116,214,0.34);
+border-radius:2rem;}
+.tab .on { color: #f14e94; border-bottom: .2rem solid rgba(241,78,148,1); margin-bottom: -.1rem; }
+
+
+/*
+.black { position: absolute; top: 0; right: 0; bottom: 0; left: 0; z-index: 8; background-color: rgba(0,0,0,.6); width: 100%; height: 100%; }
+.miao_rank .position_card { position: absolute; z-index: 9; top: 0; right: 0; bottom: 0; left: 0; margin: auto; width: 82%; height: 26rem; border-radius: 1.1rem; background-color: #fff; }
+.miao_rank .card { position: relative; }
+.miao_rank .card .police,
+.miao_rank .card .close,
+.miao_rank .card .img,
+.miao_rank .card .img_img { position: absolute; }
+.miao_rank .card .police { background-image: url(images/police2x.png); left: 1rem; top: .8rem; width: 1.6rem; height: 1.6rem; background-size: 100% 100%; }
+.miao_rank .card .close { background-image: url(images/close_profile2x.png); right: 1rem; top: 1rem; width: 1.2rem; height: 1.2rem; background-size: 100% 100%; }
+.miao_rank .card .img { top: 2rem; right: 0; bottom: 0; left: 0; z-index: 11; background-image: url(images/profile_img_bg.png); width: 8rem; height: 8rem; margin: 0 auto; background-size: 100% 100%; }
+.miao_rank .card .img_img { top: 2rem; right: 0; bottom: 0; left: 0; z-index: 10; width: 8rem; height: 8rem; margin: 0 auto; }
+.miao_rank .card .img_img img { width: 8rem; height: 8rem; margin: 0 auto; }
+.miao_rank .card .text { background-color: #f5f5f5; text-align: center; margin: 0 auto; border-radius: 1.1rem; }*/
+
+/*********************/
+.miao_rank .item .add, .miao_rank .item .add_s { float: right; width: 2.5rem; height: 2.5rem; background: url(../images/icon_user_add.png) no-repeat; background-size: 100%; margin-top: 1.6rem; margin-right: .9rem; }
+.miao_rank .item .add_s { width: 2.5rem; height: 2.5rem; background: url(../images/icon_user_add_s.png) no-repeat; background-size: 100%; }
+
+/**********前三名样式***********/
+.top3 {  margin: 0 auto; width: 100%; z-index: 9;  height:24rem;background-color:#CF7AD2;background-image:url(http://img.imeyoo.com/pic/rank/rank.png);background-position:center;  }
+.top3tab { /*position:fixed;*/ width: 100%;height:100%;   background-color: rgba(0, 0, 0, 0.00); }
+.top3tab .tab_item {float:left;padding: .86rem 0rem; margin-top:0.1rem;width:32% ;  height:20rem; text-align: center; color:white; font-size: 1.1rem; width: 32% !important; background-color:rgba(0, 0, 0, 0.00); }
+.top3tab .tab_item .row1 {    height:14rem;margin-left:-0.4rem;    }
+.top3tab .tab_item .row2 {  height:13rem; margin-left:3.5rem; }    
+.top3tab .tab_item .row3 { height:13rem; width:90%;margin: 0rem 0rem 0rem -0.7rem; }  
+.top3tab .tab_item .row2 .row2pic { margin-top:4.2rem;    width:100%;  }
+.top3tab .tab_item .row1 .row1pic { margin-top:1rem;    width:100%;  }
+.top3tab .tab_item .row3 .row3pic { margin-top:5rem;    width:100%;  }
+
+.top3tab .tab_item .row1 .row1Name {position:absolute;margin:3rem 0rem 0rem 2em ;   width:8rem;border-radius:2rem; background-color:#CA76D4;height:1.6rem;text-align:center }
+.top3tab .tab_item .row2 .row2Name { position:absolute;margin:1.8rem 0rem 0rem -0.2rem;   width:6rem;border-radius:2rem; background-color:#CA76D4;height:1.6rem;text-align:center  }
+.top3tab .tab_item .row3 .row3Name { position:absolute;margin:2rem 0rem 0rem 0.8rem;   width:7rem;border-radius:2rem; background-color:#CA76D4;height:1.6rem;text-align:center}    
+.top3tab .tab_item .row1 .row1Flow { position:absolute;margin:5rem 0rem 0rem 2rem ; width:8rem;  }    
+.top3tab .tab_item .row2 .row2Flow { position:absolute;margin:3.8rem 0rem 0rem 0.1rem ; width:8rem;  }    
+.top3tab .tab_item .row3 .row3Flow { position:absolute;margin:4rem 0rem 0rem 0.5rem ; width:8rem;  }    
+.top3tab .tab_item .row2 .huangguan {position:absolute;margin-left:0.7rem;/*background-image:url(http://img.imeyoo.com/pic/rank/皇冠.png)*/}
+.top3tab .tab_item .row2 .the_img { position: relative; display: inline-block; width: 5rem; height: 5rem; margin-top: .5rem; }
+.top3tab .tab_item .row2 .the_img .img { position: absolute; /*display: inline-block;*/ z-index: 2; width: 5rem; height: 5rem; margin: 0 auto; text-align: center; /*background-image: url(http://liveimg.9158.com/pic/week/img_bg_x.png);*/ background-size: 100% 100%;  }
+.top3tab .tab_item .row2 .the_img .img_img {  position: absolute; z-index: 1; top: .3rem; left: 0; bottom: 0; right: 0; width: 4.4rem; height: 4.4rem; margin: 0 auto; text-align: center; }
+.top3tab .tab_item .row2 .the_img .img_img img { width: 4.4rem; height: 4.4rem;border:0.3rem solid rgba(197,211,227,1);border-radius:50%; }
+.top3tab .tab_item .row1 .huangguan {position:absolute;margin-left:1.8rem;/*background-image:url(http://img.imeyoo.com/pic/rank/皇冠.png)*/}
+.top3tab .tab_item .row1 .the_img { position: relative; display: inline-block; width: 5rem; height: 5rem; margin-top: .5rem; }
+.top3tab .tab_item .row1 .the_img .img { position: absolute; /*display: inline-block;*/ z-index: 2; width: 5rem; height: 5rem; margin: 0 auto; text-align: center; /*background-image: url(http://liveimg.9158.com/pic/week/img_bg_x.png);*/ background-size: 100% 100%;  }
+.top3tab .tab_item .row1 .the_img .img_img { position: absolute; z-index: 1; top: .3rem; left: 0; bottom: 0; right: 0; width: 4.4rem; height: 4.4rem; margin: 0 auto; text-align: center; }
+.top3tab .tab_item .row1 .the_img .img_img img { width: 5rem; height: 5rem; border:0.3rem solid rgba(252,208,18,1);border-radius:50%; }.top3tab .tab_item .row2 .the_img { position: relative; display: inline-block; width: 5rem; height: 5rem; margin-top: .5rem; }
+.top3tab .tab_item .row3 .huangguan {position:absolute;margin-left:1.8rem;/*background-image:url(http://img.imeyoo.com/pic/rank/皇冠.png)*/}
+.top3tab .tab_item .row3 .the_img { position: relative; display: inline-block; width: 5rem; height: 5rem; margin-top: .5rem; }
+.top3tab .tab_item .row3 .the_img .img { position: absolute; /*display: inline-block;*/ z-index: 2; width: 5rem; height: 5rem; margin: 0 auto; text-align: center; /*background-image: url(http://liveimg.9158.com/pic/week/img_bg_x.png);*/ background-size: 100% 100%;  }
+.top3tab .tab_item .row3 .the_img .img_img { position: absolute; z-index: 1; top: .3rem; left: 0; bottom: 0; right: 0; width: 4.4rem; height: 4.4rem; margin: 0 auto; text-align: center; }
+.top3tab .tab_item .row3 .the_img .img_img img { width: 4.4rem; height: 4.4rem;border:0.3rem solid rgba(249,167,113,1);border-radius:50%;  }
+
+
+@font-face { font-family: 'num'; src: url('num.woff') format('woff'); }
+
+
+/*********** body.star 周星榜样式****************/
+body.star { background: url(images/star_bg.png) no-repeat #2b054d center -3rem; background-size: 100% auto; }
+
+body.star .miao_rank .item { border-bottom: .1rem solid rgba(255,255,255,.1); }
+body.star .miao_rank .item a { color: #ffd800; }
+body.star .miao_rank .item a:active { color: #ffd800; }
+body.star .miao_rank .item .the_img .img { display: none; }
+body.star .miao_rank .item .the_img .img_img img { border-radius: 50% 50%; border: .2rem solid #ffd800; }
+
+
+body.star .miao_rank .item1 { height: 18.4rem; background-image: none; background-color: transparent; padding-bottom: 4rem; border-bottom: none; }
+body.star .miao_rank .item1 .title_star { position: relative; margin: 0 auto; top: .6rem; width: 16rem; height: 5.625rem; line-height: 5.625rem; vertical-align: middle; text-align: center; background: url(images/this_star_bg.png) no-repeat; background-size: 100% 100%; }
+body.star .miao_rank .item1 .title_star .star_name { display: inline-block; }
+body.star .miao_rank .item1 .title_star .img { display: inline-block; vertical-align: middle; width: 4rem; height: 4rem; }
+body.star .miao_rank .item1 .title_star .img img { width: 4rem; height: 4rem; }
+body.star .miao_rank .item1 .the_img { top: -2rem; width: 28rem; height: 20.78rem; }
+body.star .miao_rank .item1 .the_img .img { display: block; top: -1.8rem; width: 28rem; height: 20.78rem; background-image: url(images/head_star.png); }
+body.star .miao_rank .item .the_img .img_img { top: .14rem; }
+body.star .miao_rank .item1 .the_img .img_img { width: 8.1rem; height: 8.1rem; top: 3.4rem; left: 0; bottom: 0; right: 0; }
+body.star .miao_rank .item1 .the_img .img_img img { width: 8.1rem; height: 8.1rem; border: none; }
+
+body.star .miao_rank .item .icon { color: #ffd800; width: 3rem; text-align: center; }
+body.star .miao_rank .item .name { color: rgba(255,216,0,1); margin-top: 2rem; }
+body.star .miao_rank .item1 .name { margin-top: -8.6rem; }
+body.star .miao_rank .item .name .name_name { }
+body.star .miao_rank .item .name .food { color: rgba(255,255,255,.6); }
+body.star .miao_rank .item1 .name .food { color: rgba(255,150,0,.6); }
+
+body.star .miao_rank .item .icon_num1,
+body.star .miao_rank .item .icon_num2,
+body.star .miao_rank .item .icon_num3 { width: 3.2rem; height: 3.2rem; background-size: 100% 100%; background-repeat: no-repeat; text-indent: -100rem; margin-top: -4.6rem; }
+body.star .miao_rank .item .icon_num1 { background-image: url(images/star_num1.png); }
+body.star .miao_rank .item .icon_num2 { background-image: url(images/star_num2.png); }
+body.star .miao_rank .item .icon_num3 { background-image: url(images/star_num3.png); }
+
+body.star .title_thisweek { width: 25rem; height: 2.91rem; line-height: 2.91rem; vertical-align: middle; margin: 0 auto 1rem; text-align: center; background: url(images/title_prev.png) no-repeat; background-size: 100% 100%; }
+body.star .title_thisweek span { color: #ffd800; }
+
+/******** self *********/
+body.star .rank_con .self { /*position:fixed; z-index:9; bottom:0; left:0; right:0;*/ background-color: rgba(255,255,255,.1); }
+body.star .rank_con .self .item { border-bottom: none; }
+
+
+/*.miao_rank .rank_text { text-align:center; margin-top:0.9rem;display:none; }
+.miao_rank .rank_text span { display:inline-block; color:rgba(255,255,255,.4); font-size:1.1rem; margin-bottom:2rem; }*/
+.miao_rank .rank_text { text-align: center; padding: 1rem; display: block; }
+.miao_rank .rank_text span { display: block; color: rgba(255,255,255,.4); font-size: 1.1rem; margin-bottom: .2rem; }
+.miao_rank .rank_text span.update { display: inline-block; font-size: 1.1rem; color: rgba(245,218,73,.6); background: rgba(0,0,0,.4); border-radius: .3rem; padding: .1rem .8rem; }
+.miao_rank .rank_text span.blank { display: block; height: 1.2rem; }
+
+
+/*#rank3_1 { background-image:url(images/bg_purple.png); background-color:#6c133b; }
+#rank3_2 { background-image:url(images/bg_mm.png); background-color:#420c7d; } 
+#rank3_3 { background-image:url(images/bg_family2.png); background-color:#cd67ee; }*/
+
+/*排行榜无数据*/
+.nodata { width: 100%; margin: 0 auto; padding-top: 50%; text-align: center; color: rgba(225,225,225,1); }
+.nodata span { display: block; width: 10rem; margin: 0 auto; height: 10rem; background: url(images/nodata.png) no-repeat; background-size: 100%; }
+/*懒加载图片*/
+.imgLoading { background: url(http://liveimg.9158.com/loading.gif) no-repeat center; }
+/*解决position:fixed布局问题*/
+.tabSpace { position: relative; height: 8.1rem; width: 100%; background: #fff; }
+.tabSpace2 { position: relative; height: 28rem; width: 100%; background:rgba(0, 0, 0, 0.00)  }
+
+.loading { height: 4rem; line-height: 4rem; text-align: center; color: white; }
+.rankText { position: absolute; height: 6rem; line-height: 6rem; display: inline-block; padding-left: 1rem; color: #ffd800; }
+.rankValue { position: absolute; right: 1.6rem; height: 6rem; line-height: 6rem; display: inline-block; color: #ffd800; text-align: right; }
+.showtime { display: none; position: absolute; top: 34rem; text-align: center; color: rgba(255,255,255,.4); height: 3rem; line-height: 3rem; width: 100%; font-size: 1rem; }
+.timetip { text-align: center; color: white; height: 3rem; line-height: 3rem; font-size: 10px; }

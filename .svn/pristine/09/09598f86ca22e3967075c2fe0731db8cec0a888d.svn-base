@@ -1,0 +1,46 @@
+import Vue from 'vue'
+import App from './App'
+
+// 全局socket
+import socket from './lib/tools/chat/socket.js'
+const Socket =new socket({
+    url: 'ws://192.168.1.104:17400', //连接地址 必填
+})
+Socket.eventPatch.onOpen((msg,sk)=>{        //监听是否连接成功
+    console.log('连接成功')
+});
+Socket.eventPatch.onMsg((msg,sk)=>{    //监听是否接受消息
+    console.log(msg)
+});
+Socket.eventPatch.onClose((err,sk)=>{    //监听是否关闭连接
+    console.log('关闭了连接')
+});
+Socket.eventPatch.onError((err,sk)=>{    //监听是否发生了错误
+    console.log('连接出错')
+});
+Socket.eventPatch.onReload((res,sk)=>{    //监听是否重连成功
+    console.log('重载：' + res)
+});
+Socket.eventPatch.onRdFinsh((count,sk)=>{        //监听最大重连次数是否已完成
+    console.log('最大重连次数已完成' + count)
+});
+Vue.prototype.$Socket = Socket;
+
+
+
+import Global_ from './lib/js/GlobalObj.js'   //全局对象
+Vue.prototype.GLOBAL = Global_; //添加Global_到Vue的原型对象上
+// 以下是注册组件的方法
+import TagBar from './components/tabbar/tabbar.vue';
+Vue.component("TagBar",TagBar); // 全局注册组件
+import InputFile from './components/inputfile/inputfile.vue';
+Vue.component("InputFile",InputFile); // 全局注册组件
+
+Vue.config.productionTip = false
+
+App.mpType = 'app'
+
+const app = new Vue({
+    ...App
+})
+app.$mount()

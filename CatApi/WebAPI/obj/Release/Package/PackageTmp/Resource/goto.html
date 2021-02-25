@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=0" />
+
+    <title>喵播美女直播</title>
+    <script src="../Scripts/lib/jquery-1.8.2.min.js"></script>
+    <script src="../Scripts/common.js"></script>
+</head>
+<body>
+    正在跳转中...
+</body>
+</html>
+<script type="text/javascript">
+
+    if (browser.is_weixin()) {
+        window.location = "http://a.app.qq.com/o/simple.jsp?pkgname=com.tiange.miaolive";
+    } else if (browser.versions.ios || browser.versions.iPhone || browser.versions.iPad) {
+        console.log('ios');
+        window.location.href = "https://itunes.apple.com/us/app/miao-bo-zui-meng-mei-yan-zhi/id1098626192?l=zh&ls=1&mt=8";
+    }
+    else if (browser.versions.android) {
+        window.location.href = "http://update.9158.com/miaolive/Miaolive.apk";
+    } else {
+        console.log('other');
+        window.location.href = "http://a.app.qq.com/o/simple.jsp?pkgname=com.tiange.miaolive";
+    }
+
+    function AccessData() {
+        $.ajax({
+            type: 'GET',
+            url: '/About/AccessStatis',
+            data: { type: 2, url: window.location, referer: document.referrer },
+            beforeSend: function () { },
+            success: function (d) {
+                console.log(d);
+            }
+        });
+    }
+    AccessData();
+</script>

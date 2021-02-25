@@ -1,0 +1,176 @@
+﻿@model Model.View.VMAnchorInfo
+
+@{
+    ViewBag.Title = "主播等级";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/living/AnchorLevel.css?v=19" rel="stylesheet" />
+
+<style type="text/css">
+    .value_con { width: 1px; transition: width 1s ease-in 0; -moz-border-radius: 0.8rem; -webkit-border-radius: 0.8rem; -moz-transition: width 1s ease-in 0; -webkit-transition: width 1s ease-in 0; }
+    .item a { display: block; color: rgba(0, 0, 0,1); }
+
+    .v_pur { position: relative; width: 100%; margin: 0 auto; border-bottom: .1rem solid rgba(0,0,0,.1); overflow: hidden; background: #fff; }
+        .v_pur ul li { width: 49%; float: left; }
+            .v_pur ul li a { display: block; width: 40%; margin: 0 auto; text-align: center; padding: 1rem 0; font-size: 1.5rem; }
+</style>
+
+<div class="all">
+    <div class="head">
+        <div class="user_head">
+            <img src="@Model.User.smallpic" />
+            <div class="rank_bg"></div>
+            <div class="living_rank @Html.Raw("living_rank" + ViewBag.living_Rank)"><span>@Model.Anchor.anchorLevel</span></div>
+            <span class="img_circle"></span>
+            <span class="img_circle2"></span>
+        </div>
+
+        <div class="experience">
+            <div class="next">距离下一等级升级还需 @Model.Anchor.shortExp 经验</div>
+            @*<div class="next">@Model.Anchor.curExp / @Model.Anchor.nextExp</div>*@
+            <div class="value">
+                <div class="value_bg"></div>
+                <div class="value_con" style="min-width:1%;"></div>
+                <div class="value_text">LV @Model.Anchor.anchorLevel</div>
+            </div>
+            @if (Model.Anchor.isSign > 0)
+            {
+                <div class="tips" style="display:block;"><span class="icon_signed"></span>您已签约，升级可享1.1倍加速</div>
+            }
+            else
+            {
+                <div class="tips" style="display:block;">
+                    签约主播可享1.1倍加速
+                    <a href="http://livegl.9158.com/Active/signApply/Index.aspx?menuType=0&useridx=@Model.User.useridx" class="btn_signed">开通</a>
+                </div>
+            }
+        </div>
+
+        <a class="a_explain" href="http://live.9158.com/Pages/Anchor/level_explicate.html?menuType=0"></a>
+    </div>
+
+    <div class="privilege">
+        <div class="title">
+            <span class="dot"></span>主播特权
+            <i style="color:#999; font-size:1.1rem; font-style:normal;">（点击特权图标后查看详情）</i>
+        </div>
+        <div class="list">
+            <div class="item">
+                <a href="http://live.9158.com/Pages/Anchor/privilege_explicate.html?menuType=0">
+                    <div class="icon @Html.Raw(Model.Anchor.anchorLevel > 0 ? "icon_star" : "icon_star1")"></div>
+                    <div class="text">
+                        <span class="text_title">等级标识</span>
+                        <span class="level">懵懂入世</span>
+                    </div>
+                </a>
+            </div>
+
+            <div class="item">
+                <a href="http://live.9158.com/Pages/Anchor/screen.html?menuType=0">
+                    <div class="icon @Html.Raw(Model.Anchor.anchorLevel >= 5 ? "icon_live" : "icon_live1")"></div>
+                    <div class="text">
+                        <span class="text_title">录屏特权</span>
+                        <span class="level">情窦初开</span>
+                    </div>
+                </a>
+            </div>
+
+            <div class="item">
+                <a href="http://live.9158.com/Pages/Anchor/hot24.html?menuType=0">
+                    <div class="icon @Html.Raw(Model.Anchor.anchorLevel >= 45 ? "icon_hot" : "icon_hot1")"></div>
+                    <div class="text">
+                        <span class="text_title">热门推荐</span>
+                        <span class="level">初尝禁果</span>
+                    </div>
+                </a>
+            </div>
+
+            @*<div class="item">
+                    <a href="http://live.9158.com/Pages/Anchor/day.html?menuType=0">
+                        <div class="icon @Html.Raw(Model.Anchor.anchorLevel >= 45 ? "icon_money" : "icon_money1")"></div>
+                        <div class="text">
+                            <span class="text_title">日常补贴</span>
+                            <span class="level">阅人无数</span>
+                        </div>
+                    </a>
+                </div>*@
+
+            <div class="item">
+                <a href="#">
+                    <div class="icon icon_more1"></div>
+                    <div class="text">
+                        <span class="text_title">更多特权</span>
+                        <span class="level">敬请期待</span>
+                    </div>
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+    <!--主播等级大于0时才展示当前任务列表-->
+    @if (ViewBag.isShowTask == 1)
+    {
+        <div class="mission">
+            <div class="title"><span class="dot"></span>当前任务</div>
+            <div class="list">
+                <div class="item">
+                    <div class="icon mission_living"></div>
+                    <div class="text">
+                        <span class="text_title">每日开播时长</span>
+                        <span class="detail">任务进度 ：@Model.Task.onlineExp / 120 经验值</span>
+                        @*<span class="detail">已开播/总时长 ：2小时12分钟/4小时</span>*@
+                    </div>
+                    @if (Model.Task.onlineExp >= 120)
+                    {
+                        <div class="complete"><span class="ms_complete"></span>己完成</div>
+                    }
+                </div>
+
+                <div class="item item_no_top">
+                    <div class="icon mission_fish"></div>
+                    <div class="text">
+                        <span class="text_title">每日猫粮数</span>
+                        <span class="detail">任务进度 ：@Model.Task.catfoodExp / 100 经验值</span>
+                    </div>
+                    @if (Model.Task.catfoodExp >= 100)
+                    {
+                        <div class="complete"><span class="ms_complete"></span>己完成</div>
+                    }
+                </div>
+
+                <div class="item item_no_top">
+                    <div class="icon mission_123"></div>
+                    <div class="text">
+                        <span class="text_title">周星榜前三</span>
+                        <span class="detail">任务进度 ： @Model.Task.weekStarExp / 2400 经验值</span>
+                    </div>
+                    @if (Model.Task.weekStarExp >= 2400)
+                    {
+                        <div class="complete"><span class="ms_complete"></span>己完成</div>
+                    }
+                </div>
+
+                <div class="item item_no_top">
+                    <div class="icon mission_baby"></div>
+                    <div class="text">
+                        <span class="text_title">日宝宝数80个</span>
+                        <span class="detail">任务进度 ：@Model.Task.babyWeekExp / 160 经验值</span>
+                    </div>
+                    @if (Model.Task.babyWeekExp >= 160)
+                    {
+                        <div class="complete"><span class="ms_complete"></span>己完成</div>
+                    }
+                </div>
+
+            </div>
+
+            <div class="explicate">PS，因可能存在系统缓存、页面更新导致数据异常</div>
+
+        </div>
+    }
+</div>
+
+<script type="text/javascript">
+    $('.value_con').css('width',@Model.Progress+'%');
+</script>

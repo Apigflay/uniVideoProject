@@ -1,0 +1,9 @@
+﻿
+一，liveimg.9158.com域名用到东西
+1.游戏房间地址,图片命名游戏id  http://liveimg.9158.com/pic/game/10008.png
+2.邀新分享图片,图片命名1-9		http://liveimg.9158.com/pic/redbg/1.png
+3.大礼物资源文件				http://liveimg.9158.com/Gift
+  每次上大礼物需要将资源文件放在此目录中，然后在管理后台 礼物管理 → 动态贴纸设置 。新增一个类型为大礼物资源的文件，资源文件名称就是对应压缩包的名字，
+  要带上扩展名。排序id，礼物id 都对应 礼物id.
+  相对应的AnimationConfig.json 文件也需要更改放在此文件夹目录下
+4.

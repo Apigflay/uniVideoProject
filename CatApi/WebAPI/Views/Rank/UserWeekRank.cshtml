@@ -1,0 +1,101 @@
+﻿@{
+    ViewBag.Title = "粉丝贡献榜";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section head_css
+{
+    <link href="~/Content/week/userRank.css?v=85464111" rel="stylesheet" />
+    <link href="~/Content/dropload/dropload.css?v=1" rel="stylesheet" />
+    <script src="~/Content/layer/layer.js?v=2"></script>
+    <style type="text/css">
+        .dropload-down, .dropload-refresh, .dropload-update, .dropload-load, .dropload-noData { height: 6rem; }
+    </style>
+    <script type="text/javascript">
+        //var targetProtocol = "https:";
+        //if (window.location.protocol != targetProtocol)
+        //    window.location.href = targetProtocol +
+        //     window.location.href.substring(window.location.protocol.length);
+    </script>
+}
+<div class="rank_body" id="rank_body">
+    <!--标签切换-->
+    <div class="tab" id="tab">
+        @*<div id="d4" data-id="4" class="tab_item tab_sel">守护</div>*@
+        <div id="d6" data-id="6" class="tab_item tab_sel">日榜</div>
+        <div id="d1" data-id="1" class="tab_item">周榜</div>
+        @*<div id="d2" data-id="2" class="tab_item">月榜</div>*@
+        <div id="d3" data-id="3" class="tab_item">总榜</div>
+        @*<div id="d4" data-id="4" class="tab_item">分享</div>*@
+        @*<div id="d5" data-id="5" class="tab_item">观看</div>*@
+    </div>
+
+    <div class="tabSpace"></div>
+
+    <!--排行榜标签对应数据切换-->
+    <div class="rank_con" id="rank_con">
+        <div class="miao_rank miao_rank1" id="rank1" data-id="1" style="left: 0"></div>
+        <div class="miao_rank miao_rank1" id="rank1" data-id="2" style="left: 0"></div>
+        <div class="miao_rank miao_rank1" id="rank1" data-id="3" style="left: 0"></div>
+        <div class="miao_rank miao_rank4" id="rank4" data-id="4" style="left: 0"></div>
+        <div class="miao_rank miao_rank5" id="rank5" data-id="5" style="left: 0"></div>
+    </div>
+    <!--我的排名-->
+    <div class="myRank_con">
+        <div class="myRank" style="display: block"></div>
+        <div class="myRank" style="display: none"></div>
+        <div class="myRank" style="display: none"></div>
+        <div class="myRank" style="display: none"></div>
+        <div class="myRank" style="display: none"></div>
+    </div>
+    <!--分享页吸底-->
+    <div class="fix_bottom" style="display:none">
+        <div class="mb_logo"></div>
+        <a class="mb_download" href="http://live.9158.com/Home/autodownLoad?isAuto=true" data-open="true" data-download-id="h5_hot">立即下载</a>
+    </div>
+</div>
+<!--tab标签数据对应模板-->
+<script type="text/html" id="rank_con_templete">
+    {{each rankList as item i}}
+    <div class="item item{{i+1}}">
+        <a href="javascript:;" onclick="live.ShowCard(this,'{{item.useridx}}')">
+            <div class="icon icon{{i+1}}">{{item.rowNo}}</div>
+            <div class="the_img">
+                <div class="img"></div>
+                <div class="img_img">
+                    <img class="scrollLoading" src="http://liveimg.9158.com/pixel.gif" data-echo="{{item.smallpic}}" onerror="this.src='http://liveimg.9158.com/default.png'">
+                </div>
+            </div>
+            <div class="name">
+                <span class="name_name">{{item.myname}}</span>
+                @*{{if item.gender == 1}}
+                    <span class="male"></span>
+                    {{else}}
+                    <span class="female"></span>
+                    {{/if}}*@
+                <span class="{{item.gender == 1 ? 'male':'female'}}"></span>
+                <div class="the_level">
+                    <span class="level level{{item.level}}"></span>
+                    <span class="num_bg bg{{GetGradeRank(item.grade)}}"></span>
+                    <span class="num">{{item.grade}}</span>
+                </div>
+                <div class="food">{{GetTotalText(item.total)}}</div>
+            </div>
+        </a>
+    </div>
+    {{/each}}
+</script>
+
+<!--我的排名对应数据模板-->
+<script type="text/html" id="myrank_con_templete">
+    <div class="icon">我</div>
+    <div class="myPhoto">
+        <img src="{{smallpic}}" onerror="javascript:this.src='http://liveimg.9158.com/default.png'" alt="">
+    </div>
+    <div class="rankText">{{rowNo > 0 ? '第' + rowNo + '名':'未上榜'}}</div>
+    <div class="rankValue">{{GetTotalText(total)}}</div>
+</script>
+
+<script src="~/Content/dropload/dropload.js"></script>
+<script src="~/Scripts/lib/echo.min.js"></script>
+<script src="~/Scripts/lib/template.js"></script>
+<script src="~/Scripts/fansWardRank_v2.js"></script>

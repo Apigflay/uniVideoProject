@@ -1,0 +1,111 @@
+﻿@{
+    ViewBag.Title = "红包明细";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/Css/income.css" rel="stylesheet" />
+<link href="~/Content/dropload/dropload.css" rel="stylesheet" />
+
+<div class="inner" style="padding-bottom:4rem;">
+    <div class="lists">
+        @*@if (Model != null && Model.Count > 0)
+            {
+                foreach (var item in Model)
+                {<div class="w_det">
+                    <h2>
+                        <span>红包</span><b>@item.receiveTime.ToString("yyyy-MM-dd HH:mm")</b>
+                    </h2>
+                    <h3>@item.rewardCash 元</h3>
+                </div>
+                }
+                <div class="w_det"></div>
+            }*@
+    </div>
+</div>
+@Html.Partial("~/Views/Shared/_Footer.cshtml")
+<script src="~/Content/dropload/dropload.js"></script>
+<script src="~/Content/layer/mobile/layer.js"></script>
+<script type="text/javascript">
+
+    var base = {
+        version: "1.0",
+        isLoading: true,
+        tabIndex: 0,// $('.tab .tab_sel').attr('id') - 1,
+        //tabid: $('.tab .tab_sel').attr('data-id'),//Rank.Config.ranktype == 1 ? 4 : 2;
+        tabArrary: [{ page: 1, totalPage: 0, totalCount: 0, loadEnd: false },
+                     { page: 1, totalPage: 0, totalCount: 0, loadEnd: false },
+                     { page: 1, totalPage: 0, totalCount: 0, loadEnd: false },
+                     { page: 1, totalPage: 0, totalCount: 0, loadEnd: false }]
+    }
+    base.Config = {
+        useridx: getQueryStr('useridx'),
+        token: getQueryStr('token')
+    }
+
+    $(function () {
+        //上拉列表容器
+        var dropload = $('.inner').dropload({
+            scrollArea: window,//滑动区域
+            autoLoad: true,//自动加载
+            distince: 150,//拉动距离
+            threshold: 150,//提前加载距离,加载区高度2/3
+            domDown: {
+                domClass: 'dropload-down',
+                domRefresh: '<div class="dropload-refresh">上拉加载更多</div>',
+                domLoad: '<div class="dropload-load"><span class="loading"></span>正在加载数据中...</div>',
+                domNoData: '<div class="dropload-noData">我是有底线的啦！</div>'
+            },
+            loadDownFn: function (me) {
+
+                var param = { useridx: base.Config.useridx, page: base.tabArrary[base.tabIndex].page };
+                $.ajax({
+                    timeout: 8000, //超时时间设置，单位毫秒
+                    type: 'POST',
+                    dataType: 'json',
+                    url: '/H5/Income/RedPacketData',
+                    data: param,
+                    beforeSend: function () {
+                        //if (Rank.tabArrary[Rank.tabIndex].page == 1) {
+                        //    layer.open({
+                        //        type: 2,
+                        //        content: '加载中,么么哒~',
+                        //        shadeClose: false//是否触摸遮罩层关闭
+                        //    });
+                        //}
+                    },
+                    success: function (response) {
+                        base.tabArrary[base.tabIndex].totalPage = response.data.totalPage;
+                        base.tabArrary[base.tabIndex].page++;
+
+                        if (base.tabArrary[base.tabIndex].page > base.tabArrary[base.tabIndex].totalPage) {
+                            base.tabArrary[base.tabIndex].loadEnd = true;
+                            me.lock();
+                            me.noData();
+                        }
+
+                        var html = '';
+
+                        $.each(response.data.dataList, function (i, item) {
+                            html += '<div class="w_det"><h2><span>' + item.remark + '</span><b>' + item.receiveTime + '</b></h2><h3>' + item.rewardCash + ' 元</h3></div>'
+                        });
+
+                        setTimeout(function () {
+                            $('.lists').append(html);
+
+                            me.resetload();// 每次数据加载完，必须重置
+                        }, 700)
+                    },
+                    error: function (xhr, type) {
+                        me.lock();
+                        me.noData();
+                        me.resetload();
+
+                        if (type == 'timeout') {
+                            $('.dropload-noData').html('操作超时，请稍后再试！');
+                        }
+
+                    }
+                });
+            }
+        });//dropload
+    });
+</script>

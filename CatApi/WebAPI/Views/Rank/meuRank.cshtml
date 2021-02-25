@@ -1,0 +1,152 @@
+﻿@{
+    ViewBag.Title = "排行榜";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Head_css{
+     <link href="~/Content/week/totalRank.css?v=2c" rel="stylesheet" /> 
+    <link href="~/Content/dropload/dropload.css" rel="stylesheet" />
+
+    <style type="text/css">
+        .miao_rank {
+            animation: fadeIn 0.8s;
+            -webkit-animation: fadeIn 0.8s;
+            -moz-animation: fadeIn 0.8s;
+            animation-fill-mode: forwards;
+        }
+    </style>
+    <script>
+        var lbl_consume = 'lbl_consume';
+        var lbl_catfood = 'Catfood';
+        var lang = (navigator.browserLanguage || navigator.language).toLowerCase();
+
+        if (lang == 'zh-cn' || lang == 'zh') {
+            lbl_consume = '富豪榜';
+            lbl_catfood = '流水';
+        }
+
+        //var targetProtocol = "https:";
+        //if (window.location.protocol != targetProtocol)
+        //    window.location.href = targetProtocol +
+        //     window.location.href.substring(window.location.protocol.length);
+    </script>
+}
+<div class="rank_body">
+    <!--导航栏-->
+    <div class="head">
+        <div class="top">
+            @Html.Partial("~/Views/Shared/_RankHead.cshtml")
+        </div>
+
+        <div class="tab">
+            @if (ViewBag.ranktype == 1)
+            {
+                @*<div id="1" data-id="0" class="tab_item tab_sel">日榜</div>*@
+                <div id="3" data-id="2" class="tab_item">月榜</div>
+            }
+            @*<div id="2" data-id="1" class="tab_item">周榜</div>*@ 
+            <div id="4" data-id="3" class="tab_item">总榜</div>
+        </div>
+    </div>
+    <!--解决占位问题-->
+    <div class="tabSpace"></div>
+    <div class="top3">
+        <div class="top3tab"> 
+        </div>   
+         
+    </div>
+   
+    <!--标签数据加载容器-->
+    <div class="rank_con" id="rank_con">
+        <div class="miao_rank" id="rank1_@ViewBag.ranktype" style="left: 0; display: block;">
+            <div class="ct_bot"></div>
+        </div>
+        <div class="miao_rank" id="rank2_@ViewBag.ranktype" style="left: 100%; display: none;"></div>
+        <div class="miao_rank" id="rank3_@ViewBag.ranktype" style="left: 200%; display: none;"></div>
+        <div class="miao_rank" id="rank4_@ViewBag.ranktype" style="left: 300%; display: none;"></div>
+    </div>
+</div>
+
+<!--数据模板-->
+<script type="text/html" id="rank_con_templete">
+    {{each rankList as item i}}
+    {{if item.row>3}}
+    <div class="item item{{item.row}}">
+        <a href="javscript:;" onclick="live.ShowCard(this, '{{item.useridx}}')">
+            <div class="icon icon{{item.row}}">{{item.row}}</div>
+            @*<div class="{{item.sort == 2 ? 'up':'down'}}"></div>*@
+            <div class="the_img">
+                <div class="img"></div>
+                <div class="img_img">
+                    <img class="imgLoading" onerror="javascript:this.src='http://liveimg.9158.com/default.png'" src="{{item.smallpic}}">
+                </div>
+            </div>
+            <div class="name">
+                <span class="name_name ">{{item.myName}}</span>
+                @*<span class="{{item.gender == 1 ? 'male':'female'}}"></span>*@
+                <div class="the_level">
+                    <span class="level level{{item.level}}"></span>
+                    <span class="num_bg bg{{GetGradeRank(item.grade)}}"></span>
+                    <span class="num">{{item.grade}}</span>
+                </div>
+                <div class="food">{{GetTotalText(item.rankNum)}}</div>
+            </div>
+            {{if item.isOnline == 1}}
+            <div class="live"><span class="livetext">直播中</span></div>
+            {{/if}}
+        </a>
+    </div>
+    {{/if }}
+    {{/each}}
+</script>
+
+<!--家族排行榜模板-->
+@*<script type="text/html" id="familyRank_con_templete">
+        {{each rankList as item i}}
+        <div class="item item{{item.pos}}">
+            <a href="javscript:;" onclick="live.ShowCard(this, '{{item.useridx}}')">
+                <div class="icon icon{{item.pos}}">{{item.pos}}</div>
+                <div class="the_img">
+                    <div class="img"></div>
+                    <div class="img_img">
+                        <img class="imgLoading" onerror="javascript:this.src='http://liveimg.9158.com/default.png'" src="{{item.smallpic}}">
+                    </div>
+                </div>
+                <div class="name">
+                    <span class="name_name name_name2">{{item.myname}}</span>
+                    <div class="food">{{GetTotalText(item.sumprice)}}</div>
+                </div>
+            </a>
+        </div>
+        {{/each}}
+    </script>*@
+
+<script src="~/Content/dropload/dropload.js"></script>
+<script src="~/Scripts/lib/echo.min.js"></script>
+    <script src="~/Scripts/lib/template.js"></script>
+  <script src="~/Scripts/totalrank_V3.js?v=1"></script>
+  <script src="~/Content/i18n/js/jquery.i18n.properties.min.js"></script> 
+
+<script type="text/javascript">
+
+    function updateLang() {
+        //排行榜页面翻译
+        $('#menu4 a').html($.i18n.prop('string_weekstar'));
+        $('#menu1 a').html($.i18n.prop('string_consume'));
+        $('#menu2 a').html($.i18n.prop('string_anchor'));
+        $('#menu3 a').html($.i18n.prop('string_family'));
+
+
+        //$('.tab #1').html($.i18n.prop('string_totalrank'));
+        //$('.tab #2').html($.i18n.prop('string_month'));
+        //$('.tab #3').html($.i18n.prop('string_week'));
+        //$('.tab #4').html($.i18n.prop('string_day'));
+
+        //在totalrank_v2.js里面翻译
+        //$('.lbl_consume').html($.i18n.prop('string_consume'));
+        //$('.lbl_catfood').html($.i18n.prop('string_catfood'));
+    }
+    $(function () {
+        init_i18n(updateLang)
+    });
+
+</script>
